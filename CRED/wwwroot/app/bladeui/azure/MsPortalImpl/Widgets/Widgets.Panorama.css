@@ -1,0 +1,71 @@
+.fxs-panorama {
+            position: relative;
+            -ms-scroll-chaining: none;
+        }
+
+            .fxs-panorama .fxs-journey-target,
+            .fxs-panorama .fxs-startboard-target {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .fxs-panorama > div[data-popup=true].azc-control {
+                z-index: 150;
+            }
+
+        body.fxs-panning-cursor {
+            cursor: ew-resize !important;
+            cursor: -webkit-grabbing !important;
+            cursor: -moz-grabbing !important;
+            cursor: grabbing !important;
+        }
+
+        .fxs-panorama .fxs-startboard-target {
+            opacity: 1;
+            height: 100%;
+            width: 100%;
+            transition: opacity 125ms ease;
+        }
+
+        .fxs-panorama .fxs-journey-target,
+        .fxs-show-journey .fxs-startboard-target {
+            opacity: 0;
+            height: 0;
+            width: 0;
+            transition: opacity 125ms ease, height .01ms ease 125ms, width .01ms ease 125ms;
+        }
+
+        .fxs-show-journey .fxs-journey-target {
+            opacity: 1;
+            height: 100%;
+            width: 100%;
+            transition: opacity 125ms ease;
+        }
+
+        .fxs-panorama-scrollbounce-onleft > .fxs-journey-target,
+        .fxs-panorama-scrollbounce-onleft > .fxs-startboard-target {
+            -webkit-transform: translateX(20px);
+            transform: translateX(20px);
+        }
+
+        .fxs-panorama-scrollbounce-onright > .fxs-journey-target,
+        .fxs-panorama-scrollbounce-onright > .fxs-startboard-target {
+            -webkit-transform: translateX(-20px);
+            transform: translateX(-20px);
+        }
+
+        .fxs-panorama-scrollbounce-reset > .fxs-journey-target,
+        .fxs-panorama-scrollbounce-reset > .fxs-startboard-target {
+            -webkit-transform: translateX(0);
+            transform: translateX(0);
+        }
+
+        .fxs-panorama-scrollbounce-onleft > .fxs-journey-target,
+        .fxs-panorama-scrollbounce-onleft > .fxs-startboard-target,
+        .fxs-panorama-scrollbounce-onright > .fxs-journey-target,
+        .fxs-panorama-scrollbounce-onright > .fxs-startboard-target,
+        .fxs-panorama-scrollbounce-reset > .fxs-journey-target,
+        .fxs-panorama-scrollbounce-reset > .fxs-startboard-target {
+            transition: transform .333s ease !important;
+        }

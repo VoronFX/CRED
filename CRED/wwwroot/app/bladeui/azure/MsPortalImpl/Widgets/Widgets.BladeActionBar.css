@@ -1,0 +1,26 @@
+.fxs-bladeActionBar {
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-color: inherit;
+            padding: 20px 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .fxs-bladeActionBar .fxs-bladeActionBar-blockUiShield {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+            }
+
+            .fxs-bladeActionBar::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: none;
+            }

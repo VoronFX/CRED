@@ -1,0 +1,18 @@
+.fxs-keyboardshortcuts {
+            padding: 20px;
+        }
+
+            .fxs-keyboardshortcuts .fxs-keyboardshortcuts-category {
+                margin-top: 20px;
+            }
+
+                .fxs-keyboardshortcuts .fxs-keyboardshortcuts-category .fxs-keyboardshortcuts-shortcut {
+                    display: -webkit-flex;
+                    display: flex;
+                }
+
+                    .fxs-keyboardshortcuts .fxs-keyboardshortcuts-category .fxs-keyboardshortcuts-shortcut .fxs-keyboardshortcuts-key {
+                        -webkit-flex: 0 0 auto;
+                        flex: 0 0 auto;
+                        width: 70px;
+                    }

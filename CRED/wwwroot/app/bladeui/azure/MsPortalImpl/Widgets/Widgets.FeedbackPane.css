@@ -1,0 +1,140 @@
+.fxs-feedbackpane {
+            width: 315px;
+            padding: 30px 25px 20px;
+            box-sizing: border-box;
+            font-size: 12px;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+        }
+
+            .fxs-feedbackpane label {
+                display: block;
+            }
+
+            .fxs-feedbackpane select {
+                background: 0 0;
+                color: silver;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+                .fxs-feedbackpane select option {
+                    color: #000;
+                }
+
+        .fxs-feedbackpane-header {
+            border-bottom: 1px #7a7a7a solid;
+            padding-bottom: 12px;
+        }
+
+        .fxs-feedbackpane-title {
+            font-family: az_ea_font, wf_segoe-ui_semilight, "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 18px;
+            line-height: 28px;
+            color: #fff;
+        }
+
+        .fxs-feedbackpane-body {
+            padding-top: 9px;
+            padding-bottom: 20px;
+            color: silver;
+            -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }
+
+        .fxs-feedbackpane-uservoice {
+            margin-bottom: 10px;
+        }
+
+        .fxs-feedbackpane-comments {
+            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            width: 100%;
+            height: 135px;
+            font-size: 12px;
+            border: 1px solid silver;
+            margin-top: 3px;
+            margin-bottom: 15px;
+            color: #fff;
+            box-sizing: border-box;
+            background-color: transparent;
+        }
+
+        .fxs-trim .fxs-feedbackpane .fxs-feedbackpane-smiley-radio {
+            margin-top: 9px;
+            margin-bottom: 9px;
+            cursor: default;
+        }
+
+            .fxs-trim .fxs-feedbackpane .fxs-feedbackpane-smiley-radio span {
+                margin-right: 15px;
+            }
+
+            .fxs-trim .fxs-feedbackpane .fxs-feedbackpane-smiley-radio svg {
+                cursor: pointer;
+                width: 25px;
+                height: 25px;
+                color: silver;
+                fill: silver;
+            }
+
+                .fxs-trim .fxs-feedbackpane .fxs-feedbackpane-smiley-radio svg:hover {
+                    color: #fff;
+                    fill: #fff;
+                }
+
+            .fxs-trim .fxs-feedbackpane .fxs-feedbackpane-smiley-radio .fxs-feedbackpane-selected-smiley svg,
+            .fxs-trim .fxs-feedbackpane .fxs-feedbackpane-smiley-radio .fxs-feedbackpane-selected-smiley svg:hover {
+                color: #ffb900;
+                fill: #ffb900;
+            }
+
+        .fxs-feedbackpane-screenshot {
+            margin-top: 8px;
+            position: relative;
+            width: 265px;
+            height: 165px;
+            overflow: hidden;
+            border: 1px solid #7a7a7a;
+            visibility: hidden;
+        }
+
+            .fxs-feedbackpane-screenshot .fxs-feedbackpane-spinner {
+                text-align: center;
+                line-height: 165px;
+            }
+
+            .fxs-feedbackpane-screenshot iframe {
+                width: 265px;
+                height: 165px;
+                border: 0;
+                overflow: hidden;
+            }
+
+            .fxs-feedbackpane-screenshot .fxs-feedbackpane-shield {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 100;
+            }
+
+        .fxs-trim .fxs-feedbackpane-bottom {
+            width: 265px;
+            padding-top: 9px;
+            border-top: 1px #7a7a7a solid;
+        }
+
+            .fxs-trim .fxs-feedbackpane-bottom .fxs-feedbackpane-privacyLink {
+                padding-left: 22px;
+                text-decoration: underline;
+            }
+
+            .fxs-trim .fxs-feedbackpane-bottom .fxs-feedbackpane-submit {
+                margin-top: 20px;
+                background-color: #00bcf2;
+                border-color: #00bcf2;
+                color: #fff;
+            }

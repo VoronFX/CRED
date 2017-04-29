@@ -1,0 +1,106 @@
+﻿
+<header class="fxs-blade-header fxs-header"
+        [ngClass]="{ 'fxs-blade-disabled' : disabled,
+         'fxs-blade-header-hideCommandBarLabels' : !showCommandBarLabels,
+         'fxs-blade-title-image-visible' : _shouldShowTitleImage }" tabindex="{{tabIndex}}">
+    <div class="fxs-blade-progress-translucent" [hidden]="!showTranslucentSpinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="fxs-blade-statusbar-wrapper fxs-text-white">
+        <div class="fxs-blade-statusbar msportalfx-tooltip-overflow">
+            <!-- ko ifnot: data.loaded -->
+            <div class="fxs-blade-statusbar-text fxs-blade-loading-status" *ngIf="!loaded">{{text.loading}}</div>
+            <!-- /ko -->
+            <div class="fxs-blade-actions" [hidden]="!loaded">
+                <button type="button" class="fxs-blade-pin" [hidden]="!pinActionEnabled" [disabled]="!pinActionEnabled" title="{{text.pin}}" innerHtml="{{icons.pin}}"></button>
+                <button type="button" class="fxs-blade-minimize" [hidden]="!minimizeEnabled" [disabled]="!minimizeEnabled" title="{{text.minimize}}" innerHtml="{{icons.minimize}}"></button>
+                <button type="button" class="fxs-blade-maximizeOrRestore" [hidden]="!minimizeEnabled" [disabled]="!maximizeOrRestoreEnabled" title="{{text.minimize}}" innerHtml="{{icons.minimize}}"></button>
+                <button type="button" class="fxs-blade-close" title="{{text.close}}" innerHtml="{{icons.close}}" (click)="closeBlade()"></button>
+            </div>
+        </div>
+    </div>
+    <!-- ko if: func._shouldShowTitleImage -->
+    <img class="fxs-blade-title-image" [src]="titleImageUri" alt="" *ngIf="_shouldShowTitleImage" />
+    <!-- /ko -->
+    <div class="fxs-blade-title-content">
+        <div class="fxs-blade-title-text-container">
+            <div class="fxs-blade-title" [ngClass]="{ 'fxs-blade-header-icon': showBladeIcon }">
+                <!-- ko if: data.showBladeIcon -->
+                <span class="fxs-blade-header-icon-holder" innerHtml="{{icon}}" *ngIf="showBladeIcon"></span>
+                <!-- /ko -->
+                <div class="fxs-blade-hgroup">
+                    <h2 class="fxs-blade-title-titleText msportalfx-tooltip-overflow">{{title}}</h2>
+                    <h3 class="fxs-text-title msportalfx-tooltip-overflow">
+                        <span>{{subtitle}}</span>
+                        <span [hidden]="!_showingSubtitleAndPreviewTag"> - </span>
+                        <span data-bind="pcPreviewTag: data.previewTag"></span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <!-- ko if: func._shouldShowDescription -->
+        <p class="fxs-blade-title-description" *ngIf="_shouldShowDescription">
+            <span class="msportalfx-tooltip-overflow">{{description}}</span>
+            <a class="fxs-blade-title-help-link" [href]="helpUri" [hidden]="!helpLinkVisible" target="_blank">
+                <span class="fxs-text-info">{{text.helpText}}</span>
+                <span class="fxs-blade-title-help-icon" data-bind="image: data.icons.hyperlink"></span>
+            </a>
+        </p>
+        <!-- /ko -->
+        <div data-bind="stopBindings: true" class="fxs-blade-commandBarContainer">
+            <div class="fxs-commandBar-target"></div>
+        </div>
+    </div>
+</header>
+<div class="fxs-blade-dialoghost" data-bind="stopBindings: true">
+    <div class="fxs-blade-dialog"></div>
+</div>
+<div class="fxs-blade-status-container" data-bind="css: data.getStatusBgClass()">
+    <!-- ko if: data.statusBar.activatable -->
+    <a class="fxs-blade-status-text-button fxs-text-white" [hidden]="!loaded" title="{{contentStateDisplayText}}" href="#" *ngIf="statusBar.activatable">
+        <span class="fxs-blade-status-icon" innerHtml="{{statusIcon}}"></span>
+        <span class="fxs-blade-status-text-button-text">{{contentStateDisplayText}}</span>
+        <span class="fxs-blade-status-arrow" innerHtml="{{icons.arrowRight}}"></span>
+    </a>
+    <!-- /ko -->
+    <!-- ko ifnot: data.statusBar.activatable -->
+    <div class="fxs-blade-status-text-container fxs-text-white" *ngIf="!statusBar.activatable">
+        <span class="fxs-blade-status-icon" innerHtml="{{statusIcon}}"></span>
+        <span class="fxs-blade-status-text" title="{{contentStateDisplayText}}">{{contentStateDisplayText}}</span>
+    </div>
+    <!-- /ko -->
+</div>
+<div class="fxs-blade-summary-container fxs-has-border"> </div>
+<div tabindex="0" class="fxs-blade-content fxs-pannable fxs-scrollbar-transparent fxs-scrollbar-default-hover">
+    <!--ko ifnot: (data.disabled() || data.unauthorizedNoticeVm()) --><!-- *ngIf="!(disabled || unauthorizedNoticeVm)" -->
+    <div class="fxs-blade-stacklayout" data-bind="stopBindings: true">
+        <ng-template content-host></ng-template>
+    </div>
+    <!-- /ko -->
+    <!--ko if: data.disabled -->
+    <div class="fxs-blade-disabled-message" *ngIf="disabled">
+        <div innerHtml="{{icons.delete}}"></div>
+        <h2>{{disabledMessageTitle}}</h2>
+        <h3>{{disabledMessageSubtitle}}</h3>
+    </div>
+    <!-- /ko -->
+    <!-- ko if: (data.unauthorizedNoticeVm() && !data.disabled()) -->
+    <div data-bind="pcNotice: data.unauthorizedNoticeVm" *ngIf="(!disabled && unauthorizedNoticeVm)"></div>
+    <!-- /ko -->
+</div>
+<div class="fxs-blade-actionBar">
+
+</div>
+<!-- ko if: !data.loaded() -->
+<div class="fxs-blade-progress fxs-bg-muted-10" *ngIf="!loaded">
+    <div class="fxs-blade-progress-dots">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<!-- /ko -->

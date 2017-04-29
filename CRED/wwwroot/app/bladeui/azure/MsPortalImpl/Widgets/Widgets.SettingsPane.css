@@ -1,0 +1,96 @@
+.fxs-settingspane-customize-icon,
+        .fxs-settingspane-customize-label,
+        .fxs-settingspane-title {
+            font-family: az_ea_font, wf_segoe-ui_semilight, "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+        }
+
+        .fxs-settingspane {
+            width: 315px;
+            padding: 30px 25px 20px;
+            box-sizing: border-box;
+            font-size: 12px;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+        }
+
+        .azc-form-labelcontainer,
+        .fxs-settingspane-label {
+            color: #fff;
+            padding-bottom: 3px;
+        }
+
+        .fxs-settingspane-title {
+            font-size: 18px;
+            padding-bottom: 22px;
+            border-bottom: 1px #7a7a7a solid;
+        }
+
+        .fxs-settingspane-customize {
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px #7a7a7a solid;
+            height: 35px;
+        }
+
+        .fxs-settingspane-customize-label {
+            font-size: 12px;
+        }
+
+        .fxs-settingspane-customize-icon {
+            width: 15px;
+            height: 15px;
+            padding: 10px;
+        }
+
+        .fxs-settingspane-theme {
+            display: -webkit-flex;
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .fxs-settingspane-theme-circle {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 1px solid;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+
+            .fxs-settingspane-theme-circle:first-child {
+                margin-left: 0;
+            }
+
+        .fxs-settingspane-resetlayout-link {
+            color: #00bcf2;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .fxs-settingspane-separator {
+            border-top: 1px solid #7a7a7a;
+            margin-top: 10px auto 20px auto;
+        }
+
+        .fxs-settingspane-item {
+            margin-top: 20px;
+            margin-bottom: 3px;
+        }
+
+        .fxs-settingspane-bottom {
+            width: 265px;
+            padding-top: 20px;
+            border-top: 2px #7a7a7a solid;
+            position: fixed;
+            bottom: 20px;
+        }
+
+        .fxs-settingspane-button {
+            background-color: #00bcf2;
+            border: none;
+            color: #fff;
+            margin-right: 10px;
+        }

@@ -1,0 +1,33 @@
+.fxs-journey > .fxs-journey-layout::after {
+            content: "";
+            display: block;
+            -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: calc(100% - 315px);
+        }
+
+        .fxs-journey > .fxs-journey-layout > .fxs-stacklayout-child.fxs-journey-animation-add {
+            opacity: 0 !important;
+            transition: none !important;
+        }
+
+        .fxs-journey > .fxs-journey-layout > .fxs-stacklayout-child.fxs-journey-animation-remove {
+            -webkit-transform: rotateY(90deg) !important;
+            transform: rotateY(90deg) !important;
+            -webkit-transform-origin: 0 !important;
+            transform-origin: 0 !important;
+            transition: transform .09s ease !important;
+        }
+
+        .fxs-journey > .fxs-journey-layout > .fxs-stacklayout-child:first-child {
+            box-shadow: -5px 0 0 rgba(108, 115, 122, .15);
+        }
+
+        .fxs-journey > .fxs-journey-layout > .fxs-stacklayout-child:last-child {
+            box-shadow: 5px 0 0 rgba(108, 115, 122, .15);
+        }
+
+        .fxs-journey > .fxs-journey-layout > .fxs-stacklayout-child:only-child {
+            box-shadow: -5px 0 0 rgba(108, 115, 122, .15), 5px 0 0 rgba(108, 115, 122, .15);
+            margin-right: calc(-100% + 315px);
+        }

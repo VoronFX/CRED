@@ -19,7 +19,7 @@ var SampleDataService = (function () {
     function SampleDataService(http, authService) {
         this.http = http;
         this.authService = authService;
-        this.url = 'api/sampleData';
+        this.url = "api/sampleData";
     }
     SampleDataService.prototype.getSampleData = function () {
         return this.http.get(this.url, { headers: this.authService.authJsonHeaders() })
@@ -39,7 +39,7 @@ var SampleDataService = (function () {
             .catch(this.handleError);
     };
     SampleDataService.prototype.deleteRecord = function (itemToDelete) {
-        return this.http.delete(this.url + '/' + itemToDelete.id, { headers: this.authService.authJsonHeaders() })
+        return this.http.delete(this.url + "/" + itemToDelete.id, { headers: this.authService.authJsonHeaders() })
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
@@ -48,9 +48,9 @@ var SampleDataService = (function () {
         // In a real world app, we might use a remote logging infrastructure
         var errMsg;
         if (error instanceof http_1.Response) {
-            var body = error.json() || '';
+            var body = error.json() || "";
             var err = body.error || JSON.stringify(body);
-            errMsg = error.status + " - " + (error.statusText || '') + " " + err;
+            errMsg = error.status + " - " + (error.statusText || "") + " " + err;
         }
         else {
             errMsg = error.message ? error.message : error.toString();

@@ -1,0 +1,40 @@
+.azc-grid-sortableColumn .azc-grid-sortableColumn-target {
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -ms-flex: 1 1 auto;
+                -webkit-flex: 1 1 auto;
+                flex: 1 1 auto;
+                cursor: pointer;
+            }
+
+            .azc-grid-sortableColumn .azc-grid-sortableColumn-image-container {
+                display: flex;
+                -ms-flex: 0 0 auto;
+                -webkit-flex: 0 0 auto;
+                flex: 0 0 auto;
+                -webkit-align-items: center;
+                align-items: center;
+                -ms-flex-pack: center;
+                -webkit-justify-content: center;
+                justify-content: center;
+                position: absolute;
+                top: 0;
+                right: 9px;
+            }
+
+            .azc-grid-sortableColumn .azc-grid-sortableColumn-sortImage {
+                width: 11px;
+                height: 38px;
+            }
+
+            .azc-grid-sortableColumn .azc-grid-headerlabel {
+                -ms-flex: 1 1 calc(100% - 11px);
+                -webkit-flex: 1 1 calc(100% - 11px);
+                flex: 1 1 calc(100% - 11px);
+                margin-right: 22px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 15px;
+            }

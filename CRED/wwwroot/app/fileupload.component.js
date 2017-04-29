@@ -13,8 +13,8 @@ var FileUploadComponent = (function () {
 }());
 FileUploadComponent = __decorate([
     core_1.Component({
-        selector: 'fileupload',
-        templateUrl: 'partial/FileUploadComponent'
+        selector: "fileupload",
+        templateUrl: "partial/FileUploadComponent"
     })
 ], FileUploadComponent);
 exports.FileUploadComponent = FileUploadComponent;

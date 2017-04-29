@@ -1,0 +1,1356 @@
+.fxc-groupdropdown {
+    width: auto
+}
+
+.azc-progress {
+    height: 100%;
+    width: 100%
+}
+
+    .azc-progress .azc-progress-container {
+        background-color: transparent
+    }
+
+        .azc-progress .azc-progress-container.fxc-progress-spinner-small .azc-progress-background {
+            height: 100%;
+            width: 100%;
+            background: transparent url(data:image/gif;base64,R0lGODlhDgAOAKIAAP////39/fv7+/n5+ff39/X19fPz8+/v7yH/C05FVFNDQVBFMi4wAwEAAAAh+QQJCgAHACwAAAAADgAOAAADPHhqFACBGEXLu7fQY4Fkj6BVE2UMT7ltxkOsMAHBa3up9eO8tBylMJvkMcCBAJOCwGU4iioYzMjU0EkoCQAh+QQJCgAHACwAAAAADgAOAAADO3i6B0GGyQZqWWUwQ6q4RkVIxlBx5xQCRMBOSucCEbymduWOsNzRKtFqUFOggAWB8PjBVJ7Py6algywSACH5BAkKAAcALAAAAAAOAA4AAAM8eGoUoDAWQF+ERVBi4iiHQQ1dRFAMeoWbQ6zK6QDlKlb1dbvwIZ802+ZGiqSCmeFRAFJMKtAmhDELcCAJACH5BAkKAAcALAAAAAAOAA4AAAM/eGoUAIEYRcu7t1TxJHvaYTzDRBnmQTwp5TqEKyvsLNf2CAGxvUY4l05Can0AkwKHh1oBBKGDBZORMRwQCSUBACH5BAkKAAcALAAAAAAOAA4AAAM+eGoUAIEYRcu7t1TxJHuCZjzDRBnD8wEmdYxAE7suAan0ibW54hC9Gi74IvEMvAInhrQBBi4LJkNjOCASSgIAIfkECQoABwAsAAAAAA4ADgAAAz54ahQAgRhFy7u3VPEke4JmPMNEGcPzASZ1jEATuy4BqfSJtTTsEDmFLYLrdWAlmoV1KHBivIJGsXwET7JgAgAh+QQJCgAHACwAAAAADgAOAAADPnhqFACBGEXLu7dU8SR7gmY8w0QZw/MBJnWMQBO7LgGp9Im1NOwQOYUtgut1YBrXalJILmyAUPCAceYgEkoCACH5BAkKAAcALAAAAAAOAA4AAAM7eGoUAIEYRcu7t1TxJHuCZjzDRBnD8wEmdYxAE7suAan0+eQ0zNeQ36JDkbhWplTMsApVMBjNUQYxKhIAOw==) center center no-repeat
+        }
+
+        .azc-progress .azc-progress-container.fxc-progress-spinner-small .azc-progress-value {
+            display: none
+        }
+
+.fxc-partpinner {
+    width: 22px;
+    height: 22px
+}
+
+    .fxc-partpinner .fxc-partpinner-icon {
+        padding: 4px
+    }
+
+        .fxc-partpinner .fxc-partpinner-icon svg {
+            width: 14px;
+            height: 14px;
+            display: block
+        }
+
+    .fxc-partpinner:hover {
+        background-color: rgba(0,188,242,.1)
+    }
+
+    .fxc-partpinner:active {
+        background-color: rgba(0,188,242,.25)
+    }
+
+    .fxc-partpinner.fxc-partpinner-disabled {
+        opacity: .6
+    }
+
+        .fxc-partpinner.fxc-partpinner-disabled:hover {
+            cursor: auto;
+            background-color: transparent
+        }
+
+        .fxc-partpinner.fxc-partpinner-disabled:active {
+            background-color: transparent
+        }
+
+        .fxc-partpinner.fxc-partpinner-disabled .fxc-partpinner-trigger {
+            cursor: default
+        }
+
+.fxpart-itemsummary {
+    height: 100%;
+    background: #00f;
+    display: block;
+    color: #fff
+}
+
+.fxpart-itemsummary-name {
+    font-size: 19px;
+    padding: 20px 20px;
+    text-transform: uppercase
+}
+
+.fxpart-itemsummary-sourceControl {
+    font-size: 16px;
+    padding: 0 20px
+}
+
+.msportalfx-pricingTier .msportalfx-tooltip-overflow {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.msportalfx-pricingTier .msportalfx-pricingTier-normal-iconContainer, .msportalfx-pricingTier .msportalfx-pricingTier-wide-iconContainer {
+    height: 55px;
+    border-bottom: 1px solid #dcdfe2
+}
+
+.msportalfx-pricingTier .msportalfx-pricingTier-textContainer {
+    margin-top: 10px
+}
+
+    .msportalfx-pricingTier .msportalfx-pricingTier-textContainer .msportalfx-pricingTier-specCode {
+        float: left;
+        margin-right: 8px;
+        max-width: 100px
+    }
+
+    .msportalfx-pricingTier .msportalfx-pricingTier-textContainer .msportalfx-pricingTier-promotedFeatures {
+        line-height: 12px;
+        padding-top: 4px
+    }
+
+.msportalfx-pricingTier .msportalfx-layoutChildren-horizontal-float .msportalfx-layoutChildren-3 {
+    width: 33%
+}
+
+.msportalfx-pricingTier .msportalfx-layoutChildren-horizontal-float .msportalfx-layoutChildren-2 {
+    width: 50%
+}
+
+.msportalfx-pricingTier .msportalfx-layoutChildren-horizontal-float .msportalfx-pricingTier-icon {
+    width: 30px;
+    height: 30px;
+    margin-top: 1.7em
+}
+
+    .msportalfx-pricingTier .msportalfx-layoutChildren-horizontal-float .msportalfx-pricingTier-icon.msportalfx-pricingTier-icon-small {
+        margin-top: -.15em
+    }
+
+.fxs-tilesize-wide .msportalfx-pricingTier .msportalfx-layoutChildren-horizontal-inlineblock {
+    padding-top: 10px
+}
+
+    .fxs-tilesize-wide .msportalfx-pricingTier .msportalfx-layoutChildren-horizontal-inlineblock .msportalfx-pricingTier-icon {
+        width: 30px;
+        height: 30px;
+        margin-right: 15px
+    }
+
+.fxs-tilesize-normal .msportalfx-pricingTier .msportalfx-layoutChildren-horizontal-inlineblock {
+    padding-top: 18px
+}
+
+    .fxs-tilesize-normal .msportalfx-pricingTier .msportalfx-layoutChildren-horizontal-inlineblock .msportalfx-pricingTier-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px
+    }
+
+.fxs-tilesize-small .msportalfx-pricingTier .msportalfx-pricingTier-textContainer {
+    margin-top: -12px
+}
+
+.fxs-tilesize-mini .msportalfx-pricingTier .msportalfx-pricingTier-specTitle, .fxs-tilesize-mini .msportalfx-pricingTier .msportalfx-pricingTier-specCode {
+    text-align: center;
+    float: initial
+}
+
+.msportalfx-specpicker {
+    width: 175px;
+    height: 320px;
+    position: relative;
+    border-color: inherit
+}
+
+    .msportalfx-specpicker ul {
+        list-style-type: none;
+        padding: 0
+    }
+
+    .msportalfx-specpicker .msportalfx-tooltip-overflow {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-star {
+        width: 14px;
+        height: 14px;
+        float: right;
+        margin-right: 4px;
+        margin-top: 1px
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-header {
+        color: #fff;
+        font-size: 14px;
+        height: 26px;
+        line-height: 26px
+    }
+
+        .msportalfx-specpicker .msportalfx-specpicker-header .msportalfx-specpicker-header-specCode {
+            font-family: az_ea_font,wf_segoe-ui_semibold,"Segoe UI Semibold","Segoe WP Semibold","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+            text-transform: uppercase;
+            padding-left: 11px
+        }
+
+        .msportalfx-specpicker .msportalfx-specpicker-header .msportalfx-specpicker-header-title {
+            font-family: az_ea_font,wf_segoe-ui_normal,"Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+            opacity: .8;
+            padding-left: 6px
+        }
+
+    .msportalfx-specpicker .msportalfx-specpicker-header-text {
+        width: 161px;
+        position: absolute
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-promotedFeature-value {
+        font-family: az_ea_font,wf_segoe-ui_semibold,"Segoe UI Semibold","Segoe WP Semibold","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+        font-size: 17px
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-promotedFeature-label {
+        font-family: az_ea_font,wf_segoe-ui_semibold,"Segoe UI Semibold","Segoe WP Semibold","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+        font-size: 12px;
+        margin-left: 6px
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-main-value {
+        font-family: az_ea_font,wf_segoe-ui_semibold,"Segoe UI Semibold","Segoe WP Semibold","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+        font-size: 30px;
+        line-height: 30px;
+        color: #404040
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-mediumBlue .msportalfx-specpicker-shade1 {
+        background-color: #4668c5
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-mediumBlue .msportalfx-specpicker-shade2 {
+        background-color: rgba(70,104,197,.2)
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-mediumBlue .msportalfx-specpicker-shade3 {
+        background-color: rgba(70,104,197,.1)
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-darkOrchid .msportalfx-specpicker-shade1 {
+        background-color: #9b4f96
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-darkOrchid .msportalfx-specpicker-shade2 {
+        background-color: rgba(155,79,150,.2)
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-darkOrchid .msportalfx-specpicker-shade3 {
+        background-color: rgba(155,79,150,.1)
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-yellowGreen .msportalfx-specpicker-shade1 {
+        background-color: #7fba00
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-yellowGreen .msportalfx-specpicker-shade2 {
+        background-color: rgba(127,186,0,.2)
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-yellowGreen .msportalfx-specpicker-shade3 {
+        background-color: rgba(127,186,0,.1)
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-orange .msportalfx-specpicker-shade1 {
+        background-color: #ffb900
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-orange .msportalfx-specpicker-shade2 {
+        background-color: rgba(255,185,0,.2)
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-orange .msportalfx-specpicker-shade3 {
+        background-color: rgba(255,185,0,.1)
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-row-borderBottom {
+        border-bottom: 1px solid #e9e9f3
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-row, .msportalfx-specpicker .msportalfx-specpicker-row-header {
+        clear: both;
+        width: 175px;
+        height: 30px
+    }
+
+        .msportalfx-specpicker .msportalfx-specpicker-row .msportalfx-specpicker-row-col1, .msportalfx-specpicker .msportalfx-specpicker-row-header .msportalfx-specpicker-row-col1, .msportalfx-specpicker .msportalfx-specpicker-row .msportalfx-specpicker-row-col2, .msportalfx-specpicker .msportalfx-specpicker-row-header .msportalfx-specpicker-row-col2, .msportalfx-specpicker .msportalfx-specpicker-row .msportalfx-specpicker-row-image, .msportalfx-specpicker .msportalfx-specpicker-row-header .msportalfx-specpicker-row-image {
+            height: 30px;
+            line-height: 30px;
+            float: left
+        }
+
+        .msportalfx-specpicker .msportalfx-specpicker-row .msportalfx-specpicker-row-col1, .msportalfx-specpicker .msportalfx-specpicker-row-header .msportalfx-specpicker-row-col1 {
+            width: 39px;
+            text-align: center
+        }
+
+        .msportalfx-specpicker .msportalfx-specpicker-row .msportalfx-specpicker-row-col2, .msportalfx-specpicker .msportalfx-specpicker-row-header .msportalfx-specpicker-row-col2 {
+            width: 136px
+        }
+
+    .msportalfx-specpicker .msportalfx-specpicker-row-header {
+        border-bottom: 1px solid transparent
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-row .msportalfx-specpicker-row-col2 .msportalfx-specpicker-feature-value {
+        font-family: az_ea_font,wf_segoe-ui_semibold,"Segoe UI Semibold","Segoe WP Semibold","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+        margin-top: 6px;
+        margin-left: 6px;
+        font-size: 12px;
+        line-height: normal
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-row .msportalfx-specpicker-row-col2 .msportalfx-specpicker-feature-name {
+        font-family: az_ea_font,wf_segoe-ui_semibold,"Segoe UI Semibold","Segoe WP Semibold","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+        margin-left: 6px;
+        font-size: 10px;
+        line-height: normal;
+        margin-top: -3px
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-row .msportalfx-specpicker-row-col2-mutipleline .msportalfx-specpicker-feature-value {
+        margin-top: 1px
+    }
+
+    .msportalfx-specpicker .msportalfx-specpicker-footer-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 46px;
+        text-align: right
+    }
+
+        .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer {
+            margin-right: 10px;
+            margin-bottom: 8px;
+            background-color: inherit
+        }
+
+            .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-value {
+                margin-top: 6px;
+                text-transform: uppercase;
+                font-family: az_ea_font,wf_segoe-ui_semibold,"Segoe UI Semibold","Segoe WP Semibold","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+                font-size: 22px;
+                line-height: 22px;
+                letter-spacing: -.025em
+            }
+
+            .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-details {
+                font-family: az_ea_font,wf_segoe-ui_normal,"Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+                font-size: 10px;
+                line-height: 14px;
+                text-transform: uppercase;
+                color: #8f9ca8
+            }
+
+            .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-statusMessage, .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-channelMessage {
+                color: #8f9ca8;
+                margin-left: 5px;
+                margin-right: 5px;
+                font-size: 11px;
+                text-align: left
+            }
+
+            .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-statusMessage {
+                margin-top: 25px
+            }
+
+            .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-channelMessage {
+                margin-top: 10px;
+                position: absolute;
+                background-color: inherit;
+                white-space: normal;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-height: 32px
+            }
+
+                .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-channelMessage::before, .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-channelMessage::after {
+                    position: absolute;
+                    background-color: inherit
+                }
+
+                .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-channelMessage::before {
+                    content: '…';
+                    top: 16px;
+                    right: 0
+                }
+
+                .msportalfx-specpicker .msportalfx-specpicker-footer-container .msportalfx-specpicker-footer .msportalfx-specpicker-footer-channelMessage::after {
+                    content: '';
+                    height: 100%;
+                    width: 100%
+                }
+
+    .msportalfx-specpicker .msportalfx-specpicker-extendedFeatures {
+        height: 240px;
+        border-color: inherit
+    }
+
+        .msportalfx-specpicker .msportalfx-specpicker-extendedFeatures .msportalfx-specpicker-row-col1 {
+            width: 29px;
+            margin-left: 10px;
+            text-align: center
+        }
+
+            .msportalfx-specpicker .msportalfx-specpicker-extendedFeatures .msportalfx-specpicker-row-col1 img {
+                width: 22px;
+                height: 22px;
+                margin-top: 8px
+            }
+
+            .msportalfx-specpicker .msportalfx-specpicker-extendedFeatures .msportalfx-specpicker-row-col1 div {
+                width: 20px;
+                height: 20px;
+                padding-top: 5px;
+                padding-left: 0
+            }
+
+        .msportalfx-specpicker .msportalfx-specpicker-extendedFeatures .msportalfx-specpicker-row-col2 {
+            width: 126px
+        }
+
+.azc-listView-item[aria-disabled=true] .msportalfx-specpicker {
+    background-color: rgba(189,189,189,.05)
+}
+
+    .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-header {
+        background-color: #bdbdbd
+    }
+
+    .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-promotedFeatures .msportalfx-specpicker-row-col1 {
+        background-color: rgba(189,189,189,.2)
+    }
+
+    .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-promotedFeatures .msportalfx-specpicker-row-col2 {
+        background-color: rgba(189,189,189,.1)
+    }
+
+    .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-footer-container {
+        background-color: #dedede
+    }
+
+    .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-promotedFeature-value, .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-promotedFeature-label, .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-feature-value, .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-feature-name, .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-footer-value {
+        color: #bdbdbd
+    }
+
+    .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-disable-blockui-shield {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0
+    }
+
+    .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-disable-message-anchor {
+        position: absolute;
+        text-align: center;
+        left: 15px;
+        right: 15px;
+        top: 40%
+    }
+
+        .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-disable-message-anchor .msportalfx-specpicker-disable-message-container {
+            display: inline-block;
+            background-color: rgba(50,56,63,.8);
+            margin-top: 20px;
+            padding: 15px 10px;
+            width: 100%;
+            box-sizing: border-box
+        }
+
+            .azc-listView-item[aria-disabled=true] .msportalfx-specpicker .msportalfx-specpicker-disable-message-anchor .msportalfx-specpicker-disable-message-container .msportalfx-specpicker-disable-message {
+                display: inline;
+                color: #fff
+            }
+
+.ext-hubs-specPicker-container {
+    width: 100%;
+    min-height: 100%
+}
+
+    .ext-hubs-specPicker-container .msportalfx-specpicker-viewOptionsContainer {
+        height: 25px;
+        padding-top: 5px;
+        padding-right: 15px
+    }
+
+        .ext-hubs-specPicker-container .msportalfx-specpicker-viewOptionsContainer .msportalfx-specpicker-viewOptions {
+            font-family: az_ea_font,wf_segoe-ui_normal,"Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+            font-size: 14px;
+            float: right
+        }
+
+            .ext-hubs-specPicker-container .msportalfx-specpicker-viewOptionsContainer .msportalfx-specpicker-viewOptions .msportalfx-specpicker-recommendationsIcon {
+                width: 14px;
+                height: 14px;
+                display: inline-block
+            }
+
+            .ext-hubs-specPicker-container .msportalfx-specpicker-viewOptionsContainer .msportalfx-specpicker-viewOptions .fxc-hotspot.fxc-hotspot-selected {
+                cursor: default;
+                background-color: inherit
+            }
+
+            .ext-hubs-specPicker-container .msportalfx-specpicker-viewOptionsContainer .msportalfx-specpicker-viewOptions .fxc-hotspot.fxc-hotspot-clickable {
+                color: #00bcf2;
+                fill: #00bcf2
+            }
+
+    .ext-hubs-specPicker-container .ext-hubs-specPicker-message {
+        margin-top: 0;
+        border-left: 6px solid #ffb900;
+        padding: 15px
+    }
+
+    .ext-hubs-specPicker-container .ext-hubs-specPicker-listView {
+        margin-left: 19px
+    }
+
+    .ext-hubs-specPicker-container .fxc-hotspot {
+        outline: none;
+        padding: 5px
+    }
+
+        .ext-hubs-specPicker-container .fxc-hotspot:focus {
+            outline-style: dotted;
+            outline-width: 1px
+        }
+
+.azc-is-edited.azc-has-focus {
+    border-color: #7fba00
+}
+
+    .azc-is-edited.azc-has-focus .azc-dockedballoon-validation {
+        border-color: #00bcf2
+    }
+
+.azc-is-edited .azc-dockedballoon-validation {
+    border-color: #9b4f96
+}
+
+.azc-dark-theme {
+    background-color: #2c2c2c;
+    color: #fff
+}
+
+    .azc-dark-theme .azc-control {
+        border-color: #515151
+    }
+
+        .azc-dark-theme .azc-control optgroup, .azc-dark-theme .azc-control option {
+            background-color: #2c2c2c;
+            border-color: #515151;
+            color: #fff
+        }
+
+            .azc-dark-theme .azc-control optgroup[disabled], .azc-dark-theme .azc-control option[disabled] {
+                color: gray
+            }
+
+        .azc-dark-theme .azc-control ::-webkit-input-placeholder {
+            color: gray
+        }
+
+        .azc-dark-theme .azc-control ::-moz-placeholder {
+            color: gray
+        }
+
+        .azc-dark-theme .azc-control :-ms-input-placeholder {
+            color: gray
+        }
+
+    .azc-dark-theme .azc-node-fill {
+        fill: #515151
+    }
+
+    .azc-dark-theme .azc-node-fill-hovered {
+        fill: #6f6f6f
+    }
+
+    .azc-dark-theme .azc-node-fill-focused {
+        fill: #6f6f6f
+    }
+
+    .azc-dark-theme .azc-node-bg {
+        background-color: #515151
+    }
+
+    .azc-dark-theme .azc-node-bg-hovered {
+        background-color: #6f6f6f
+    }
+
+    .azc-dark-theme .azc-node-bg-focused {
+        background-color: #6f6f6f
+    }
+
+    .azc-dark-theme .azc-chart {
+        fill: #2c2c2c;
+        stroke: #565656
+    }
+
+        .azc-dark-theme .azc-chart text {
+            fill: gray
+        }
+
+            .azc-dark-theme .azc-chart text.azc-chart-axis-slider-text {
+                fill: #fff
+            }
+
+    .azc-dark-theme .azc-stroke-default {
+        stroke: #fff
+    }
+
+    .azc-dark-theme .azc-has-hover:hover, .azc-dark-theme .azc-has-hover:focus, .azc-dark-theme .azc-external-hovered {
+        background-color: #565656
+    }
+
+    .azc-dark-theme .azc-disabled:hover, .azc-dark-theme .azc-row-disabled:hover {
+        background-color: inherit
+    }
+
+    .azc-dark-theme .azc-header {
+        background-color: #515151;
+        color: #fff
+    }
+
+    .azc-dark-theme .azc-input, .azc-dark-theme .azc-textarea {
+        color: #fff;
+        border-color: #515151;
+        background-color: #2c2c2c
+    }
+
+        .azc-dark-theme .azc-input:focus {
+            border-color: #00bcf2
+        }
+
+    .azc-dark-theme .azc-list-focused {
+        background-color: #232323
+    }
+
+    .azc-dark-theme .azc-list-selected {
+        background-color: #161616
+    }
+
+    .azc-dark-theme .azc-bg-default {
+        background-color: #2c2c2c
+    }
+
+    .azc-dark-theme .azc-bg-light {
+        background-color: #414141
+    }
+
+    .azc-dark-theme .azc-bg-muted {
+        background-color: #6b6b6b
+    }
+
+    .azc-dark-theme .azc-bg-muted-selected {
+        background-color: #969696
+    }
+
+    .azc-dark-theme .azc-bg-muted-80-10 {
+        background-color: #414141
+    }
+
+    .azc-dark-theme .azc-bg-console {
+        background-color: #191919
+    }
+
+    .azc-dark-theme .azc-grid-selectableRow-selectionCell {
+        background-color: #2c2c2c;
+        border-color: #00bcf2
+    }
+
+        .azc-dark-theme .azc-grid-selectableRow-selectionCell svg {
+            fill: #00bcf2
+        }
+
+    .azc-dark-theme .azc-bg-selected {
+        background-color: #00bcf2;
+        border-color: #00bcf2
+    }
+
+        .azc-dark-theme .azc-bg-selected svg {
+            fill: #fff
+        }
+
+        .azc-dark-theme .azc-bg-selected:hover {
+            background-color: #00bcf2
+        }
+
+    .azc-dark-theme .azc-bg-hover {
+        background-color: #99e4fa
+    }
+
+    .azc-dark-theme .azc-bg-disabled {
+        background-color: #414141
+    }
+
+    .azc-dark-theme .azc-outline-focusable:focus {
+        outline-color: silver
+    }
+
+    .azc-dark-theme .azc-outline-focusable[aria-selected="true"]:focus {
+        outline-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-bg-inverted {
+        background-color: silver
+    }
+
+    .azc-dark-theme .azc-bg-hover-muted:hover {
+        background-color: #969696
+    }
+
+    .azc-dark-theme .azc-br-default {
+        border-color: #515151
+    }
+
+    .azc-dark-theme .azc-br-muted {
+        border-color: #565656
+    }
+
+    .azc-dark-theme .azc-br-muted-80-10 {
+        border-color: #414141
+    }
+
+    .azc-dark-theme .azc-br-active {
+        border-color: #fff
+    }
+
+    .azc-dark-theme .azc-br-strong {
+        border-color: #969696
+    }
+
+    .azc-dark-theme .azc-br-focused {
+        border-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-br-selected {
+        border-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-br-hovered {
+        border-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-br-top-hovered {
+        border-top-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-br-bottom-hovered {
+        border-bottom-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-br-focused.fxs-br-error, .azc-dark-theme .azc-br-focused.azc-br-edited {
+        border-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-br-inverted {
+        border-color: silver
+    }
+
+    .azc-dark-theme .azc-stroke-muted {
+        stroke: #969696
+    }
+
+    .azc-dark-theme .azc-stroke-heavy {
+        stroke: #ababab
+    }
+
+    .azc-dark-theme .azc-stroke-default {
+        stroke: #2c2c2c
+    }
+
+    .azc-dark-theme .azc-stroke-selected {
+        stroke: #00bcf2
+    }
+
+    .azc-dark-theme .azc-fill-default, .azc-dark-theme svg.azc-fill-default {
+        fill: #2c2c2c
+    }
+
+    .azc-dark-theme .azc-fill-heavy {
+        fill: #ababab
+    }
+
+    .azc-dark-theme .azc-fill-hovered-heavy:hover {
+        fill: #ababab
+    }
+
+    .azc-dark-theme .azc-fill-text {
+        fill: #fff
+    }
+
+    .azc-dark-theme .azc-fill-hover {
+        fill: #1f1f1f
+    }
+
+    .azc-dark-theme .azc-fill-selected {
+        fill: #161616
+    }
+
+    .azc-dark-theme .azc-fill-white {
+        fill: #fff
+    }
+
+    .azc-dark-theme .azc-fill-primary svg {
+        fill: #00bcf2
+    }
+
+    .azc-dark-theme .azc-outline-primary {
+        outline-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-scrollbar-default, .azc-dark-theme .azc-scrollbar-default:hover {
+        -ms-scrollbar-track-color: #414141;
+        -ms-scrollbar-face-color: #6b6b6b
+    }
+
+        .azc-dark-theme .azc-scrollbar-default::-webkit-scrollbar, .azc-dark-theme .azc-scrollbar-default:hover::-webkit-scrollbar {
+            background: transparent
+        }
+
+        .azc-dark-theme .azc-scrollbar-default::-webkit-scrollbar-track-piece, .azc-dark-theme .azc-scrollbar-default:hover::-webkit-scrollbar-track-piece {
+            background: transparent
+        }
+
+        .azc-dark-theme .azc-scrollbar-default::-webkit-scrollbar-thumb, .azc-dark-theme .azc-scrollbar-default:hover::-webkit-scrollbar-thumb {
+            background: #6b6b6b
+        }
+
+    .azc-dark-theme .azc-text-muted {
+        color: silver
+    }
+
+    .azc-dark-theme .azc-text-label {
+        color: #fff
+    }
+
+    .azc-dark-theme .azc-text-console {
+        color: #e6e6e6
+    }
+
+    .azc-dark-theme a.azc-text-primary, .azc-dark-theme .azc-text-primary {
+        color: #00bcf2
+    }
+
+    .azc-dark-theme a.azc-text-white, .azc-dark-theme .azc-text-white {
+        color: #fff
+    }
+
+    .azc-dark-theme a.azc-text-disabled, .azc-dark-theme .azc-text-disabled {
+        color: gray
+    }
+
+    .azc-dark-theme .azc-text-inverted {
+        color: #000
+    }
+
+    .azc-dark-theme input.azc-disabled, .azc-dark-theme .azc-disabled, .azc-dark-theme .azc-disabled:hover, .azc-dark-theme .azc-disabled:focus {
+        color: gray;
+        background-color: #414141;
+        border-color: #747474;
+        fill: gray;
+        cursor: default;
+        outline: none
+    }
+
+    .azc-dark-theme .azc-fill-disabled svg {
+        fill: gray;
+        cursor: default
+    }
+
+    .azc-dark-theme .azc-gradient-default {
+        background: linear-gradient(to bottom,rgba(44,44,44,.01) 0%,#2c2c2c 50%,rgba(44,44,44,.01) 100%)
+    }
+
+    .azc-dark-theme .azc-grid-selectableRow .azc-grid-selectableRow-selectionCell-checkMark {
+        fill: #2c2c2c
+    }
+
+    .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not(.azc-list-selected), .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not(.azc-list-selected) {
+        background-color: #2c2c2c
+    }
+
+        .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not(.azc-list-selected) .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not(.azc-list-selected) .azc-grid-selectableRow-selectionCell-checkMark {
+            fill: #2c2c2c
+        }
+
+    .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td.azc-br-muted, .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td.azc-br-muted {
+        border-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td:not(.azc-grid-selectableRow-selectionCell):first-of-type, .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td:not(.azc-grid-selectableRow-selectionCell):first-of-type {
+        border-left-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td:last-of-type, .azc-dark-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td:last-of-type {
+        border-right-color: #00bcf2
+    }
+
+    .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell {
+        border-color: #00bcf2
+    }
+
+        .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell > .azc-bg-selected {
+            background-color: #2c2c2c
+        }
+
+        .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark {
+            fill: #00bcf2
+        }
+
+        .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected {
+            background-color: #00bcf2
+        }
+
+        .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark {
+            fill: #2c2c2c
+        }
+
+    .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell {
+        border-color: #00bcf2
+    }
+
+        .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper, .azc-dark-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper {
+            background-color: #00bcf2
+        }
+
+    .azc-dark-theme .fxc-grid2.fxs-grid-selection tbody tr:hover, .azc-dark-theme .fxc-grid2.fxs-grid-selection tbody tr.fxc-list-activated:hover, .azc-dark-theme .fxc-grid2.fxs-grid-selection tbody tr.azc-list-selected:hover {
+        background-color: #252525
+    }
+
+        .azc-dark-theme .fxc-grid2.fxs-grid-selection tbody tr:hover td.fxc-grid-activateable, .azc-dark-theme .fxc-grid2.fxs-grid-selection tbody tr.fxc-list-activated:hover td.fxc-grid-activateable, .azc-dark-theme .fxc-grid2.fxs-grid-selection tbody tr.azc-list-selected:hover td.fxc-grid-activateable {
+            background-color: #212121
+        }
+
+    .azc-dark-theme .fxc-grid2.fxs-grid-selection tbody tr.azc-list-selected {
+        background-color: #212121
+    }
+
+    .azc-dark-theme .fxc-grid2.fxs-grid-selection tbody tr.fxc-list-activated {
+        background-color: #161616
+    }
+
+.azc-is-edited.azc-has-focus {
+    border-color: #7fba00
+}
+
+    .azc-is-edited.azc-has-focus .azc-dockedballoon-validation {
+        border-color: #00bcf2
+    }
+
+.azc-is-edited .azc-dockedballoon-validation {
+    border-color: #9b4f96
+}
+
+.azc-light-theme {
+    background-color: #fff;
+    color: #252525
+}
+
+    .azc-light-theme .azc-control {
+        border-color: #bababa
+    }
+
+        .azc-light-theme .azc-control optgroup, .azc-light-theme .azc-control option {
+            background-color: #fff;
+            border-color: #bababa;
+            color: #252525
+        }
+
+            .azc-light-theme .azc-control optgroup[disabled], .azc-light-theme .azc-control option[disabled] {
+                color: #929292
+            }
+
+        .azc-light-theme .azc-control ::-webkit-input-placeholder {
+            color: #929292
+        }
+
+        .azc-light-theme .azc-control ::-moz-placeholder {
+            color: #929292
+        }
+
+        .azc-light-theme .azc-control :-ms-input-placeholder {
+            color: #929292
+        }
+
+    .azc-light-theme .azc-node-fill {
+        fill: #d9f6ff
+    }
+
+    .azc-light-theme .azc-node-fill-hovered {
+        fill: #8ce5ff
+    }
+
+    .azc-light-theme .azc-node-fill-focused {
+        fill: #8ce5ff
+    }
+
+    .azc-light-theme .azc-node-bg {
+        background-color: #d9f6ff
+    }
+
+    .azc-light-theme .azc-node-bg-hovered {
+        background-color: #8ce5ff
+    }
+
+    .azc-light-theme .azc-node-bg-focused {
+        background-color: #8ce5ff
+    }
+
+    .azc-light-theme .azc-chart {
+        fill: #fff;
+        stroke: #ccc
+    }
+
+        .azc-light-theme .azc-chart text {
+            fill: #929292
+        }
+
+            .azc-light-theme .azc-chart text.azc-chart-axis-slider-text {
+                fill: #252525
+            }
+
+    .azc-light-theme .azc-stroke-default {
+        stroke: #252525
+    }
+
+    .azc-light-theme .azc-has-hover:hover, .azc-light-theme .azc-has-hover:focus, .azc-light-theme .azc-external-hovered {
+        background-color: #d9f5fd
+    }
+
+    .azc-light-theme .azc-disabled:hover, .azc-light-theme .azc-row-disabled:hover {
+        background-color: inherit
+    }
+
+    .azc-light-theme .azc-header {
+        background-color: #bababa;
+        color: #252525
+    }
+
+    .azc-light-theme .azc-input, .azc-light-theme .azc-textarea {
+        color: #252525;
+        border-color: #bababa;
+        background-color: #fff
+    }
+
+        .azc-light-theme .azc-input:focus {
+            border-color: #00bcf2
+        }
+
+    .azc-light-theme .azc-list-focused {
+        background-color: #d9f5fd
+    }
+
+    .azc-light-theme .azc-list-selected {
+        background-color: #b3ebfb
+    }
+
+    .azc-light-theme .azc-bg-default {
+        background-color: #fff
+    }
+
+    .azc-light-theme .azc-bg-light {
+        background-color: #e6e6e6
+    }
+
+    .azc-light-theme .azc-bg-muted {
+        background-color: #b3b3b3
+    }
+
+    .azc-light-theme .azc-bg-muted-selected {
+        background-color: gray
+    }
+
+    .azc-light-theme .azc-bg-muted-80-10 {
+        background-color: #333
+    }
+
+    .azc-light-theme .azc-bg-console {
+        background-color: #191919
+    }
+
+    .azc-light-theme .azc-grid-selectableRow-selectionCell {
+        background-color: #fff;
+        border-color: #00bcf2
+    }
+
+        .azc-light-theme .azc-grid-selectableRow-selectionCell svg {
+            fill: #00bcf2
+        }
+
+    .azc-light-theme .azc-bg-selected {
+        background-color: #00bcf2;
+        border-color: #00bcf2
+    }
+
+        .azc-light-theme .azc-bg-selected svg {
+            fill: #fff
+        }
+
+        .azc-light-theme .azc-bg-selected:hover {
+            background-color: #00bcf2
+        }
+
+    .azc-light-theme .azc-bg-hover {
+        background-color: #99e4fa
+    }
+
+    .azc-light-theme .azc-bg-disabled {
+        background-color: #e6e6e6
+    }
+
+    .azc-light-theme .azc-outline-focusable:focus {
+        outline-color: #4d4d4d
+    }
+
+    .azc-light-theme .azc-outline-focusable[aria-selected="true"]:focus {
+        outline-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-bg-inverted {
+        background-color: #4d4d4d
+    }
+
+    .azc-light-theme .azc-bg-hover-muted:hover {
+        background-color: gray
+    }
+
+    .azc-light-theme .azc-br-default {
+        border-color: #bababa
+    }
+
+    .azc-light-theme .azc-br-muted {
+        border-color: #ccc
+    }
+
+    .azc-light-theme .azc-br-muted-80-10 {
+        border-color: #333
+    }
+
+    .azc-light-theme .azc-br-active {
+        border-color: #252525
+    }
+
+    .azc-light-theme .azc-br-strong {
+        border-color: gray
+    }
+
+    .azc-light-theme .azc-br-focused {
+        border-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-br-selected {
+        border-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-br-hovered {
+        border-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-br-top-hovered {
+        border-top-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-br-bottom-hovered {
+        border-bottom-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-br-focused.fxs-br-error, .azc-light-theme .azc-br-focused.azc-br-edited {
+        border-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-br-inverted {
+        border-color: #4d4d4d
+    }
+
+    .azc-light-theme .azc-stroke-muted {
+        stroke: gray
+    }
+
+    .azc-light-theme .azc-stroke-heavy {
+        stroke: #666
+    }
+
+    .azc-light-theme .azc-stroke-default {
+        stroke: #fff
+    }
+
+    .azc-light-theme .azc-stroke-selected {
+        stroke: #00bcf2
+    }
+
+    .azc-light-theme .azc-fill-default, .azc-light-theme svg.azc-fill-default {
+        fill: #fff
+    }
+
+    .azc-light-theme .azc-fill-heavy {
+        fill: #666
+    }
+
+    .azc-light-theme .azc-fill-hovered-heavy:hover {
+        fill: #666
+    }
+
+    .azc-light-theme .azc-fill-text {
+        fill: #252525
+    }
+
+    .azc-light-theme .azc-fill-hover {
+        fill: #d9f5fd
+    }
+
+    .azc-light-theme .azc-fill-selected {
+        fill: #b3ebfb
+    }
+
+    .azc-light-theme .azc-fill-white {
+        fill: #fff
+    }
+
+    .azc-light-theme .azc-fill-primary svg {
+        fill: #00bcf2
+    }
+
+    .azc-light-theme .azc-outline-primary {
+        outline-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-scrollbar-default, .azc-light-theme .azc-scrollbar-default:hover {
+        -ms-scrollbar-track-color: #e6e6e6;
+        -ms-scrollbar-face-color: #b3b3b3
+    }
+
+        .azc-light-theme .azc-scrollbar-default::-webkit-scrollbar, .azc-light-theme .azc-scrollbar-default:hover::-webkit-scrollbar {
+            background: transparent
+        }
+
+        .azc-light-theme .azc-scrollbar-default::-webkit-scrollbar-track-piece, .azc-light-theme .azc-scrollbar-default:hover::-webkit-scrollbar-track-piece {
+            background: transparent
+        }
+
+        .azc-light-theme .azc-scrollbar-default::-webkit-scrollbar-thumb, .azc-light-theme .azc-scrollbar-default:hover::-webkit-scrollbar-thumb {
+            background: #b3b3b3
+        }
+
+    .azc-light-theme .azc-text-muted {
+        color: #757575
+    }
+
+    .azc-light-theme .azc-text-label {
+        color: #474747
+    }
+
+    .azc-light-theme .azc-text-console {
+        color: #e6e6e6
+    }
+
+    .azc-light-theme a.azc-text-primary, .azc-light-theme .azc-text-primary {
+        color: #00bcf2
+    }
+
+    .azc-light-theme a.azc-text-white, .azc-light-theme .azc-text-white {
+        color: #fff
+    }
+
+    .azc-light-theme a.azc-text-disabled, .azc-light-theme .azc-text-disabled {
+        color: #929292
+    }
+
+    .azc-light-theme .azc-text-inverted {
+        color: #fff
+    }
+
+    .azc-light-theme input.azc-disabled, .azc-light-theme .azc-disabled, .azc-light-theme .azc-disabled:hover, .azc-light-theme .azc-disabled:focus {
+        color: #929292;
+        background-color: #e6e6e6;
+        border-color: #959595;
+        fill: #929292;
+        cursor: default;
+        outline: none
+    }
+
+    .azc-light-theme .azc-fill-disabled svg {
+        fill: #929292;
+        cursor: default
+    }
+
+    .azc-light-theme .azc-gradient-default {
+        background: linear-gradient(to bottom,rgba(255,255,255,.01) 0%,#fff 50%,rgba(255,255,255,.01) 100%)
+    }
+
+    .azc-light-theme .azc-grid-selectableRow .azc-grid-selectableRow-selectionCell-checkMark {
+        fill: #fff
+    }
+
+    .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not(.azc-list-selected), .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not(.azc-list-selected) {
+        background-color: #fff
+    }
+
+        .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not(.azc-list-selected) .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not(.azc-list-selected) .azc-grid-selectableRow-selectionCell-checkMark {
+            fill: #fff
+        }
+
+    .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td.azc-br-muted, .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td.azc-br-muted {
+        border-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td:not(.azc-grid-selectableRow-selectionCell):first-of-type, .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td:not(.azc-grid-selectableRow-selectionCell):first-of-type {
+        border-left-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td:last-of-type, .azc-light-theme .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected) td:last-of-type {
+        border-right-color: #00bcf2
+    }
+
+    .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell {
+        border-color: #00bcf2
+    }
+
+        .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell > .azc-bg-selected {
+            background-color: #fff
+        }
+
+        .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark {
+            fill: #00bcf2
+        }
+
+        .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover > .azc-bg-selected {
+            background-color: #00bcf2
+        }
+
+        .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):hover td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected):not([aria-disabled="true"]):not(.azc-list-selected):focus td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-external-hovered:not(.azc-list-selected) td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark {
+            fill: #fff
+        }
+
+    .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell {
+        border-color: #00bcf2
+    }
+
+        .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-has-hover:focus:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper, .azc-light-theme .azc-grid-selectableRow.azc-grid-activateableRow .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.azc-bg-selected).azc-list-selected td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper {
+            background-color: #00bcf2
+        }
+
+    .azc-light-theme .fxc-grid2.fxs-grid-selection tbody tr:hover, .azc-light-theme .fxc-grid2.fxs-grid-selection tbody tr.fxc-list-activated:hover, .azc-light-theme .fxc-grid2.fxs-grid-selection tbody tr.azc-list-selected:hover {
+        background-color: #e6f8fe
+    }
+
+        .azc-light-theme .fxc-grid2.fxs-grid-selection tbody tr:hover td.fxc-grid-activateable, .azc-light-theme .fxc-grid2.fxs-grid-selection tbody tr.fxc-list-activated:hover td.fxc-grid-activateable, .azc-light-theme .fxc-grid2.fxs-grid-selection tbody tr.azc-list-selected:hover td.fxc-grid-activateable {
+            background-color: #ccf2fc
+        }
+
+    .azc-light-theme .fxc-grid2.fxs-grid-selection tbody tr.azc-list-selected {
+        background-color: #ccf2fc
+    }
+
+    .azc-light-theme .fxc-grid2.fxs-grid-selection tbody tr.fxc-list-activated {
+        background-color: #b3ebfb
+    }

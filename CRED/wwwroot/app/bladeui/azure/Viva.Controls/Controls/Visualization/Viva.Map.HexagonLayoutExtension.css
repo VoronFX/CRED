@@ -1,0 +1,48 @@
+.azc-map .azc-svg-map-overlay .azc-hexagon-link-polyline {
+                fill: none;
+                stroke: #4682b4;
+                stroke-width: 2;
+            }
+
+            .azc-map .azc-svg-map-overlay .azc-hexagon-link-polyline-animated-dashed {
+                fill: none;
+                stroke: #4682b4;
+                stroke-width: 2;
+                stroke-dasharray: 5;
+                stroke-dashoffset: 100;
+            }
+
+            .azc-map .azc-svg-map-overlay .azc-hexagon-border-only {
+                fill: transparent;
+                stroke: #00f;
+                stroke-width: 1;
+                pointer-events: fill;
+            }
+
+            .azc-map .azc-svg-map-overlay .azc-hexagon-primary {
+                fill: #00f;
+                stroke: #00f;
+                stroke-width: 1;
+                pointer-events: fill;
+            }
+
+            .azc-map .azc-svg-map-overlay .azc-hexagon-secondary {
+                fill: green;
+                stroke: green;
+                stroke-width: 1;
+                pointer-events: fill;
+            }
+
+            .azc-map .azc-svg-map-overlay .azc-hexagon-icon-only {
+                fill: transparent;
+                stroke: transparent;
+                stroke-width: 0;
+                pointer-events: fill;
+            }
+
+            .azc-map .azc-svg-map-overlay .azc-hexagon-text {
+                fill: red;
+                font-family: Verdana;
+                font-size: 6px;
+                text-anchor: middle;
+            }

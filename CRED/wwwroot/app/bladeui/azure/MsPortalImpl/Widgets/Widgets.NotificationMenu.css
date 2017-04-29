@@ -1,0 +1,172 @@
+@-webkit-keyframes fxs-notificationmenu-indeterminate-progress {
+            from {
+                left: -100%;
+            }
+
+            to {
+                left: 150%;
+            }
+        }
+
+        @keyframes fxs-notificationmenu-indeterminate-progress {
+            from {
+                left: -100%;
+            }
+
+            to {
+                left: 150%;
+            }
+        }
+
+        .fxs-notificationmenu-inprogressbar {
+            position: absolute;
+            overflow: hidden;
+            height: 2px;
+            top: 35px;
+            left: 1px;
+            bottom: 1px;
+            right: 1px;
+            transition: opacity 1.5s ease-in-out 1s;
+        }
+
+            .fxs-notificationmenu-inprogressbar > div {
+                position: absolute;
+                width: 60%;
+                height: 100%;
+                animation: fxs-notificationmenu-indeterminate-progress 1.5s linear infinite;
+            }
+
+        .fxs-notificationmenu-button-unreadcount {
+            font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 13px;
+            background-color: #fff;
+            color: #32383f;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            border-radius: 15px;
+            text-align: center;
+            line-height: 13px;
+        }
+
+        .fxs-notificationmenu-button-unreadcount-circle {
+            height: 15px;
+            width: 15px;
+        }
+
+        .fxs-notificationmenu-button-unreadcount-oval {
+            height: 15px;
+            width: 28px;
+        }
+
+        .fxs-notificationmenu-dropdown {
+            width: 355px;
+        }
+
+            .fxs-notificationmenu-dropdown .fxs-notificationmenu-notification-nodata {
+                height: 130px;
+                width: 100%;
+            }
+
+                .fxs-notificationmenu-dropdown .fxs-notificationmenu-notification-nodata .fxs-notificationmenu-notification-nodata-content {
+                    font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                    font-size: 12px;
+                    line-height: 18px;
+                    margin: 0 40px;
+                    padding-top: 50px;
+                    text-align: center;
+                }
+
+            .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list {
+                max-height: 90vh;
+                overflow: auto;
+            }
+
+                .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li:first-child .fxs-notificationmenu-notificationclick {
+                    padding-top: 20px;
+                }
+
+                .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li:last-child .fxs-notificationmenu-notificationclick {
+                    padding-bottom: 20px;
+                }
+
+                .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notificationclick {
+                    padding: 10px 25px;
+                    display: block;
+                }
+
+                .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-title {
+                    display: -webkit-flex;
+                    display: flex;
+                    -webkit-flex-flow: row wrap;
+                    flex-flow: row wrap;
+                    -webkit-justify-content: flex-start;
+                    justify-content: flex-start;
+                    -webkit-align-content: flex-start;
+                    align-content: flex-start;
+                    -webkit-align-items: flex-start;
+                    align-items: flex-start;
+                }
+
+                    .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-title .fxs-notificationmenu-notification-title-icon {
+                        height: 14px;
+                        width: 14px;
+                        margin-right: 5px;
+                    }
+
+                    .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-title .fxs-notificationmenu-notification-title-text {
+                        font-size: 13px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        -webkit-flex: 0 0 240px;
+                        flex: 0 0 240px;
+                    }
+
+                    .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-title .fxs-notificationmenu-notification-title-progresstext {
+                        font-size: 13px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        -webkit-flex: 0 0 210px;
+                        flex: 0 0 210px;
+                    }
+
+                    .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-title .fxs-notificationmenu-notification-title-subtitle {
+                        font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                        font-size: 12px;
+                        line-height: 18px;
+                        width: 20px;
+                    }
+
+                .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-description {
+                    font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                    font-size: 12px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-height: 30px;
+                    position: relative;
+                    padding-top: 5px;
+                    white-space: normal;
+                    line-height: 15px;
+                }
+
+                    .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-description::after,
+                    .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-description::before {
+                        position: absolute;
+                        background-color: inherit;
+                    }
+
+                    .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-description::before {
+                        content: '\02026';
+                        top: 15px;
+                        right: 0;
+                    }
+
+                    .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-description::after {
+                        content: '';
+                        height: 100%;
+                        width: 100%;
+                    }
+
+                .fxs-notificationmenu-dropdown .fxs-notificationmenu-list-system .fxs-notificationmenu-list > li .fxs-notificationmenu-notification .fxs-notificationmenu-notification-progressbar {
+                    margin-top: 10px;
+                }

@@ -13,8 +13,8 @@ var IndexComponent = (function () {
 }());
 IndexComponent = __decorate([
     core_1.Component({
-        selector: 'my-index',
-        templateUrl: 'partial/indexComponent'
+        selector: "my-index",
+        templateUrl: "partial/IndexComponent"
     })
 ], IndexComponent);
 exports.IndexComponent = IndexComponent;

@@ -1,0 +1,49 @@
+.azc-grid.azc-grid-resizableColumn .azc-grid-tableContainer {
+                position: relative;
+            }
+
+            .azc-grid.azc-grid-resizableColumn .azc-grid-resizableColumn-handle {
+                position: absolute;
+                right: -5px;
+                top: 0;
+                height: 40px;
+                width: 10px;
+                cursor: ew-resize;
+                z-index: 1;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -ms-flex-pack: center;
+                -webkit-justify-content: center;
+                justify-content: center;
+            }
+
+                .azc-grid.azc-grid-resizableColumn .azc-grid-resizableColumn-handle .azc-grid-resizableColumn-handle-line {
+                    width: 1px;
+                    height: 100%;
+                    opacity: 0;
+                }
+
+            .azc-grid.azc-grid-resizableColumn .azc-grid-resizableColumn-ghostLine {
+                position: absolute;
+                width: 1px;
+                top: 0;
+                z-index: 1;
+            }
+
+            .azc-grid.azc-grid-resizableColumn .azc-grid-show-handles .azc-grid-resizableColumn-handle .azc-grid-resizableColumn-handle-line,
+            .azc-grid.azc-grid-resizableColumn thead:hover .azc-grid-resizableColumn-handle-line,
+            .azc-grid.azc-grid-resizableColumn.azc-grid-resizing .azc-grid-resizableColumn-handle-line {
+                opacity: 1;
+            }
+
+            .azc-grid.azc-grid-resizableColumn.azc-grid-resizing * {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            .azc-grid.azc-grid-resizableColumn .azc-grid-headerlabel:after {
+                content: "\00a0";
+            }

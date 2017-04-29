@@ -1,14 +1,14 @@
-﻿import { Component, OnInit } from '@angular/core';
-import { Title }     from '@angular/platform-browser';
-import { Router } from '@angular/router';
+﻿import { Component, OnInit } from "@angular/core";
+import { Title }     from "@angular/platform-browser";
+import { Router } from "@angular/router";
 
-import { Http } from '@angular/http';
-import { AuthService } from './security/auth.service';
-import { RegisterViewModel } from './models/RegisterViewModel';
+import { Http } from "@angular/http";
+import { AuthService } from "./security/auth.service";
+import { RegisterViewModel } from "./models/RegisterViewModel";
 
 @Component({
-    selector: 'register',
-    templateUrl: 'partial/registerComponent'
+    selector: "register",
+    templateUrl: "partial/RegisterComponent"
 })
 
 export class RegisterComponent {
@@ -28,10 +28,10 @@ export class RegisterComponent {
         event.preventDefault();
         let body = { 'email': this.registerViewModel.email, 'password': this.registerViewModel.password, 'verifyPassword': this.registerViewModel.verifyPassword };
 
-        this.http.post('Account/Register', JSON.stringify(body), { headers: this.authService.jsonHeaders() })
+        this.http.post("Account/Register", JSON.stringify(body), { headers: this.authService.jsonHeaders() })
             .subscribe(response => {
                 if (response.status == 200) {
-                    this.router.navigate(['login']);
+                    this.router.navigate(["login"]);
                 } else {
                     alert(response.json().error);
                     console.log(response.json().error);

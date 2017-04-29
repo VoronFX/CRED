@@ -1,9 +1,9 @@
-﻿import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+﻿import { Component } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
-    selector: 'my-contact',
-    templateUrl: 'partial/contactComponent'
+    selector: "my-contact",
+    templateUrl: "partial/ContactComponent"
 })
 
 
@@ -12,6 +12,6 @@ export class ContactComponent {
     constructor(private toastrService: ToastrService) { }
 
     showSuccess() {
-        this.toastrService.success('Hello world!', 'Toastr fun!');
+        this.toastrService.success("Hello world!", "Toastr fun!");
     }
 }

@@ -1,0 +1,19 @@
+.azc-grid-filterable.azc-grid.azc-grid-headerHidden:not(.azc-grid-groupable) .azc-grid-filterable-searchBox {
+                margin-bottom: 14px;
+            }
+
+            .azc-grid-filterable.azc-grid.azc-grid-filterable-active .azc-grid-reorderRow-cell div {
+                visibility: hidden;
+            }
+
+            .azc-grid-filterable.azc-grid .azc-grid-filterable-searchBox {
+                display: block;
+            }
+
+                .azc-grid-filterable.azc-grid .azc-grid-filterable-searchBox.azc-searchBox-state-hidden {
+                    display: none;
+                }
+
+            .azc-grid-filterable.azc-grid .azc-grid-filterable-match {
+                font-style: normal;
+            }

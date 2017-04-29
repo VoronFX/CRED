@@ -16,31 +16,31 @@ var AuthService = (function () {
     // for requesting secure data using json
     AuthService.prototype.authJsonHeaders = function () {
         var header = new http_1.Headers();
-        header.append('Content-Type', 'application/json');
-        header.append('Accept', 'application/json');
-        header.append('Authorization', 'Bearer ' + sessionStorage.getItem('bearer_token'));
+        header.append("Content-Type", "application/json");
+        header.append("Accept", "application/json");
+        header.append("Authorization", "Bearer " + sessionStorage.getItem("bearer_token"));
         return header;
     };
     // for requesting secure data from a form post
     AuthService.prototype.authFormHeaders = function () {
         var header = new http_1.Headers();
-        header.append('Content-Type', 'application/x-www-form-urlencoded');
-        header.append('Accept', 'application/json');
-        header.append('Authorization', 'Bearer ' + sessionStorage.getItem('bearer_token'));
+        header.append("Content-Type", "application/x-www-form-urlencoded");
+        header.append("Accept", "application/json");
+        header.append("Authorization", "Bearer " + sessionStorage.getItem("bearer_token"));
         return header;
     };
     // for requesting unsecured data using json
     AuthService.prototype.jsonHeaders = function () {
         var header = new http_1.Headers();
-        header.append('Content-Type', 'application/json');
-        header.append('Accept', 'application/json');
+        header.append("Content-Type", "application/json");
+        header.append("Accept", "application/json");
         return header;
     };
     // for requesting unsecured data using form post
     AuthService.prototype.contentHeaders = function () {
         var header = new http_1.Headers();
-        header.append('Content-Type', 'application/x-www-form-urlencoded');
-        header.append('Accept', 'application/json');
+        header.append("Content-Type", "application/x-www-form-urlencoded");
+        header.append("Accept", "application/json");
         return header;
     };
     // After a successful login, save token data into session storage
@@ -48,23 +48,23 @@ var AuthService = (function () {
     AuthService.prototype.login = function (responseData) {
         var access_token = responseData.access_token;
         var expires_in = responseData.expires_in;
-        sessionStorage.setItem('access_token', access_token);
-        sessionStorage.setItem('bearer_token', access_token);
+        sessionStorage.setItem("access_token", access_token);
+        sessionStorage.setItem("bearer_token", access_token);
         // TODO: implement meaningful refresh, handle expiry 
-        sessionStorage.setItem('expires_in', expires_in.toString());
+        sessionStorage.setItem("expires_in", expires_in.toString());
     };
     // called when logging out user; clears tokens from browser
     AuthService.prototype.logout = function () {
         //localStorage.removeItem('access_token');
-        sessionStorage.removeItem('access_token');
-        sessionStorage.removeItem('bearer_token');
-        sessionStorage.removeItem('expires_in');
+        sessionStorage.removeItem("access_token");
+        sessionStorage.removeItem("bearer_token");
+        sessionStorage.removeItem("expires_in");
         return;
     };
     // simple check of logged in status: if there is a token, we're (probably) logged in.
     // ideally we check status and check token has not expired (server will back us up, if this not done, but it could be cleaner)
     AuthService.prototype.loggedIn = function () {
-        return sessionStorage.getItem('bearer_token') != null;
+        return sessionStorage.getItem("bearer_token") != null;
     };
     return AuthService;
 }());

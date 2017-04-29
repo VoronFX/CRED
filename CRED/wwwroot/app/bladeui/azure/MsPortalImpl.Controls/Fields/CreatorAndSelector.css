@@ -1,0 +1,101 @@
+.fxc-selector.fxc-selector-andcreator .fxc-selector-createnew-container,
+            .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew-singleMode .fxc-selector-link {
+                display: none;
+            }
+
+            .fxc-selectorField + .fxc-selectorField .fxc-selector.fxc-selector-andcreator {
+                height: 90px;
+            }
+
+            .fxc-creatorAndSelectorField {
+                position: relative;
+            }
+
+                .fxc-creatorAndSelectorField .azc-text-sublabel {
+                    position: absolute;
+                    right: 8px;
+                    bottom: 9px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-height: 16px;
+                    max-width: 66%;
+                }
+
+            .fxc-selector.fxc-selector-andcreator {
+                height: 90px;
+                position: relative;
+            }
+
+                .fxc-selector.fxc-selector-andcreator .fxc-selector-link {
+                    position: absolute;
+                    left: -8px;
+                    bottom: -10px;
+                    padding: 2px 8px;
+                    margin-left: 10px;
+                }
+
+                .fxc-selector.fxc-selector-andcreator .fxc-selector-container {
+                    height: 65px;
+                    top: calc(45% - 65px/2);
+                }
+
+                .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew-singleMode {
+                    height: 61px;
+                }
+
+                    .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew-singleMode .fxc-selector-leftPane {
+                        width: 100%;
+                        padding-top: 12px;
+                    }
+
+                    .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew-singleMode .azc-dockedballoon-required {
+                        padding-top: 12px;
+                    }
+
+                .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew {
+                    cursor: auto;
+                }
+
+                    .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew .fxc-selector-createnew-container {
+                        display: block;
+                    }
+
+                    .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew .fxc-selector-chevron,
+                    .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew .fxc-selector-no-value,
+                    .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew .fxc-selector-value {
+                        display: none;
+                    }
+
+                    .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew .fxc-selector-leftPane {
+                        width: calc(90%);
+                    }
+
+                    .fxc-selector.fxc-selector-andcreator.fxc-selector-andcreator-createNew .fxc-selector-createnew-container > .msportalfx-form-formelement {
+                        padding: 0 !important;
+                    }
+
+            .fxc-selector-invalid {
+                display: none;
+                position: absolute;
+                right: 20px;
+                top: 0;
+                height: 100%;
+                -webkit-align-items: center;
+                align-items: center;
+            }
+
+            .fxc-selector-invalid-visible {
+                display: -webkit-flex;
+                display: flex;
+            }
+
+            .fxc-selector-andcreator-createNew .fxc-selector-invalid {
+                display: none;
+            }
+
+            .fxc-selector-invalid-target,
+            .fxc-selector-invalid-target svg {
+                height: 18px;
+                width: 18px;
+            }

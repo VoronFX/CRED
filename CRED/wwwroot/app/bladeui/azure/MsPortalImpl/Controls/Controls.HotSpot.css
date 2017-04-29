@@ -1,0 +1,12 @@
+.fxc-hotspot {
+                padding: 5px 10px;
+            }
+
+                .fxc-hotspot.fxc-hotspot-selected {
+                    background-color: rgba(0, 188, 242, .25);
+                }
+
+                .fxc-hotspot.fxc-hotspot-clickable:hover {
+                    cursor: pointer;
+                    background-color: rgba(0, 188, 242, .1);
+                }

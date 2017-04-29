@@ -1,0 +1,1023 @@
+@-webkit-keyframes fxs-blade-progress-animatedEllipses {
+            0% {
+                opacity: 1;
+            }
+
+            30% {
+                opacity: .6;
+            }
+
+            60% {
+                opacity: .3;
+            }
+        }
+
+        @keyframes fxs-blade-progress-animatedEllipses {
+            0% {
+                opacity: 1;
+            }
+
+            30% {
+                opacity: .6;
+            }
+
+            60% {
+                opacity: .3;
+            }
+        }
+
+        .fxs-blade {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+            transition: width .1s ease-out, opacity .2s ease;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+        }
+
+            .fxs-blade .fxs-blade-actionBar,
+            .fxs-blade .fxs-blade-header {
+                -webkit-flex: 0 0 auto;
+                flex: 0 0 auto;
+            }
+
+            .fxs-blade.fxs-blade-initializing {
+                transition: none !important;
+            }
+
+            .fxs-blade .fxs-blade-header {
+                min-height: 130px;
+            }
+
+                .fxs-blade .fxs-blade-header.fxs-blade-header-hideCommandBarLabels {
+                    min-height: 105px;
+                }
+
+                .fxs-blade .fxs-blade-header .fxs-blade-title-content {
+                    padding: 0 20px;
+                }
+
+                .fxs-blade .fxs-blade-header .fxs-blade-title-text-container {
+                    height: 44px;
+                }
+
+                .fxs-blade .fxs-blade-header > img {
+                    background-color: transparent;
+                    margin-top: 4px;
+                }
+
+                .fxs-blade .fxs-blade-header .fxs-blade-icon,
+                .fxs-blade .fxs-blade-header .fxs-blade-title-image {
+                    display: none;
+                }
+
+                .fxs-blade .fxs-blade-header .fxs-blade-title {
+                    margin: 0 5px;
+                    height: inherit;
+                }
+
+                    .fxs-blade .fxs-blade-header .fxs-blade-title h2,
+                    .fxs-blade .fxs-blade-header .fxs-blade-title h3 {
+                        float: left;
+                        clear: both;
+                        max-width: 100%;
+                        margin: 0;
+                        padding: 0;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                        .fxs-blade .fxs-blade-header .fxs-blade-title h2::after,
+                        .fxs-blade .fxs-blade-header .fxs-blade-title h3::after {
+                            content: '\0000a0';
+                        }
+
+                    .fxs-blade .fxs-blade-header .fxs-blade-title h2 {
+                        font-family: az_ea_font, wf_segoe-ui_semilight, "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                        font-size: 18px;
+                        line-height: normal;
+                    }
+
+                    .fxs-blade .fxs-blade-header .fxs-blade-title h3 {
+                        font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                        font-size: 10px;
+                        line-height: normal;
+                    }
+
+                    .fxs-blade .fxs-blade-header .fxs-blade-title .fxs-blade-header-icon-holder {
+                        position: absolute;
+                        margin-top: 7px;
+                    }
+
+                        .fxs-blade .fxs-blade-header .fxs-blade-title .fxs-blade-header-icon-holder svg {
+                            height: 30px;
+                            width: 30px;
+                        }
+
+                    .fxs-blade .fxs-blade-header .fxs-blade-title.fxs-blade-header-icon .fxs-blade-hgroup {
+                        margin-left: 42px;
+                    }
+
+                .fxs-blade .fxs-blade-header .fxs-blade-title-description {
+                    margin: 7px 5px 0;
+                    font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                    font-size: 11px;
+                    line-height: 14px;
+                    height: 44px;
+                    overflow: hidden;
+                }
+
+                    .fxs-blade .fxs-blade-header .fxs-blade-title-description .fxs-blade-title-help-link {
+                        white-space: nowrap;
+                    }
+
+                        .fxs-blade .fxs-blade-header .fxs-blade-title-description .fxs-blade-title-help-link .fxs-blade-title-help-icon > svg {
+                            width: 10px;
+                            height: 10px;
+                            margin-left: 2px;
+                            vertical-align: middle;
+                        }
+
+                .fxs-blade .fxs-blade-header.fxs-blade-disabled .fxs-blade-commandBarContainer {
+                    display: none;
+                    clear: both;
+                }
+
+            .fxs-blade .fxs-blade-dialoghost {
+                display: block;
+                position: relative;
+                z-index: 200;
+                width: 100%;
+                left: 0;
+                overflow: visible;
+                height: 0;
+            }
+
+            .fxs-blade .fxs-blade-content {
+                -webkit-flex: 1 1 auto;
+                flex: 1 1 auto;
+                position: relative;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
+                .fxs-blade .fxs-blade-content::-webkit-scrollbar-thumb {
+                    background: 0 0;
+                }
+
+            .fxs-blade .fxs-blade-stacklayout {
+                position: absolute;
+                -ms-overflow-style: auto;
+                box-sizing: border-box;
+                bottom: 25px;
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+
+            .fxs-blade .fxs-blade-disabled-message > div {
+                float: left;
+            }
+
+            .fxs-blade .fxs-blade-disabled-message svg {
+                width: 200px;
+                height: 200px;
+            }
+
+            .fxs-blade .fxs-blade-disabled-message h2 {
+                font-family: az_ea_font, wf_segoe-ui_semilight, "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 22px;
+                line-height: 28px;
+                text-transform: uppercase;
+                margin: 0 0 3px;
+                padding-top: 23px;
+            }
+
+            .fxs-blade .fxs-blade-disabled-message h3 {
+                font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 14px;
+                line-height: 17px;
+                margin: 0;
+            }
+
+        .fxs-blade-statusbar-wrapper {
+            height: 25px;
+        }
+
+        .fxs-blade .fxs-blade-loading-status {
+            background-image: url(Content/static/blade_loadingprogress.gif);
+            background-repeat: repeat-x;
+        }
+
+        .fxs-blade .fxs-blade-statusbar {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-justify-content: flex-end;
+            justify-content: flex-end;
+            opacity: .7;
+            border: 1px dotted transparent;
+            height: 23px;
+        }
+
+        .fxs-blade .fxs-blade-statusbar-text {
+            -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+            width: 100%;
+            padding: 5px 10px 5px 25px;
+            font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 10px;
+            line-height: 15px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: -1px 0 0 -1px;
+        }
+
+        .fxs-blade .fxs-blade-status-container {
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+            .fxs-blade .fxs-blade-status-container.fxs-bg-none,
+            .fxs-blade .fxs-blade-status-container.fxs-bg-success {
+                display: none;
+            }
+
+            .fxs-blade .fxs-blade-status-container .fxs-blade-status-icon {
+                height: 20px;
+                -webkit-flex: 0 0 20px;
+                flex: 0 0 20px;
+                margin-right: 10px;
+            }
+
+                .fxs-blade .fxs-blade-status-container .fxs-blade-status-icon svg {
+                    height: 20px;
+                    width: 20px;
+                }
+
+            .fxs-blade .fxs-blade-status-container .fxs-blade-status-text-button,
+            .fxs-blade .fxs-blade-status-container .fxs-blade-status-text-container {
+                width: 100%;
+                height: 100%;
+                padding: 5px 10px 5px 20px;
+                font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 14px;
+                line-height: 15px;
+                box-sizing: border-box;
+            }
+
+            .fxs-blade .fxs-blade-status-container .fxs-blade-status-text-container {
+                display: -webkit-flex;
+                display: flex;
+                -webkit-align-items: center;
+                align-items: center;
+            }
+
+                .fxs-blade .fxs-blade-status-container .fxs-blade-status-text-container .fxs-blade-status-text {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    line-height: 30px;
+                }
+
+            .fxs-blade .fxs-blade-status-container .fxs-blade-status-text-button {
+                cursor: pointer;
+                border: 0;
+                background-color: transparent;
+                text-align: left;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-align-items: center;
+                align-items: center;
+            }
+
+                .fxs-blade .fxs-blade-status-container .fxs-blade-status-text-button .fxs-blade-status-text-button-text {
+                    display: block;
+                    line-height: 30px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    margin-right: 5px;
+                }
+
+                .fxs-blade .fxs-blade-status-container .fxs-blade-status-text-button .fxs-blade-status-arrow {
+                    display: block;
+                    height: 12px;
+                    -webkit-flex: 0 0 12px;
+                    flex: 0 0 12px;
+                    fill: #fff;
+                }
+
+                    .fxs-blade .fxs-blade-status-container .fxs-blade-status-text-button .fxs-blade-status-arrow svg {
+                        height: 12px;
+                        width: 12px;
+                    }
+
+        .fxs-blade .fxs-blade-actions {
+            -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+            height: 25px;
+            margin: -1px -1px 0 0;
+        }
+
+            .fxs-blade .fxs-blade-actions button {
+                cursor: pointer;
+                border: 0;
+                background-color: transparent;
+                margin: 0;
+                padding: 5px 7px 9px;
+                opacity: .5;
+                transition: opacity .2s ease-out;
+                height: 30px;
+                width: 30px;
+            }
+
+                .fxs-blade .fxs-blade-actions button img,
+                .fxs-blade .fxs-blade-actions button svg {
+                    display: block;
+                    height: 16px;
+                    width: 16px;
+                }
+
+        .fxs-blade.fxs-blade-minimized .fxs-blade-actionBar,
+        .fxs-blade.fxs-blade-minimized .fxs-blade-actions,
+        .fxs-blade.fxs-blade-minimized .fxs-blade-commandBarContainer,
+        .fxs-blade.fxs-blade-minimized .fxs-blade-content,
+        .fxs-blade.fxs-blade-minimized .fxs-blade-header .fxs-blade-title .fxs-blade-header-icon-holder,
+        .fxs-blade.fxs-blade-minimized .fxs-blade-header .fxs-blade-title h3,
+        .fxs-blade.fxs-blade-minimized .fxs-blade-status-container,
+        .fxs-blade.fxs-blade-minimized .fxs-blade-statusbar-wrapper,
+        .fxs-blade.fxs-blade-minimized .fxs-blade-summary-container,
+        .fxs-blade.fxs-blade-minimized .fxs-blade-title-description,
+        .fxs-blade.fxs-blade-minimized.fxs-bladestyle-info .fxs-blade-header .fxs-blade-title-image,
+        .fxs-blade.fxs-blade-minimized.fxs-bladestyle-resourcesetting .fxs-blade-header .fxs-blade-title-image {
+            display: none;
+        }
+
+        .fxs-blade .fxs-blade-actions button.fxs-blade-pin img,
+        .fxs-blade .fxs-blade-actions button.fxs-blade-pin svg {
+            height: 14px;
+            width: 14px;
+        }
+
+        .fxs-blade .fxs-blade-statusbar {
+            transition: opacity .2s, background-color .2s;
+        }
+
+            .fxs-blade .fxs-blade-actions > button:hover,
+            .fxs-blade .fxs-blade-loading-status:hover,
+            .fxs-blade .fxs-blade-statusbar:hover,
+            .fxs-blade .fxs-blade-statusbar:hover + .fxs-blade-actions > button {
+                opacity: 1;
+            }
+
+        .fxs-blade,
+        .fxs-blade .fxs-blade-stacklayout {
+            width: 585px;
+        }
+
+            .fxs-blade.fxs-bladesize-small,
+            .fxs-blade.fxs-bladesize-small .fxs-blade-stacklayout {
+                width: 315px;
+            }
+
+            .fxs-blade.fxs-bladesize-medium,
+            .fxs-blade.fxs-bladesize-medium .fxs-blade-stacklayout {
+                width: 585px;
+            }
+
+            .fxs-blade.fxs-bladesize-large,
+            .fxs-blade.fxs-bladesize-large .fxs-blade-stacklayout {
+                width: 855px;
+            }
+
+            .fxs-blade.fxs-bladesize-xlarge,
+            .fxs-blade.fxs-bladesize-xlarge .fxs-blade-stacklayout {
+                width: 1125px;
+            }
+
+            .fxs-blade.fxs-bladesize-expandable {
+                width: auto;
+                min-width: 855px;
+            }
+
+                .fxs-blade.fxs-bladesize-expandable .fxs-blade-stacklayout {
+                    min-width: 855px;
+                    position: static;
+                    width: auto;
+                }
+
+            .fxs-blade.fxs-blade-maximized {
+                min-width: 585px;
+                width: 100%;
+            }
+
+                .fxs-blade.fxs-blade-maximized .fxs-blade-stacklayout {
+                    min-width: 585px;
+                }
+
+                .fxs-blade.fxs-blade-maximized.fxs-bladesize-small,
+                .fxs-blade.fxs-blade-maximized.fxs-bladesize-small .fxs-blade-stacklayout {
+                    min-width: 315px;
+                }
+
+                .fxs-blade.fxs-blade-maximized.fxs-bladesize-medium,
+                .fxs-blade.fxs-blade-maximized.fxs-bladesize-medium .fxs-blade-stacklayout {
+                    min-width: 585px;
+                }
+
+                .fxs-blade.fxs-blade-maximized.fxs-bladesize-large,
+                .fxs-blade.fxs-blade-maximized.fxs-bladesize-large .fxs-blade-stacklayout {
+                    min-width: 855px;
+                }
+
+                .fxs-blade.fxs-blade-maximized.fxs-bladesize-xlarge,
+                .fxs-blade.fxs-blade-maximized.fxs-bladesize-xlarge .fxs-blade-stacklayout {
+                    min-width: 1125px;
+                }
+
+            .fxs-blade.fxs-blade-minimized {
+                width: 40px !important;
+                min-width: 40px !important;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+                .fxs-blade.fxs-blade-minimized.fxs-bladestyle-info .fxs-blade-header.fxs-blade-title-image-visible .fxs-blade-title-content,
+                .fxs-blade.fxs-blade-minimized.fxs-bladestyle-info .fxs-blade-header.fxs-blade-title-image-visible .fxs-blade-title-text-container,
+                .fxs-blade.fxs-blade-minimized.fxs-bladestyle-resourcesetting .fxs-blade-header.fxs-blade-title-image-visible .fxs-blade-title-content,
+                .fxs-blade.fxs-blade-minimized.fxs-bladestyle-resourcesetting .fxs-blade-header.fxs-blade-title-image-visible .fxs-blade-title-text-container {
+                    margin-left: 0;
+                }
+
+                .fxs-blade.fxs-blade-minimized .fxs-blade-header {
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                }
+
+                    .fxs-blade.fxs-blade-minimized .fxs-blade-header:hover {
+                        cursor: pointer;
+                    }
+
+                    .fxs-blade.fxs-blade-minimized .fxs-blade-header .fxs-blade-title {
+                        height: 100%;
+                        width: 100%;
+                        margin: 0;
+                        padding: 0;
+                    }
+
+            .fxs-blade .fxs-blade-content,
+            .fxs-blade.fxs-bladestyle-default .fxs-blade-content {
+                padding-top: 10px;
+            }
+
+            .fxs-blade.fxs-blade-minimized .fxs-blade-header .fxs-blade-title .fxs-blade-hgroup {
+                margin: 0;
+            }
+
+            .fxs-blade.fxs-blade-minimized .fxs-blade-header .fxs-blade-title h2 {
+                -webkit-transform: rotate(90deg) translateX(50%) translateX(25px);
+                transform: rotate(90deg) translateX(50%) translateX(25px);
+                font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 10px;
+                line-height: 10px;
+                text-transform: uppercase;
+                overflow: visible;
+                padding-left: 0;
+            }
+
+            .fxs-blade.fxs-bladestyle-context .fxs-blade-content .fxs-part-content h1,
+            .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-part-content h1,
+            .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-part-content h2,
+            .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-part-content h1,
+            .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-part-content h2 {
+                font-family: az_ea_font, wf_segoe-ui_light, "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            }
+
+            .fxs-blade .fxs-blade-progress {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 25px;
+                background-color: #dcdfe2;
+                z-index: 198;
+            }
+
+                .fxs-blade .fxs-blade-progress .fxs-blade-progress-dots {
+                    position: absolute;
+                    top: calc(50% - 6px/2);
+                    width: 100%;
+                    line-height: 0;
+                    text-align: center;
+                }
+
+                    .fxs-blade .fxs-blade-progress .fxs-blade-progress-dots > div {
+                        display: inline-block;
+                        height: 6px;
+                        width: 6px;
+                        -webkit-animation: fxs-blade-progress-animatedEllipses 1.5s infinite;
+                        animation: fxs-blade-progress-animatedEllipses 1.5s infinite;
+                        background: #aab3bd;
+                        margin: 0 2.5px;
+                    }
+
+                        .fxs-blade .fxs-blade-progress .fxs-blade-progress-dots > div:nth-child(1) {
+                            -webkit-animation-delay: 0s;
+                            animation-delay: 0s;
+                        }
+
+                        .fxs-blade .fxs-blade-progress .fxs-blade-progress-dots > div:nth-child(2) {
+                            -webkit-animation-delay: .2s;
+                            animation-delay: .2s;
+                        }
+
+                        .fxs-blade .fxs-blade-progress .fxs-blade-progress-dots > div:nth-child(3) {
+                            -webkit-animation-delay: .4s;
+                            animation-delay: .4s;
+                        }
+
+        @-webkit-keyframes fxs-blade-progress-translucent-keyframes {
+            0% {
+                -webkit-transform: translateX(-30px);
+                transform: translateX(-30px);
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 1;
+            }
+
+            50% {
+                -webkit-transform: translateX(30px);
+                transform: translateX(30px);
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fxs-blade-progress-translucent-keyframes {
+            0% {
+                -webkit-transform: translateX(-30px);
+                transform: translateX(-30px);
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 1;
+            }
+
+            50% {
+                -webkit-transform: translateX(30px);
+                transform: translateX(30px);
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .fxs-blade-progress-translucent {
+            position: absolute;
+            width: 85px;
+            height: 12px;
+            left: calc(50% - 85px/2);
+            z-index: 198;
+        }
+
+            .fxs-blade-progress-translucent div {
+                display: inline-block;
+                margin: 4px 2px;
+                width: 4px;
+                height: 4px;
+                top: 2px;
+                border-radius: 100%;
+                position: relative;
+                background: #fff;
+                left: 20px;
+                vertical-align: top;
+                -webkit-animation: fxs-blade-progress-translucent-keyframes 3s cubic-bezier(.03, .615, .995, .415) infinite;
+                animation: fxs-blade-progress-translucent-keyframes 3s cubic-bezier(.03, .615, .995, .415) infinite;
+                -webkit-animation-fill-mode: both;
+                animation-fill-mode: both;
+            }
+
+        .fxs-blade .fxs-blade-stacklayout,
+        .fxs-blade.fxs-bladestyle-default .fxs-blade-stacklayout {
+            top: 10px;
+        }
+
+        .fxs-blade.fxs-bladestyle-context .fxs-blade-content .fxs-tile,
+        .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-tile,
+        .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-tile {
+            background: 0 0;
+        }
+
+        .fxs-blade-progress-translucent div:nth-child(1) {
+            -webkit-animation-delay: 1s;
+            animation-delay: 1s;
+        }
+
+        .fxs-blade-progress-translucent div:nth-child(2) {
+            -webkit-animation-delay: .8s;
+            animation-delay: .8s;
+        }
+
+        .fxs-blade-progress-translucent div:nth-child(3) {
+            -webkit-animation-delay: .6s;
+            animation-delay: .6s;
+        }
+
+        .fxs-blade-progress-translucent div:nth-child(4) {
+            -webkit-animation-delay: .4s;
+            animation-delay: .4s;
+        }
+
+        .fxs-blade-progress-translucent div:nth-child(5) {
+            -webkit-animation-delay: .2s;
+            animation-delay: .2s;
+        }
+
+        .fxs-blade-progress-translucent div:nth-child(6) {
+            -webkit-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+
+        .fxs-blade .fxs-blade-summary-container {
+            -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+        }
+
+        .fxs-blade .fxs-blade-actionBar,
+        .fxs-blade .fxs-blade-content,
+        .fxs-blade .fxs-blade-header,
+        .fxs-blade .fxs-blade-progress,
+        .fxs-blade .fxs-blade-status-container,
+        .fxs-blade .fxs-blade-summary-container {
+            border-left-style: solid;
+            border-left-width: 2px;
+            border-color: inherit;
+        }
+
+        .fxs-blade.fxs-bladestyle-context .fxs-blade-commandBarContainer,
+        .fxs-blade.fxs-bladestyle-create .fxs-blade-commandBarContainer,
+        .fxs-blade.fxs-bladestyle-hub .fxs-blade-commandBarContainer,
+        .fxs-blade.fxs-bladestyle-hubsubmenu .fxs-blade-commandBarContainer,
+        .fxs-blade.fxs-bladestyle-info .fxs-blade-commandBarContainer,
+        .fxs-blade.fxs-bladestyle-resourcesetting .fxs-blade-commandBarContainer {
+            display: none;
+        }
+
+        .fxs-blade.fxs-bladestyle-info .fxs-blade-header .fxs-blade-title-image,
+        .fxs-blade.fxs-bladestyle-resourcesetting .fxs-blade-header .fxs-blade-title-image {
+            position: absolute;
+            margin-top: 5px;
+            margin-left: 25px;
+            width: 75px;
+            height: 75px;
+            display: block;
+        }
+
+        .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster .azc-collapsed-hidden,
+        .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-paired-smallmaster .azc-collapsed-hidden,
+        .fxs-blade.fxs-blade-unauthorized .fxs-blade-status-container,
+        .fxs-blade.fxs-blade-unauthorized .fxs-blade-summary-container,
+        .fxs-blade.fxs-bladestyle-app .fxs-blade-maximizeOrRestore,
+        .fxs-blade.fxs-bladestyle-app .fxs-blade-minimize,
+        .fxs-blade.fxs-bladestyle-hub .fx-text-title,
+        .fxs-blade.fxs-bladestyle-hub .fxs-blade-actions .fxs-blade-pin,
+        .fxs-blade.fxs-bladestyle-hubsubmenu .fx-text-title,
+        .fxs-blade.fxs-bladestyle-hubsubmenu .fxs-blade-actions .fxs-blade-pin,
+        .fxs-contextpane .fxs-blade .fxs-blade-actions .fxs-blade-maximizeOrRestore,
+        .fxs-contextpane .fxs-blade .fxs-blade-actions .fxs-blade-minimize {
+            display: none;
+        }
+
+        .fxs-blade.fxs-bladestyle-info .fxs-blade-header.fxs-blade-title-image-visible,
+        .fxs-blade.fxs-bladestyle-resourcesetting .fxs-blade-header.fxs-blade-title-image-visible {
+            padding-bottom: 0;
+        }
+
+            .fxs-blade.fxs-bladestyle-info .fxs-blade-header.fxs-blade-title-image-visible .fxs-blade-title-content,
+            .fxs-blade.fxs-bladestyle-resourcesetting .fxs-blade-header.fxs-blade-title-image-visible .fxs-blade-title-content {
+                margin-left: 95px;
+            }
+
+        .fxs-blade.fxs-bladestyle-app {
+            width: 100%;
+        }
+
+            .fxs-blade.fxs-bladestyle-app .fxs-blade-stacklayout {
+                width: 100%;
+                padding: 0;
+                top: 0;
+                bottom: 0;
+            }
+
+            .fxs-blade.fxs-bladestyle-app .fxs-lens,
+            .fxs-blade.fxs-bladestyle-app .fxs-lens-layout,
+            .fxs-blade.fxs-bladestyle-app .fxs-tile {
+                height: 100%;
+            }
+
+            .fxs-blade.fxs-bladestyle-app .fxs-blade-header {
+                min-height: 70px;
+            }
+
+        .fxs-blade.fxs-bladestyle-basic .fxs-blade-content,
+        .fxs-blade.fxs-bladestyle-basicwithcommands .fxs-blade-content,
+        .fxs-blade.fxs-bladestyle-context .fxs-blade-content,
+        .fxs-blade.fxs-bladestyle-create .fxs-blade-content {
+            padding: 0;
+        }
+
+        .fxs-blade.fxs-bladestyle-basic .fxs-blade-stacklayout,
+        .fxs-blade.fxs-bladestyle-basicwithcommands .fxs-blade-stacklayout,
+        .fxs-blade.fxs-bladestyle-context .fxs-blade-stacklayout,
+        .fxs-blade.fxs-bladestyle-create .fxs-blade-stacklayout {
+            top: 0;
+            bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .fxs-blade.fxs-bladestyle-context .fxs-blade-content .fxs-part-content h1 {
+            font-size: 28px;
+            margin: 0 0 25px;
+        }
+
+        .fxs-blade.fxs-bladestyle-context .fxs-blade-content .fxs-part-content .fxc-hotspot {
+            padding: 5px 10px;
+        }
+
+        .fxs-blade.fxs-bladestyle-context .fxs-blade-content .fxs-part-content button.fxc-hotspot,
+        .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-part-content button.fxc-hotspot,
+        .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-part-content button.fxc-hotspot {
+            padding: 3px 10px 5px;
+        }
+
+        .fxs-blade.fxs-bladestyle-context .fxs-blade-content .fxs-part-content .msportalfx-partdivider::after {
+            margin: 0;
+        }
+
+        .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-part-content h1,
+        .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-part-content h1 {
+            font-size: 34px;
+            margin: 14px 0 33px;
+            line-height: normal;
+        }
+
+        .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-part-content h2,
+        .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-part-content h2 {
+            font-size: 22px;
+            margin: 0 0 17px;
+            line-height: normal;
+        }
+
+        .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-part-content h3,
+        .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-part-content h3 {
+            font-size: 16px;
+            margin: 10px 0 8px;
+            line-height: 20px;
+            font-weight: 400;
+        }
+
+        .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-part-content h4,
+        .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-part-content h4 {
+            text-transform: uppercase;
+            font-family: az_ea_font, wf_segoe-ui_bold, "Segoe UI Bold", "Segoe WP Bold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            margin: 0;
+            line-height: normal;
+        }
+
+        .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-part-content div,
+        .fxs-blade.fxs-bladestyle-help .fxs-blade-content .fxs-part-content span,
+        .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-part-content div,
+        .fxs-blade.fxs-bladestyle-help.fxs-blade-locked .fxs-blade-content .fxs-part-content span {
+            line-height: 16px;
+            font-size: 12px;
+        }
+
+        .fxs-blade.fxs-bladestyle-hub .fxs-blade-content,
+        .fxs-blade.fxs-bladestyle-hubsubmenu .fxs-blade-content {
+            padding: 0;
+        }
+
+        .fxs-blade.fxs-bladestyle-hub .fxs-blade-stacklayout,
+        .fxs-blade.fxs-bladestyle-hubsubmenu .fxs-blade-stacklayout {
+            top: 0;
+            bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .fxs-blade.fxs-bladestyle-hub .fxs-blade-header,
+        .fxs-blade.fxs-bladestyle-hubsubmenu .fxs-blade-header {
+            min-height: 70px;
+        }
+
+        .fxs-blade.fxs-bladestyle-hub .fxs-blade-statusbar-wrapper,
+        .fxs-blade.fxs-bladestyle-hubsubmenu .fxs-blade-statusbar-wrapper {
+            background-color: inherit;
+        }
+
+        .fxs-blade.fxs-blade-maximized.fxs-blade-maximized-reflow .fxs-blade-stacklayout {
+            -webkit-flex-flow: column wrap;
+            flex-flow: column wrap;
+            -webkit-align-content: flex-start;
+            align-content: flex-start;
+            width: auto;
+        }
+
+        .fxs-blade.fxs-blade-maximized.fxs-blade-maximized-reflow .fxs-stacklayout-child {
+            margin-right: 25px;
+            width: 100%;
+            max-width: 535px;
+        }
+
+        .fxs-blade.fxs-blade-maximized.fxs-blade-maximized-reflow.fxs-bladesize-small .fxs-stacklayout-child {
+            max-width: 265px;
+        }
+
+        .fxs-blade.fxs-blade-maximized.fxs-blade-maximized-reflow.fxs-bladesize-medium .fxs-stacklayout-child {
+            max-width: 535px;
+        }
+
+        .fxs-blade.fxs-blade-maximized.fxs-blade-maximized-reflow.fxs-bladesize-large .fxs-stacklayout-child {
+            max-width: 805px;
+        }
+
+        .fxs-blade.fxs-blade-maximized.fxs-blade-maximized-reflow.fxs-bladesize-xlarge .fxs-stacklayout-child {
+            max-width: 1075px;
+        }
+
+        .fxs-blade.fxs-blade-maximized.fxs-blade-maximized-expand .fxs-blade-stacklayout {
+            width: 100%;
+        }
+
+        .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster,
+        .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster .fxs-blade-stacklayout,
+        .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-paired-smallmaster,
+        .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-paired-smallmaster .fxs-blade-stacklayout {
+            width: 315px;
+        }
+
+            .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-pair-fullscreen + .fxs-blade-pairdetails,
+            .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-paired-smallmaster.fxs-blade-pair-fullscreen + .fxs-blade-pairdetails {
+                width: calc(100% - 315px);
+            }
+
+            .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-paired-mediummaster,
+            .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-paired-mediummaster .fxs-blade-stacklayout {
+                width: 585px;
+            }
+
+                .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-paired-mediummaster + .fxs-blade-pairdetails {
+                    width: calc(100% - 585px);
+                }
+
+            .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-paired-collapsed {
+                width: 0 !important;
+            }
+
+                .fxs-blade.fxs-blade-paired.fxs-blade-pair-fullscreen + .fxs-blade-pairdetails .fxs-blade-stacklayout,
+                .fxs-blade.fxs-blade-paired.fxs-blade-pairmaster.fxs-blade-paired-collapsed + .fxs-blade-pairdetails {
+                    width: 100%;
+                }
+
+        .fxs-blade.fxs-blade-withcolumns .fxs-blade-content {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0;
+        }
+
+            .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-blade-stacklayout {
+                top: 0;
+                bottom: 0;
+                padding-left: 0;
+                padding-right: 0;
+                -webkit-flex-flow: row nowrap;
+                flex-flow: row nowrap;
+                width: 100% !important;
+            }
+
+                .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-blade-stacklayout .fxs-stacklayout-child:first-child {
+                    -webkit-flex: 1 1 auto;
+                    flex: 1 1 auto;
+                    min-width: 315px;
+                }
+
+                .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-blade-stacklayout .fxs-stacklayout-child:not(:first-child).fxs-lens {
+                    width: 315px;
+                }
+
+                    .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-blade-stacklayout .fxs-stacklayout-child:not(:first-child).fxs-lens .fxs-lens-layout {
+                        border-left-width: 1px;
+                        border-left-style: solid;
+                        border-left-color: inherit;
+                        padding: 0;
+                    }
+
+                    .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-blade-stacklayout .fxs-stacklayout-child:not(:first-child).fxs-lens.fxs-lens-collapsed {
+                        width: 30px;
+                    }
+
+                        .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-blade-stacklayout .fxs-stacklayout-child:not(:first-child).fxs-lens.fxs-lens-collapsed .fxs-lens-title-container {
+                            -webkit-flex-direction: column-reverse;
+                            flex-direction: column-reverse;
+                            -webkit-justify-content: flex-end;
+                            justify-content: flex-end;
+                        }
+
+                    .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-blade-stacklayout .fxs-stacklayout-child:not(:first-child).fxs-lens:not(.fxs-lens-collapsed) .fxs-lens-title-container {
+                        -webkit-justify-content: space-between;
+                        justify-content: space-between;
+                    }
+
+                .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-blade-stacklayout .fxs-stacklayout-child:not(:first-child) .fxs-lens-title-container {
+                    background-color: #464f59;
+                    color: #fff;
+                }
+
+            .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-lens {
+                padding-bottom: 0;
+            }
+
+                .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-lens .fxs-lens-title {
+                    padding: 0 10px;
+                }
+
+                .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-lens .fxs-lens-layout {
+                    padding: 0 25px;
+                    overflow-y: auto;
+                }
+
+                .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-lens .fxs-part {
+                    padding: 0 15px;
+                }
+
+                .fxs-blade.fxs-blade-withcolumns .fxs-blade-content .fxs-lens .fxs-tilesize-fittocontainer .fxs-part {
+                    overflow: visible;
+                }
+
+        .fxs-blade.fxs-blade-unauthorized .fxc-notice {
+            position: absolute;
+            width: 100%;
+        }
+
+        .fxs-journey-layout .fxs-stacklayout-child:first-child .fxs-blade-actionBar,
+        .fxs-journey-layout .fxs-stacklayout-child:first-child .fxs-blade-content,
+        .fxs-journey-layout .fxs-stacklayout-child:first-child .fxs-blade-header,
+        .fxs-journey-layout .fxs-stacklayout-child:first-child .fxs-blade-progress,
+        .fxs-journey-layout .fxs-stacklayout-child:first-child .fxs-blade-status-container,
+        .fxs-journey-layout .fxs-stacklayout-child:first-child .fxs-blade-summary-container {
+            border-left-width: 0;
+        }
+
+        .fxs-contextpane .fxs-blade .fxs-blade-actionBar,
+        .fxs-contextpane .fxs-blade .fxs-blade-commandBarContainer,
+        .fxs-contextpane .fxs-blade .fxs-blade-content,
+        .fxs-contextpane .fxs-blade .fxs-blade-header,
+        .fxs-contextpane .fxs-blade .fxs-blade-progress {
+            border: none;
+        }
+
+        .fxs-contextpane .fxs-blade .fxs-blade-stacklayout {
+            max-width: 435px;
+        }
+
+        html[lang^=ko] .fxs-blade .fxs-blade-header .fxs-blade-title h3,
+        html[lang^=ko] .fxs-blade .fxs-blade-statusbar-text,
+        html[lang^=zh] .fxs-blade .fxs-blade-header .fxs-blade-title h3,
+        html[lang^=zh] .fxs-blade .fxs-blade-statusbar-text,
+        html[lang^=ja] .fxs-blade .fxs-blade-header .fxs-blade-title h3,
+        html[lang^=ja] .fxs-blade .fxs-blade-statusbar-text {
+            font-size: 11px;
+        }
+
+        html[lang^=ko] .fxs-blade.fxs-blade-minimized .fxs-blade-header .fxs-blade-title h2,
+        html[lang^=zh] .fxs-blade.fxs-blade-minimized .fxs-blade-header .fxs-blade-title h2,
+        html[lang^=ja] .fxs-blade.fxs-blade-minimized .fxs-blade-header .fxs-blade-title h2 {
+            font-size: 11px;
+            line-height: 11px;
+        }
+
+        .fxs-blade.fxs-bladestyle-create .fxs-blade-stacklayout {
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+
+            .fxs-blade.fxs-bladestyle-create .fxs-blade-stacklayout .fxs-part {
+                padding-left: 0;
+                padding-right: 0;
+            }

@@ -1,0 +1,98 @@
+.fxs-part-assetpart .fxs-part-assetpart-type,
+            .fxs-part-assetpart.fxs-part-assetpart-size-mini .fxs-part-assetpart-assetName {
+                font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 10px;
+                line-height: 10px;
+                text-transform: uppercase;
+            }
+
+            .fxs-part-assetpart {
+                white-space: normal;
+                height: 100%;
+                width: 100%;
+                text-align: left;
+            }
+
+                .fxs-part-assetpart .fxs-part-assetpart-assetName,
+                .fxs-part-assetpart .fxs-part-assetpart-type {
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+
+                .fxs-part-assetpart img,
+                .fxs-part-assetpart svg {
+                    height: 30px;
+                    width: 30px;
+                }
+
+                .fxs-part-assetpart .fxs-part-assetpart-type {
+                    margin: 3px 0;
+                }
+
+                .fxs-part-assetpart.fxs-part-assetpart-size-mini .fxs-part-assetpart-outer {
+                    text-align: center;
+                }
+
+                .fxs-part-assetpart.fxs-part-assetpart-size-mini .fxs-part-assetpart-inner {
+                    margin-top: 7px;
+                }
+
+                .fxs-part-assetpart.fxs-part-assetpart-size-mini .fxs-part-assetpart-assetName {
+                    overflow: hidden;
+                }
+
+                .fxs-part-assetpart.fxs-part-assetpart-size-mini .fxs-part-assetpart-type {
+                    display: none;
+                }
+
+                .fxs-part-assetpart.fxs-part-assetpart-size-mini .fxs-part-assetpart-badge .fxs-part-assetpart-icon {
+                    padding: 0;
+                    border: 0;
+                    position: relative;
+                    width: 40px;
+                    margin: 0 auto;
+                }
+
+                .fxs-part-assetpart.fxs-part-assetpart-size-small img,
+                .fxs-part-assetpart.fxs-part-assetpart-size-small svg {
+                    height: 21px;
+                    width: 21px;
+                }
+
+                .fxs-part-assetpart.fxs-part-assetpart-size-normal .fxs-part-assetpart-icon,
+                .fxs-part-assetpart.fxs-part-assetpart-size-small .fxs-part-assetpart-icon {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                }
+
+                .fxs-part-assetpart.fxs-part-assetpart-size-normal .fxs-part-assetpart-assetName,
+                .fxs-part-assetpart.fxs-part-assetpart-size-small .fxs-part-assetpart-assetName {
+                    font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                    font-size: 14px;
+                    line-height: 17px;
+                }
+
+                .fxs-part-assetpart.fxs-part-assetpart-size-normal .fxs-part-assetpart-status,
+                .fxs-part-assetpart.fxs-part-assetpart-size-small .fxs-part-assetpart-status {
+                    position: absolute;
+                    bottom: 0;
+                    font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                    font-size: 12px;
+                    line-height: 18px;
+                    padding-bottom: 2px;
+                    margin-right: 35px;
+                    max-height: 15px;
+                    overflow: hidden;
+                }
+
+            html[lang^=ja] .fxs-part-assetpart .fxs-part-assetpart-type,
+            html[lang^=ja] .fxs-part-assetpart.fxs-part-assetpart-size-mini .fxs-part-assetpart-assetName,
+            html[lang^=ko] .fxs-part-assetpart .fxs-part-assetpart-type,
+            html[lang^=ko] .fxs-part-assetpart.fxs-part-assetpart-size-mini .fxs-part-assetpart-assetName,
+            html[lang^=zh] .fxs-part-assetpart .fxs-part-assetpart-type,
+            html[lang^=zh] .fxs-part-assetpart.fxs-part-assetpart-size-mini .fxs-part-assetpart-assetName {
+                font-size: 11px;
+                line-height: 11px;
+            }

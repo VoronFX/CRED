@@ -19,7 +19,7 @@ var AppComponent = (function () {
         this.titleService = titleService;
         this.http = http;
         this.authService = authService;
-        this.angularClientSideData = 'Angular';
+        this.angularClientSideData = "Angular";
     }
     // wrapper to the Angular title service.
     AppComponent.prototype.setTitle = function (newTitle) {
@@ -32,13 +32,13 @@ var AppComponent = (function () {
     // tell the server that the user wants to logout; clears token from server, then calls auth.service to clear token locally in browser
     AppComponent.prototype.logout = function () {
         var _this = this;
-        this.http.get('connect/logout', { headers: this.authService.authJsonHeaders() })
+        this.http.get("connect/logout", { headers: this.authService.authJsonHeaders() })
             .subscribe(function (response) {
             console.log(response);
             // clear token in browser
             _this.authService.logout();
             // return to 'home' page
-            _this.router.navigate(['home']);
+            _this.router.navigate(["home"]);
         }, function (error) {
             // failed; TODO: add some nice toast / error handling
             alert(error.text());
@@ -49,8 +49,8 @@ var AppComponent = (function () {
 }());
 AppComponent = __decorate([
     core_1.Component({
-        selector: 'my-app',
-        templateUrl: 'partial/appComponent'
+        selector: "my-app",
+        templateUrl: "partial/AppComponent"
     }),
     __metadata("design:paramtypes", [router_1.Router, platform_browser_1.Title, http_1.Http, auth_service_1.AuthService])
 ], AppComponent);

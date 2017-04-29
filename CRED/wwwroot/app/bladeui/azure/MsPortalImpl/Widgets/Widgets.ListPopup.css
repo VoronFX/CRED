@@ -1,0 +1,35 @@
+.fxs-listpopup {
+            display: inline-block;
+            cursor: default;
+            position: absolute;
+            left: 0;
+            width: 200px;
+            max-height: 300px;
+            z-index: 200;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+            .fxs-listpopup .fxs-listpopup-list {
+                list-style-type: none;
+                margin: 10px;
+                padding: 0;
+                max-height: 300px;
+            }
+
+                .fxs-listpopup .fxs-listpopup-list .fxs-listpopup-item {
+                    padding: 3px 10px 5px;
+                    height: 22px;
+                    max-height: 22px;
+                    margin: 0;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                    .fxs-listpopup .fxs-listpopup-list .fxs-listpopup-item.fxs-listpopup-item-selected {
+                        padding-right: 10px;
+                        padding-left: 7px;
+                        border-left-width: 3px;
+                        border-left-style: solid;
+                    }

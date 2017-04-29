@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED", "CRED\CRED.csproj", "{652117CF-7954-4981-B243-74EF58572927}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pso2Reparser", "Utilities\Pso2Reparser\Pso2Reparser.csproj", "{F21F3518-21AA-4160-81A0-51369944193C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePortalExtractor", "Utilities\AzurePortalExtractor\AzurePortalExtractor.csproj", "{0A9F899D-CBC0-40B8-AFDF-AAC032784173}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +25,24 @@ Global
 		{652117CF-7954-4981-B243-74EF58572927}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{652117CF-7954-4981-B243-74EF58572927}.Release|Any CPU.Build.0 = Release|Any CPU
 		{652117CF-7954-4981-B243-74EF58572927}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F21F3518-21AA-4160-81A0-51369944193C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21F3518-21AA-4160-81A0-51369944193C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21F3518-21AA-4160-81A0-51369944193C}.PublishRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{F21F3518-21AA-4160-81A0-51369944193C}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
+		{F21F3518-21AA-4160-81A0-51369944193C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21F3518-21AA-4160-81A0-51369944193C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A9F899D-CBC0-40B8-AFDF-AAC032784173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A9F899D-CBC0-40B8-AFDF-AAC032784173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A9F899D-CBC0-40B8-AFDF-AAC032784173}.PublishRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9F899D-CBC0-40B8-AFDF-AAC032784173}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
+		{0A9F899D-CBC0-40B8-AFDF-AAC032784173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9F899D-CBC0-40B8-AFDF-AAC032784173}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F21F3518-21AA-4160-81A0-51369944193C} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
+		{0A9F899D-CBC0-40B8-AFDF-AAC032784173} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
 	EndGlobalSection
 EndGlobal

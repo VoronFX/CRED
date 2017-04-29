@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { Router } from "@angular/router";
 
-import { Http, Response, Headers } from '@angular/http';
-import { AuthService } from './security/auth.service';
+import { Http, Response, Headers } from "@angular/http";
+import { AuthService } from "./security/auth.service";
 
 @Component({
-    selector: 'my-app',
-    templateUrl: 'partial/appComponent'
+    selector: "my-app",
+    templateUrl: "partial/AppComponent"
 })
 
 export class AppComponent {
-    angularClientSideData = 'Angular';
+    angularClientSideData = "Angular";
 
     public constructor(private router: Router, private titleService: Title, private http: Http, private authService: AuthService) { }
 
@@ -27,13 +27,13 @@ export class AppComponent {
 
     // tell the server that the user wants to logout; clears token from server, then calls auth.service to clear token locally in browser
     public logout() {
-        this.http.get('connect/logout', { headers: this.authService.authJsonHeaders() })
+        this.http.get("connect/logout", { headers: this.authService.authJsonHeaders() })
             .subscribe(response => {
                 console.log(response);
                 // clear token in browser
                 this.authService.logout();
                 // return to 'home' page
-                this.router.navigate(['home']);
+                this.router.navigate(["home"]);
             },
             error => {
                 // failed; TODO: add some nice toast / error handling

@@ -1,0 +1,70 @@
+.fxc-createActionBar,
+            .fxc-createActionBar .fxc-createActionBar-checkbox-outer .fxc-createActionBar-label {
+                font-size: 12px;
+                font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            }
+
+                .fxc-createActionBar,
+                .fxc-createActionBar .fxc-createActionBar-checkbox-outer .fxc-createActionBar-label,
+                .fxc-createActionBar .fxc-createActionBar-eula {
+                    font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                }
+
+            .fxc-createActionBar {
+                line-height: 18px;
+            }
+
+                .fxc-createActionBar .fxc-createActionBar-checkbox-outer {
+                    margin-bottom: 20px;
+                }
+
+                    .fxc-createActionBar .fxc-createActionBar-checkbox-outer .fxc-createActionBar-checkbox {
+                        display: inline-block;
+                        margin: 0 6px 0 2px;
+                    }
+
+                    .fxc-createActionBar .fxc-createActionBar-checkbox-outer .fxc-createActionBar-label {
+                        line-height: 12px;
+                    }
+
+                .fxc-createActionBar .fxs-createActionBar-dropDown {
+                    margin-bottom: 20px;
+                    min-width: 215px;
+                    max-width: 50%;
+                }
+
+                .fxc-createActionBar .fxc-createActionBar-eula {
+                    padding: 10px 0 0 2px;
+                    font-size: 11px;
+                    line-height: 11px;
+                }
+
+                .fxc-createActionBar .fxc-createActionBar-secondaryLink {
+                    margin-left: 15px;
+                }
+
+                .fxc-createActionBar .fxc-createActionBar-okButton {
+                    position: relative;
+                }
+
+                    .fxc-createActionBar .fxc-createActionBar-okButton .fxc-createActionBar-externalLink {
+                        display: inline-block;
+                        margin: 0 0 0 5px;
+                        height: 10px;
+                        width: 10px;
+                    }
+
+                .fxc-createActionBar.fxc-createActionBar-secondaryLink-bottombanner {
+                    margin-bottom: 25px;
+                }
+
+                    .fxc-createActionBar.fxc-createActionBar-secondaryLink-bottombanner .fxc-createActionBar-secondaryLink {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        height: 25px;
+                        line-height: 25px;
+                        margin: 0;
+                        padding: 0 25px;
+                    }

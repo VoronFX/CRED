@@ -1,0 +1,324 @@
+.fxs-lens > .fxs-lens-title-container > button:hover:not(:disabled) .fxs-lens-button-addparts-icon,
+        .fxs-lens > .fxs-lens-title-container > button:hover:not(:disabled) .fxs-lens-button-addparts-title,
+        .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer .fxs-lens-footer-customize:hover:not(:disabled) .fxs-lens-footer-customize-icon,
+        .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer .fxs-lens-footer-customize:hover:not(:disabled) .fxs-lens-footer-customize-text {
+            opacity: 1;
+        }
+
+        .fxs-lens {
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+            .fxs-lens > .fxs-lens-title-container {
+                display: -webkit-flex;
+                display: flex;
+                -webkit-align-items: center;
+                align-items: center;
+                height: 30px;
+            }
+
+                .fxs-lens > .fxs-lens-title-container > .fxs-lens-title {
+                    -webkit-flex: 1 1 auto;
+                    flex: 1 1 auto;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    margin: 0;
+                    font-family: az_ea_font, wf_segoe-ui_light, "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                    font-size: 14px;
+                    line-height: 30px;
+                }
+
+                .fxs-lens > .fxs-lens-title-container > button {
+                    cursor: pointer;
+                    border: 0;
+                    margin: 0;
+                    padding: 5px;
+                    background-color: transparent;
+                    transition: opacity .2s ease-out;
+                }
+
+                    .fxs-lens > .fxs-lens-title-container > button img,
+                    .fxs-lens > .fxs-lens-title-container > button svg {
+                        height: 16px;
+                        width: 16px;
+                        fill: #5d6567;
+                    }
+
+                        .fxs-lens > .fxs-lens-title-container > button img .msportalfx-svg-circle,
+                        .fxs-lens > .fxs-lens-title-container > button svg .msportalfx-svg-circle {
+                            display: none;
+                        }
+
+                    .fxs-lens > .fxs-lens-title-container > button:hover:not(:disabled) .fxs-lens-button-addparts-icon svg,
+                    .fxs-lens > .fxs-lens-title-container > button:hover:not(:disabled) .fxs-lens-button-addparts-title svg {
+                        fill: #fff;
+                    }
+
+                    .fxs-lens > .fxs-lens-title-container > button:hover:not(:disabled) .msportalfx-svg-circle {
+                        fill: #09f;
+                        display: block;
+                    }
+
+                .fxs-lens.fxs-lens-fit > .fxs-lens-title,
+                .fxs-lens > .fxs-lens-title-container > .fxs-lens-button-addparts,
+                .fxs-lens > .fxs-lens-title-container > .fxs-lens-button-remove,
+                .fxs-lens > .fxs-lens-title-container > .fxs-lens-input-title,
+                .fxs-lens > .fxs-lens-title-container > .fxs-lens-title-spacer,
+                .fxs-lens > .fxs-lens-title-container > .fxs-stacklayout-child-move-next,
+                .fxs-lens > .fxs-lens-title-container > .fxs-stacklayout-child-move-previous {
+                    display: none;
+                }
+
+                .fxs-lens > .fxs-lens-title-container > .fxs-lens-title-hr {
+                    -webkit-flex: 1 1 auto;
+                    flex: 1 1 auto;
+                    display: none;
+                    border-top-width: 1px;
+                    border-top-style: solid;
+                    border-color: inherit;
+                }
+
+                .fxs-lens > .fxs-lens-title-container > .fxs-lens-button-collapse {
+                    -webkit-flex: 0 0 auto;
+                    flex: 0 0 auto;
+                }
+
+            .fxs-lens.fxs-lens-fit {
+                padding-bottom: 0;
+                height: 100%;
+            }
+
+                .fxs-lens.fxs-lens-fit > .fxs-lens-layout {
+                    height: 100%;
+                }
+
+            .fxs-lens > .fxs-lens-footer {
+                height: 0;
+                overflow: hidden;
+            }
+
+        .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer {
+            display: block;
+            height: 30px;
+            margin: 8px 0;
+            background: rgba(0, 0, 0, .1);
+            text-align: center;
+        }
+
+            .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer .fxs-lens-footer-customize {
+                cursor: pointer;
+                border: 0;
+                margin: 0;
+                padding: 7px;
+                background-color: transparent;
+                transition: opacity .2s ease-out;
+                width: 100%;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-justify-content: center;
+                justify-content: center;
+            }
+
+                .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer .fxs-lens-footer-customize img,
+                .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer .fxs-lens-footer-customize svg {
+                    height: 16px;
+                    width: 16px;
+                    fill: #5d6567;
+                }
+
+                    .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer .fxs-lens-footer-customize img .msportalfx-svg-circle,
+                    .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer .fxs-lens-footer-customize svg .msportalfx-svg-circle {
+                        display: none;
+                    }
+
+                .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer .fxs-lens-footer-customize:hover:not(:disabled) svg {
+                    fill: #fff;
+                }
+
+                .fxs-stacklayout-vertical .fxs-lens:last-child .fxs-lens-footer .fxs-lens-footer-customize:hover:not(:disabled) .msportalfx-svg-circle {
+                    fill: #09f;
+                    display: block;
+                }
+
+        .fxs-desktop-organize .fxs-blade .fxs-lens > .fxs-lens-title-container > .fxs-lens-button-collapse,
+        .fxs-desktop-organize .fxs-blade:not(.fxs-blade-maximized):not(.fxs-blade-locked) .fxs-lens > .fxs-lens-title-container > .fxs-lens-title {
+            display: none;
+        }
+
+        .fxs-lens-footer-customize-icon,
+        .fxs-lens-footer-customize-text {
+            color: #5d6567;
+            height: 16px;
+            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 14px;
+            padding-left: 5px;
+            opacity: .8;
+        }
+
+        .fxs-bladestyle-create .fxs-lens.fxs-lens-fit {
+            width: calc(100% + 2*25px);
+            margin-left: -25px;
+        }
+
+        .fxs-desktop-organize .fxs-blade .fxs-lens > .fxs-lens-footer {
+            height: 0;
+            transition: height .1ms;
+        }
+
+        .fxs-desktop-organize .fxs-blade:not(.fxs-blade-maximized):not(.fxs-blade-locked) .fxs-lens > .fxs-lens-title-container > .fxs-lens-input-title {
+            display: block;
+            height: 23px;
+            box-sizing: border-box;
+            padding: 0 5px;
+            border-width: 1px;
+            border-style: solid;
+            -webkit-flex: 0 0 175px;
+            flex: 0 0 175px;
+            font-family: az_ea_font, wf_segoe-ui_light, "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .fxs-desktop-organize .fxs-blade:not(.fxs-blade-maximized):not(.fxs-blade-locked) .fxs-lens > .fxs-lens-title-container > .fxs-lens-title-spacer {
+            display: block;
+            -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }
+
+        .fxs-desktop-organize .fxs-blade:not(.fxs-blade-maximized):not(.fxs-blade-locked) .fxs-lens > .fxs-lens-title-container > .fxs-lens-button-remove,
+        .fxs-desktop-organize .fxs-blade:not(.fxs-blade-maximized):not(.fxs-blade-locked):not(.fxs-blade-withcolumns) .fxs-lens > .fxs-lens-title-container > .fxs-stacklayout-child-move-next,
+        .fxs-desktop-organize .fxs-blade:not(.fxs-blade-maximized):not(.fxs-blade-locked):not(.fxs-blade-withcolumns) .fxs-lens > .fxs-lens-title-container > .fxs-stacklayout-child-move-previous {
+            display: block;
+            -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+        }
+
+        .fxs-blade.fxs-blade-partmanagement-enabled .fxs-lens .fxs-lens-button-addparts {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+            margin-right: -5px;
+        }
+
+            .fxs-blade.fxs-blade-partmanagement-enabled .fxs-lens .fxs-lens-button-addparts .fxs-lens-button-addparts-icon,
+            .fxs-blade.fxs-blade-partmanagement-enabled .fxs-lens .fxs-lens-button-addparts .fxs-lens-button-addparts-title {
+                color: #5d6567;
+                height: 16px;
+                font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 14px;
+                line-height: 14px;
+                padding-left: 5px;
+                opacity: .8;
+            }
+
+        .fxs-lens.fxs-lens-collapsed > .fxs-lens-layout {
+            display: none;
+        }
+
+        .fxs-blade:not(.fxs-blade-locked) .fxs-lens.fxs-lens-collapsed .fxs-lens-title-hr {
+            display: block;
+        }
+
+        .fxs-blade:not(.fxs-blade-locked) .fxs-lens.fxs-lens-collapsed .fxs-lens-button-collapse {
+            -webkit-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+        }
+
+        .fxs-blade:not(.fxs-blade-locked) .fxs-lens-button-collapse:hover {
+            background: rgba(0, 0, 0, .1);
+        }
+
+        .fxs-blade .fxs-lens .fxs-lens-button-collapse {
+            display: none;
+        }
+
+        .fxs-blade.fxs-blade-withcolumns .fxs-lens.fxs-stacklayout-child:not(:first-child) .fxs-lens-button-collapse {
+            display: block;
+        }
+
+        .fxs-blade-summary-container .fxs-lens .fxs-lens-title-container,
+        .fxs-blade-summary-container .fxs-lens .fxs-tile .fxs-part .fxs-part-title {
+            display: none;
+        }
+
+        .fxs-blade.fxs-blade-withcolumns .fxs-lens.fxs-stacklayout-child:not(:first-child).fxs-lens-collapsed > .fxs-lens-title-container {
+            height: 100%;
+        }
+
+            .fxs-blade.fxs-blade-withcolumns .fxs-lens.fxs-stacklayout-child:not(:first-child).fxs-lens-collapsed > .fxs-lens-title-container > .fxs-lens-title {
+                -webkit-flex: 0 0 auto;
+                flex: 0 0 auto;
+                -webkit-transform: rotate(90deg) translateX(50%) translateX(-25px);
+                transform: rotate(90deg) translateX(50%) translateX(-25px);
+            }
+
+        .fxs-blade-locked .fxs-stacklayout-child:last-child.fxs-lens {
+            padding-bottom: 0;
+        }
+
+        .fxs-blade:not(.fxs-blade-locked) .fxs-lens > .fxs-lens-title-container > .fxs-lens-title::after {
+            content: '\0000a0';
+        }
+
+        .fxs-blade:not(.fxs-blade-locked) .fxs-lens.fxs-lens-fit {
+            padding-top: 15px;
+        }
+
+        .fxs-blade-locked .fxs-blade-stacklayout.fxs-stacklayout-vertical .fxs-lens > .fxs-lens-title-container {
+            height: auto;
+        }
+
+        .fxs-blade-stacklayout.fxs-stacklayout-horizontal .fxs-lens > .fxs-lens-layout {
+            height: calc(100% - 30px);
+        }
+
+        .fxs-bladestyle-hub .fxs-blade-summary-container,
+        .fxs-bladestyle-hubsubmenu .fxs-blade-summary-container {
+            border: none;
+        }
+
+        .fxs-blade-summary-container {
+            position: relative;
+            overflow: hidden;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+        }
+
+            .fxs-blade-summary-container .fxs-lens {
+                padding-bottom: 0;
+                border-top-width: 1px;
+                border-top-style: solid;
+            }
+
+                .fxs-blade-summary-container .fxs-lens .fxs-tile {
+                    min-height: 40px;
+                    width: 100% !important;
+                    height: auto;
+                }
+
+                    .fxs-blade-summary-container .fxs-lens .fxs-tile .fxs-tile-progress {
+                        top: 40px;
+                        height: calc(100% - 40px);
+                        overflow: hidden;
+                    }
+
+                    .fxs-blade-summary-container .fxs-lens .fxs-tile .fxs-part {
+                        padding: 0;
+                        box-shadow: none !important;
+                    }
+
+                        .fxs-blade-summary-container .fxs-lens .fxs-tile .fxs-part.fxs-part-part-title-visible .fxs-part-content {
+                            top: 0;
+                        }
+
+                        .fxs-blade-summary-container .fxs-lens .fxs-tile .fxs-part .fxs-part-blockui-shield {
+                            top: 40px;
+                        }
+
+                    .fxs-blade-summary-container .fxs-lens .fxs-tile .fxs-tile-actionbar {
+                        visibility: hidden;
+                    }

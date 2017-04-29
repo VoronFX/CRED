@@ -1,0 +1,9 @@
+.fxc-button.azc-button {
+                font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            }
+
+                .fxc-button.azc-button.azc-button-disabled,
+                .fxc-button.azc-button.azc-button-disabled:focus,
+                .fxc-button.azc-button.azc-button-disabled:hover {
+                    outline: 0;
+                }

@@ -1,0 +1,92 @@
+.fxs-part-quotagauge .fxs-part-quotagauge-gaugecontainer {
+                height: 105px;
+                width: 105px;
+            }
+
+            .fxs-part-quotagauge-size-normal .fxc-quotaGauge {
+                height: 100px;
+                width: 100px;
+                margin-left: 22px;
+            }
+
+            .fxs-part-quotagauge-size-wide .fxc-quotaGauge {
+                float: left;
+                height: 100px;
+                width: 100px;
+                margin-left: 22px;
+            }
+
+            .fxs-part-quotagauge-size-wide .fxs-part-quotagauge-metrics.azc-metrics .azc-metrics-vertical {
+                height: 100%;
+            }
+
+            .fxs-part-quotagauge-size-wide .fxs-part-quotagauge-metrics {
+                float: left;
+                margin-left: 22px;
+            }
+
+            .fxs-part-quotagauge-size-tall .fxc-quotaGauge {
+                height: 146px;
+                width: 146px;
+                clear: both;
+            }
+
+            .fxs-part-quotagauge-size-tall .fxs-part-quotagauge-metrics {
+                margin-top: 22px;
+            }
+
+            .fxs-part-quotagauge-size-large .fxc-quotaGauge {
+                height: 220px;
+                width: 220px;
+                clear: both;
+                margin-left: 52px;
+            }
+
+            .fxs-part-quotagauge-size-large .fxs-part-quotagauge-metrics .azc-metrics-horizontal {
+                margin-top: 15px;
+            }
+
+            .fxs-part-quotagauge-size-herotall .fxc-quotaGauge {
+                height: 254px;
+                width: 254px;
+                clear: both;
+                margin-left: 35px;
+            }
+
+            .fxs-part-quotagauge-size-herotall .fxs-part-quotagauge-metrics {
+                height: 45%;
+                width: 100%;
+                padding-top: 19px;
+                padding-left: 35px;
+            }
+
+                .fxs-part-quotagauge-size-herotall .fxs-part-quotagauge-metrics .azc-metrics-vertical {
+                    height: 179px;
+                    margin-top: 7px;
+                }
+
+            .fxs-part-quotagauge-size-herowide .fxc-quotaGauge {
+                height: 254px;
+                width: 254px;
+                float: left;
+                margin-left: 35px;
+            }
+
+            .fxs-part-quotagauge-size-herowide .fxs-part-quotagauge-metrics {
+                float: left;
+                height: calc(100% - 2px);
+                padding: 2px 15px 0;
+                overflow: hidden;
+            }
+
+            .fxs-part-quotagauge-bar-current {
+                background-color: #00bcf2;
+            }
+
+            .fxs-part-quotagauge-bar-background {
+                background-color: #dcdfe2;
+            }
+
+            .fxs-part-quotagauge-bar-total {
+                background-color: #9cd5f4;
+            }

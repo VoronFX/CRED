@@ -1,0 +1,22 @@
+.fxc-genericactionbar .fxc-genericactionbar-checkbox-outer,
+            .fxc-genericactionbar .fxc-genericactionbar-summary {
+                margin-bottom: 20px;
+            }
+
+            .fxc-genericactionbar {
+                font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 12px;
+                line-height: 18px;
+            }
+
+                .fxc-genericactionbar .fxc-genericactionbar-checkbox-outer .fxc-genericactionbar-label,
+                .fxc-genericactionbar .fxc-genericactionbar-summary {
+                    font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                    font-size: 12px;
+                    line-height: 12px;
+                }
+
+                .fxc-genericactionbar .fxc-genericactionbar-checkbox-outer .fxc-genericactionbar-checkbox {
+                    display: inline-block;
+                    margin: 0 6px 0 2px;
+                }

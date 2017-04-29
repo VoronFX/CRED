@@ -1,14 +1,14 @@
-﻿import { Component } from '@angular/core';
-import { Title }     from '@angular/platform-browser';
-import { Router } from '@angular/router';
+﻿import { Component } from "@angular/core";
+import { Title }     from "@angular/platform-browser";
+import { Router } from "@angular/router";
 
-import { Http } from '@angular/http';
-import { AuthService } from './security/auth.service';
-import { LoginViewModel } from './models/LoginViewModel';
+import { Http } from "@angular/http";
+import { AuthService } from "./security/auth.service";
+import { LoginViewModel } from "./models/LoginViewModel";
 
 @Component({
-    selector: 'login',
-    templateUrl: 'partial/loginComponent'
+    selector: "login",
+    templateUrl: "partial/LoginComponent"
 })
 
 export class LoginComponent {
@@ -28,13 +28,13 @@ export class LoginComponent {
     login(event: Event): void {
         this.authService.logout();
         event.preventDefault();
-        let body = 'username=' + this.loginViewModel.email + '&password=' + this.loginViewModel.password + '&grant_type=password';
+        let body = "username=" + this.loginViewModel.email + "&password=" + this.loginViewModel.password + "&grant_type=password";
 
-        this.http.post('connect/token', body, { headers: this.authService.contentHeaders() })
+        this.http.post("connect/token", body, { headers: this.authService.contentHeaders() })
             .subscribe(response => {
                 // success, save the token to session storage
                 this.authService.login(response.json());
-                this.router.navigate(['about']);
+                this.router.navigate(["about"]);
             },
             error => {
                 // failed; TODO: add some nice toast / error handling

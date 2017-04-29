@@ -1,0 +1,133 @@
+﻿
+<div class="fxs-sidebar-bar">
+    <button class="fxs-sidebar-collapse-button fxs-has-hover" data-bind="image: MsPortalFx.Base.Images.Hamburger()"> </button> <!-- ko if: data.cloudOptions().length > 1 -->
+    <div class="fxs-sidebar-cloudFilter" data-bind='formElement: func.cloudDropDown'></div> <!-- /ko -->
+    <button class="fxs-sidebar-create fxs-has-hover fxs-has-border" data-bind="attr: { title: data.createTooltip }">
+        <div class="fxs-sidebar-button-flex">
+            <div class="fxs-sidebar-create-icon fxs-fill-success" data-bind="image: MsPortalFx.Base.Images.Plus()"></div>
+            <div class="fxs-sidebar-create-label fxs-sidebar-show-if-expanded" data-bind="text: data.createText"></div>
+        </div>
+    </button>
+    <ul class="fxs-sidebar-favorites fxs-scrollbar-transparent fxs-scrollbar-default-hover">
+        <!-- ko foreach: data.favorites --> <!-- ko if: $data && typeof($data) !== "string" && $data.cloudName === $root.data.selectedCloud() -->
+        <li class="fxs-sidebar-item fxs-has-hover fxs-sidebar-draggable fxs-sidebar-droppable fxs-has-border" draggable="true">
+            <div class="fxs-sidebar-handle fxs-fill-secondary" data-bind="image: MsPortalFx.Base.Images.Ellipsis()"></div>
+            <a href="" class="fxs-sidebar-item-link" data-bind="attr: { href: uri }">
+                <div class="fxs-sidebar-icon" data-bind="image: image, attr: { title: label }"></div>
+                <div class="fxs-sidebar-label fxs-sidebar-show-if-expanded" data-bind="text: label, attr: { title: label }"></div>
+                <div class="fxs-sidebar-external fxs-sidebar-show-if-expanded">
+                    <div class="fxs-fill-secondary" data-bind="image: MsPortalFx.Base.Images.Hyperlink(), visible: opensExternal"></div>
+                </div>
+            </a>
+        </li> <!-- /ko --> <!-- /ko -->
+        <li>
+            <button class="fxs-sidebar-browse fxs-has-hover" data-bind="attr: { title: data.browseTooltip }">
+                <div class="fxs-sidebar-button-flex">
+                    <div class="fxs-sidebar-browse-label fxs-sidebar-show-if-expanded" data-bind="text: data.browseText"></div>
+                    <div class="fxs-sidebar-browse-icon" data-bind="image: MsPortalFx.Base.Images.CaretUp()"></div>
+                </div>
+            </button>
+        </li>
+    </ul>
+</div>
+<div class="fxs-sidebar-flyout fxs-popup fxs-sidebar-flyout-is-hidden">
+    <div class="fxs-sidebar-browse-flyout">
+        <div class="fxs-sidebar-flyout-header">
+            <button class="fxs-sidebar-flyout-close fxs-fill-secondary" data-bind="image: MsPortalFx.Base.Images.Shell.Close()"></button>
+        </div>
+        <div class="fxs-sidebar-content">
+            <input class="fxs-sidebar-filter-input fxs-input fxs-input-default" data-bind="attr: { placeholder: data.placeholder }" type="text" />
+        </div>
+        <ul class="fxs-sidebar-possible-favorites fxs-scrollbar-transparent fxs-scrollbar-default-hover">
+            <!-- ko foreach: data.possibleFavorites --> <!-- ko if: typeof($data) !== "string" && $data.cloudName === $root.data.selectedCloud() -->
+            <li class="fxs-sidebar-item fxs-has-hover" data-bind="css: { 'fxs-sidebar-hide': isFilteredOut() }">
+                <a href="" class="fxs-sidebar-item-link" data-bind="attr: { href: uri }">
+                    <div class="fxs-sidebar-icon" data-bind="image: image"></div>
+                    <div class="fxs-sidebar-label" data-bind="text: label, attr: { title: label }"></div> <!-- ko if: $data.isPreview -->
+                    <span class="fxc-preview fxcontrol-preview" data-bind="text: $root.data.previewText, attr: { title: $root.data.previewText }"></span> <!-- /ko -->
+                    <div class="fxs-sidebar-external" data-bind="visible: opensExternal">
+                        <div class="fxs-fill-secondary" data-bind="image: MsPortalFx.Base.Images.Hyperlink(), visible: opensExternal"></div>
+                    </div>
+                </a>
+                <div class="fxs-sidebar-star" data-bind="image: MsPortalFx.Base.Images.Star(), css: {'fxs-is-favorite': isFavorite}"></div>
+            </li> <!-- /ko --> <!-- /ko -->
+        </ul>
+    </div>
+</div>
+
+<header class="fxs-blade-header fxs-header" data-bind="css: { 'fxs-blade-disabled': data.disabled, 'fxs-blade-header-hideCommandBarLabels': !data.showCommandBarLabels(), 'fxs-blade-title-image-visible': func._shouldShowTitleImage }, attr: { tabindex: data.tabIndex }">
+    <div class="fxs-blade-progress-translucent" data-bind="visible: data.showTranslucentSpinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="fxs-blade-statusbar-wrapper fxs-text-white">
+        <div class="fxs-blade-statusbar msportalfx-tooltip-overflow">
+            <!-- ko ifnot: data.loaded -->
+            <div class="fxs-blade-statusbar-text fxs-blade-loading-status" data-bind="text: data.text.loading"></div> <!-- /ko -->
+            <div class="fxs-blade-actions" data-bind="visible: data.loaded">
+                <button type="button" class="fxs-blade-pin" data-bind="enable: data.pinActionEnabled, visible: data.pinActionEnabled, attr: { title: data.text.pin }, image: data.icons.pin"></button>
+                <button type="button" class="fxs-blade-minimize" data-bind="enable: data.minimizeEnabled, visible: data.minimizeEnabled, attr: { title: data.text.minimize }, image: data.icons.minimize"></button>
+                <button type="button" class="fxs-blade-maximizeOrRestore" data-bind="enable: data.maximizeOrRestoreEnabled, visible: data.maximizeOrRestoreEnabled, attr: { title: data.maximizeOrRestoreText }, image: data.icons.maximizeOrRestore"></button>
+                <button type="button" class="fxs-blade-close" data-bind="attr: { title: data.text.close }, image: data.icons.close"></button>
+            </div>
+        </div>
+    </div> <!-- ko if: func._shouldShowTitleImage -->
+    <img class="fxs-blade-title-image" data-bind="attr: { src: data.titleImageUri }" alt="" /> <!-- /ko -->
+    <div class="fxs-blade-title-content">
+        <div class="fxs-blade-title-text-container">
+            <div class="fxs-blade-title" data-bind="css: {'fxs-blade-header-icon': data.showBladeIcon}">
+                <!-- ko if: data.showBladeIcon -->
+                <span class="fxs-blade-header-icon-holder" data-bind="image: data.icon"></span> <!-- /ko -->
+                <div class="fxs-blade-hgroup">
+                    <h2 class="fxs-blade-title-titleText msportalfx-tooltip-overflow" data-bind="text: data.title"></h2>
+                    <h3 class="fxs-text-title msportalfx-tooltip-overflow">
+                        <span data-bind="text: data.subtitle"></span>
+                        <span data-bind="visible: func._showingSubtitleAndPreviewTag"> - </span>
+                        <span data-bind="pcPreviewTag: data.previewTag"></span>
+                    </h3>
+                </div>
+            </div>
+        </div> <!-- ko if: func._shouldShowDescription -->
+        <p class="fxs-blade-title-description">
+            <span data-bind="text: data.description" class="msportalfx-tooltip-overflow"></span>
+            <a class="fxs-blade-title-help-link" data-bind="attr: { href: data.helpUri }, visible: data.helpUri && $.trim(data.helpUri()).length > 0" target="_blank"> <span class="fxs-text-info" data-bind="text: data.text.helpText"></span><span class="fxs-blade-title-help-icon" data-bind="image: data.icons.hyperlink"></span> </a>
+        </p> <!-- /ko -->
+        <div data-bind="stopBindings: true" class="fxs-blade-commandBarContainer">
+            <div class="fxs-commandBar-target"></div>
+        </div>
+    </div>
+</header>
+<div class="fxs-blade-dialoghost" data-bind="stopBindings: true">
+    <div class="fxs-blade-dialog"></div>
+</div>
+<div class="fxs-blade-status-container" data-bind="css: data.getStatusBgClass()">
+    <!-- ko if: data.statusBar.activatable -->
+    <a class="fxs-blade-status-text-button fxs-text-white" data-bind="visible: data.loaded, attr: { title: data.contentStateDisplayText }" href="#"> <span class="fxs-blade-status-icon" data-bind="image: data.statusIcon"></span> <span class="fxs-blade-status-text-button-text" data-bind="text: data.contentStateDisplayText"></span> <span class="fxs-blade-status-arrow" data-bind='image: data.icons.arrowRight'></span> </a> <!-- /ko --> 
+    <!-- ko ifnot: data.statusBar.activatable -->
+    <div class="fxs-blade-status-text-container fxs-text-white">
+        <span class="fxs-blade-status-icon" data-bind="image: data.statusIcon"></span>
+        <span class="fxs-blade-status-text" data-bind="text: data.contentStateDisplayText, attr: { title: data.contentStateDisplayText }"></span>
+    </div> <!-- /ko -->
+</div>
+<div class="fxs-blade-summary-container fxs-has-border"> </div>
+<div tabindex="0" class="fxs-blade-content fxs-pannable fxs-scrollbar-transparent fxs-scrollbar-default-hover">
+    <!--ko ifnot: (data.disabled() || data.unauthorizedNoticeVm()) -->
+    <div class="fxs-blade-stacklayout" data-bind="stopBindings: true"></div> <!-- /ko --> <!--ko if: data.disabled -->
+    <div class="fxs-blade-disabled-message">
+        <div data-bind="image: data.icons.delete"></div>
+        <h2 data-bind="text: data.disabledMessageTitle"></h2>
+        <h3 data-bind="text: data.disabledMessageSubtitle"></h3>
+    </div> <!-- /ko --> <!-- ko if: (data.unauthorizedNoticeVm() && !data.disabled()) -->
+    <div data-bind="pcNotice: data.unauthorizedNoticeVm"></div> <!-- /ko -->
+</div>
+<div class="fxs-blade-actionBar"></div> <!-- ko if: !data.loaded() -->
+<div class="fxs-blade-progress fxs-bg-muted-10">
+    <div class="fxs-blade-progress-dots">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div> <!-- /ko -->

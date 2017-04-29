@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "home",
+      "launchUrl": "a2spa/test",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

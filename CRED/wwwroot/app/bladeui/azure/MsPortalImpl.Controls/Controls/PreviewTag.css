@@ -1,0 +1,11 @@
+.fxc-preview,
+            .fxc-preview-dark {
+                font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 10px;
+                line-height: normal;
+                text-transform: uppercase;
+                margin-top: 3px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }

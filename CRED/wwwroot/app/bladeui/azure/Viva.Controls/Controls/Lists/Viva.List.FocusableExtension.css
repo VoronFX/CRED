@@ -1,0 +1,5 @@
+.azc-list-focusable .azc-list-item:not([aria-disabled=true]):not([aria-selected=true]):focus,
+            .azc-list-focusable .azc-list-item:not([aria-disabled=true]):not([aria-selected=true]):not(:focus):hover {
+                outline-width: 1px;
+                outline-style: solid;
+            }

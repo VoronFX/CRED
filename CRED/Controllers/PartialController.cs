@@ -6,7 +6,9 @@ namespace A2SPA.Controllers
     [SwaggerIgnore]
     public class PartialController : Controller
     {
-        public IActionResult AboutComponent() => PartialView();
+	    public IActionResult Component(string component) => PartialView($"~/Views/Components/{component}.cshtml");
+
+		public IActionResult AboutComponent() => PartialView();
 
         public IActionResult AppComponent() => PartialView();
 

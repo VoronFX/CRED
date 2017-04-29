@@ -1,0 +1,114 @@
+.fxs-part-collectionpart .azc-grid table td[role=gridcell]:first-of-type,
+            .fxs-part-collectionpart .azc-grid table thead tr th:first-child a {
+                padding-left: 15px;
+            }
+
+            .fxs-part-collectionpart .fxs-part-collectionpart-more-data,
+            .fxs-part-collectionpart .fxs-part-collectionpart-rollup-count {
+                font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            }
+
+            .fxs-part-collectionpart .azc-grid table thead tr th {
+                height: 29px;
+                border-top-width: 1px;
+                border-top-style: solid;
+            }
+
+                .fxs-part-collectionpart .azc-grid table thead tr th > a {
+                    line-height: normal;
+                }
+
+            .fxs-part-collectionpart .azc-grid table tbody tr td {
+                height: 27px;
+            }
+
+            .fxs-part-collectionpart .azc-grid table td:last-child,
+            .fxs-part-collectionpart .azc-grid table td:last-of-type {
+                padding-right: 15px;
+            }
+
+            .fxs-part-collectionpart .fxs-part-collectionpart-more-data {
+                text-align: right;
+                font-size: 14px;
+                line-height: 8px;
+            }
+
+            .fxs-part-collectionpart .fxs-part-collectionpart-rollup-container {
+                margin: -6px 0 6px;
+            }
+
+            .fxs-part-collectionpart .fxs-part-collectionpart-rollup-count {
+                font-size: 30px;
+                line-height: 30px;
+                letter-spacing: -.025em;
+            }
+
+            .fxs-part-collectionpart .fxs-part-collectionpart-rollup-label {
+                font-family: az_ea_font, wf_segoe-ui_bold, "Segoe UI Bold", "Segoe WP Bold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 15px;
+                line-height: 15px;
+                letter-spacing: -.02em;
+                margin-left: 4px;
+            }
+
+            .fxs-part-collectionpart .fxs-part-collectionpart-part-title {
+                font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 10px;
+                line-height: 10px;
+                text-transform: uppercase;
+                margin: 5px 0 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: none;
+            }
+
+            .fxs-part-collectionpart .fxs-part-collectionpart-rollup-icon {
+                width: 21px;
+                height: 21px;
+                margin-left: 4px;
+                display: inline-block;
+            }
+
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-mini .fxs-part-collectionpart-rollup-container,
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-small .fxs-part-collectionpart-rollup-container {
+                margin: 0;
+            }
+
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-mini .fxs-part-collectionpart-rollup-label,
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-small .fxs-part-collectionpart-rollup-label {
+                display: none;
+            }
+
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-mini .fxs-part-collectionpart-rollup-count,
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-small .fxs-part-collectionpart-rollup-count {
+                line-height: 25px;
+            }
+
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-mini .fxs-part-collectionpart-no-rollup-count,
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-small .fxs-part-collectionpart-no-rollup-count {
+                width: 30px;
+                height: 30px;
+                margin-left: 0;
+            }
+
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-mini {
+                text-align: center;
+                padding: 5px 6px 0;
+            }
+
+                .fxs-part-collectionpart.fxs-part-collectionpart-size-mini .fxs-part-collectionpart-part-title {
+                    display: block;
+                }
+
+            .fxs-part-collectionpart.fxs-part-collectionpart-size-small {
+                float: right;
+                margin-top: -15px;
+            }
+
+            html[lang^=ja] .fxs-part-collectionpart .fxs-part-collectionpart-part-title,
+            html[lang^=ko] .fxs-part-collectionpart .fxs-part-collectionpart-part-title,
+            html[lang^=zh] .fxs-part-collectionpart .fxs-part-collectionpart-part-title {
+                font-size: 11px;
+                line-height: 11px;
+            }

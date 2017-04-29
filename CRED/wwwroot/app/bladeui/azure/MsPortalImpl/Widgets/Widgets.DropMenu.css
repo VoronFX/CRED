@@ -1,0 +1,158 @@
+.fxs-dropmenu {
+            position: relative;
+            height: 40px;
+            -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+            box-sizing: border-box;
+            z-index: 200;
+        }
+
+        .fxs-dropmenu-button {
+            display: -webkit-flex;
+            display: flex;
+            position: relative;
+            height: 100%;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+        .fx-dropmenu-dropdown .fxs-dropmenu-list-system a {
+            display: -webkit-flex;
+            display: flex;
+        }
+
+        .fx-dropmenu-dropdown .fxs-journeysmenu-journey-nodata {
+            height: 130px;
+            width: 100%;
+        }
+
+            .fx-dropmenu-dropdown .fxs-journeysmenu-journey-nodata .fxs-journeysmenu-journey-nodata-content {
+                font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 12px;
+                line-height: 18px;
+                margin: 0 40px;
+                padding-top: 50px;
+                text-align: center;
+            }
+
+        .fxs-dropmenu-content {
+            position: absolute;
+        }
+
+            .fxs-dropmenu-content ol,
+            .fxs-dropmenu-content ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .fxs-dropmenu-content li {
+                white-space: nowrap;
+            }
+
+                .fxs-dropmenu-content li a {
+                    -webkit-align-items: center;
+                    align-items: center;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    padding: 10px 20px;
+                }
+
+                .fxs-dropmenu-content li button.fxs-journeysMenu-discardButton {
+                    display: -webkit-flex;
+                    display: flex;
+                    -webkit-flex: 0 0 auto;
+                    flex: 0 0 auto;
+                    background: 0 0;
+                    cursor: pointer;
+                    border: 0;
+                    margin-right: 5px;
+                    -webkit-align-items: center;
+                    align-items: center;
+                }
+
+                    .fxs-dropmenu-content li button.fxs-journeysMenu-discardButton img,
+                    .fxs-dropmenu-content li button.fxs-journeysMenu-discardButton svg {
+                        opacity: .2;
+                        height: 15px;
+                        width: 15px;
+                    }
+
+                    .fxs-dropmenu-content li button.fxs-journeysMenu-discardButton:hover img,
+                    .fxs-dropmenu-content li button.fxs-journeysMenu-discardButton:hover svg {
+                        opacity: 1;
+                    }
+
+            .fxs-dropmenu-content .fxs-dropmenu-list-content {
+                -webkit-flex: 1 1 auto;
+                flex: 1 1 auto;
+            }
+
+            .fxs-dropmenu-content .fxs-journeysmenu-journey {
+                display: -webkit-flex;
+                display: flex;
+                -webkit-align-items: center;
+                align-items: center;
+                margin-right: auto;
+            }
+
+            .fxs-dropmenu-content .fxs-journeysmenu-journey-content {
+                -webkit-flex: 0 0 auto;
+                flex: 0 0 auto;
+                padding: 0 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .fxs-dropmenu-content .fxs-dropmenu-image {
+                -webkit-flex: 0 0 auto;
+                flex: 0 0 auto;
+                height: 16px;
+                width: 16px;
+            }
+
+                .fxs-dropmenu-content .fxs-dropmenu-image img,
+                .fxs-dropmenu-content .fxs-dropmenu-image svg {
+                    height: 13px;
+                    width: 13px;
+                }
+
+            .fxs-dropmenu-content .fxs-dropmenu-line-separator {
+                border-top: 1px solid;
+            }
+
+        .fxs-journeysmenu-content {
+            min-width: 450px;
+        }
+
+        .fxs-dropmenu-left {
+            right: 0;
+        }
+
+        .fxs-dropmenu-right {
+            left: 0;
+        }
+
+        .fxs-dropmenu-hidden {
+            display: none;
+        }
+
+        .fxs-dropmenu-invisible {
+            visibility: hidden;
+        }
+
+        .fxs-journeysmenu-list {
+            display: -webkit-flex;
+            display: flex;
+        }
+
+        .fxs-journeysmenu-journey-wrapper {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }

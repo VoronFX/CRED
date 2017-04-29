@@ -1,0 +1,34 @@
+.azc-grid-activateableRow table tbody tr[role=row].azc-grid-virtualFocus td[data-activatable=true],
+            .azc-grid-activateableRow table tbody tr[role=row]:not([aria-disabled=true]):hover td[data-activatable=true],
+            .azc-grid-activateableRow table.azc-grid-activateonselected tbody tr[role=row].azc-grid-virtualFocus,
+            .azc-grid-activateableRow table.azc-grid-activateonselected tbody tr[role=row]:not([aria-disabled=true]):hover,
+            .azc-grid-link {
+                cursor: pointer;
+            }
+
+            .azc-grid-activateableRow table tbody tr[role=row] td[data-activatable=true] {
+                font-family: wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-weight: 400;
+            }
+
+            .azc-grid-activateableRow table tbody tr[role=row].azc-grid-virtualFocus:first-of-type td.azc-grid-selectableRow-selectionCell,
+            .azc-grid-activateableRow table tbody tr[role=row]:not([aria-disabled=true]):hover:first-of-type td.azc-grid-selectableRow-selectionCell {
+                border-top-width: 1px;
+            }
+
+            .azc-grid-activateableRow table tbody tr[role=row].azc-grid-virtualFocus td.azc-grid-selectableRow-selectionCell,
+            .azc-grid-activateableRow table tbody tr[role=row]:not([aria-disabled=true]):hover td.azc-grid-selectableRow-selectionCell {
+                border-width: 0 1px 1px;
+                border-style: solid;
+            }
+
+                .azc-grid-activateableRow table tbody tr[role=row].azc-grid-virtualFocus td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark,
+                .azc-grid-activateableRow table tbody tr[role=row]:not([aria-disabled=true]):hover td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark {
+                    opacity: .5;
+                }
+
+                .azc-grid-activateableRow table tbody tr[role=row].azc-grid-virtualFocus td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark,
+                .azc-grid-activateableRow table tbody tr[role=row].azc-list-selected:not([aria-disabled=true]):hover td.azc-grid-selectableRow-selectionCell .azc-grid-selectableRow-selectionCell-checkMark,
+                .azc-grid-activateableRow table tbody tr[role=row]:not([aria-disabled=true]):hover td.azc-grid-selectableRow-selectionCell:hover .azc-grid-selectableRow-selectionCell-checkMark {
+                    opacity: 1;
+                }

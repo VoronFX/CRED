@@ -1,0 +1,57 @@
+.fxs-tile-actionbar {
+            height: 25px;
+        }
+
+            .fxs-tile-actionbar ul.fxs-tile-actionbar-actionlist {
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-flex-flow: row nowrap;
+                flex-flow: row nowrap;
+                -webkit-justify-content: flex-end;
+                justify-content: flex-end;
+            }
+
+                .fxs-tile-actionbar ul.fxs-tile-actionbar-actionlist > li {
+                    -webkit-flex: 0 0 auto;
+                    flex: 0 0 auto;
+                    height: 25px;
+                    width: 25px;
+                }
+
+                    .fxs-tile-actionbar ul.fxs-tile-actionbar-actionlist > li .fxs-tile-actionbar-action {
+                        box-sizing: border-box;
+                        height: 25px;
+                        width: 25px;
+                        padding: 6px;
+                        border: none;
+                        background-color: transparent;
+                        cursor: pointer;
+                    }
+
+        .fxs-tile .fxs-tile-actionbar {
+            position: absolute;
+            top: -25px;
+            width: 100%;
+            opacity: 0;
+            transition: opacity .1s;
+        }
+
+        .fxs-tile.fxs-tilesize-hero .fxs-tile-actionbar,
+        .fxs-tile.fxs-tilesize-herotall .fxs-tile-actionbar,
+        .fxs-tile.fxs-tilesize-herowide .fxs-tile-actionbar,
+        .fxs-tile.fxs-tilesize-large .fxs-tile-actionbar,
+        .fxs-tile.fxs-tilesize-mini .fxs-tile-actionbar,
+        .fxs-tile.fxs-tilesize-normal .fxs-tile-actionbar,
+        .fxs-tile.fxs-tilesize-small .fxs-tile-actionbar,
+        .fxs-tile.fxs-tilesize-tall .fxs-tile-actionbar,
+        .fxs-tile.fxs-tilesize-wide .fxs-tile-actionbar {
+            cursor: move;
+        }
+
+        .fxs-tile.fxs-tile-selected .fxs-tile-actionbar,
+        .fxs-tile.fxs-tile-selectedfromhover .fxs-tile-actionbar {
+            opacity: 1;
+        }

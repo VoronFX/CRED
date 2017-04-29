@@ -1,0 +1,308 @@
+.fxs-partgallery {
+            width: inherit;
+            height: 100%;
+            box-sizing: border-box;
+            padding: 25px 25px 0;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+        }
+
+            .fxs-partgallery p {
+                line-height: normal;
+            }
+
+            .fxs-partgallery .fxs-partgallery-loading-status {
+                background-image: url(Content/static/blade_loadingprogress.gif);
+                background-repeat: repeat-x;
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                padding: 10px 0 0 50px;
+                font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-size: 10px;
+                line-height: 15px;
+                text-transform: uppercase;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                opacity: .7;
+            }
+
+            .fxs-partgallery .fxs-partgallery-title,
+            .fxs-partgallery .fxs-partgallery-topcontainer .fxs-partgallery-message .fxs-partgallery-message-title {
+                font-family: az_ea_font, wf_segoe-ui_semilight, "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            }
+
+            .fxs-partgallery .fxs-partgallery-loading-status:hover {
+                opacity: 1;
+            }
+
+            .fxs-partgallery .fxs-partgallery-topcontainer {
+                margin: 0;
+                -webkit-flex: 0 0 auto;
+                flex: 0 0 auto;
+                overflow: hidden;
+            }
+
+                .fxs-partgallery .fxs-partgallery-topcontainer .fxs-partgallery-message {
+                    text-align: center;
+                    padding: 0 20px;
+                }
+
+                    .fxs-partgallery .fxs-partgallery-topcontainer .fxs-partgallery-message .fxs-partgallery-message-title {
+                        font-size: 24px;
+                        line-height: 28px;
+                        margin-bottom: 10px;
+                    }
+
+                .fxs-partgallery .fxs-partgallery-topcontainer.fxs-partgallery-failed .fxs-partgallery-categories,
+                .fxs-partgallery .fxs-partgallery-topcontainer.fxs-partgallery-failed .fxs-partgallery-resources,
+                .fxs-partgallery .fxs-partgallery-topcontainer.fxs-partgallery-failed .fxs-partgallery-resourceslabel {
+                    visibility: hidden;
+                }
+
+                .fxs-partgallery .fxs-partgallery-topcontainer .fxs-partgallery-open-relatedresources {
+                    font-size: 12px;
+                    color: #8f9ca8;
+                    float: right;
+                    padding-top: 5px;
+                }
+
+                .fxs-partgallery .fxs-partgallery-topcontainer .fxs-partgallery-relatedresources-label {
+                    font-size: 14px;
+                    padding: 10px 0 5px;
+                }
+
+                .fxs-partgallery .fxs-partgallery-topcontainer .fxs-partgallery-learn-relatedresources {
+                    font-size: 12px;
+                    color: #00bcf2;
+                }
+
+            .fxs-partgallery .fxs-partgallery-title {
+                border: 0;
+                margin: 0;
+                padding-bottom: 20px;
+                font-size: 24px;
+                line-height: normal;
+            }
+
+            .fxs-partgallery .fxs-partgallery-resourceslabel {
+                display: block;
+                padding-bottom: 5px;
+                font-size: 14px;
+            }
+
+            .fxs-partgallery .fxs-partgallery-resources {
+                width: 100%;
+            }
+
+            .fxs-partgallery .fxs-partgallery-categories,
+            .fxs-partgallery .fxs-partgallery-parts {
+                list-style-type: none;
+                padding: 0;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-flex-wrap: wrap;
+                flex-wrap: wrap;
+            }
+
+                .fxs-partgallery .fxs-partgallery-categories > li,
+                .fxs-partgallery .fxs-partgallery-parts > li {
+                    -webkit-flex: 0 0 auto;
+                    flex: 0 0 auto;
+                }
+
+            .fxs-partgallery .fxs-partgallery-pivotlabel {
+                display: block;
+                font-size: 14px;
+                padding-bottom: 2px;
+                margin: 0;
+            }
+
+            .fxs-partgallery .fxs-partgallery-pivotcontainer {
+                padding-bottom: 10px;
+                margin: 0;
+                box-sizing: border-box;
+                min-height: 33px;
+            }
+
+            .fxs-partgallery .fxs-partgallerypivot-search {
+                display: -webkit-flex;
+                display: flex;
+            }
+
+                .fxs-partgallery .fxs-partgallerypivot-search .fxs-partgallerypivot-search-textbox {
+                    -webkit-flex: 1 1 auto;
+                    flex: 1 1 auto;
+                    margin-right: 10px;
+                }
+
+                    .fxs-partgallery .fxs-partgallerypivot-search .fxs-partgallerypivot-search-textbox .azc-textBox,
+                    .fxs-partgallery .fxs-partgallerypivot-search .fxs-partgallerypivot-search-textbox .azc-textBox .azc-input {
+                        display: block;
+                    }
+
+                .fxs-partgallery .fxs-partgallerypivot-search .azc-button {
+                    padding: 0;
+                }
+
+            .fxs-partgallery .fxs-partgallerypivot-tag {
+                display: -webkit-flex;
+                display: flex;
+            }
+
+                .fxs-partgallery .fxs-partgallerypivot-tag .fxs-partgallerypivot-tag-key,
+                .fxs-partgallery .fxs-partgallerypivot-tag .fxs-partgallerypivot-tag-value {
+                    -webkit-flex: 1 1 auto;
+                    flex: 1 1 auto;
+                    width: 50%;
+                }
+
+                .fxs-partgallery .fxs-partgallerypivot-tag .fxs-partgallerypivot-tag-delimiter {
+                    -webkit-flex: 0 0 auto;
+                    flex: 0 0 auto;
+                    padding: 0 5px;
+                }
+
+            .fxs-partgallery .fxs-partgallery-pivottypes {
+                margin: 0 -40px 4px 0;
+                padding: 0;
+                list-style-type: none;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-flex-flow: row wrap;
+                flex-flow: row wrap;
+                -webkit-justify-content: space-between;
+                justify-content: space-between;
+            }
+
+            .fxs-partgallery .fxs-partgallery-partscontainer.fxs-partgallery-failed .fxs-partgallery-parts,
+            .fxs-partgallery .fxs-partgallery-partscontainer.fxs-partgallery-noparts .fxs-partgallery-parts,
+            .fxs-partgallery-general .fxs-partgallery-pivotcontainer,
+            .fxs-partgallery-general .fxs-partgallery-relatedresources-outer,
+            .fxs-partgallery-general .fxs-partgallery-resources,
+            .fxs-partgallery-general .fxs-partgallery-resourceslabel {
+                display: none;
+            }
+
+            .fxs-partgallery .fxs-partgallery-pivottypes > li {
+                -webkit-flex: 0 0 auto;
+                flex: 0 0 auto;
+                font-size: 12px;
+                margin: 0 40px 5px 0;
+            }
+
+            .fxs-partgallery .fxs-partgallery-pivottypes .fxs-partgallery-pivottype {
+                color: #8f9ca8;
+            }
+
+                .fxs-partgallery .fxs-partgallery-categories .fxs-partgallery-category-selected,
+                .fxs-partgallery .fxs-partgallery-categories a:hover,
+                .fxs-partgallery .fxs-partgallery-pivottypes .fxs-partgallery-pivottype.fxs-partgallery-pivottype-selected {
+                    color: #00bcf2;
+                }
+
+            .fxs-partgallery .fxs-partgallery-categories {
+                margin: 10px -15px 0 0;
+            }
+
+                .fxs-partgallery .fxs-partgallery-categories a {
+                    text-decoration: none;
+                }
+
+                .fxs-partgallery .fxs-partgallery-categories > li {
+                    margin: 0 15px 5px 0;
+                    font-family: az_ea_font, wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                    font-size: 14px;
+                    line-height: 18px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    box-sizing: border-box;
+                }
+
+            .fxs-partgallery .fxs-partgallery-partscontainer {
+                overflow-x: hidden;
+                overflow-y: auto;
+                -ms-overflow-style: -ms-autohiding-scrollbar;
+                -webkit-flex: 1 1 auto;
+                flex: 1 1 auto;
+                margin-right: -25px;
+                padding-right: 17px;
+            }
+
+            .fxs-partgallery .fxs-partgallery-parts {
+                margin: 10px -25px 0 0;
+            }
+
+                .fxs-partgallery .fxs-partgallery-parts .fxs-partgallery-part {
+                    width: 85px;
+                }
+
+                    .fxs-partgallery .fxs-partgallery-parts .fxs-partgallery-part .fxs-partgallery-part-name {
+                        font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                        font-size: 13px;
+                        line-height: 16px;
+                        margin-top: 4px;
+                        margin-bottom: 4px;
+                        position: relative;
+                        background-color: inherit;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-height: 32px;
+                    }
+
+                        .fxs-partgallery .fxs-partgallery-parts .fxs-partgallery-part .fxs-partgallery-part-name::after,
+                        .fxs-partgallery .fxs-partgallery-parts .fxs-partgallery-part .fxs-partgallery-part-name::before {
+                            position: absolute;
+                            background-color: inherit;
+                        }
+
+                        .fxs-partgallery .fxs-partgallery-parts .fxs-partgallery-part .fxs-partgallery-part-name::before {
+                            content: '\02026';
+                            top: 16px;
+                            right: 0;
+                        }
+
+                        .fxs-partgallery .fxs-partgallery-parts .fxs-partgallery-part .fxs-partgallery-part-name::after {
+                            content: '';
+                            height: 100%;
+                            width: 100%;
+                        }
+
+                .fxs-partgallery .fxs-partgallery-parts > li {
+                    margin: 0 10px 5px 0;
+                }
+
+        .fxs-partgallery-part-thumbnail {
+            width: 85px;
+            height: 85px;
+            background: #fff;
+        }
+
+            .fxs-partgallery-part-thumbnail.fxs-partgallery-part-thumbnailstretch-none > svg {
+                position: relative;
+                width: 64px;
+                height: 64px;
+                top: calc(50% - 64px/2);
+                left: calc(50% - 64px/2);
+            }
+
+        .fxs-partgallery,
+        .fxs-partgallery .fxs-partgallery-categories,
+        .fxs-partgallery .fxs-partgallery-part,
+        .fxs-partgallery .fxs-partgallery-parts,
+        .fxs-partgallery .fxs-partgallery-parts > li,
+        .fxs-partgallery .fxs-partgallery-partscontainer,
+        .fxs-partgallery-container {
+            background-color: inherit;
+        }
+
+        html[lang^=zh] .fxs-partgallery .fxs-partgallery-loading-status,
+        html[lang^=ja] .fxs-partgallery .fxs-partgallery-loading-status,
+        html[lang^=ko] .fxs-partgallery .fxs-partgallery-loading-status {
+            font-size: 11px;
+        }

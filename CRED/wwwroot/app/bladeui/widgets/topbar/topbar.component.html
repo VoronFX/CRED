@@ -1,0 +1,32 @@
+﻿<div class="fxs-topbar-exit-customize fxs-hide-in-normal">
+    <div class="fxs-topbar-exit-customize-message">{{text.exitCustomizeText}}</div>
+    <button class="fxs-topbar-exit-customize-button fxs-button fxs-button-primary">{{text.exitCustomizeButton}}</button>
+</div>
+<div class="fxs-topbar-dashboard">
+    <div class="fxs-topbar-dashboard-message">{{dashboardMessage}}</div>
+    <button class="fxs-button fxs-button-default fxs-topbar-dashboard-save">{{dashboardSaveButtonText}}</button>
+    <button class="fxs-button fxs-button-default fxs-topbar-dashboard-discard">{{text.discardDashboardButton}}</button>
+</div>
+<div class="fxs-topbar-content fxs-hide-in-customize">
+    <div class="fxs-topbar-internal" [hidden]="!isInteralOnly">{{text.internalText}}</div>
+    <a href="#" class="fxs-topbar-home fxs-has-hover" role="button" title="{{dashboardTooltip}}">{{productName}}</a>
+    <div class="fxs-topbar-journeysmenu" data-bind="stopBindings: true" title="{{journeysTooltip}}"></div>
+
+    <div class="fxs-breadcrumb" data-bind="stopBindings: true"></div>
+    <!-- ko if: data.inDevMode -->
+    <a class="fxs-topbar-exitdevmode fxs-has-hover" href="#" (click)="_exitDevMode" *ngIf="inDevMode">{{text.exitDevModeLinkText}}</a>
+    <!-- /ko -->
+    <!-- ko if: data.canReportBug -->
+    <a href="#" class="fxs-topbar-reportbug fxs-has-hover" (click)="_reportBug" *ngIf="canReportBug">{{text.reportBug}}</a>
+    <!-- /ko -->
+    <div class="fxs-topbar-search" data-bind="stopBindings: true" title="{{searchTooltip}}"></div>
+    <div class="fxs-topbar-notifications" data-bind="stopBindings: true"></div>
+    <a href="#" class="fxs-topbar-customize fxs-topbar-button fxs-has-hover" innerHtml="{{customizeIcon}}" title="{{text.customize}}"></a>
+    <a href="#" class="fxs-topbar-settings fxs-topbar-button fxs-has-hover" [innerHtml]="settingsIcon" title="{{text.settings}}"></a>
+    <a href="#" class="fxs-topbar-settings fxs-topbar-button fxs-has-hover" title="{{text.settings}}">
+        <svg class="msportalfx-svg-placeholder" height="100%" width="100%"><title></title><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#FxSymbol0-004"></use></svg>
+    </a>
+    <a href="#" class="fxs-topbar-feedback fxs-topbar-button fxs-has-hover" innerHtml="{{feedbackIcon}}" title="{{text.feedback}}"></a>
+    <div class="fxs-topbar-helpmenu" data-bind="stopBindings: true" title="{{helpTooltip}}"></div>
+    <div class="fxs-topbar-avatarmenu" data-bind="stopBindings: true"></div>
+</div>

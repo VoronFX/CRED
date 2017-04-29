@@ -1,0 +1,19 @@
+.fxs-debug-context-pane {
+            height: 100%;
+            width: 315px;
+            padding: 30px 25px 20px;
+        }
+
+            .fxs-debug-context-pane .fxs-debughub-extensions,
+            .fxs-debug-context-pane .fxs-debughub-telemetryevents {
+                margin: 0 25px;
+            }
+
+                .fxs-debug-context-pane .fxs-debughub-extensions tr td,
+                .fxs-debug-context-pane .fxs-debughub-telemetryevents tr td {
+                    padding: 8px;
+                }
+
+            .fxs-debug-context-pane .fxs-debughub-addpartbutton {
+                float: right;
+            }

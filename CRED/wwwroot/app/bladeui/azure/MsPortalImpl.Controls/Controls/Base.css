@@ -1,0 +1,18 @@
+.fxc-base-fill-container-width {
+                width: 100%;
+            }
+
+            .fxc-base-fill-container-height {
+                height: 100%;
+            }
+
+            .fxc-base-loading {
+                position: relative;
+                height: 100%;
+            }
+
+                .fxc-base-loading .fxc-base-loadingImage {
+                    position: absolute;
+                    top: calc(50% - 30px / 2);
+                    left: calc(50% - 30px / 2);
+                }

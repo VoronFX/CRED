@@ -1,0 +1,24 @@
+.azc-grid-groupable.azc-grid.azc-grid-headerHidden .azc-grid-groupdata:first-of-type tr.azc-grid-groupheader td {
+                border-top-width: 0;
+            }
+
+            .azc-grid-groupable.azc-grid .azc-grid-groupdata:first-of-type tr.azc-grid-groupheader td {
+                border-top-width: 1px;
+            }
+
+            .azc-grid-groupable.azc-grid .azc-grid-groupdata tr.azc-grid-groupheader td {
+                padding-top: 15px;
+                font-size: 10px;
+                font-family: wf_segoe-ui_semibold, "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                font-weight: 400;
+                text-transform: uppercase;
+                border-top-width: 0;
+            }
+
+            .azc-grid-groupable.azc-grid .azc-grid-groupdata tr.azc-grid-groupheader:hover {
+                background-color: inherit;
+            }
+
+            .azc-grid-groupable.azc-grid .azc-grid-groupdata tr:not(.azc-grid-groupheader) td[role=gridcell]:first-of-type {
+                padding-left: 30px;
+            }

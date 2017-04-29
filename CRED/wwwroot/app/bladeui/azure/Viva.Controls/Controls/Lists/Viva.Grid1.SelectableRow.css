@@ -1,0 +1,75 @@
+.azc-grid-selectableRow:not(.azc-grid-scrollable):not(.azc-grid-hierarchical) table,
+            .azc-grid-selectableRow:not(.azc-grid-scrollable):not(.azc-grid-hierarchical) table tbody,
+            .azc-grid-selectableRow:not(.azc-grid-scrollable):not(.azc-grid-hierarchical) table tbody tr {
+                height: 100%;
+            }
+
+            .azc-grid-selectableRow table colgroup .azc-grid-selectableRow-selectionCell-col {
+                width: 20px;
+                min-width: 20px;
+                max-width: 20px;
+            }
+
+            .azc-grid-selectableRow table thead th.azc-grid-selectableRow-overlay-header {
+                width: 0;
+            }
+
+            .azc-grid-selectableRow table tbody tr td.azc-grid-selectableRow-overlay-cell {
+                overflow: visible;
+                padding: 0;
+                vertical-align: top;
+                width: 0;
+            }
+
+                .azc-grid-selectableRow table tbody tr td.azc-grid-selectableRow-overlay-cell div.azc-grid-selectableRow-overlay-origin {
+                    position: relative;
+                    overflow: visible;
+                    height: 100%;
+                }
+
+                    .azc-grid-selectableRow table tbody tr td.azc-grid-selectableRow-overlay-cell div.azc-grid-selectableRow-overlay-origin div.azc-grid-selectableRow-overlay-container {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                    }
+
+            .azc-grid-selectableRow table tbody tr td.azc-grid-selectableRow-selectionCell {
+                cursor: default;
+                text-align: center;
+                position: relative;
+                padding: 0;
+            }
+
+                .azc-grid-selectableRow table tbody tr td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper {
+                    visibility: hidden;
+                    position: relative;
+                    height: 100%;
+                    width: 100%;
+                }
+
+                    .azc-grid-selectableRow table tbody tr td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper div.azc-grid-selectableRow-selectionCell-checkMark {
+                        top: calc(50% - 8px);
+                        position: absolute;
+                        width: 100%;
+                    }
+
+                        .azc-grid-selectableRow table tbody tr td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper div.azc-grid-selectableRow-selectionCell-checkMark svg {
+                            width: 13px;
+                            height: 13px;
+                        }
+
+            .azc-grid-selectableRow table tbody tr.azc-external-hovered td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper,
+            .azc-grid-selectableRow table tbody tr.azc-list-selected td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper,
+            .azc-grid-selectableRow table tbody tr:not([aria-disabled=true]):focus td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper,
+            .azc-grid-selectableRow table tbody tr:not([aria-disabled=true]):hover td.azc-grid-selectableRow-selectionCell div.azc-grid-selectableRow-selectionCell-wrapper {
+                visibility: visible;
+            }
+
+            .azc-grid-selectableRow table tbody tr td:not(.azc-grid-selectableRow-selectionCell):first-of-type {
+                border-left: none;
+            }
+
+            .azc-grid-selectableRow table tbody tr td.azc-br-muted:last-of-type,
+            .azc-grid-selectableRow table tbody tr td:last-of-type {
+                border-right: none;
+            }

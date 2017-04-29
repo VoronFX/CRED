@@ -16,14 +16,14 @@ var ContactComponent = (function () {
         this.toastrService = toastrService;
     }
     ContactComponent.prototype.showSuccess = function () {
-        this.toastrService.success('Hello world!', 'Toastr fun!');
+        this.toastrService.success("Hello world!", "Toastr fun!");
     };
     return ContactComponent;
 }());
 ContactComponent = __decorate([
     core_1.Component({
-        selector: 'my-contact',
-        templateUrl: 'partial/contactComponent'
+        selector: "my-contact",
+        templateUrl: "partial/ContactComponent"
     }),
     __metadata("design:paramtypes", [ngx_toastr_1.ToastrService])
 ], ContactComponent);

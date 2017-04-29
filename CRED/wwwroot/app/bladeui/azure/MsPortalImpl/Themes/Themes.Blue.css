@@ -1,0 +1,11 @@
+﻿.fxs-theme-blue {
+    background-color: #215b7d
+}
+
+    .fxs-theme-blue .fxs-startboard-button, .fxs-theme-blue .fxs-startboard-header, .fxs-theme-blue .fxs-startboard-message-container {
+        color: #fff
+    }
+
+    .fxs-theme-blue .fxs-startboard-button-icon {
+        fill: #fff
+    }

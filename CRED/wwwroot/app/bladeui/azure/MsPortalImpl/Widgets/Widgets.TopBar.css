@@ -1,0 +1,168 @@
+.fxs-portal .fxs-topbar {
+            height: 40px;
+            position: relative;
+            z-index: 202;
+        }
+
+            .fxs-portal .fxs-topbar.fxs-topbar-devmode {
+                background-color: #ff8c00;
+            }
+
+                .fxs-portal .fxs-topbar.fxs-topbar-devmode .fxs-topbar-exitdevmode {
+                    background-color: rgba(0, 0, 0, .12);
+                }
+
+                .fxs-portal .fxs-topbar.fxs-topbar-devmode .fxs-has-hover:hover {
+                    background-color: rgba(0, 0, 0, .05) !important;
+                }
+
+            .fxs-portal .fxs-topbar .fxs-topbar-journey-icon svg {
+                height: 16px;
+                width: 16px;
+                margin-top: 4px;
+            }
+
+            .fxs-portal .fxs-topbar .fxs-topbar-customize,
+            .fxs-portal .fxs-topbar .fxs-topbar-feedback,
+            .fxs-portal .fxs-topbar .fxs-topbar-helpmenu,
+            .fxs-portal .fxs-topbar .fxs-topbar-notifications,
+            .fxs-portal .fxs-topbar .fxs-topbar-search,
+            .fxs-portal .fxs-topbar .fxs-topbar-settings {
+                border-right: 1px solid rgba(128, 128, 128, .4);
+            }
+
+        .fxs-topbar {
+            font-size: 13px;
+        }
+
+        .fxs-topbar-content {
+            height: 100%;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-content: center;
+            align-content: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .fxs-topbar-exitdevmode,
+        .fxs-topbar-internal,
+        .fxs-topbar-reportbug {
+            display: -webkit-flex;
+            height: 40px;
+            -webkit-flex: 0 0 auto;
+            background-color: #ff8c00;
+        }
+
+        .fxs-topbar-internal {
+            display: flex;
+            width: 85px;
+            flex: 0 0 auto;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+        .fxs-topbar-exitdevmode,
+        .fxs-topbar-reportbug {
+            display: flex;
+            width: auto;
+            flex: 0 0 auto;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+            .fxs-topbar-exitdevmode .fxs-has-hover:hover,
+            .fxs-topbar-reportbug .fxs-has-hover:hover {
+                background-color: rgba(0, 0, 0, .05) !important;
+            }
+
+        .fxs-topbar-home {
+            -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+            font-size: 20px;
+            padding: 0 7px;
+            margin-left: 13px;
+            height: 100%;
+            line-height: 40px;
+        }
+
+        .fxs-topbar-button {
+            display: -webkit-flex;
+            display: flex;
+            height: 40px;
+            width: 40px;
+            -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+            .fxs-topbar-button svg {
+                height: 20px;
+                width: 20px;
+                -webkit-flex: 0 0 auto;
+                flex: 0 0 auto;
+            }
+
+        .fxs-topbar-exit-customize {
+            height: 100%;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }
+
+        .fxs-topbar-exit-customize-message {
+            font-size: 14px;
+        }
+
+        .fxs-topbar-exit-customize-button {
+            -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+            margin-left: 20px;
+        }
+
+        .fxs-topbar-notifications {
+            position: relative;
+        }
+
+        .fxs-topbar-dashboard {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            background-color: red;
+            visibility: hidden;
+        }
+
+        .fxs-desktop-normal .fxs-topbar-dashboard-changed .fxs-topbar-dashboard {
+            visibility: visible;
+        }
+
+        .fxs-desktop-normal .fxs-topbar-dashboard-changed .fxs-topbar-content,
+        .fxs-show-journey.fxs-desktop-normal .fxs-topbar-dashboard-changed .fxs-topbar-dashboard {
+            visibility: hidden;
+        }
+
+        .fxs-show-journey.fxs-desktop-normal .fxs-topbar-dashboard-changed .fxs-topbar-content {
+            visibility: visible;
+        }

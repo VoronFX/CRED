@@ -1,0 +1,14 @@
+.fxs-bladestyle-context .azc-form-labelcontainer,
+            .fxs-hubPane .azc-form-labelcontainer {
+                color: #fff;
+            }
+
+            .azc-checkBoxField.azc-checkBoxField-inlineLabel div.azc-checkBox {
+                display: inline-block;
+                width: auto;
+                vertical-align: middle;
+            }
+
+            .azc-oAuthButton-hidden-textbox {
+                display: none;
+            }

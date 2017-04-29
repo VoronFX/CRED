@@ -1,0 +1,104 @@
+.fxs-flowlayout {
+            position: relative;
+        }
+
+            .fxs-flowlayout > .fxs-flowlayout-childcontainer {
+                position: relative;
+                transition: height .25s linear, width .25s linear 0s;
+            }
+
+                .fxs-flowlayout > .fxs-flowlayout-childcontainer > .fxs-flowlayout-element {
+                    position: absolute;
+                }
+
+                .fxs-flowlayout > .fxs-flowlayout-childcontainer > .fxs-flowlayout-drop-placeholder {
+                    position: absolute;
+                    background: rgba(0, 0, 0, .2);
+                }
+
+        .fxs-flowlayout-resolutionguide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            color: #fff;
+            border-color: #fff;
+            opacity: .7;
+            border-width: 1px;
+            border-right-style: dashed;
+            border-bottom-style: dashed;
+            pointer-events: none;
+            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 13px;
+            line-height: normal;
+        }
+
+            .fxs-flowlayout-resolutionguide::after {
+                position: absolute;
+                right: 8px;
+                bottom: 5px;
+            }
+
+        .fxs-flowlayout-resolutionguide-1024x768 {
+            height: 768px;
+            width: 1024px;
+        }
+
+            .fxs-flowlayout-resolutionguide-1024x768::after {
+                content: "1024 x 768";
+            }
+
+        .fxs-flowlayout-resolutionguide-1366x768 {
+            height: 768px;
+            width: 1366px;
+        }
+
+            .fxs-flowlayout-resolutionguide-1366x768::after {
+                content: "1366 x 768";
+            }
+
+        .fxs-flowlayout-resolutionguide-1440x900 {
+            height: 900px;
+            width: 1440px;
+        }
+
+            .fxs-flowlayout-resolutionguide-1440x900::after {
+                content: "1440 x 900";
+            }
+
+        .fxs-flowlayout-resolutionguide-1920x1080 {
+            height: 1080px;
+            width: 1920px;
+        }
+
+            .fxs-flowlayout-resolutionguide-1920x1080::after {
+                content: "1920 x 1080";
+            }
+
+        .fxs-flowlayout-resolutionguide-3840x2160 {
+            height: 2160px;
+            width: 3840px;
+        }
+
+            .fxs-flowlayout-resolutionguide-3840x2160::after {
+                content: "3840 x 2160";
+            }
+
+        .fxs-drag-surface {
+            position: fixed;
+            margin: 0;
+            padding: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            background-color: transparent;
+            pointer-events: none;
+            z-index: 199;
+        }
+
+        .fxs-drag-disableTouchAction {
+            -ms-touch-action: none;
+            touch-action: none;
+        }

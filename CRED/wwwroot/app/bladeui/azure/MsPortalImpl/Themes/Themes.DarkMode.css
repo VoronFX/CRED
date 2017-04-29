@@ -1,0 +1,399 @@
+﻿.fxs-mode-dark .fxs-blade-locked, .fxs-mode-dark .fxs-portal-background {
+    background-color: #252525
+}
+
+.fxs-mode-dark .fxs-bladecontent-unlocked, .fxs-mode-dark .fxs-portal-background-secondary {
+    background-color: #313131
+}
+
+.fxs-mode-dark .fxs-bladestyle-create, .fxs-mode-dark .fxs-bladestyle-help {
+    background-color: #252525
+}
+
+.fxs-mode-dark .fxs-portal-background-primary {
+    background-color: #0058ad
+}
+
+.fxs-mode-dark .fxs-portal-text {
+    color: #fff
+}
+
+.fxs-mode-dark .fxs-portal-text-primary {
+    color: #55b3ff
+}
+
+.fxs-mode-dark .fxs-portal-title {
+    color: #bbb
+}
+
+.fxs-mode-dark .fxs-portal-border {
+    border-color: #666
+}
+
+.fxs-mode-dark .fxs-portal-bg-txt-br {
+    color: #fff;
+    border-color: #666;
+    background-color: #252525
+}
+
+.fxs-mode-dark .fxs-portal-selected {
+    background-color: #444
+}
+
+.fxs-mode-dark .msportalfx-docking-footer {
+    border-color: #666
+}
+
+.fxs-mode-dark .fxs-portal-hover:hover {
+    background-color: #3d3d3d
+}
+
+.fxs-mode-dark .fxs-portal-svg svg {
+    fill: #fff
+}
+
+.fxs-mode-dark .fxs-tile-progress-transparent div::after {
+    background: #fff
+}
+
+.fxs-mode-dark .fxs-portal-svg-secondary svg {
+    fill: #bbb
+}
+
+.fxs-mode-dark .fxs-tile-overlay {
+    background-color: rgba(0,0,0,.6)
+}
+
+.fxs-mode-dark .fxc-infoBox-image-container {
+    background-color: #444
+}
+
+.fxs-mode-dark .azc-control {
+    border-color: #666
+}
+
+    .fxs-mode-dark .azc-control optgroup, .fxs-mode-dark .azc-control option {
+        background-color: #252525;
+        border-color: #666;
+        color: #fff
+    }
+
+        .fxs-mode-dark .azc-control optgroup[disabled], .fxs-mode-dark .azc-control option[disabled] {
+            color: grey
+        }
+
+    .fxs-mode-dark .azc-control ::-webkit-input-placeholder {
+        color: #ccc
+    }
+
+    .fxs-mode-dark .azc-control ::-moz-placeholder {
+        color: #ccc
+    }
+
+    .fxs-mode-dark .azc-control :-ms-input-placeholder {
+        color: #ccc
+    }
+
+.fxs-mode-dark .azc-node-fill {
+    fill: #666
+}
+
+.fxs-mode-dark .azc-node-fill-focused, .fxs-mode-dark .azc-node-fill-hovered {
+    fill: grey
+}
+
+.fxs-mode-dark .azc-node-bg {
+    background-color: #666
+}
+
+.fxs-mode-dark .azc-node-bg-focused, .fxs-mode-dark .azc-node-bg-hovered {
+    background-color: grey
+}
+
+.fxs-mode-dark .azc-chart {
+    fill: #252525;
+    stroke: #515151
+}
+
+    .fxs-mode-dark .azc-chart text {
+        fill: #ccc
+    }
+
+        .fxs-mode-dark .azc-chart text.azc-chart-axis-slider-text {
+            fill: #fff
+        }
+
+.fxs-mode-dark .azc-external-hovered:not(.azc-row-disabled) {
+    background-color: #515151
+}
+
+.fxs-mode-dark .azc-header {
+    background-color: #666;
+    color: #fff
+}
+
+.fxs-mode-dark .azc-formControl, .fxs-mode-dark .azc-textarea {
+    border-color: #666;
+    background-color: #252525
+}
+
+.fxs-mode-dark .azc-input {
+    color: #fff
+}
+
+.fxs-mode-dark .azc-formControl.azc-br-focused, .fxs-mode-dark .azc-formControl.azc-br-focused.fxs-br-dirty, .fxs-mode-dark .azc-formControl:focus {
+    border-color: #55b3ff
+}
+
+.fxs-mode-dark .azc-list-focused {
+    background-color: #1e1e1e
+}
+
+.fxs-mode-dark .azc-list-selected {
+    background-color: #131313
+}
+
+.fxs-mode-dark .azc-bg-default {
+    background-color: #252525
+}
+
+.fxs-mode-dark .azc-bg-light {
+    background-color: #3b3b3b
+}
+
+.fxs-mode-dark .azc-bg-muted {
+    background-color: #666
+}
+
+.fxs-mode-dark .azc-bg-muted-80-10 {
+    background-color: #3b3b3b
+}
+
+.fxs-mode-dark .azc-bg-console {
+    background-color: #191919
+}
+
+.fxs-mode-dark .azc-bg-hover {
+    background-color: #224866
+}
+
+.fxs-mode-dark .azc-bg-disabled {
+    background-color: #3b3b3b
+}
+
+.fxs-mode-dark .azc-outline-focusable:focus {
+    outline-color: #bebebe
+}
+
+.fxs-mode-dark .azc-outline-focusable[aria-selected=true]:focus, .fxs-mode-dark .azc-outline-primary {
+    outline-color: #55b3ff
+}
+
+.fxs-mode-dark .azc-bg-inverted {
+    background-color: #bebebe
+}
+
+.fxs-mode-dark .azc-bg-hover-muted:hover {
+    background-color: #929292
+}
+
+.fxs-mode-dark .azc-br-muted {
+    border-color: #515151
+}
+
+.fxs-mode-dark .azc-br-muted-80-10 {
+    border-color: #3b3b3b
+}
+
+.fxs-mode-dark .azc-br-active {
+    border-color: #fff
+}
+
+.fxs-mode-dark .azc-br-strong {
+    border-color: #929292
+}
+
+.fxs-mode-dark .azc-br-focused, .fxs-mode-dark .azc-br-focused.azc-br-edited, .fxs-mode-dark .azc-br-focused.fxs-br-dirty, .fxs-mode-dark .azc-br-focused.fxs-br-error, .fxs-mode-dark .azc-br-hovered, .fxs-mode-dark .azc-br-selected {
+    border-color: #55b3ff
+}
+
+.fxs-mode-dark .azc-br-top-hovered {
+    border-top-color: #55b3ff
+}
+
+.fxs-mode-dark .azc-br-bottom-hovered {
+    border-bottom-color: #55b3ff
+}
+
+.fxs-mode-dark .azc-br-inverted {
+    border-color: #bebebe
+}
+
+.fxs-mode-dark .azc-stroke-muted {
+    stroke: #929292
+}
+
+.fxs-mode-dark .azc-stroke-heavy {
+    stroke: #a8a8a8
+}
+
+.fxs-mode-dark .azc-stroke-default {
+    stroke: #252525
+}
+
+.fxs-mode-dark .azc-stroke-selected {
+    stroke: #55b3ff
+}
+
+.fxs-mode-dark .azc-fill-default, .fxs-mode-dark svg.azc-fill-default {
+    fill: #252525
+}
+
+.fxs-mode-dark .azc-fill-heavy, .fxs-mode-dark .azc-fill-hovered-heavy:hover {
+    fill: #a8a8a8
+}
+
+.fxs-mode-dark .azc-fill-text {
+    fill: #fff
+}
+
+.fxs-mode-dark .azc-fill-hover {
+    fill: #1a1a1a
+}
+
+.fxs-mode-dark .azc-fill-selected {
+    fill: #131313
+}
+
+.fxs-mode-dark .azc-fill-primary svg {
+    fill: #55b3ff
+}
+
+.fxs-mode-dark .azc-scrollbar-default, .fxs-mode-dark .azc-scrollbar-default:hover {
+    -ms-scrollbar-track-color: #3b3b3b;
+    -ms-scrollbar-face-color: #666
+}
+
+    .fxs-mode-dark .azc-scrollbar-default::-webkit-scrollbar, .fxs-mode-dark .azc-scrollbar-default:hover::-webkit-scrollbar {
+        background: 0 0
+    }
+
+    .fxs-mode-dark .azc-scrollbar-default::-webkit-scrollbar-track-piece, .fxs-mode-dark .azc-scrollbar-default:hover::-webkit-scrollbar-track-piece {
+        background: 0 0
+    }
+
+    .fxs-mode-dark .azc-scrollbar-default::-webkit-scrollbar-thumb, .fxs-mode-dark .azc-scrollbar-default:hover::-webkit-scrollbar-thumb {
+        background: #666
+    }
+
+.fxs-mode-dark .azc-text-muted {
+    color: #bebebe
+}
+
+.fxs-mode-dark .azc-text-label {
+    color: #fff
+}
+
+.fxs-mode-dark .azc-text-console {
+    color: #e6e6e6
+}
+
+.fxs-mode-dark .azc-text-primary, .fxs-mode-dark a.azc-text-primary {
+    color: #55b3ff
+}
+
+.fxs-mode-dark .azc-text-disabled, .fxs-mode-dark a.azc-text-disabled {
+    color: grey
+}
+
+.fxs-mode-dark .azc-text-inverted {
+    color: #000
+}
+
+.fxs-mode-dark .azc-disabled, .fxs-mode-dark .azc-disabled:focus, .fxs-mode-dark .azc-disabled:hover, .fxs-mode-dark input.azc-disabled {
+    color: grey;
+    background-color: #3b3b3b;
+    border-color: #858585;
+    fill: grey
+}
+
+.fxs-mode-dark .azc-fill-disabled svg {
+    fill: grey !important
+}
+
+.fxs-mode-dark .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .azc-external-hovered:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.fxs-portal-selected):not(.fxs-portal-selected), .fxs-mode-dark .azc-grid-selectableRow:not(.azc-grid-activateableRow) .azc-grid-selectable .fxs-portal-hover:hover:not(.fxs-bg-error):not(.azc-bg-edited):not(.azc-disabled):not(.azc-row-disabled):not(.fxs-portal-selected):not(.fxs-portal-selected) {
+    background-color: #252525
+}
+
+.fxs-mode-dark .msportalfx-bg-muted-5 {
+    background-color: #303030
+}
+
+.fxs-mode-dark .msportalfx-bg-muted {
+    background-color: #3b3b3b
+}
+
+.fxs-mode-dark .msportalfx-bg-default {
+    background-color: #252525
+}
+
+.fxs-mode-dark .msportalfx-text-default, .fxs-mode-dark .msportalfx-text-white {
+    color: #fff
+}
+
+.fxs-mode-dark .msportalfx-text-muted-50 {
+    color: #444
+}
+
+.fxs-mode-dark .msportalfx-fill {
+    fill: #fff
+}
+
+.fxs-mode-dark .msportalfx-bgcolor-paletteLightGray {
+    background-color: #3b3b3b
+}
+
+.fxs-mode-dark .msportalfx-highlight {
+    color: #000;
+    background-color: #fff100
+}
+
+.fxs-mode-dark .msportalfx-brdr-color:hover, .fxs-mode-dark .msportalfx-brdr-selected {
+    border-color: #00bcf2
+}
+
+.fxs-mode-dark .msportalfx-border {
+    border-color: #666
+}
+
+.fxs-mode-dark .msportalfx-text-primary {
+    color: #55b3ff
+}
+
+.fxs-mode-dark a.msportalfx-link-primary {
+    color: #55b3ff !important
+}
+
+.fxs-mode-dark .fxs-graph-fill {
+    fill: #252525 !important
+}
+
+.fxs-mode-dark .azc-has-focus .azc-dockedballoon-validation {
+    border-color: #00bcf2
+}
+
+.fxs-mode-dark .fxs-bladestyle-create .msportalfx-form .fxs-br-dirty {
+    border-color: #666
+}
+
+    .fxs-mode-dark .fxs-bladestyle-create .msportalfx-form .fxs-br-dirty.azc-br-focused {
+        border-color: #00bcf2
+    }
+
+.fxs-mode-dark .fxs-bladestyle-create .msportalfx-form .azc-is-edited .azc-dockedballoon-validation {
+    border-color: #666
+}
+
+.fxs-mode-dark .fxs-portal-selected.azc-bg-disabled {
+    background-color: #575757
+}

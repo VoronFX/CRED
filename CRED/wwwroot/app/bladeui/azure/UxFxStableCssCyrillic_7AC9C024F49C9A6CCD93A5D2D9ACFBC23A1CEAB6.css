@@ -1,0 +1,216 @@
+@font-face {
+    font-family: 'wf_segoe-ui_normal';
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/normal/latest.eot');
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/normal/latest.eot?#iefix') format('embedded-opentype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/normal/latest.woff') format('woff'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/normal/latest.ttf') format('truetype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/normal/latest.svg#web') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'wf_segoe-ui_light';
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/light/latest.eot');
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/light/latest.eot?#iefix') format('embedded-opentype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/light/latest.woff') format('woff'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/light/latest.ttf') format('truetype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/light/latest.svg#web') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'wf_segoe-ui_semilight';
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semilight/latest.eot');
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semilight/latest.eot?#iefix') format('embedded-opentype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semilight/latest.woff') format('woff'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semilight/latest.ttf') format('truetype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semilight/latest.svg#web') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'wf_segoe-ui_semibold';
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semibold/latest.eot');
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semibold/latest.eot?#iefix') format('embedded-opentype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semibold/latest.woff') format('woff'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semibold/latest.ttf') format('truetype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/semibold/latest.svg#web') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'wf_segoe-ui_bold';
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/bold/latest.eot');
+    src: url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/bold/latest.eot?#iefix') format('embedded-opentype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/bold/latest.woff') format('woff'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/bold/latest.ttf') format('truetype'),url('./app/bladeui/azure/fonts/segoe-ui/cyrillic/bold/latest.svg#web') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@-webkit-keyframes loading-opacity {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes loading-opacity {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes loading {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    10% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    45% {
+        -webkit-transform: translateX(535px/2);
+        transform: translateX(535px/2);
+    }
+
+    55% {
+        -webkit-transform: translateX(535px/2);
+        transform: translateX(535px/2);
+    }
+
+    90% {
+        -webkit-transform: translateX(535px);
+        transform: translateX(535px);
+    }
+
+    100% {
+        -webkit-transform: translateX(535px);
+        transform: translateX(535px);
+    }
+}
+
+@keyframes loading {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    10% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    45% {
+        -webkit-transform: translateX(535px/2);
+        transform: translateX(535px/2);
+    }
+
+    55% {
+        -webkit-transform: translateX(535px/2);
+        transform: translateX(535px/2);
+    }
+
+    90% {
+        -webkit-transform: translateX(535px);
+        transform: translateX(535px);
+    }
+
+    100% {
+        -webkit-transform: translateX(535px);
+        transform: translateX(535px);
+    }
+}
+
+.fxs-splashscreen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100000;
+    background-color: #2e80ab;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: column nowrap;
+    flex-flow: column nowrap;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+    .fxs-splashscreen > div {
+        -webkit-flex: 0 0 auto;
+        flex: 0 0 auto;
+    }
+
+    .fxs-splashscreen .fxs-splashscreen-logo > svg {
+        height: 80px;
+        fill: #fff;
+    }
+
+    .fxs-splashscreen .fxs-splashscreen-loader-container {
+        width: 585px;
+        margin-top: 16px;
+    }
+
+        .fxs-splashscreen .fxs-splashscreen-loader-container > div {
+            opacity: 0;
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: #fff;
+            -webkit-animation: loading 3s cubic-bezier(0,.95,1,.05) infinite,loading-opacity 1.5s ease-in-out infinite alternate;
+            animation: loading 3s cubic-bezier(0,.95,1,.05) infinite,loading-opacity 1.5s ease-in-out infinite alternate;
+        }
+
+            .fxs-splashscreen .fxs-splashscreen-loader-container > div:nth-child(5) {
+                -webkit-animation-delay: .1s;
+                animation-delay: .1s;
+            }
+
+            .fxs-splashscreen .fxs-splashscreen-loader-container > div:nth-child(4) {
+                -webkit-animation-delay: .2s;
+                animation-delay: .2s;
+            }
+
+            .fxs-splashscreen .fxs-splashscreen-loader-container > div:nth-child(3) {
+                -webkit-animation-delay: .3s;
+                animation-delay: .3s;
+            }
+
+            .fxs-splashscreen .fxs-splashscreen-loader-container > div:nth-child(2) {
+                -webkit-animation-delay: .4s;
+                animation-delay: .4s;
+            }
+
+            .fxs-splashscreen .fxs-splashscreen-loader-container > div:nth-child(1) {
+                -webkit-animation-delay: .5s;
+                animation-delay: .5s;
+            }

@@ -1,0 +1,26 @@
+.azc-is-edited.azc-has-focus {
+                border-color: #7fba00;
+            }
+
+                .azc-is-edited.azc-has-focus .azc-dockedballoon-validation {
+                    border-color: #00bcf2;
+                }
+
+            .azc-is-edited .azc-dockedballoon-validation {
+                border-color: #9b4f96;
+            }
+
+            .azc-listView-focusable .azc-listView-item:hover {
+                outline-style: solid;
+                outline-width: 1px;
+            }
+
+            .azc-listView-focusable .azc-listView-item:focus {
+                outline-style: dotted;
+                outline-width: 1px;
+            }
+
+            .azc-listView-focusable .azc-listView-item[aria-disabled=true] {
+                outline-style: none;
+                outline-width: 0;
+            }

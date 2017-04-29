@@ -1,0 +1,129 @@
+.msportalfx-form:not(.msportalfx-form-custom) .msportalfx-form-section .msportalfx-form-formelement.fxc-selectorField .azc-formElementContainer {
+                display: block;
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .msportalfx-form:not(.msportalfx-form-custom) .msportalfx-form-formelement.fxc-selectorField {
+                width: 100%;
+                height: auto;
+                margin: 0;
+            }
+
+            .fxc-selectorField,
+            .fxc-selectorField .fxc-selector {
+                position: relative;
+            }
+
+                .fxc-selectorField .azc-text-sublabel {
+                    pointer-events: none;
+                    position: absolute;
+                    right: 8px;
+                    bottom: 5px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-height: 16px;
+                    max-width: 66%;
+                }
+
+                .fxc-selectorField + .fxc-selectorField .fxc-selector {
+                    border-top-width: 0;
+                    height: 60px;
+                }
+
+            .fxc-selector-disabled {
+                opacity: .5;
+            }
+
+            .fxc-selector {
+                width: 100%;
+                margin: 0;
+                border-style: solid;
+                border-width: 1px 0;
+                height: 61px;
+                cursor: pointer;
+            }
+
+                .fxc-selector.fxc-selector-locked {
+                    cursor: auto;
+                }
+
+                .fxc-selector:not(.fxc-selector-locked) .fxc-selector-locked-img {
+                    display: none;
+                }
+
+                .fxc-selector .azc-text-label {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    font-size: 12px;
+                    line-height: normal;
+                    padding-bottom: 4px;
+                }
+
+                .fxc-selector .fxc-selector-container {
+                    height: 35px;
+                    position: relative;
+                    top: calc(45% - 35px/2);
+                }
+
+                    .fxc-selector .fxc-selector-container .fxc-selector-icon {
+                        float: left;
+                        margin-right: 6px;
+                        height: 14px;
+                        width: 14px;
+                    }
+
+                    .fxc-selector .fxc-selector-container.fxc-selector-show-icon .azc-text-label {
+                        padding-top: 2px;
+                    }
+
+                    .fxc-selector .fxc-selector-container .fxc-selector-value {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        height: 22px;
+                    }
+
+                    .fxc-selector .fxc-selector-container .fxc-selector-leftPane {
+                        margin-right: 40px;
+                        margin-left: 10px;
+                    }
+
+                        .fxc-selector .fxc-selector-container .fxc-selector-leftPane .fxc-selector-displayText {
+                            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+                            font-size: 14px;
+                            line-height: 14px;
+                        }
+
+                    .fxc-selector .fxc-selector-container .azc-dockedballoon-required {
+                        float: left;
+                    }
+
+                    .fxc-selector .fxc-selector-container:not(.fxc-selector-show-value) .fxc-selector-leftPane {
+                        position: relative;
+                        top: calc(50% - 14px/2);
+                    }
+
+                    .fxc-selector .fxc-selector-container .fxc-selector-chevron {
+                        position: absolute;
+                        right: 0;
+                        height: 14px;
+                        top: calc(50% - 14px/2);
+                    }
+
+                        .fxc-selector .fxc-selector-container .fxc-selector-chevron .fxc-selector-chevron-image {
+                            width: 14px;
+                            height: 14px;
+                        }
+
+                    .fxc-selector .fxc-selector-container.fxc-selector-required .fxc-selector-no-value .fxc-selector-displayText {
+                        font-style: italic;
+                    }
+
+            html[lang^=ja] .fxc-selector .fxc-selector-container .azc-text-label,
+            html[lang^=ko] .fxc-selector .fxc-selector-container .azc-text-label,
+            html[lang^=zh] .fxc-selector .fxc-selector-container .azc-text-label {
+                font-size: 11px;
+            }

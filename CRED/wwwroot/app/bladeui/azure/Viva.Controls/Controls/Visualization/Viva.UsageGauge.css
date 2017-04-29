@@ -1,0 +1,61 @@
+.azc-usageGauge {
+                position: relative;
+                text-decoration: none;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -ms-flex-pack: center;
+                -webkit-justify-content: center;
+                justify-content: center;
+                -webkit-align-items: center;
+                align-items: center;
+            }
+
+                .azc-usageGauge .azc-usageGauge-centerSetting {
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    z-index: 1;
+                    display: -ms-flexbox;
+                    display: -webkit-flex;
+                    display: flex;
+                    -ms-flex-flow: column nowrap;
+                    -webkit-flex-flow: column nowrap;
+                    flex-flow: column nowrap;
+                    -ms-flex-pack: center;
+                    -webkit-justify-content: center;
+                    justify-content: center;
+                    -webkit-align-items: center;
+                    align-items: center;
+                }
+
+                    .azc-usageGauge .azc-usageGauge-centerSetting.azc-usageGauge-present {
+                        width: 50%;
+                        height: 33%;
+                    }
+
+                        .azc-usageGauge .azc-usageGauge-centerSetting.azc-usageGauge-present .azc-singleSetting-caption {
+                            max-width: 100%;
+                        }
+
+                .azc-usageGauge .azc-usageGauge-footerSetting {
+                    position: absolute;
+                    left: 0;
+                    width: 100%;
+                    bottom: 0;
+                    text-align: center;
+                }
+
+                .azc-usageGauge .azc-usageGauge-gauge {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                }

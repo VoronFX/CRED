@@ -1,0 +1,65 @@
+<div class="fxs-sidebar-bar">
+    <button class="fxs-sidebar-collapse-button fxs-has-hover" (click)="isCollapsed=!isCollapsed" innerHtml="{{MsPortalFxImages.Hamburger}}"></button>
+    <!-- ko if: data.cloudOptions().length > 1 -->
+    <div class="fxs-sidebar-cloudFilter" data-bind='formElement: func.cloudDropDown'></div>
+    <!-- /ko -->
+    <button class="fxs-sidebar-create fxs-has-hover fxs-has-border" title="{{createTooltip}}">
+        <div class="fxs-sidebar-button-flex">
+            <div class="fxs-sidebar-create-icon fxs-fill-success" innerHtml="{{MsPortalFxImages.Plus}}"></div>
+            <div class="fxs-sidebar-create-label fxs-sidebar-show-if-expanded">{{createText}}</div>
+        </div>
+    </button>
+    <ul class="fxs-sidebar-favorites fxs-scrollbar-transparent fxs-scrollbar-default-hover">
+        <!-- ko foreach: data.favorites -->
+        <!-- ko if: $data && typeof($data) !== "string" && $data.cloudName === $root.data.selectedCloud() -->
+        <li class="fxs-sidebar-item fxs-has-hover fxs-sidebar-draggable fxs-sidebar-droppable fxs-has-border" draggable="true" *ngFor="let favorite of favorites">
+            <div class="fxs-sidebar-handle fxs-fill-secondary" innerHtml="{{MsPortalFxImages.Ellipsis}}"></div>
+            <a [href]="favorite.uri" class="fxs-sidebar-item-link" (click)="favorite.action()">
+                <div class="fxs-sidebar-icon" title="{{favorite.label}}"></div>
+                <div class="fxs-sidebar-icon" title="{{favorite.label}}" innerHtml="{{favorite.image}}"></div>
+                <div class="fxs-sidebar-label fxs-sidebar-show-if-expanded" title="{{favorite.label}}">{{favorite.label}}</div>
+                <div class="fxs-sidebar-external fxs-sidebar-show-if-expanded">
+                    <div class="fxs-fill-secondary" [hidden]="!favorite.opensExternal" innerHtml="{{MsPortalFxImages.Hyperlink}}"></div>
+                </div>
+            </a>
+        </li>
+        <!-- /ko -->
+        <!-- /ko -->
+        <li>
+            <button class="fxs-sidebar-browse fxs-has-hover" title="{{browseTooltip}}">
+                <div class="fxs-sidebar-button-flex">
+                    <div class="fxs-sidebar-browse-label fxs-sidebar-show-if-expanded">{{browseText}}</div>
+                    <div class="fxs-sidebar-browse-icon" innerHtml="{{MsPortalFxImages.CaretUp}}"></div>
+                </div>
+            </button>
+        </li>
+    </ul>
+</div>
+<div class="fxs-sidebar-flyout fxs-popup fxs-sidebar-flyout-is-hidden">
+    <div class="fxs-sidebar-browse-flyout">
+        <div class="fxs-sidebar-flyout-header">
+            <button class="fxs-sidebar-flyout-close fxs-fill-secondary" innerHtml="{{MsPortalFxImages.Close}}"></button>
+        </div>
+        <div class="fxs-sidebar-content">
+            <input class="fxs-sidebar-filter-input fxs-input fxs-input-default" data-bind="attr: { placeholder: data.placeholder }" type="text" />
+        </div>
+        <ul class="fxs-sidebar-possible-favorites fxs-scrollbar-transparent fxs-scrollbar-default-hover">
+            <!-- ko foreach: data.possibleFavorites --> <!-- ko if: typeof($data) !== "string" && $data.cloudName === $root.data.selectedCloud() -->
+            <li class="fxs-sidebar-item fxs-has-hover" [class.fxs-sidebar-hide]="isFilteredOut()" *ngFor="let possibleFavorite of possibleFavorites">
+                <a href="" class="fxs-sidebar-item-link" [href]="possibleFavorite.uri">
+                    <div class="fxs-sidebar-icon" innerHtml="{{possibleFavorite.image}}"></div>
+                    <div class="fxs-sidebar-label" title="{{possibleFavorite.label}}">{{possibleFavorite.label}}</div> 
+                    <!-- ko if: $data.isPreview -->
+                    <span class="fxc-preview fxcontrol-preview" title="{{previewText}}" *ngIf="isPreview">{{previewText}}</span> 
+                    <!-- /ko -->
+                    <div class="fxs-sidebar-external" [hidden]="!possibleFavorite.opensExternal">
+                        <div class="fxs-fill-secondary" [hidden]="!possibleFavorite.opensExternal" innerHtml="{{MsPortalFxImages.Hyperlink}}"></div>
+                    </div>
+                </a>
+                <div class="fxs-sidebar-star" [class.fxs-is-favorite]="possibleFavorite.isFavorite" innerHtml="{{MsPortalFxImages.Star}}"></div>
+            </li>
+            <!-- /ko --> 
+            <!-- /ko -->
+        </ul>
+    </div>
+</div>

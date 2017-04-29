@@ -21,7 +21,7 @@ var AboutComponent = (function () {
         this.testDataList = [];
         this.selectedItem = null;
         this.testData = null;
-        this.tableMode = 'list';
+        this.tableMode = "list";
         this.showForm = true;
     }
     AboutComponent.prototype.initTestData = function () {
@@ -32,7 +32,7 @@ var AboutComponent = (function () {
         this.getTestData();
         this.testData = this.initTestData();
         this.selectedItem = null;
-        this.tableMode = 'list';
+        this.tableMode = "list";
     };
     AboutComponent.prototype.showSuccess = function (title, message) {
         this.toastrService.success(message, title);
@@ -44,19 +44,19 @@ var AboutComponent = (function () {
         event.preventDefault();
         this.tableMode = newMode;
         if (this.testDataList.length == 0) {
-            this.tableMode = 'add';
+            this.tableMode = "add";
         }
         else if (this.testData == null) {
             this.testData = this.initTestData();
         }
         switch (newMode) {
-            case 'add':
+            case "add":
                 this.testData = this.initTestData();
                 break;
-            case 'edit':
+            case "edit":
                 this.testData = Object.assign({}, thisItem);
                 break;
-            case 'list':
+            case "list":
             default:
                 this.testData = Object.assign({}, thisItem);
                 break;
@@ -68,7 +68,7 @@ var AboutComponent = (function () {
         this.testData = Object.assign({}, thisItem);
     };
     AboutComponent.prototype.formattedErrorResponse = function (error) {
-        var plural = (error.length > 0) ? 's' : '';
+        var plural = (error.length > 0) ? "s" : "";
         var errorMessage = "Error" + plural + ": ";
         for (var i = 0; i < error.length; i++) {
             if (error.length > 0)
@@ -93,13 +93,13 @@ var AboutComponent = (function () {
                 // or keep these 2 lines; subscribe to data, but then refresh all data anyway
                 //this.testData = data.value;
                 //this.getTestData();
-                _this.showSuccess('Add', "data added ok");
+                _this.showSuccess("Add", "data added ok");
             }
             else {
-                _this.showError('Add', _this.formattedErrorResponse(data.value));
+                _this.showError("Add", _this.formattedErrorResponse(data.value));
             }
         }, function (error) {
-            _this.showError('Get', JSON.stringify(error));
+            _this.showError("Get", JSON.stringify(error));
         });
     };
     AboutComponent.prototype.getTestData = function () {
@@ -108,16 +108,16 @@ var AboutComponent = (function () {
             .subscribe(function (data) {
             if (data != null && data.statusCode == 200) {
                 _this.testDataList = data.value;
-                _this.showSuccess('Get', "data fetched ok");
+                _this.showSuccess("Get", "data fetched ok");
                 if (_this.testDataList != null && _this.testDataList.length > 0) {
                     _this.selectedItem = _this.testDataList[0];
                 }
             }
             else {
-                _this.showError('Get', "An error occurred");
+                _this.showError("Get", "An error occurred");
             }
         }, function (error) {
-            _this.showError('Get', JSON.stringify(error));
+            _this.showError("Get", JSON.stringify(error));
         });
     };
     AboutComponent.prototype.editTestData = function (event) {
@@ -129,15 +129,15 @@ var AboutComponent = (function () {
         this.sampleDataService.editSampleData(this.testData)
             .subscribe(function (data) {
             if (data != null && data.statusCode == 200) {
-                _this.showSuccess('Update', "updated ok");
+                _this.showSuccess("Update", "updated ok");
                 _this.testData = data.value;
                 _this.getTestData();
             }
             else {
-                _this.showError('Update', _this.formattedErrorResponse(data.value));
+                _this.showError("Update", _this.formattedErrorResponse(data.value));
             }
         }, function (error) {
-            _this.showError('Update', JSON.stringify(error));
+            _this.showError("Update", JSON.stringify(error));
         });
     };
     AboutComponent.prototype.deleteRecord = function (itemToDelete, event) {
@@ -146,22 +146,22 @@ var AboutComponent = (function () {
         this.sampleDataService.deleteRecord(itemToDelete)
             .subscribe(function (data) {
             if (data != null && data.statusCode == 200) {
-                _this.showSuccess('Delete', data.value);
+                _this.showSuccess("Delete", data.value);
                 _this.getTestData();
             }
             else {
-                _this.showError('Delete', "An error occurred");
+                _this.showError("Delete", "An error occurred");
             }
         }, function (error) {
-            _this.showError('Delete', JSON.stringify(error));
+            _this.showError("Delete", JSON.stringify(error));
         });
     };
     return AboutComponent;
 }());
 AboutComponent = __decorate([
     core_1.Component({
-        selector: 'my-about',
-        templateUrl: 'partial/aboutComponent'
+        selector: "my-about",
+        templateUrl: "partial/AboutComponent"
     }),
     __metadata("design:paramtypes", [sampleData_service_1.SampleDataService, ngx_toastr_1.ToastrService])
 ], AboutComponent);
