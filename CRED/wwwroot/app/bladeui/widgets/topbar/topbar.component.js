@@ -24,6 +24,7 @@ var TopBarAzure = (function () {
                 this.exitCustomizeText = "Передвигайте и закрепляйте плитки, а также меняйте их размер.";
                 this.discardDashboardButton = "Отменить";
                 this.internalText = "Внутрен.";
+                this.previewText = "BETA";
                 this.customize = "Настроить";
                 this.settings = "Параметры";
                 this.feedback = "Отзывы и предложения";
@@ -33,6 +34,7 @@ var TopBarAzure = (function () {
             return class_1;
         }());
         this.isInternalOnly = false;
+        this.showPreview = true;
         this.inDevMode = false;
         this.canReportBug = false;
         this.dashboardMessage = "";
@@ -57,7 +59,7 @@ var TopBarComponent = (function (_super) {
     function TopBarComponent(bladeUiService, sanitizer) {
         var _this = _super.call(this) || this;
         _this.sanitizer = sanitizer;
-        _this.productName = "My Little Entreprise";
+        _this.productName = "CRED";
         _this.settingsIcon = sanitizer.bypassSecurityTrustHtml(new definitions_1.MsPortalFxImages().Shell.Chevron);
         return _this;
     }

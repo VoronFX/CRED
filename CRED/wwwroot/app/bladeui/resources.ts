@@ -10,6 +10,7 @@
         Templates: any = new class {
             widgetsPath = "./app/bladeui/widgets/";
 
+            ContextPane = this.widgetsPath + "contextpane/contextpane.component.html";
             AzureSvgSymbols = this.widgetsPath + "azuresvgsymbols/azuresvgsymbols.component.html";
             AzureSvg = this.widgetsPath + "azuresvg/azuresvg.component.html";
             SideBar = this.widgetsPath + "sidebar/sidebar.component.html";
@@ -17,6 +18,8 @@
             Panorama = this.widgetsPath + "panorama/panorama.component.html";
             Portal = this.widgetsPath + "portal/portal.component.html";
             Blade = this.widgetsPath + "blade/blade.component.html";
+            Settings = this.widgetsPath + "settings/settings.component.html";
+            SettingsPane = this.widgetsPath + "settings/settingspane.component.html";
         };
     };
     static WidgetBase = Resources.Prepend("./app/bladeui/azure/", [

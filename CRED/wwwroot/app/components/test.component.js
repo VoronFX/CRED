@@ -12,9 +12,11 @@ var core_1 = require("@angular/core");
 var definitions_1 = require("../bladeui/definitions");
 var TestComponent = (function () {
     function TestComponent(bladeUiService) {
+        this.theme = 'azure';
         this.bladeUiService = bladeUiService;
     }
     TestComponent.prototype.ngAfterViewInit = function () {
+        //setTimeout(() => { this.theme = 'dark'; }, 5000);
         //this.bladeUiService.sidebar.favorites = [
         //    new Favorite({
         //        label: "New Blade", uri: "javaScript:void(0);", opensExternal: false, isFavorite: false, action: ()=> {

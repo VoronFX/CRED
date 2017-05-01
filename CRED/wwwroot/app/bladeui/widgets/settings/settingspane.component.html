@@ -1,0 +1,857 @@
+﻿
+<div class="fxs-settingspane fxs-contextpane-content">
+    <h2 class="fxs-settingspane-header">Параметры портала</h2>
+    <div class="fxs-settingspane-body msportalfx-overflowY msportalfx-form">
+        <div data-bind="visible: $data.showSubscriptionFilterDropdown" style="display: none;">Фильтровать по подпискам</div>
+        <div class="fxs-settingspane-subfilter fxc-base fxc-resourcefilter" data-bind="pcControl: $data.subscriptionFilterDropdown" data-formelement="pcControl: $data.subscriptionFilterDropdown">
+            <div class="fxc-resourcefilter-subscriptionsummary" data-bind="visible: data.showSubscriptionSummary">
+                <!-- ko if: data.showTenantLevelSubscriptionSummary() --><!-- /ko --><!-- ko ifnot: data.showTenantLevelSubscriptionSummary() --><!-- ko if: subsInitialized -->
+                <strong data-bind="visible: subsCount(), text: text.subscriptions" class="fxc-resourcefilter-summary-title">Подписки:</strong>
+                <span data-bind="visible: subsMessage, text: subsMessage">DreamSpark</span>
+                <a data-bind="visible: subsLink, text: subsLink" class="fxc-subscription-summary" role="button" href="" style="display: none;"></a>
+                <span data-bind="visible: (subsMessage() || subsLink()) &amp;&amp; tenantsCount() > 1" style="display: none;"> – </span><!-- /ko --><!-- /ko -->
+                <span data-bind="visible: tenantsMessage &amp;&amp; tenantsCount() > 1, text: tenantsMessage" style="display: none;">Подписки не отображаются? </span>
+                <a role="button" href="#menu/account" data-bind="visible: tenantsCount() > 1, text: text.switchDirectoryText" style="display: none;">Переключить каталоги</a>
+            </div>
+            <div class="fxc-resourcefilter-filters">
+                <div data-bind="pcControl: $ctl._filterVM, css: $ctl._filterClass" data-formelement="pcControl: $ctl._filterVM, css: $ctl._filterClass" class="fxc-base msportalfx-form-formelement azc-textField fxc-TextField fxc-resourcefilter-hidden fxc-resourcefilter-filter" data-validatable="true">
+                    <div class="azc-form-labelcontainer azc-text-label fxs-hidden-important" aria-hidden="true">
+                        <div id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3e4-balloon" class="fxc-base azc-control azc-dockedballoon azc-dockedballoon-info fxs-hidden-important" data-control="true">
+                            <div class="azc-dockedballoon-anchor" data-bind="attr: { &quot;aria-label&quot;: data.content, &quot;aria-expanded&quot;: data.balloonVisible().toString(), &quot;aria-owns&quot;: data.balloonId, &quot;aria-controls&quot;: data.balloonId, &quot;aria-describedby&quot;: data.balloonId }" aria-haspopup="true" role="button" aria-expanded="false" aria-owns="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e5" aria-controls="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e5" aria-describedby="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e5" tabindex="-1">
+                                <!-- ko if: $ctl._isImageShown() -->
+                                <div class="fxs-portal-svg-secondary azc-fill-hovered-heavy azc-dockedballoon-anchor-target" data-bind="css: { &quot;azc-fill-heavy&quot;: data.balloonVisible() }">
+                                    <svg viewBox="0 0 9 9" focusable="false">
+                                        <circle cx="4.5" cy="4.5" r="4.5"></circle>
+                                        <rect x="4" y="4" class="fxs-fill-white" width="1" height="3"></rect>
+                                        <rect x="4" y="2" class="fxs-fill-white" width="1" height="1"></rect>
+                                    </svg>
+                                </div>
+                                <!-- /ko --><!-- ko if: $ctl._isCheckPopulated() --><!-- /ko --><!-- ko if: $ctl._isRequired() --><!-- /ko -->
+                            </div>
+                            <div role="tooltip" class="azc-dockedballoon-balloon azc-dockedballoon-info fxc-base azc-control azc-balloon azc-balloon-hidden azc-balloon-forcedisplayblock" data-bind="attr: { id: data.balloonId }" id="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e5" data-control="true" aria-hidden="true" aria-atomic="true" data-popup="true">
+                                <div class="azc-br-muted-80-10 azc-balloon-pointer"></div>
+                                <div class="azc-bg-muted-80-10 fxs-text-white azc-balloon-content">
+                                    <div class="azc-balloon-text"></div>
+                                    <!--ko if: data.link()--><!--/ko-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="azc-formElementContainer azc-formElementSubLabelContainer">
+                        <div class="fxc-base azc-control azc-editableControl azc-validatableControl azc-inputbox azc-textBox azc-validatableControl-none" data-control="true" data-editable="true" data-canfocus="true">
+                            <div class="azc-inputbox-wrapper azc-textBox-wrapper">
+                                <input class="azc-input azc-formControl azc-validation-border" type="text" aria-multiline="false" data-bind="value: data.value, css: { &quot;fxs-br-error&quot;: data.validationState() === 1, &quot;fxs-br-dirty&quot;: data.dirty(), &quot;azc-disabled&quot;: $disabled, &quot;azc-br-focused&quot;: data.focused() }, valueUpdate: $ctl._getValueUpdateTrigger(), attr: { name: $ctl._name, placeholder: data.placeholder, readonly: data.readonly, disabled: $disabled, tabindex: $tabIndex, &quot;aria-readonly&quot;: data.readonly, &quot;aria-disabled&quot;: $disabled }" name="__azc-textBox50" tabindex="0" data-validatable-control-valid="true" data-validatable-control-validation-state="none" id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3e4-for" aria-invalid="false">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-bind="pcControl: $ctl._resourceTypesVM, css: $ctl._resourceTypesClass" data-formelement="pcControl: $ctl._resourceTypesVM, css: $ctl._resourceTypesClass" class="fxc-base msportalfx-form-formelement azc-multiselectDropDownField fxc-MultiselectDropDownField fxc-multiselect-filter fxc-resourcefilter-hidden fxc-resourcefilter-resourcetypes" data-validatable="true">
+                    <div class="azc-form-labelcontainer azc-text-label fxs-hidden-important" aria-hidden="true">
+                        <div id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3e6-balloon" class="fxc-base azc-control azc-dockedballoon azc-dockedballoon-info fxs-hidden-important" data-control="true">
+                            <div class="azc-dockedballoon-anchor" data-bind="attr: { &quot;aria-label&quot;: data.content, &quot;aria-expanded&quot;: data.balloonVisible().toString(), &quot;aria-owns&quot;: data.balloonId, &quot;aria-controls&quot;: data.balloonId, &quot;aria-describedby&quot;: data.balloonId }" aria-haspopup="true" role="button" aria-expanded="false" aria-owns="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e7" aria-controls="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e7" aria-describedby="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e7" tabindex="-1">
+                                <!-- ko if: $ctl._isImageShown() -->
+                                <div class="fxs-portal-svg-secondary azc-fill-hovered-heavy azc-dockedballoon-anchor-target" data-bind="css: { &quot;azc-fill-heavy&quot;: data.balloonVisible() }">
+                                    <svg viewBox="0 0 9 9" focusable="false">
+                                        <circle cx="4.5" cy="4.5" r="4.5"></circle>
+                                        <rect x="4" y="4" class="fxs-fill-white" width="1" height="3"></rect>
+                                        <rect x="4" y="2" class="fxs-fill-white" width="1" height="1"></rect>
+                                    </svg>
+                                </div>
+                                <!-- /ko --><!-- ko if: $ctl._isCheckPopulated() --><!-- /ko --><!-- ko if: $ctl._isRequired() --><!-- /ko -->
+                            </div>
+                            <div role="tooltip" class="azc-dockedballoon-balloon azc-dockedballoon-info fxc-base azc-control azc-balloon azc-balloon-hidden azc-balloon-forcedisplayblock" data-bind="attr: { id: data.balloonId }" id="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e7" data-control="true" aria-hidden="true" aria-atomic="true" data-popup="true">
+                                <div class="azc-br-muted-80-10 azc-balloon-pointer"></div>
+                                <div class="azc-bg-muted-80-10 fxs-text-white azc-balloon-content">
+                                    <div class="azc-balloon-text"></div>
+                                    <!--ko if: data.link()--><!--/ko-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="azc-formElementContainer azc-formElementSubLabelContainer">
+                        <div class="fxc-base azc-control azc-editableControl azc-validatableControl azc-dropdown azc-multiSelectDropDown azc-validatableControl-none" data-control="true" data-editable="true" data-canfocus="true" aria-haspopup="true">
+                            <div class="azc-dropdown-wrapper azc-validation-border azc-formControl" ,="" data-bind="css: { &quot;fxs-br-error&quot;: data.validationState() === 1, &quot;fxs-br-dirty&quot;: data.dirty(), &quot;azc-disabled&quot;: $disabled, &quot;azc-br-focused&quot;: data.focused()}">
+                                <input class="azc-dropdown-input" type="hidden" data-bind="attr: { name: $ctl._name }, value: data.value" autocomplete="off" readonly="readonly" name="__azc-multiSelectDropDown94" value="Microsoft_Azure_AnalysisServices_AnalysisServices;Microsoft_Azure_MarketplaceApps_AppDynamicsAPM;AppInsightsExtension_ApplicationInsights;Microsoft_Azure_MarketplaceApps_AppService;Microsoft_Azure_MarketplaceApps_AsperaTransfers;Microsoft_Azure_MarketplaceApps_BingMaps;Citrix_XenApp_Essentials_XenAppEssentials;Citrix_XenDesktop_Essentials_XenDesktopEssentials;Microsoft_Azure_MarketplaceApps_CloudAMQP;Microsoft_Azure_MarketplaceApps_ParaleapCloudMonix;Microsoft_Azure_MarketplaceApps_CloudynAnalytics;Microsoft_Azure_ProjectOxford_CognitiveServicesAccount;Microsoft_Azure_MarketplaceApps_ContentModerator;Microsoft_Azure_MarketplaceApps_CrypteronDataSecurity;Microsoft_Azure_CustomerInsights_CustomerInsights;Microsoft_Azure_DataLakeAnalytics_KonaAccount;Microsoft_Azure_DataLakeStore_CaboAccount;Microsoft_Azure_MarketplaceApps_TrendMicroDeepSecurity;Microsoft_Azure_DevTestLab_DevTestLab;Microsoft_Azure_MarketplaceApps_HiveStreaming;Microsoft_Azure_IotHub_IotHubs;Microsoft_Azure_MarketplaceApps_LiveArenaBroadcast;Microsoft_OperationsManagementSuite_Workspace_Workspace;Microsoft_Azure_MarketplaceApps_MailjetEmail;Microsoft_Azure_MobileEngagement_AppCollection;Microsoft_Azure_MarketplaceApps_MyCloudIT;Microsoft_Azure_MarketplaceApps_MyGetRegularPlans;NewRelic_AzurePortal_APM_Account;Microsoft_Azure_DocumentDB_DocumentDBDatabaseAccount;Microsoft_Azure_MarketplaceApps_Pokitdok;Microsoft_Azure_MarketplaceApps_RavenHqDb;Microsoft_Azure_MarketplaceApps_RaygunCrashReporting;Microsoft_Azure_RecoveryServices_RecoveryServicesResource;Microsoft_Azure_RecoveryServices_RecoveryServicesResourceAdhoc3;Microsoft_Azure_RecoveryServices_RecoveryServicesResourceBVTD;Microsoft_Azure_RecoveryServices_RecoveryServicesResourceBVTD2;Microsoft_Azure_RecoveryServices_RecoveryServicesResourceINTD;Microsoft_Azure_RecoveryServices_RecoveryServicesResourceINTD2;Microsoft_Azure_MarketplaceApps_RevAPM;SendGrid_EmailService_Sendgrid;Microsoft_Azure_MarketplaceApps_SigniantFlight;Microsoft_Azure_MarketplaceApps_SparkpostBasic;Microsoft_Azure_MarketplaceApps_StackifyRetrace;Microsoft_Azure_StorSimple_StorSimpleManagerBVTD2;Microsoft_Azure_StorSimple_StorSimpleManagerBVTD;Microsoft_Azure_StorSimple_StorSimpleManagerDevCluster;Microsoft_Azure_StorSimple_StorSimpleManagerINTD2;Microsoft_Azure_Marketplace_GalleryRpItem;Microsoft_Azure_MarketplaceApps_TestEmails;Microsoft_Azure_MarketplaceApps_TestGame;Microsoft_Azure_MarketplaceApps_TestIncapsula;Microsoft_Azure_MarketplaceApps_TestMemory;Microsoft_Azure_MarketplaceApps_TestSendgrid;Microsoft_Azure_MarketplaceApps_TestUbbresource;Microsoft_Azure_MarketplaceApps_TestUbbresource2;Microsoft_Azure_MarketplaceApps_TestVJ;Microsoft_Azure_MarketplaceApps_U2uConsult;HubsExtension_BackupPlaceholder;ClearDBExtension_ClearDB;SqlAzureExtension_Database;Microsoft_Azure_MLWebservices_MachineLearningWebService;Microsoft_Azure_Compute_VirtualMachine;Microsoft_Azure_Classic_Compute_VirtualMachine;Microsoft_Azure_Network_VirtualNetwork;Microsoft_Azure_Classic_Network_VirtualNetwork;Microsoft_Azure_Compute_Appliance;Microsoft_Azure_Relay_HybridConnection;Microsoft_Azure_Compute_AvailabilitySet;HubsExtension_ResourceGroups;Microsoft_Azure_Compute_Disk;Microsoft_Azure_StorSimple_StorSimpleManager;Microsoft_Azure_StreamAnalytics_StreamAnalyticsJob;Microsoft_Azure_Storage_ImportExportJob;Microsoft_Azure_Classic_Network_ReservedIPAddress;Microsoft_Azure_Network_DnsZone;Microsoft_Azure_DataCatalog_CatalogResource;Microsoft_Azure_HDInsight_HDInsightCluster;Microsoft_Azure_ServiceFabric_ServiceFabricCluster;ClearDBExtension_ClearDBPremium;Microsoft_AAD_B2CAdmin_B2CTenant;Microsoft_Azure_Scheduler_JobCollection;Microsoft_PowerBI_Embedded_WorkspaceCollection;Microsoft_Azure_EventHub_EventHub;Microsoft_Azure_EventHub_EventHubSelect;Microsoft_Azure_NotificationHubs_NotificationHub;AzureCacheExtension_CacheAsset;Microsoft_Azure_EMA_ConnectionGateway;HubsExtension_MobileServicePlaceholder;Microsoft_Azure_Compute_Snapshot;Microsoft_Azure_Compute_VirtualMachineScaleSet;Microsoft_Azure_CloudServices_CloudService;Microsoft_Azure_Compute_Image;Microsoft_Azure_Network_PublicIpAddress;Microsoft_Azure_TimeSeriesInsights_TimeSeriesInsightsEnvironment;Microsoft_Azure_MLCommitmentPlans_MachineLearningCommitmentPlan;WebsitesExtension_WebHostingPlan;Microsoft_Azure_Network_Connection;WebsitesExtension_ApiHubConnection;Microsoft_Azure_RSMT_ComputerConnection;Microsoft_Azure_Network_LoadBalancer;Microsoft_Azure_EMA_Workflow;Microsoft_Azure_NotificationHubs_Namespace;Microsoft_Azure_Cdn_CdnProfile;Microsoft_Azure_Network_TrafficManager;SqlAzureExtension_ElasticPool;Microsoft_Azure_MLWorkspaces_MachineLearningWorkspace;Microsoft_Azure_ContainerRegistries_RegistryResource;Microsoft_Azure_Compute_Reservation;Microsoft_Azure_Relay_WcfRelay;Microsoft_Azure_Relay_Relay;Microsoft_OperationsManagementSuite_Workspace_Solution;SqlAzureExtension_MySqlServer;SqlAzureExtension_PostgreSqlServer;SqlAzureExtension_Server;WebsitesExtension_SslCertificate;Microsoft_Azure_Network_NetworkSecurityGroup;Microsoft_Azure_Classic_Network_NetworkSecurityGroup;Microsoft_Azure_Network_NetworkInterface;HubsExtension_BizTalkServicePlaceholder;Microsoft_Azure_Compute_AzureContainerService;Microsoft_Azure_Media_MediaServiceAccount;Microsoft_Azure_Search_SearchService;WebsitesExtension_Website;Microsoft_Azure_ApiManagement_Service;Microsoft_Azure_ServiceBus_ServiceBusQueue;Microsoft_Azure_ServiceBus_ServiceBusTopic;Microsoft_Azure_ServiceBus_ServiceBus;WebsitesExtension_AppServiceEnvironment;Microsoft_Azure_Network_RouteTable;SqlAzureExtension_JobAccount;Microsoft_Azure_EMA_IntegrationAccount;Microsoft_Azure_Batch_BatchAccount;Microsoft_Azure_Automation_Account;Microsoft_Azure_Storage_StorageAccount;MicrosoftAzureClassicStorageExtension_ClassicStorageAccount;Microsoft_Azure_DataFactory_DataFactory;HubsExtension_SiteRecoveryPlaceholder;Microsoft_Azure_KeyVault_KeyVault;Microsoft_Azure_Network_ExpressRoute;Microsoft_Azure_Network_VirtualNetworkGateway;Microsoft_Azure_Network_LocalNetworkGateway;Microsoft_Azure_Network_ApplicationGateway;Microsoft_Azure_RSMT_Gateway" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                                <span class="azc-dropdown-current" data-bind="trustedHtml: $ctl.currentText">Все типы</span>
+                                <span class="azc-dropdown-arrow azc-dropdown-arrow-normal"></span>
+                                <div role="combobox" class="azc-dropdown-select azc-input" data-bind="attr: {&quot;aria-multiselectable&quot;: data.multiselect() ? &quot;true&quot; : &quot;false&quot;}" aria-expanded="false" tabindex="0" aria-multiselectable="true" aria-labelledby="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3e6" aria-required="false" aria-invalid="false"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-bind="pcControl: $ctl._subscriptionsVM, css: $ctl._subscriptionsClass" data-formelement="pcControl: $ctl._subscriptionsVM, css: $ctl._subscriptionsClass" class="fxc-base msportalfx-form-formelement azc-multiselectDropDownField fxc-MultiselectDropDownField fxc-multiselect-filter fxc-resourcefilter-hidden fxc-resourcefilter-subscriptions" data-validatable="true">
+                    <div class="azc-form-labelcontainer azc-text-label fxs-hidden-important" aria-hidden="true">
+                        <div id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3e8-balloon" class="fxc-base azc-control azc-dockedballoon azc-dockedballoon-info fxs-hidden-important" data-control="true">
+                            <div class="azc-dockedballoon-anchor" data-bind="attr: { &quot;aria-label&quot;: data.content, &quot;aria-expanded&quot;: data.balloonVisible().toString(), &quot;aria-owns&quot;: data.balloonId, &quot;aria-controls&quot;: data.balloonId, &quot;aria-describedby&quot;: data.balloonId }" aria-haspopup="true" role="button" aria-expanded="false" aria-owns="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e9" aria-controls="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e9" aria-describedby="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e9" tabindex="-1">
+                                <!-- ko if: $ctl._isImageShown() -->
+                                <div class="fxs-portal-svg-secondary azc-fill-hovered-heavy azc-dockedballoon-anchor-target" data-bind="css: { &quot;azc-fill-heavy&quot;: data.balloonVisible() }">
+                                    <svg viewBox="0 0 9 9" focusable="false">
+                                        <circle cx="4.5" cy="4.5" r="4.5"></circle>
+                                        <rect x="4" y="4" class="fxs-fill-white" width="1" height="3"></rect>
+                                        <rect x="4" y="2" class="fxs-fill-white" width="1" height="1"></rect>
+                                    </svg>
+                                </div>
+                                <!-- /ko --><!-- ko if: $ctl._isCheckPopulated() --><!-- /ko --><!-- ko if: $ctl._isRequired() --><!-- /ko -->
+                            </div>
+                            <div role="tooltip" class="azc-dockedballoon-balloon azc-dockedballoon-info fxc-base azc-control azc-balloon azc-balloon-hidden azc-balloon-forcedisplayblock" data-bind="attr: { id: data.balloonId }" id="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3e9" data-control="true" aria-hidden="true" aria-atomic="true" data-popup="true">
+                                <div class="azc-br-muted-80-10 azc-balloon-pointer"></div>
+                                <div class="azc-bg-muted-80-10 fxs-text-white azc-balloon-content">
+                                    <div class="azc-balloon-text"></div>
+                                    <!--ko if: data.link()--><!--/ko-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="azc-formElementContainer azc-formElementSubLabelContainer">
+                        <div class="fxc-base azc-control azc-editableControl azc-validatableControl azc-dropdown azc-multiSelectDropDown azc-validatableControl-none" data-control="true" data-editable="true" data-canfocus="true" aria-haspopup="true">
+                            <div class="azc-dropdown-wrapper azc-validation-border azc-formControl" ,="" data-bind="css: { &quot;fxs-br-error&quot;: data.validationState() === 1, &quot;fxs-br-dirty&quot;: data.dirty(), &quot;azc-disabled&quot;: $disabled, &quot;azc-br-focused&quot;: data.focused()}">
+                                <input class="azc-dropdown-input" type="hidden" data-bind="attr: { name: $ctl._name }, value: data.value" autocomplete="off" readonly="readonly" name="__azc-multiSelectDropDown95" value="746a38b7-0851-4e30-8ee1-d813009ce320" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                                <span class="azc-dropdown-current" data-bind="trustedHtml: $ctl.currentText">DreamSpark</span>
+                                <span class="azc-dropdown-arrow azc-dropdown-arrow-normal"></span>
+                                <div role="combobox" class="azc-dropdown-select azc-input" data-bind="attr: {&quot;aria-multiselectable&quot;: data.multiselect() ? &quot;true&quot; : &quot;false&quot;}" aria-expanded="false" tabindex="0" aria-multiselectable="true" aria-labelledby="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3e8" aria-required="false" aria-invalid="false"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fxs-settingspane-separator fxs-portal-border"></div>
+        <fieldset class="fxs-settingspane-theme-radio">
+            <legend>Выберите тему</legend>
+            <div data-bind="foreach: $data.themes">
+                <label data-bind="attr: {&quot;aria-label&quot;: theme.title}" aria-label="Azure"><input class="fxs-settingspane-theme" type="radio" name="theme" data-bind="attr: {&quot;aria-label&quot;: theme.title}" aria-label="Azure"><span class="fxs-settingspane-theme-container fxs-settingspane-theme-selection" data-bind="style:{ background: theme.colorCode}, attr: {title : theme.title}, css: {&quot;fxs-settingspane-theme-selection&quot;:$root.selectedTheme().name === theme.name}" title="Azure" style="background: rgb(0, 120, 215);"></span></label>
+                <label data-bind="attr: {&quot;aria-label&quot;: theme.title}" aria-label="Синий"><input class="fxs-settingspane-theme" type="radio" name="theme" data-bind="attr: {&quot;aria-label&quot;: theme.title}" aria-label="Синий"><span class="fxs-settingspane-theme-container" data-bind="style:{ background: theme.colorCode}, attr: {title : theme.title}, css: {&quot;fxs-settingspane-theme-selection&quot;:$root.selectedTheme().name === theme.name}" title="Синий" style="background: rgb(33, 91, 125);"></span></label>
+                <label data-bind="attr: {&quot;aria-label&quot;: theme.title}" aria-label="Светлый"><input class="fxs-settingspane-theme" type="radio" name="theme" data-bind="attr: {&quot;aria-label&quot;: theme.title}" aria-label="Светлый"><span class="fxs-settingspane-theme-container" data-bind="style:{ background: theme.colorCode}, attr: {title : theme.title}, css: {&quot;fxs-settingspane-theme-selection&quot;:$root.selectedTheme().name === theme.name}" title="Светлый" style="background: rgb(241, 241, 248);"></span></label>
+                <label data-bind="attr: {&quot;aria-label&quot;: theme.title}" aria-label="Темный"><input class="fxs-settingspane-theme" type="radio" name="theme" data-bind="attr: {&quot;aria-label&quot;: theme.title}" aria-label="Темный"><span class="fxs-settingspane-theme-container" data-bind="style:{ background: theme.colorCode}, attr: {title : theme.title}, css: {&quot;fxs-settingspane-theme-selection&quot;:$root.selectedTheme().name === theme.name}" title="Темный" style="background: rgb(51, 51, 51);"></span></label>
+            </div>
+        </fieldset>
+        <div data-bind="pcControl: $data.animationToggle" data-formelement="pcControl: $data.animationToggle" class="fxc-base msportalfx-form-formelement azc-optionsGroupField fxc-OptionsGroupField azc-validationBelowCtrl" data-validatable="true">
+            <div class="azc-form-labelcontainer azc-text-label">
+                <label id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ea" for="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ea-for">Анимации</label>
+                <div id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ea-balloon" class="fxc-base azc-control azc-dockedballoon azc-dockedballoon-info fxs-hidden-important" data-control="true">
+                    <div class="azc-dockedballoon-anchor" data-bind="attr: { &quot;aria-label&quot;: data.content, &quot;aria-expanded&quot;: data.balloonVisible().toString(), &quot;aria-owns&quot;: data.balloonId, &quot;aria-controls&quot;: data.balloonId, &quot;aria-describedby&quot;: data.balloonId }" aria-haspopup="true" role="button" aria-expanded="false" aria-owns="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3eb" aria-controls="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3eb" aria-describedby="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3eb" tabindex="-1">
+                        <!-- ko if: $ctl._isImageShown() -->
+                        <div class="fxs-portal-svg-secondary azc-fill-hovered-heavy azc-dockedballoon-anchor-target" data-bind="css: { &quot;azc-fill-heavy&quot;: data.balloonVisible() }">
+                            <svg viewBox="0 0 9 9" focusable="false">
+                                <circle cx="4.5" cy="4.5" r="4.5"></circle>
+                                <rect x="4" y="4" class="fxs-fill-white" width="1" height="3"></rect>
+                                <rect x="4" y="2" class="fxs-fill-white" width="1" height="1"></rect>
+                            </svg>
+                        </div>
+                        <!-- /ko --><!-- ko if: $ctl._isCheckPopulated() --><!-- /ko --><!-- ko if: $ctl._isRequired() --><!-- /ko -->
+                    </div>
+                    <div role="tooltip" class="azc-dockedballoon-balloon azc-dockedballoon-info fxc-base azc-control azc-balloon azc-balloon-hidden azc-balloon-forcedisplayblock" data-bind="attr: { id: data.balloonId }" id="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3eb" data-control="true" aria-hidden="true" aria-atomic="true" data-popup="true">
+                        <div class="azc-br-muted-80-10 azc-balloon-pointer"></div>
+                        <div class="azc-bg-muted-80-10 fxs-text-white azc-balloon-content">
+                            <div class="azc-balloon-text"></div>
+                            <!--ko if: data.link()--><!--/ko-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="azc-formElementContainer azc-formElementSubLabelContainer">
+                <div class="fxc-base azc-control azc-editableControl azc-validatableControl azc-itemList azc-optionPicker azc-validation-border azc-noRadio azc-useFlex azc-validatableControl-none" data-control="true" data-editable="true" data-canfocus="true">
+                    <ul class="azc-input" data-bind="foreach: data.values, attr: { &quot;aria-disabled&quot;: $disabled, role: $ctl._roleGroup, &quot;aria-labelledby&quot;: data.label }" role="radiogroup" aria-labelledby="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ea" id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ea-for" aria-invalid="false">
+                        <!-- ko template: { name: "itemTemplate", context: { $disabled: disabled, $tabIndex: _tabindex } } -->
+                        <li class="fxs-portal-border azc-itemlist-selected fxs-portal-selected azc-br-strong" data-bind="attr: { role: $ctl._role, &quot;aria-label&quot;: (ariaLabel() || &quot;&quot;).trim() || null, &quot;aria-checked&quot;: selected() ? &quot;true&quot; : &quot;false&quot;, &quot;aria-disabled&quot;: $disabled, disabled: $disabled, tabindex: $tabIndex }, css: { &quot;azc-itemlist-selected fxs-portal-selected azc-br-strong&quot;: selected() &amp;&amp; !$vm.radioButtonStyle, &quot;azc-disabled&quot;: $disabled, &quot;azc-bg-disabled azc-text-disabled&quot;: $disabled, &quot;fxs-bg-dirty&quot;: $vm.dirty() &amp;&amp; selected() }" role="radio" aria-checked="true" tabindex="0">
+                            <input class="azc-formControl" type="radio" tabindex="-1" data-bind="checked: $ctl._getItemValueString($vm.value()), value: $ctl._getItemValueString($data), attr: { name: $vm.name, disabled: $disabled }" value="Включить" name="__azc-optionPicker184" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                            <span data-bind="text: text">Включить</span>
+                        </li>
+                        <!-- /ko --><!-- ko template: { name: "itemTemplate", context: { $disabled: disabled, $tabIndex: _tabindex } } -->
+                        <li class="fxs-portal-border" data-bind="attr: { role: $ctl._role, &quot;aria-label&quot;: (ariaLabel() || &quot;&quot;).trim() || null, &quot;aria-checked&quot;: selected() ? &quot;true&quot; : &quot;false&quot;, &quot;aria-disabled&quot;: $disabled, disabled: $disabled, tabindex: $tabIndex }, css: { &quot;azc-itemlist-selected fxs-portal-selected azc-br-strong&quot;: selected() &amp;&amp; !$vm.radioButtonStyle, &quot;azc-disabled&quot;: $disabled, &quot;azc-bg-disabled azc-text-disabled&quot;: $disabled, &quot;fxs-bg-dirty&quot;: $vm.dirty() &amp;&amp; selected() }" role="radio" aria-checked="false" tabindex="-1">
+                            <input class="azc-formControl" type="radio" tabindex="-1" data-bind="checked: $ctl._getItemValueString($vm.value()), value: $ctl._getItemValueString($data), attr: { name: $vm.name, disabled: $disabled }" value="Отключить" name="__azc-optionPicker184" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                            <span data-bind="text: text">Отключить</span>
+                        </li>
+                        <!-- /ko -->
+                    </ul>
+                </div>
+            </div>
+            <label class="azc-validation-messages msportalfx-tooltip-overflow"></label>
+        </div>
+        <div data-bind="pcControl: $data.commandLabelsVisibility" data-formelement="pcControl: $data.commandLabelsVisibility" class="fxc-base msportalfx-form-formelement azc-optionsGroupField fxc-OptionsGroupField azc-validationBelowCtrl" data-validatable="true">
+            <div class="azc-form-labelcontainer azc-text-label">
+                <label id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ec" for="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ec-for">Метки команд</label>
+                <div id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ec-balloon" class="fxc-base azc-control azc-dockedballoon azc-dockedballoon-info fxs-hidden-important" data-control="true">
+                    <div class="azc-dockedballoon-anchor" data-bind="attr: { &quot;aria-label&quot;: data.content, &quot;aria-expanded&quot;: data.balloonVisible().toString(), &quot;aria-owns&quot;: data.balloonId, &quot;aria-controls&quot;: data.balloonId, &quot;aria-describedby&quot;: data.balloonId }" aria-haspopup="true" role="button" aria-expanded="false" aria-owns="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3ed" aria-controls="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3ed" aria-describedby="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3ed" tabindex="-1">
+                        <!-- ko if: $ctl._isImageShown() -->
+                        <div class="fxs-portal-svg-secondary azc-fill-hovered-heavy azc-dockedballoon-anchor-target" data-bind="css: { &quot;azc-fill-heavy&quot;: data.balloonVisible() }">
+                            <svg viewBox="0 0 9 9" focusable="false">
+                                <circle cx="4.5" cy="4.5" r="4.5"></circle>
+                                <rect x="4" y="4" class="fxs-fill-white" width="1" height="3"></rect>
+                                <rect x="4" y="2" class="fxs-fill-white" width="1" height="1"></rect>
+                            </svg>
+                        </div>
+                        <!-- /ko --><!-- ko if: $ctl._isCheckPopulated() --><!-- /ko --><!-- ko if: $ctl._isRequired() --><!-- /ko -->
+                    </div>
+                    <div role="tooltip" class="azc-dockedballoon-balloon azc-dockedballoon-info fxc-base azc-control azc-balloon azc-balloon-hidden azc-balloon-forcedisplayblock" data-bind="attr: { id: data.balloonId }" id="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3ed" data-control="true" aria-hidden="true" aria-atomic="true" data-popup="true">
+                        <div class="azc-br-muted-80-10 azc-balloon-pointer"></div>
+                        <div class="azc-bg-muted-80-10 fxs-text-white azc-balloon-content">
+                            <div class="azc-balloon-text"></div>
+                            <!--ko if: data.link()--><!--/ko-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="azc-formElementContainer azc-formElementSubLabelContainer">
+                <div class="fxc-base azc-control azc-editableControl azc-validatableControl azc-itemList azc-optionPicker azc-validation-border azc-noRadio azc-useFlex azc-validatableControl-none" data-control="true" data-editable="true" data-canfocus="true">
+                    <ul class="azc-input" data-bind="foreach: data.values, attr: { &quot;aria-disabled&quot;: $disabled, role: $ctl._roleGroup, &quot;aria-labelledby&quot;: data.label }" role="radiogroup" aria-labelledby="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ec" id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ec-for" aria-invalid="false">
+                        <!-- ko template: { name: "itemTemplate", context: { $disabled: disabled, $tabIndex: _tabindex } } -->
+                        <li class="fxs-portal-border azc-itemlist-selected fxs-portal-selected azc-br-strong" data-bind="attr: { role: $ctl._role, &quot;aria-label&quot;: (ariaLabel() || &quot;&quot;).trim() || null, &quot;aria-checked&quot;: selected() ? &quot;true&quot; : &quot;false&quot;, &quot;aria-disabled&quot;: $disabled, disabled: $disabled, tabindex: $tabIndex }, css: { &quot;azc-itemlist-selected fxs-portal-selected azc-br-strong&quot;: selected() &amp;&amp; !$vm.radioButtonStyle, &quot;azc-disabled&quot;: $disabled, &quot;azc-bg-disabled azc-text-disabled&quot;: $disabled, &quot;fxs-bg-dirty&quot;: $vm.dirty() &amp;&amp; selected() }" role="radio" aria-checked="true" tabindex="0">
+                            <input class="azc-formControl" type="radio" tabindex="-1" data-bind="checked: $ctl._getItemValueString($vm.value()), value: $ctl._getItemValueString($data), attr: { name: $vm.name, disabled: $disabled }" value="Показать" name="__azc-optionPicker185" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                            <span data-bind="text: text">Показать</span>
+                        </li>
+                        <!-- /ko --><!-- ko template: { name: "itemTemplate", context: { $disabled: disabled, $tabIndex: _tabindex } } -->
+                        <li class="fxs-portal-border" data-bind="attr: { role: $ctl._role, &quot;aria-label&quot;: (ariaLabel() || &quot;&quot;).trim() || null, &quot;aria-checked&quot;: selected() ? &quot;true&quot; : &quot;false&quot;, &quot;aria-disabled&quot;: $disabled, disabled: $disabled, tabindex: $tabIndex }, css: { &quot;azc-itemlist-selected fxs-portal-selected azc-br-strong&quot;: selected() &amp;&amp; !$vm.radioButtonStyle, &quot;azc-disabled&quot;: $disabled, &quot;azc-bg-disabled azc-text-disabled&quot;: $disabled, &quot;fxs-bg-dirty&quot;: $vm.dirty() &amp;&amp; selected() }" role="radio" aria-checked="false" tabindex="-1">
+                            <input class="azc-formControl" type="radio" tabindex="-1" data-bind="checked: $ctl._getItemValueString($vm.value()), value: $ctl._getItemValueString($data), attr: { name: $vm.name, disabled: $disabled }" value="Скрыть" name="__azc-optionPicker185" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                            <span data-bind="text: text">Скрыть</span>
+                        </li>
+                        <!-- /ko -->
+                    </ul>
+                </div>
+            </div>
+            <label class="azc-validation-messages msportalfx-tooltip-overflow"></label>
+        </div>
+        <div data-bind="pcControl: $data.notificationToastToggle" data-formelement="pcControl: $data.notificationToastToggle" class="fxc-base msportalfx-form-formelement azc-optionsGroupField fxc-OptionsGroupField azc-validationBelowCtrl" data-validatable="true">
+            <div class="azc-form-labelcontainer azc-text-label">
+                <label id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ee" for="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ee-for">Всплывающие уведомления</label>
+                <div id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ee-balloon" class="fxc-base azc-control azc-dockedballoon azc-dockedballoon-info fxs-hidden-important" data-control="true">
+                    <div class="azc-dockedballoon-anchor" data-bind="attr: { &quot;aria-label&quot;: data.content, &quot;aria-expanded&quot;: data.balloonVisible().toString(), &quot;aria-owns&quot;: data.balloonId, &quot;aria-controls&quot;: data.balloonId, &quot;aria-describedby&quot;: data.balloonId }" aria-haspopup="true" role="button" aria-expanded="false" aria-owns="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3ef" aria-controls="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3ef" aria-describedby="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3ef" tabindex="-1">
+                        <!-- ko if: $ctl._isImageShown() -->
+                        <div class="fxs-portal-svg-secondary azc-fill-hovered-heavy azc-dockedballoon-anchor-target" data-bind="css: { &quot;azc-fill-heavy&quot;: data.balloonVisible() }">
+                            <svg viewBox="0 0 9 9" focusable="false">
+                                <circle cx="4.5" cy="4.5" r="4.5"></circle>
+                                <rect x="4" y="4" class="fxs-fill-white" width="1" height="3"></rect>
+                                <rect x="4" y="2" class="fxs-fill-white" width="1" height="1"></rect>
+                            </svg>
+                        </div>
+                        <!-- /ko --><!-- ko if: $ctl._isCheckPopulated() --><!-- /ko --><!-- ko if: $ctl._isRequired() --><!-- /ko -->
+                    </div>
+                    <div role="tooltip" class="azc-dockedballoon-balloon azc-dockedballoon-info fxc-base azc-control azc-balloon azc-balloon-hidden azc-balloon-forcedisplayblock" data-bind="attr: { id: data.balloonId }" id="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3ef" data-control="true" aria-hidden="true" aria-atomic="true" data-popup="true">
+                        <div class="azc-br-muted-80-10 azc-balloon-pointer"></div>
+                        <div class="azc-bg-muted-80-10 fxs-text-white azc-balloon-content">
+                            <div class="azc-balloon-text"></div>
+                            <!--ko if: data.link()--><!--/ko-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="azc-formElementContainer azc-formElementSubLabelContainer">
+                <div class="fxc-base azc-control azc-editableControl azc-validatableControl azc-itemList azc-optionPicker azc-validation-border azc-noRadio azc-useFlex azc-validatableControl-none" data-control="true" data-editable="true" data-canfocus="true">
+                    <ul class="azc-input" data-bind="foreach: data.values, attr: { &quot;aria-disabled&quot;: $disabled, role: $ctl._roleGroup, &quot;aria-labelledby&quot;: data.label }" role="radiogroup" aria-labelledby="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ee" id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3ee-for" aria-invalid="false">
+                        <!-- ko template: { name: "itemTemplate", context: { $disabled: disabled, $tabIndex: _tabindex } } -->
+                        <li class="fxs-portal-border azc-itemlist-selected fxs-portal-selected azc-br-strong" data-bind="attr: { role: $ctl._role, &quot;aria-label&quot;: (ariaLabel() || &quot;&quot;).trim() || null, &quot;aria-checked&quot;: selected() ? &quot;true&quot; : &quot;false&quot;, &quot;aria-disabled&quot;: $disabled, disabled: $disabled, tabindex: $tabIndex }, css: { &quot;azc-itemlist-selected fxs-portal-selected azc-br-strong&quot;: selected() &amp;&amp; !$vm.radioButtonStyle, &quot;azc-disabled&quot;: $disabled, &quot;azc-bg-disabled azc-text-disabled&quot;: $disabled, &quot;fxs-bg-dirty&quot;: $vm.dirty() &amp;&amp; selected() }" role="radio" aria-checked="true" tabindex="0">
+                            <input class="azc-formControl" type="radio" tabindex="-1" data-bind="checked: $ctl._getItemValueString($vm.value()), value: $ctl._getItemValueString($data), attr: { name: $vm.name, disabled: $disabled }" value="Включить" name="__azc-optionPicker186" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                            <span data-bind="text: text">Включить</span>
+                        </li>
+                        <!-- /ko --><!-- ko template: { name: "itemTemplate", context: { $disabled: disabled, $tabIndex: _tabindex } } -->
+                        <li class="fxs-portal-border" data-bind="attr: { role: $ctl._role, &quot;aria-label&quot;: (ariaLabel() || &quot;&quot;).trim() || null, &quot;aria-checked&quot;: selected() ? &quot;true&quot; : &quot;false&quot;, &quot;aria-disabled&quot;: $disabled, disabled: $disabled, tabindex: $tabIndex }, css: { &quot;azc-itemlist-selected fxs-portal-selected azc-br-strong&quot;: selected() &amp;&amp; !$vm.radioButtonStyle, &quot;azc-disabled&quot;: $disabled, &quot;azc-bg-disabled azc-text-disabled&quot;: $disabled, &quot;fxs-bg-dirty&quot;: $vm.dirty() &amp;&amp; selected() }" role="radio" aria-checked="false" tabindex="-1">
+                            <input class="azc-formControl" type="radio" tabindex="-1" data-bind="checked: $ctl._getItemValueString($vm.value()), value: $ctl._getItemValueString($data), attr: { name: $vm.name, disabled: $disabled }" value="Отключить" name="__azc-optionPicker186" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                            <span data-bind="text: text">Отключить</span>
+                        </li>
+                        <!-- /ko -->
+                    </ul>
+                </div>
+            </div>
+            <label class="azc-validation-messages msportalfx-tooltip-overflow"></label>
+        </div>
+        <div data-bind="pcControl: $data.relexToggle" data-formelement="pcControl: $data.relexToggle" class="fxc-base msportalfx-form-formelement azc-optionsGroupField fxc-OptionsGroupField azc-validationBelowCtrl" data-validatable="true">
+            <div class="azc-form-labelcontainer azc-text-label">
+                <label id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f0" for="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f0-for">Экспериментальная функция для повышения производительности на маломощных устройствах (требуется обновление страницы)</label>
+                <div id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f0-balloon" class="fxc-base azc-control azc-dockedballoon azc-dockedballoon-info fxs-hidden-important" data-control="true">
+                    <div class="azc-dockedballoon-anchor" data-bind="attr: { &quot;aria-label&quot;: data.content, &quot;aria-expanded&quot;: data.balloonVisible().toString(), &quot;aria-owns&quot;: data.balloonId, &quot;aria-controls&quot;: data.balloonId, &quot;aria-describedby&quot;: data.balloonId }" aria-haspopup="true" role="button" aria-expanded="false" aria-owns="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f1" aria-controls="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f1" aria-describedby="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f1" tabindex="-1">
+                        <!-- ko if: $ctl._isImageShown() -->
+                        <div class="fxs-portal-svg-secondary azc-fill-hovered-heavy azc-dockedballoon-anchor-target" data-bind="css: { &quot;azc-fill-heavy&quot;: data.balloonVisible() }">
+                            <svg viewBox="0 0 9 9" focusable="false">
+                                <circle cx="4.5" cy="4.5" r="4.5"></circle>
+                                <rect x="4" y="4" class="fxs-fill-white" width="1" height="3"></rect>
+                                <rect x="4" y="2" class="fxs-fill-white" width="1" height="1"></rect>
+                            </svg>
+                        </div>
+                        <!-- /ko --><!-- ko if: $ctl._isCheckPopulated() --><!-- /ko --><!-- ko if: $ctl._isRequired() --><!-- /ko -->
+                    </div>
+                    <div role="tooltip" class="azc-dockedballoon-balloon azc-dockedballoon-info fxc-base azc-control azc-balloon azc-balloon-hidden azc-balloon-forcedisplayblock" data-bind="attr: { id: data.balloonId }" id="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f1" data-control="true" aria-hidden="true" aria-atomic="true" data-popup="true">
+                        <div class="azc-br-muted-80-10 azc-balloon-pointer"></div>
+                        <div class="azc-bg-muted-80-10 fxs-text-white azc-balloon-content">
+                            <div class="azc-balloon-text"></div>
+                            <!--ko if: data.link()--><!--/ko-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="azc-formElementContainer azc-formElementSubLabelContainer">
+                <div class="fxc-base azc-control azc-editableControl azc-validatableControl azc-itemList azc-optionPicker azc-validation-border azc-noRadio azc-useFlex azc-validatableControl-none" data-control="true" data-editable="true" data-canfocus="true">
+                    <ul class="azc-input" data-bind="foreach: data.values, attr: { &quot;aria-disabled&quot;: $disabled, role: $ctl._roleGroup, &quot;aria-labelledby&quot;: data.label }" role="radiogroup" aria-labelledby="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f0" id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f0-for" aria-invalid="false">
+                        <!-- ko template: { name: "itemTemplate", context: { $disabled: disabled, $tabIndex: _tabindex } } -->
+                        <li class="fxs-portal-border" data-bind="attr: { role: $ctl._role, &quot;aria-label&quot;: (ariaLabel() || &quot;&quot;).trim() || null, &quot;aria-checked&quot;: selected() ? &quot;true&quot; : &quot;false&quot;, &quot;aria-disabled&quot;: $disabled, disabled: $disabled, tabindex: $tabIndex }, css: { &quot;azc-itemlist-selected fxs-portal-selected azc-br-strong&quot;: selected() &amp;&amp; !$vm.radioButtonStyle, &quot;azc-disabled&quot;: $disabled, &quot;azc-bg-disabled azc-text-disabled&quot;: $disabled, &quot;fxs-bg-dirty&quot;: $vm.dirty() &amp;&amp; selected() }" role="radio" aria-checked="false" tabindex="-1">
+                            <input class="azc-formControl" type="radio" tabindex="-1" data-bind="checked: $ctl._getItemValueString($vm.value()), value: $ctl._getItemValueString($data), attr: { name: $vm.name, disabled: $disabled }" value="Включить" name="__azc-optionPicker187" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                            <span data-bind="text: text">Включить</span>
+                        </li>
+                        <!-- /ko --><!-- ko template: { name: "itemTemplate", context: { $disabled: disabled, $tabIndex: _tabindex } } -->
+                        <li class="fxs-portal-border azc-itemlist-selected fxs-portal-selected azc-br-strong" data-bind="attr: { role: $ctl._role, &quot;aria-label&quot;: (ariaLabel() || &quot;&quot;).trim() || null, &quot;aria-checked&quot;: selected() ? &quot;true&quot; : &quot;false&quot;, &quot;aria-disabled&quot;: $disabled, disabled: $disabled, tabindex: $tabIndex }, css: { &quot;azc-itemlist-selected fxs-portal-selected azc-br-strong&quot;: selected() &amp;&amp; !$vm.radioButtonStyle, &quot;azc-disabled&quot;: $disabled, &quot;azc-bg-disabled azc-text-disabled&quot;: $disabled, &quot;fxs-bg-dirty&quot;: $vm.dirty() &amp;&amp; selected() }" role="radio" aria-checked="true" tabindex="0">
+                            <input class="azc-formControl" type="radio" tabindex="-1" data-bind="checked: $ctl._getItemValueString($vm.value()), value: $ctl._getItemValueString($data), attr: { name: $vm.name, disabled: $disabled }" value="Отключить" name="__azc-optionPicker187" data-validatable-control-valid="true" data-validatable-control-validation-state="none">
+                            <span data-bind="text: text">Отключить</span>
+                        </li>
+                        <!-- /ko -->
+                    </ul>
+                </div>
+            </div>
+            <label class="azc-validation-messages msportalfx-tooltip-overflow"></label>
+        </div>
+        <!--ko if: $data.whatsNewEnabled --><!-- /ko -->
+        <div class="fxs-settingspane-separator fxs-portal-border"></div>
+        <div data-bind="pcControl: $data.languageDropdown" data-formelement="pcControl: $data.languageDropdown" class="fxc-base msportalfx-form-formelement azc-dropdownField fxc-DropDownField" data-validatable="true">
+            <div class="azc-form-labelcontainer azc-text-label">
+                <label id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f2" for="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f2-for">Язык (требуется обовление)</label>
+                <div id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f2-balloon" class="fxc-base azc-control azc-dockedballoon azc-dockedballoon-info fxs-hidden-important" data-control="true">
+                    <div class="azc-dockedballoon-anchor" data-bind="attr: { &quot;aria-label&quot;: data.content, &quot;aria-expanded&quot;: data.balloonVisible().toString(), &quot;aria-owns&quot;: data.balloonId, &quot;aria-controls&quot;: data.balloonId, &quot;aria-describedby&quot;: data.balloonId }" aria-haspopup="true" role="button" aria-expanded="false" aria-owns="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f3" aria-controls="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f3" aria-describedby="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f3" tabindex="-1">
+                        <!-- ko if: $ctl._isImageShown() -->
+                        <div class="fxs-portal-svg-secondary azc-fill-hovered-heavy azc-dockedballoon-anchor-target" data-bind="css: { &quot;azc-fill-heavy&quot;: data.balloonVisible() }">
+                            <svg viewBox="0 0 9 9" focusable="false">
+                                <circle cx="4.5" cy="4.5" r="4.5"></circle>
+                                <rect x="4" y="4" class="fxs-fill-white" width="1" height="3"></rect>
+                                <rect x="4" y="2" class="fxs-fill-white" width="1" height="1"></rect>
+                            </svg>
+                        </div>
+                        <!-- /ko --><!-- ko if: $ctl._isCheckPopulated() --><!-- /ko --><!-- ko if: $ctl._isRequired() --><!-- /ko -->
+                    </div>
+                    <div role="tooltip" class="azc-dockedballoon-balloon azc-dockedballoon-info fxc-base azc-control azc-balloon azc-balloon-hidden azc-balloon-forcedisplayblock" data-bind="attr: { id: data.balloonId }" id="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f3" data-control="true" aria-hidden="true" aria-atomic="true" data-popup="true">
+                        <div class="azc-br-muted-80-10 azc-balloon-pointer"></div>
+                        <div class="azc-bg-muted-80-10 fxs-text-white azc-balloon-content">
+                            <div class="azc-balloon-text"></div>
+                            <!--ko if: data.link()--><!--/ko-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="azc-formElementContainer azc-formElementSubLabelContainer">
+                <div class="fxc-base azc-control azc-editableControl azc-validatableControl azc-dropdown azc-groupDropDown azc-validatableControl-none" data-control="true" data-editable="true" data-canfocus="true">
+                    <div class="azc-dropdown-wrapper azc-validation-border azc-formControl" data-bind="css: { &quot;fxs-br-error&quot;: data.validationState() === 1, &quot;fxs-br-dirty&quot;: data.dirty(), &quot;azc-disabled&quot;: $disabled, &quot;azc-br-focused&quot;: data.focused() }">
+                        <span class="azc-dropdown-current" data-bind="text: $ctl._currentItemText">Русский‎</span>
+                        <span class="azc-dropdown-arrow azc-dropdown-arrow-normal" data-bind="css: $ctl._arrowClass"></span>
+                        <select class="azc-dropdown-select azc-input" data-bind="attr: { name: $ctl._name, tabindex: $tabIndex }, value: data.value, valueAllowUnset: true" name="__azc-groupDropDown0-05c" tabindex="0" data-validatable-control-valid="true" data-validatable-control-validation-state="none" aria-labelledby="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f2" id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f2-for" aria-invalid="false">
+                            <!-- ko if: $ctl._isValueNotInItems () --><!-- /ko --><!-- ko foreach: { data: $vm.items, afterAdd: $ctl._syncSelectedIndex.bind($ctl) } --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en">English‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="cs">Čeština‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="de">Deutsch‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es">Español‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr">Français‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="hu">Magyar‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="it">Italiano‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ja">日本語‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ko">한국어‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="nl">Nederlands‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pl">Polski‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-br">Português (Brasil)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-pt">Português (Portugal)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ru">Русский‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="sv">Svenska‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="tr">Türkçe‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="zh-hans">中文(简体)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="zh-hant">中文(繁體)‎</option>
+                            <!-- /ko --><!-- /ko -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-bind="pcControl: $data.regionalFormatDropdown" data-formelement="pcControl: $data.regionalFormatDropdown" class="fxc-base msportalfx-form-formelement azc-dropdownField fxc-DropDownField" data-validatable="true">
+            <div class="azc-form-labelcontainer azc-text-label">
+                <label id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f4" for="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f4-for">Региональный формат (требуется обновление)</label>
+                <div id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f4-balloon" class="fxc-base azc-control azc-dockedballoon azc-dockedballoon-info fxs-hidden-important" data-control="true">
+                    <div class="azc-dockedballoon-anchor" data-bind="attr: { &quot;aria-label&quot;: data.content, &quot;aria-expanded&quot;: data.balloonVisible().toString(), &quot;aria-owns&quot;: data.balloonId, &quot;aria-controls&quot;: data.balloonId, &quot;aria-describedby&quot;: data.balloonId }" aria-haspopup="true" role="button" aria-expanded="false" aria-owns="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f5" aria-controls="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f5" aria-describedby="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f5" tabindex="-1">
+                        <!-- ko if: $ctl._isImageShown() -->
+                        <div class="fxs-portal-svg-secondary azc-fill-hovered-heavy azc-dockedballoon-anchor-target" data-bind="css: { &quot;azc-fill-heavy&quot;: data.balloonVisible() }">
+                            <svg viewBox="0 0 9 9" focusable="false">
+                                <circle cx="4.5" cy="4.5" r="4.5"></circle>
+                                <rect x="4" y="4" class="fxs-fill-white" width="1" height="3"></rect>
+                                <rect x="4" y="2" class="fxs-fill-white" width="1" height="1"></rect>
+                            </svg>
+                        </div>
+                        <!-- /ko --><!-- ko if: $ctl._isCheckPopulated() --><!-- /ko --><!-- ko if: $ctl._isRequired() --><!-- /ko -->
+                    </div>
+                    <div role="tooltip" class="azc-dockedballoon-balloon azc-dockedballoon-info fxc-base azc-control azc-balloon azc-balloon-hidden azc-balloon-forcedisplayblock" data-bind="attr: { id: data.balloonId }" id="azc-dockedballoon-balloon-45ccb7e7-b610-4821-8b01-fc006947e3f5" data-control="true" aria-hidden="true" aria-atomic="true" data-popup="true">
+                        <div class="azc-br-muted-80-10 azc-balloon-pointer"></div>
+                        <div class="azc-bg-muted-80-10 fxs-text-white azc-balloon-content">
+                            <div class="azc-balloon-text"></div>
+                            <!--ko if: data.link()--><!--/ko-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="azc-formElementContainer azc-formElementSubLabelContainer">
+                <div class="fxc-base azc-control azc-editableControl azc-validatableControl azc-dropdown azc-groupDropDown azc-validatableControl-none" data-control="true" data-editable="true" data-canfocus="true">
+                    <div class="azc-dropdown-wrapper azc-validation-border azc-formControl" data-bind="css: { &quot;fxs-br-error&quot;: data.validationState() === 1, &quot;fxs-br-dirty&quot;: data.dirty(), &quot;azc-disabled&quot;: $disabled, &quot;azc-br-focused&quot;: data.focused() }">
+                        <span class="azc-dropdown-current" data-bind="text: $ctl._currentItemText"></span>
+                        <span class="azc-dropdown-arrow azc-dropdown-arrow-normal" data-bind="css: $ctl._arrowClass"></span>
+                        <select class="azc-dropdown-select azc-input" data-bind="attr: { name: $ctl._name, tabindex: $tabIndex }, value: data.value, valueAllowUnset: true" name="__azc-groupDropDown0-05d" tabindex="0" data-validatable-control-valid="true" data-validatable-control-validation-state="none" aria-labelledby="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f4" id="azc-form-guid-45ccb7e7-b610-4821-8b01-fc006947e3f4-for" aria-invalid="false">
+                            <!-- ko if: $ctl._isValueNotInItems () -->
+                            <option></option>
+                            <!-- /ko --><!-- ko foreach: { data: $vm.items, afterAdd: $ctl._syncSelectedIndex.bind($ctl) } --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="de-be">Deutsch (Belgien)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="de-de">Deutsch (Deutschland)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="de-li">Deutsch (Liechtenstein)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="de-lu">Deutsch (Luxemburg)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="de-ch">Deutsch (Schweiz)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="de-at">Deutsch (Österreich)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-as">English (American Samoa)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ai">English (Anguilla)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ag">English (Antigua and Barbuda)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-au">English (Australia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-bs">English (Bahamas)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-bb">English (Barbados)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-be">English (Belgium)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-bz">English (Belize)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-bm">English (Bermuda)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-bw">English (Botswana)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-io">English (British Indian Ocean Territory)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-vg">English (British Virgin Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-cm">English (Cameroon)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ca">English (Canada)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-029">English (Caribbean)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ky">English (Cayman Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-cx">English (Christmas Island)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-cc">English (Cocos (Keeling) Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ck">English (Cook Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-dm">English (Dominica)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-er">English (Eritrea)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-150">English (Europe)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-fk">English (Falkland Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-fj">English (Fiji)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-gm">English (Gambia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-gh">English (Ghana)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-gi">English (Gibraltar)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-gd">English (Grenada)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-gu">English (Guam)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-gg">English (Guernsey)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-gy">English (Guyana)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-hk">English (Hong Kong SAR)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-in">English (India)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-id">English (Indonesia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ie">English (Ireland)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-im">English (Isle of Man)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-jm">English (Jamaica)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-je">English (Jersey)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ke">English (Kenya)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ki">English (Kiribati)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ls">English (Lesotho)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-lr">English (Liberia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-mo">English (Macao SAR)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-mg">English (Madagascar)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-mw">English (Malawi)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-my">English (Malaysia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-mt">English (Malta)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-mh">English (Marshall Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-mu">English (Mauritius)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-fm">English (Micronesia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ms">English (Montserrat)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-na">English (Namibia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-nr">English (Nauru)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-nz">English (New Zealand)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ng">English (Nigeria)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-nu">English (Niue)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-nf">English (Norfolk Island)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-mp">English (Northern Mariana Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-pk">English (Pakistan)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-pw">English (Palau)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-pg">English (Papua New Guinea)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ph">English (Philippines)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-pn">English (Pitcairn Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-pr">English (Puerto Rico)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-rw">English (Rwanda)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-kn">English (Saint Kitts and Nevis)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-lc">English (Saint Lucia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-vc">English (Saint Vincent and the Grenadines)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ws">English (Samoa)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-sc">English (Seychelles)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-sl">English (Sierra Leone)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-sg">English (Singapore)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-sx">English (Sint Maarten)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-sb">English (Solomon Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-za">English (South Africa)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ss">English (South Sudan)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-sh">English (St Helena, Ascension, Tristan da Cunha)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-sd">English (Sudan)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-sz">English (Swaziland)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-tz">English (Tanzania)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-tk">English (Tokelau)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-to">English (Tonga)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-tt">English (Trinidad and Tobago)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-tc">English (Turks and Caicos Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-tv">English (Tuvalu)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-um">English (U.S. Outlying Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-vi">English (U.S. Virgin Islands)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-ug">English (Uganda)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-gb">English (United Kingdom)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-us">English (United States)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-vu">English (Vanuatu)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-001">English (World)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-zm">English (Zambia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="en-zw">English (Zimbabwe)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-ar">Español (Argentina)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-bo">Español (Bolivia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-cl">Español (Chile)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-co">Español (Colombia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-cr">Español (Costa Rica)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-cu">Español (Cuba)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-ec">Español (Ecuador)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-sv">Español (El Salvador)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-es">Español (España, alfabetización internacional)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-us">Español (Estados Unidos)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-ph">Español (Filipinas)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-gt">Español (Guatemala)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-gq">Español (Guinea Ecuatorial)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-hn">Español (Honduras)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-419">Español (Latinoamérica)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-mx">Español (México)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-ni">Español (Nicaragua)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-pa">Español (Panamá)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-py">Español (Paraguay)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-pe">Español (Perú)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-pr">Español (Puerto Rico)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-do">Español (República Dominicana)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-uy">Español (Uruguay)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="es-ve">Español (Venezuela)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-dz">Français (Algérie)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-be">Français (Belgique)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-bf">Français (Burkina Faso)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-bi">Français (Burundi)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-bj">Français (Bénin)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-cm">Français (Cameroun)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-ca">Français (Canada)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-029">Français (caraïbes)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-km">Français (Comores)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-cg">Français (Congo)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-cd">Français (Congo, République démocratique du)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-ci">Français (Côte d’Ivoire)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-dj">Français (Djibouti)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-fr">Français (France)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-ga">Français (Gabon)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-gp">Français (Guadeloupe)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-gq">Français (Guinée équatoriale)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-gn">Français (Guinée)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-gf">Français (Guyane française)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-ht">Français (Haïti)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-re">Français (La Réunion)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-lu">Français (Luxembourg)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-mg">Français (Madagascar)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-ml">Français (Mali)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-ma">Français (Maroc)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-mq">Français (Martinique)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-mu">Français (Maurice)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-mr">Français (Mauritanie)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-yt">Français (Mayotte)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-mc">Français (Monaco)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-ne">Français (Niger)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-nc">Français (Nouvelle-Calédonie)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-pf">Français (Polynésie française)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-rw">Français (Rwanda)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-cf">Français (République centrafricaine)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-bl">Français (Saint-Barthélemy)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-mf">Français (Saint-Martin)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-pm">Français (Saint-Pierre-et-Miquelon)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-sc">Français (Seychelles)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-ch">Français (Suisse)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-sy">Français (Syrie)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-sn">Français (Sénégal)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-td">Français (Tchad)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-tg">Français (Togo)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-tn">Français (Tunisie)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-vu">Français (Vanuatu)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="fr-wf">Français (Wallis-et-Futuna)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="it-it">Italiano (Italia)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="it-sm">Italiano (San Marino)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="it-ch">Italiano (Svizzera)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="hu-hu">Magyar (Magyarország)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="nl-aw">Nederlands (Aruba)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="nl-be">Nederlands (België)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="nl-bq">Nederlands (Bonaire, Sint Eustatius en Saba)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="nl-cw">Nederlands (Curaçao)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="nl-nl">Nederlands (Nederland)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="nl-sx">Nederlands (Sint-Maarten)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="nl-sr">Nederlands (Suriname)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pl-pl">Polski (Polska)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-ao">Português (Angola)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-br">Português (Brasil)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-cv">Português (Cabo Verde)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-gw">Português (Guiné-Bissau)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-mz">Português (Moçambique)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-pt">Português (Portugal)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-mo">Português (RAE de Macau)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-st">Português (São Tomé e Príncipe)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="pt-tl">Português (Timor-Leste)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="sv-fi">Svenska (Finland)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="sv-se">Svenska (Sverige)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="sv-ax">Svenska (Åland)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="tr-cy">Türkçe (Güney Kıbrıs Rum Kesimi)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="tr-tr">Türkçe (Türkiye)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="cs-cz">Čeština (Česká republika)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ru-by">Русский (Беларусь)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ru-kz">Русский (Казахстан)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ru-kg">Русский (Киргизия)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ru-md">Русский (Молдова)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ru-ru">Русский (Россия)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ru-ua">Русский (Украина)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="zh-cn">中文(中华人民共和国)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="zh-tw">中文(台灣)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="zh-sg">中文(新加坡)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="zh-mo">中文(澳門特別行政區)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="zh-hk">中文(香港特別行政區)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ja-jp">日本語 (日本)‎</option>
+                            <!-- /ko --><!--ko if: hasOwnProperty('items')--><!-- /ko --><!--ko ifnot: hasOwnProperty('items')-->
+                            <option data-bind="text: text, value: value, disable: disabled" value="ko-kr">한국어(대한민국)‎</option>
+                            <!-- /ko --><!-- /ko -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fxs-settingspane-separator fxs-portal-border"></div>
+        <!--ko if: $data.showDebugContextPane() --><!-- /ko -->
+    </div>
+    <div class="fxs-settingspane-bottom">
+        <div>
+            <a class="fxs-settingspane-resetlayout-link" tabindex="0" role="link">Восстановить настройки по умолчанию</a>
+        </div>
+        <button class="fxs-settingspane-item fxs-settingspane-apply fxc-base fxc-button azc-control azc-button fxt-button azc-button-default fxs-portal-button-primary" data-bind="pcControl: $data.applyButton, text: $data.applyButtonText()" data-formelement="pcControl: $data.applyButton, text: $data.applyButtonText()" data-control="true" role="button" type="button" tabindex="0" aria-disabled="false">Применить</button>
+        <button class="fxs-settingspane-item fxs-settingspane-cancel fxc-base fxc-button azc-control azc-button fxt-button azc-button-default fxs-portal-button-primary" data-bind="pcControl: $data.cancelButton" data-formelement="pcControl: $data.cancelButton" data-control="true" role="button" type="button" tabindex="0" aria-disabled="false">
+            Отмена
+            <div class="fxc-actionBarBase-validationContainer">
+                Идет проверка...
+                <div class="fxc-actionBarBase-spinner">
+                    <svg viewBox="0 0 24 24" class=" msportalfx-svg-rotate360" role="presentation" focusable="false" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g>
+                            <path opacity="0.8" d="M12 3.9c4.4 0 8.1 3.6 8.1 8.1s-3.6 8.1-8.1 8.1-8.1-3.7-8.1-8.1S7.6 3.9 12 3.9M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z" class="msportalfx-svg-c03"></path>
+                            <path d="M12 3.9V0C5.4 0 0 5.4 0 12h3.9c0-4.4 3.7-8.1 8.1-8.1z" class="msportalfx-svg-c16"></path>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </button>
+    </div>
+</div>

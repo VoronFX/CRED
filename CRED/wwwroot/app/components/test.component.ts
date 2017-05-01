@@ -6,7 +6,7 @@ import { BladeUiModule, BladeUiService, PortalComponent, Favorite, Blade } from 
     templateUrl: "component/TestComponent"
 })
 export class TestComponent implements AfterViewInit {
-
+    theme = 'azure';
     private bladeUiService: BladeUiService;
 
     constructor(bladeUiService: BladeUiService) {
@@ -14,6 +14,7 @@ export class TestComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
+        //setTimeout(() => { this.theme = 'dark'; }, 5000);
         //this.bladeUiService.sidebar.favorites = [
         //    new Favorite({
         //        label: "New Blade", uri: "javaScript:void(0);", opensExternal: false, isFavorite: false, action: ()=> {

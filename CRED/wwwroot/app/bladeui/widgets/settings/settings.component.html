@@ -1,0 +1,9 @@
+﻿<a [ngClass]="{ 
+   'fxs-topbar-settings fxs-menu-settings fxs-topbar-button fxs-trim-svg' : true,
+   'fxs-trim-hover' : !opened, 
+   'fxs-portal-svg fxs-portal-background' : opened }"
+   role="button" data-bind="attr: { title: data.text.settings }, image: data.settingsIcon" title="Параметры" (click)="onClick()">
+    <svg height="100%" width="100%" aria-hidden="true" role="presentation" focusable="false">
+        <use href="#FxSymbol0-00c"></use>
+    </svg>
+</a>

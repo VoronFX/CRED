@@ -16,10 +16,20 @@ var BladeUiModule = (function () {
 BladeUiModule = __decorate([
     core_1.NgModule({
         imports: [common_1.CommonModule],
-        declarations: [definitions_1.BladeComponent, definitions_1.PanoramaComponent,
-            definitions_1.SideBarComponent, definitions_1.TopBarComponent, definitions_1.AzureSvgComponent, definitions_1.AzureSvgSymbolsComponent],
-        exports: [definitions_1.BladeComponent, definitions_1.PanoramaComponent,
-            definitions_1.SideBarComponent, definitions_1.TopBarComponent, definitions_1.AzureSvgComponent, definitions_1.AzureSvgSymbolsComponent],
+        declarations: [
+            definitions_1.ContentHostDirective,
+            definitions_1.BladeComponent,
+            definitions_1.PanoramaComponent,
+            definitions_1.PortalComponent,
+            definitions_1.SideBarComponent,
+            definitions_1.TopBarComponent,
+            definitions_1.AzureSvgSymbolsComponent,
+            definitions_1.SettingsComponent,
+            definitions_1.ContextPaneComponent,
+            definitions_1.SettingsPaneComponent
+        ],
+        entryComponents: [definitions_1.SettingsPaneComponent],
+        exports: [definitions_1.PortalComponent],
         bootstrap: []
     })
 ], BladeUiModule);

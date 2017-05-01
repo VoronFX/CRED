@@ -1,1 +1,1 @@
-{"version":3,"file":"definitions.js","sourceRoot":"","sources":["definitions.ts"],"names":[],"mappings":";;;;AAAA,iCAA4B;AAC5B,uCAAkC;AAClC,oCAA+B;AAC/B,yEAAoE;AACpE,2DAAsD;AACtD,yDAAoD;AACpD,uDAAkD;AAClD,qDAAgD;AAChD,2DAAsD;AACtD,uDAAkD;AAClD,sCAAiC"}
+{"version":3,"file":"definitions.js","sourceRoot":"","sources":["definitions.ts"],"names":[],"mappings":";;;;AAAA,iCAA4B;AAC5B,uCAAkC;AAClC,oCAA+B;AAC/B,qDAAgD,CAAC,4BAA4B;AAC7E,iEAA4D;AAC5D,+DAA0D;AAC1D,2DAAsD;AACtD,yEAAoE;AACpE,2DAAsD;AACtD,yDAAoD;AACpD,uDAAkD;AAClD,qDAAgD;AAChD,2DAAsD;AACtD,uDAAkD;AAClD,sCAAiC"}

@@ -16,6 +16,7 @@ Resources.Urls = new (function () {
         this.Templates = new (function () {
             function class_2() {
                 this.widgetsPath = "./app/bladeui/widgets/";
+                this.ContextPane = this.widgetsPath + "contextpane/contextpane.component.html";
                 this.AzureSvgSymbols = this.widgetsPath + "azuresvgsymbols/azuresvgsymbols.component.html";
                 this.AzureSvg = this.widgetsPath + "azuresvg/azuresvg.component.html";
                 this.SideBar = this.widgetsPath + "sidebar/sidebar.component.html";
@@ -23,6 +24,8 @@ Resources.Urls = new (function () {
                 this.Panorama = this.widgetsPath + "panorama/panorama.component.html";
                 this.Portal = this.widgetsPath + "portal/portal.component.html";
                 this.Blade = this.widgetsPath + "blade/blade.component.html";
+                this.Settings = this.widgetsPath + "settings/settings.component.html";
+                this.SettingsPane = this.widgetsPath + "settings/settingspane.component.html";
             }
             return class_2;
         }());

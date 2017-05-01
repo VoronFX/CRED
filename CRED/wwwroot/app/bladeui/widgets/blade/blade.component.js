@@ -14,7 +14,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var core_2 = require("@angular/core");
 var definitions_1 = require("../../definitions");
 var AzureBlade = (function () {
     function AzureBlade() {
@@ -61,19 +60,6 @@ var AzureBlade = (function () {
     ;
     return AzureBlade;
 }());
-var ContentDirective = (function () {
-    function ContentDirective(viewContainerRef) {
-        this.viewContainerRef = viewContainerRef;
-    }
-    return ContentDirective;
-}());
-ContentDirective = __decorate([
-    core_2.Directive({
-        selector: "[content-host]",
-    }),
-    __metadata("design:paramtypes", [core_2.ViewContainerRef])
-], ContentDirective);
-exports.ContentDirective = ContentDirective;
 var BladeComponent = (function (_super) {
     __extends(BladeComponent, _super);
     function BladeComponent(_componentFactoryResolver, bladeUiService) {
@@ -99,8 +85,8 @@ var BladeComponent = (function (_super) {
             _this.blade.component = _this;
             _this.blade.init();
             //  let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.blade.contentComponent);
-            var viewContainerRef = _this.contentHost.viewContainerRef;
-            viewContainerRef.clear();
+            //let viewContainerRef = this.contentHost.viewContainerRef;
+            //viewContainerRef.clear();
             // let componentRef = viewContainerRef.createComponent(componentFactory);
         }, 10);
     };
@@ -116,10 +102,6 @@ var BladeComponent = (function (_super) {
     };
     return BladeComponent;
 }(AzureBlade));
-__decorate([
-    core_1.ViewChild(ContentDirective),
-    __metadata("design:type", ContentDirective)
-], BladeComponent.prototype, "contentHost", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", Blade)

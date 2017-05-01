@@ -1,5 +1,4 @@
 ﻿import { Component, ViewEncapsulation, ElementRef, Input, ViewChild, AfterViewInit, ComponentFactoryResolver} from "@angular/core";
-import { Directive, ViewContainerRef } from "@angular/core";
 import { Resources, BladeUiService } from "../../definitions";
 
 class AzureBlade {
@@ -50,13 +49,6 @@ class AzureBlade {
     disabledMessageSubtitle = "";
 }
 
-@Directive({
-    selector: "[content-host]",
-})
-export class ContentDirective {
-    constructor(public viewContainerRef: ViewContainerRef) { }
-}
-
 @Component({
     selector: ".fxs-blade",
     templateUrl: Resources.Urls.Templates.Blade,
@@ -71,7 +63,7 @@ export class BladeComponent extends AzureBlade implements AfterViewInit {
     private bladeUiService: BladeUiService;
     private animAdd = true;
     closed: boolean;
-    @ViewChild(ContentDirective) contentHost: ContentDirective;
+    //@ViewChild(ContentDirective) contentHost: ContentDirective;
     @Input() blade: Blade;
 
     constructor(private _componentFactoryResolver: ComponentFactoryResolver, bladeUiService: BladeUiService) {
@@ -88,8 +80,8 @@ export class BladeComponent extends AzureBlade implements AfterViewInit {
 
           //  let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.blade.contentComponent);
 
-            let viewContainerRef = this.contentHost.viewContainerRef;
-            viewContainerRef.clear();
+            //let viewContainerRef = this.contentHost.viewContainerRef;
+            //viewContainerRef.clear();
 
            // let componentRef = viewContainerRef.createComponent(componentFactory);
 

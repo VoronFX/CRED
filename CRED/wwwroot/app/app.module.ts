@@ -17,7 +17,7 @@ import { BladeUiModule, BladeUiService, PortalComponent } from "./bladeui/defini
 
 @NgModule({
     imports: [BrowserAnimationsModule, BrowserModule, FormsModule, HttpModule, ToastrModule.forRoot(), routing, BladeUiModule],
-    declarations: [AppComponent, routedComponents, PortalComponent],
+    declarations: [AppComponent, routedComponents],
     providers: [SampleDataService,
         AuthService, BladeUiService,
         AuthGuard, Title, { provide: APP_BASE_HREF, useValue: "/a2spa" }],

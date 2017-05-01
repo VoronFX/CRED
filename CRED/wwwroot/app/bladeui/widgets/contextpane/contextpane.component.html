@@ -1,0 +1,28 @@
+﻿<div [ngClass]="{
+   'fxs-contextpane fxs-portal-bg-txt-br' : true,
+   'fxs-portal-contextpane-right' : alignment === 'right',
+   'fxs-portal-contextpane-left' : alignment === 'left',
+   'fxs-contextpane-visible fxs-trimfxs-contextpane-visible' : opened,
+   'fxs-contextpane-loading' : bladeUiService.loading }"
+     role="complementary">
+
+    <button type="button" [ngClass]="{
+            'fxs-contextpane-expand' : true,
+            'fxs-display-none' : expandable }" (click)="onCloseClick()">
+        <div class="fxs-contextpane-button-inner fxs-portal-svg">
+            <svg class="msportalfx-svg-placeholder" height="100%" width="100%"><title></title><use href="#FxSymbol0-002"></use></svg>
+        </div>
+    </button>
+
+    <button type="button" class="fxs-contextpane-close" title="Закрыть" (click)="onCloseClick()">
+        <div class="fxs-contextpane-button-inner fxs-portal-svg">
+            <svg class="msportalfx-svg-placeholder" height="100%" width="100%"><title></title><use href="#FxSymbol0-003"></use></svg>
+        </div>
+    </button>
+    <ng-template #content></ng-template>
+    <div class="fxs-progress-dots">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>

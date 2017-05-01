@@ -9,6 +9,7 @@ class TopBarAzure {
         exitCustomizeText = "Передвигайте и закрепляйте плитки, а также меняйте их размер.";
         discardDashboardButton = "Отменить";
         internalText = "Внутрен.";
+        previewText = "BETA";
         customize = "Настроить";
         settings = "Параметры";
         feedback = "Отзывы и предложения";
@@ -17,6 +18,7 @@ class TopBarAzure {
     };
     isInternalOnly = false;
 
+    showPreview = true;
     inDevMode = false;
     _exitDevMode() { };
 
@@ -47,5 +49,5 @@ export class TopBarComponent extends TopBarAzure {
         super();
         this.settingsIcon = sanitizer.bypassSecurityTrustHtml(new MsPortalFxImages().Shell.Chevron);
     }
-    productName = "My Little Entreprise";
+    productName = "CRED";
 }

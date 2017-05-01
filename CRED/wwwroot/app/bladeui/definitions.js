@@ -5,6 +5,10 @@ function __export(m) {
 __export(require("./resources"));
 __export(require("./bladeui.service"));
 __export(require("./azure/images"));
+__export(require("./widgets/contenthost.directive")); //should be before dependent
+__export(require("./widgets/contextpane/contextpane.component"));
+__export(require("./widgets/settings/settingspane.component"));
+__export(require("./widgets/settings/settings.component"));
 __export(require("./widgets/azuresvgsymbols/azuresvgsymbols.component"));
 __export(require("./widgets/azuresvg/azuresvg.component"));
 __export(require("./widgets/sidebar/sidebar.component"));
