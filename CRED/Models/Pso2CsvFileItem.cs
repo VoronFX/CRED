@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace A2SPA.Models
+namespace CRED.Models
 {
 	public class Pso2CsvFileItem
 	{

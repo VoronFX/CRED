@@ -1,0 +1,42 @@
+﻿@using CRED.Helpers
+@using Microsoft.AspNetCore.Hosting.Internal
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Caching.Memory
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CRED</title>
+    <base href="~/">
+</head>
+<body>
+    <div id="main"></div>
+    @{
+        Html.RenderPartial("SplashScreen");
+        IgnoreBody();
+    }
+    <div id="loader-message"></div>
+    <environment names="Development">
+        <script type="text/javascript">
+        var resources = [
+            //   { url: "@Context.AppendVersion("/css/site.min.css")" },
+            { url: "@Context.AppendVersion("/js/site.js")" }
+        ];
+        </script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script type="text/javascript">
+        var resources = [
+            { url: "@Context.AppendVersion("/css/site.min.css")" },
+            { url: "@Context.AppendVersion("/js/site.min.js")" }
+        ];
+        </script>
+    </environment>
+    @{
+        Html.RenderPartial("LoaderScript");
+    }
+</body>
+</html>

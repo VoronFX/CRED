@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace A2SPA.Models
+namespace CRED.Models
 {
     public class Pso2CsvValue
     {

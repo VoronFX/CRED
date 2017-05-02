@@ -1,25 +1,25 @@
-﻿using A2SPA.Data;
-using A2SPA.Models;
-using A2SPA.ViewModels.Account;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using System.Threading.Tasks;
+using CRED.Data;
+using CRED.Models;
+using CRED.ViewModels.Account;
 
-namespace A2SPA.Api
+namespace CRED.Api
 {
     [SwaggerIgnore]
     [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly A2spaContext _applicationDbContext;
+        private readonly CREDContext _applicationDbContext;
         private static bool _databaseChecked;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
-            A2spaContext applicationDbContext)
+            CREDContext applicationDbContext)
         {
             _userManager = userManager;
             _applicationDbContext = applicationDbContext;

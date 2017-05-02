@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using A2SPA.Data;
+using CRED.Data;
 
-namespace A2SPA.Migrations
+namespace CRED.Migrations
 {
-    [DbContext(typeof(A2spaContext))]
+    [DbContext(typeof(CREDContext))]
     [Migration("20170415135611_InitialMigration")]
     partial class InitialMigration
     {

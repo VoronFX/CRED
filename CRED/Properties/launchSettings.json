@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "A2SPA": {
+    "Selfhost": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

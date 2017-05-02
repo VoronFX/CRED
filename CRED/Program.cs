@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-namespace A2SPA
+namespace CRED
 {
     public class Program
     {

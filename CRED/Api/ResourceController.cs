@@ -1,12 +1,12 @@
-﻿using A2SPA.Models;
-using AspNet.Security.OAuth.Validation;
+﻿using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using System.Threading.Tasks;
+using CRED.Models;
 
-namespace A2SPA.Api
+namespace CRED.Api
 {
     [SwaggerIgnore]
     [Route("api")]

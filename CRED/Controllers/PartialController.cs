@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
-namespace A2SPA.Controllers
+namespace CRED.Controllers
 {
     [SwaggerIgnore]
     public class PartialController : Controller

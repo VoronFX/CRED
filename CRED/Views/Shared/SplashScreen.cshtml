@@ -1,0 +1,248 @@
+﻿<div class="splashscreen-container">
+
+    <style>
+        .sk-folding-cube {
+            height: 100px;
+            width: 100px;
+            transition: width 2s;
+            display: inline-block;
+            padding: 50px;
+            -webkit-transform: rotateZ(45deg);
+            transform: rotateZ(45deg);
+        }
+
+            .sk-folding-cube .sk-cube {
+                float: left;
+                width: 50%;
+                height: 50%;
+                position: relative;
+                -webkit-transform: scale(1.1);
+                -ms-transform: scale(1.1);
+                transform: scale(1.1);
+            }
+
+                .sk-folding-cube .sk-cube:before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    /*background-color: #333;*/
+                    background-color: #000;
+                    -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+                    animation: sk-foldCubeAngle 2.4s infinite linear both;
+                    -webkit-transform-origin: 100% 100%;
+                    -ms-transform-origin: 100% 100%;
+                    transform-origin: 100% 100%;
+                }
+
+            .sk-folding-cube .sk-cube1 {
+                -webkit-transform: scale(1.1) rotateZ(0);
+                transform: scale(1.1) rotateZ(0);
+            }
+
+            .sk-folding-cube .sk-cube2 {
+                -webkit-transform: scale(1.1) rotateZ(90deg);
+                transform: scale(1.1) rotateZ(90deg);
+            }
+
+            .sk-folding-cube .sk-cube3 {
+                -webkit-transform: scale(1.1) rotateZ(180deg);
+                transform: scale(1.1) rotateZ(180deg);
+            }
+
+            .sk-folding-cube .sk-cube4 {
+                -webkit-transform: scale(1.1) rotateZ(270deg);
+                transform: scale(1.1) rotateZ(270deg);
+            }
+
+            .sk-folding-cube .sk-cube2:before {
+                -webkit-animation-delay: 0.3s;
+                animation-delay: 0.3s;
+            }
+
+            .sk-folding-cube .sk-cube3:before {
+                -webkit-animation-delay: 0.6s;
+                animation-delay: 0.6s;
+            }
+
+            .sk-folding-cube .sk-cube4:before {
+                -webkit-animation-delay: 0.9s;
+                animation-delay: 0.9s;
+            }
+
+        @@-webkit-keyframes sk-foldCubeAngle {
+            0%, 10% {
+                -webkit-transform: perspective(300px) rotateX(-180deg);
+                transform: perspective(300px) rotateX(-180deg);
+                opacity: 0;
+            }
+
+            25%, 75% {
+                -webkit-transform: perspective(300px) rotateX(0deg);
+                transform: perspective(300px) rotateX(0deg);
+                opacity: 1;
+            }
+
+            90%, 100% {
+                -webkit-transform: perspective(300px) rotateY(180deg);
+                transform: perspective(300px) rotateY(180deg);
+                opacity: 0;
+            }
+        }
+
+        @@keyframes sk-foldCubeAngle {
+            0%, 10% {
+                -webkit-transform: perspective(300px) rotateX(-180deg);
+                transform: perspective(300px) rotateX(-180deg);
+                opacity: 0;
+            }
+
+            25%, 75% {
+                -webkit-transform: perspective(300px) rotateX(0deg);
+                transform: perspective(300px) rotateX(0deg);
+                opacity: 1;
+            }
+
+            90%, 100% {
+                -webkit-transform: perspective(300px) rotateY(180deg);
+                transform: perspective(300px) rotateY(180deg);
+                opacity: 0;
+            }
+        }
+    </style>
+    <style>
+        .splashscreen-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: auto;
+            right: 0;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            position: absolute;
+            background-color: #1a9cbc;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            animation: fadein 0.5s;
+            transition: background-color 1000ms linear;
+        }
+
+        .splashscreen-container-error {
+            background-color: #a52a2a;
+        }
+
+            .splashscreen-container-error .sk-folding-cube {
+                width: 0px;
+            }
+
+        .splashscreen-container-out {
+            animation: fadeout 0.5s ease-in;
+            opacity: 0;
+        }
+
+        .splashscreen-container > div {
+            animation: sizein 0.5s;
+        }
+
+        .splashscreen-container-out > div > div {
+            animation: sizeout 0.5s ease-in;
+        }
+
+        .splashscreen-progress {
+            background: #000000;
+            height: 10px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .splashscreen-progressbar {
+            /*border: 1px;*/
+            /*border-style: solid;*/
+            /*border-color: #000000;*/
+            background-color: rgba(0,0,0,0.3);
+            padding: 3px;
+        }
+
+        .splashscreen-text {
+        }
+
+        .splashscreen-text-dev {
+            color: orange;
+        }
+
+        @@keyframes fadein {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @@keyframes fadeout {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        @@keyframes sizein {
+            from {
+                transform: scale(0.8);
+            }
+
+            to {
+                transform: scale(1.0);
+            }
+        }
+
+        @@keyframes sizeout {
+            from {
+                transform: scale(1.0);
+            }
+
+            to {
+                transform: scale(1.2);
+            }
+        }
+    </style>
+    <div>
+        <div>
+            <div class="sk-folding-cube">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+            </div>
+            <div class="splashscreen-progressbar">
+                <div class="splashscreen-progress" width="0%"></div>
+            </div>
+            <h1 class="splashscreen-text">
+                <noscript>
+                    <style>
+                        .splashscreen-container {
+                            background-color: #a52a2a;
+                        }
+
+                        .sk-folding-cube {
+                            width: 0px;
+                        }
+                    </style>
+                    Sorry. JavaScript is required!
+                </noscript>
+                <br />
+            </h1>
+            <environment names="Development">
+                <h1 class="splashscreen-text-dev">Development Mode</h1>
+            </environment>
+        </div>
+    </div>
+</div>

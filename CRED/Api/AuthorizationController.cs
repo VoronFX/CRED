@@ -4,7 +4,6 @@
  * the license and the contributors participating to this project.
  */
 
-using A2SPA.Models;
 using AspNet.Security.OpenIdConnect.Extensions;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
@@ -17,8 +16,9 @@ using OpenIddict.Core;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CRED.Models;
 
-namespace A2SPA.Api
+namespace CRED.Api
 {
     [SwaggerIgnore]
     public class AuthorizationController : Controller

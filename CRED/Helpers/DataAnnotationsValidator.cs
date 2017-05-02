@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace A2SPA.Helpers
+namespace CRED.Helpers
 {
     public static class DataAnnotationsValidator
     {

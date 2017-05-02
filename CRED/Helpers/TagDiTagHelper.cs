@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace A2SPA.Helpers
+namespace CRED.Helpers
 {
     /// <summary>
     /// Tag helper to generate form group and form controls for data entry

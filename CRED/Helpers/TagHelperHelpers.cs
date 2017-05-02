@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace A2SPA.Helpers
+namespace CRED.Helpers
 {
     public static class TagHelperHelpers
    {

@@ -1,6 +1,4 @@
-﻿using A2SPA.Data;
-using A2SPA.Models;
-using AspNet.Security.OpenIdConnect.Primitives;
+﻿using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -15,9 +13,12 @@ using NSwag.AspNetCore;
 using NSwag.SwaggerGeneration.WebApi.Processors.Security;
 using System.IO;
 using System.Reflection;
-using A2SPA.Controllers;
+using CRED.Controllers;
+using CRED.Data;
+using CRED.Models;
+using WebMarkupMin.AspNetCore1;
 
-namespace A2SPA
+namespace CRED
 {
 	public class Startup
 	{
@@ -40,10 +41,16 @@ namespace A2SPA
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			// Add WebMarkupMin services.
+			services.AddWebMarkupMin()
+				.AddHtmlMinification()
+				.AddXmlMinification()
+				.AddHttpCompression();
+
 			// Add framework services.
 			services.AddMvc();
 
-			services.AddDbContext<A2spaContext>(options =>
+			services.AddDbContext<CREDContext>(options =>
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
@@ -54,7 +61,7 @@ namespace A2SPA
 			});
 			// Register the Identity services.
 			services.AddIdentity<ApplicationUser, IdentityRole>()
-				.AddEntityFrameworkStores<A2spaContext>()
+				.AddEntityFrameworkStores<CREDContext>()
 				.AddDefaultTokenProviders();
 
 			// Configure Identity to use the same JWT claims as OpenIddict instead
@@ -71,7 +78,7 @@ namespace A2SPA
 			services.AddOpenIddict(options =>
 			{
 				// Register the Entity Framework stores.
-				options.AddEntityFrameworkCoreStores<A2spaContext>();
+				options.AddEntityFrameworkCoreStores<CREDContext>();
 
 				// Register the ASP.NET Core MVC binder used by OpenIddict.
 				// Note: if you don't call this method, you won't be able to
@@ -104,7 +111,7 @@ namespace A2SPA
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, A2spaContext context)
+		public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, CREDContext context)
 		{
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
@@ -138,6 +145,7 @@ namespace A2SPA
 			// });
 
 			app.UseOpenIddict();
+			app.UseWebMarkupMin();
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions

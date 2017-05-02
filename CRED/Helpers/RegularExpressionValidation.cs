@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace A2SPA.Helpers
+namespace CRED.Helpers
 {
     public static class RegularExpressionValidation
     {

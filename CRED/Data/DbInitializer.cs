@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using A2SPA.ViewModels;
+using CRED.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace A2SPA.Data
+namespace CRED.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(A2spaContext context)
+        public static void Initialize(CREDContext context)
         {
             // performsny outstanding migrations.
             context.Database.Migrate();

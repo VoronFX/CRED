@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace A2SPA.ViewModels.Account
+namespace CRED.ViewModels.Account
 {
     public class LoginViewModel
     {

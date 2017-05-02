@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace A2SPA.ViewModels
+namespace CRED.ViewModels
 {
     public class TestData
     {

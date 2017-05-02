@@ -1,6 +1,4 @@
-﻿using A2SPA.Data;
-using A2SPA.Helpers;
-using A2SPA.ViewModels;
+﻿using CRED.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,16 +7,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CRED.Data;
+using CRED.ViewModels;
 
-namespace A2SPA.Api
+namespace CRED.Api
 {
     [Authorize]
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private readonly A2spaContext _context;
+        private readonly CREDContext _context;
 
-        public SampleDataController(A2spaContext context)
+        public SampleDataController(CREDContext context)
         {
             _context = context;
         }

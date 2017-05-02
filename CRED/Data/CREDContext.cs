@@ -1,15 +1,15 @@
 ﻿using System;
-using A2SPA.Models;
-using A2SPA.ViewModels;
+using CRED.Models;
+using CRED.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace A2SPA.Data
+namespace CRED.Data
 {
-    public class A2spaContext : IdentityDbContext<ApplicationUser>
+    public class CREDContext : IdentityDbContext<ApplicationUser>
     {
-        public A2spaContext(DbContextOptions<A2spaContext> options) : base(options)
+        public CREDContext(DbContextOptions<CREDContext> options) : base(options)
         {
         }
 

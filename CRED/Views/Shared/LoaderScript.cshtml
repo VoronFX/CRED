@@ -1,0 +1,118 @@
+﻿<script type="text/javascript">
+
+      window.addEventListener("load", function () {
+
+          var splashscreen = document.getElementsByClassName("splashscreen-container")[0];
+          var textcontainer = document.getElementsByClassName("splashscreen-text")[0];
+          var textcontainerdev = document.getElementsByClassName("splashscreen-text-dev")[0];
+          var progressbar = document.getElementsByClassName("splashscreen-progress")[0];
+
+          function seterror(cmessage, message) {
+              console.log(cmessage);
+              textcontainer.innerText = message;
+              if (textcontainerdev)
+                  textcontainerdev.innerText = cmessage;
+              splashscreen.classList.add("splashscreen-container-error");
+          }
+
+          window.loadComplete = function () {
+              splashscreen.classList.add("splashscreen-container-out");
+              setTimeout(() => splashscreen.remove(), 500);
+          }
+
+          try {
+              textcontainer.innerText = "Loading...";
+              var progress = 0;
+              var loadedresources = 0;
+              var complete = false;
+              var lres = resources;
+              resources = null;
+
+              function updateprogress() {
+                  progress = 0;
+                  for (let i = 0; i < lres.length; i++) {
+                      progress += lres[i].progress;
+                  }
+                  progress /= lres.length;
+                  progressbar.style.width = progress + "%";
+                  textcontainer.innerText = "Loading... " + progress + "%";
+              }
+
+              function load(res) {
+                  res.progress = 0;
+                  res.xhr = new XMLHttpRequest();
+
+                  res.xhr.upload.onprogress = function (event) {
+                      res.progress = event.loaded * 100 / event.total;
+                      updateprogress();
+                  }
+
+                  res.xhr.onloadend = function (event) {
+                      try {
+                          if (complete)
+                              return;
+                          res.progress = 100;
+                          updateprogress();
+                          if (res.xhr.status === 200) {
+                              loadedresources += 1;
+                              if (loadedresources === lres.length) {
+                                  complete = true;
+                                  textcontainer.innerText = "Initializing...";
+                                  for (let i = 0; i < lres.length; i++) {
+                                      switch (lres[i].xhr.getResponseHeader("content-type")) {
+                                          case "text/css":
+                                              var css = lres[i].xhr.responseText,
+                                                  head = document.head || document.getElementsByTagName('head')[0],
+                                                  style = document.createElement('style');
+
+                                              style.type = 'text/css';
+                                              if (style.styleSheet) {
+                                                  style.styleSheet.cssText = css;
+                                              } else {
+                                                  style.appendChild(document.createTextNode(css));
+                                              }
+
+                                              head.appendChild(style);
+
+                                              break;
+                                          case "application/javascript":
+                                              if (typeof execScript !== "undefined")
+                                                  execScript(lres[i].xhr.responseText);
+                                              else
+                                                  eval.call(null, lres[i].xhr.responseText);
+
+                                              break;
+                                          default:
+                                              seterror("Unknown resource type: " +
+                                                  lres[i].xhr.getResponseHeader("content-type"),
+                                                  "Error loading resources");
+                                              throw "Unknown resource type: " + lres[i].xhr.getResponseHeader("content-type");
+                                      }
+                                  }
+                              }
+                          } else {
+                              complete = true;
+                              for (let i = 0; i < lres.length; i++)
+                                  lres[i].xhr.abort();
+                              seterror("Resource " + res.url + " failed with status "
+                                  + res.xhr.status, "Error loading resources");
+                          }
+                      } catch (e) {
+                          seterror(e, "Error in loader");
+                      }
+                  }
+
+                  res.xhr.open("GET", res.url, true);
+              }
+
+              for (let i = 0; i < lres.length; i++)
+                  load(lres[i]);
+
+              for (let i = 0; i < lres.length; i++)
+                  lres[i].xhr.send();
+
+          } catch (e) {
+              seterror(e, "Error in loader");
+          }
+      });
+</script>

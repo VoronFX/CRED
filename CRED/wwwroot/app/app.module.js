@@ -19,7 +19,7 @@ var auth_guard_service_1 = require("./security/auth-guard.service");
 var ngx_toastr_1 = require("ngx-toastr");
 require("./rxjs-operators");
 var definitions_1 = require("./bladeui/definitions");
-core_1.enableProdMode();
+// enableProdMode();
 var AppModule = (function () {
     function AppModule() {
     }

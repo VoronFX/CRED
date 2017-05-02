@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace A2SPA.Migrations
+namespace CRED.Migrations
 {
     public partial class Pso2CsvModel1 : Migration
     {

@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using A2SPA.Data;
-using A2SPA.Models;
+using CRED.Models;
+using CRED.Data;
 
-namespace A2SPA.Migrations
+namespace CRED.Migrations
 {
-    [DbContext(typeof(A2spaContext))]
+    [DbContext(typeof(CREDContext))]
     [Migration("20170428143639_Pso2CsvModel1")]
     partial class Pso2CsvModel1
     {

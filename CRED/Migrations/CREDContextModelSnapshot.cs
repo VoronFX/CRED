@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using A2SPA.Data;
-using A2SPA.Models;
+using CRED.Models;
+using CRED.Data;
 
-namespace A2SPA.Migrations
+namespace CRED.Migrations
 {
-    [DbContext(typeof(A2spaContext))]
-    partial class A2spaContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CREDContext))]
+    partial class CREDContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
