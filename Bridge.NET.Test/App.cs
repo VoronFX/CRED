@@ -11,7 +11,6 @@ namespace Bridge.NET.Test
 {
 	public class App
 	{
-		[Ready]
 		public static void Main()
 		{
 			// Create a new Button

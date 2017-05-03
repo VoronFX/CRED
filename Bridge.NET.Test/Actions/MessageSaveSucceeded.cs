@@ -9,6 +9,6 @@ namespace Bridge.NET.Test.Actions
 		{
 			this.CtorSet(_ => _.RequestId, requestId);
 		}
-		public RequestId RequestId { get; private set; }
+		public RequestId RequestId { get; }
 	}
 }

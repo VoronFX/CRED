@@ -31,10 +31,10 @@ namespace Bridge.NET.Test.Components
 				this.CtorSet(_ => _.Content, content);
 				this.CtorSet(_ => _.OnChange, onChange);
 			}
-			public Optional<NonBlankTrimmedString> ClassName { get; private set; }
-			public bool Disabled { get; private set; }
-			public string Content { get; private set; }
-			public Action<string> OnChange { get; private set; }
+			public Optional<NonBlankTrimmedString> ClassName { get; }
+			public bool Disabled { get; }
+			public string Content { get; }
+			public Action<string> OnChange { get; }
 		}
 	}
 }

@@ -13,6 +13,6 @@ namespace Bridge.NET.Test.Actions
 		{
 			this.CtorSet(_ => _.Store, store);
 		}
-		public object Store { get; private set; }
+		public object Store { get; }
 	}
 }

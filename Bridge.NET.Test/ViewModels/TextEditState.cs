@@ -10,7 +10,7 @@ namespace Bridge.NET.Test.ViewModels
 			this.CtorSet(_ => _.Text, text);
 			this.CtorSet(_ => _.ValidationError, validationError);
 		}
-		public string Text { get; private set; }
-		public Optional<NonBlankTrimmedString> ValidationError { get; private set; }
+		public string Text { get; }
+		public Optional<NonBlankTrimmedString> ValidationError { get; }
 	}
 }

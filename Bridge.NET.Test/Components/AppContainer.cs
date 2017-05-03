@@ -4,7 +4,6 @@ using Bridge.NET.Test.Stores;
 using Bridge.NET.Test.ViewModels;
 using Bridge.React;
 using ProductiveRage.Immutable;
-using NonBlankTrimmedString = ProductiveRage.Immutable.NonBlankTrimmedString;
 
 namespace Bridge.NET.Test.Components
 {
@@ -68,19 +67,19 @@ namespace Bridge.NET.Test.Components
 				this.CtorSet(_ => _.Store, store);
 				this.CtorSet(_ => _.Dispatcher, dispatcher);
 			}
-			public AppUIStore Store { get; private set; }
-			public AppDispatcher Dispatcher { get; private set; }
+			public AppUIStore Store { get; }
+			public AppDispatcher Dispatcher { get; }
 		}
 
 		public class State : IAmImmutable
 		{
-			public State(MessageEditState newMessage, Set<SavedMessageDetails> messageHistory)
+			public State(MessageEditState newMessage, NonNullList<SavedMessageDetails> messageHistory)
 			{
 				this.CtorSet(_ => _.NewMessage, newMessage);
 				this.CtorSet(_ => _.MessageHistory, messageHistory);
 			}
-			public MessageEditState NewMessage { get; private set; }
-			public Set<SavedMessageDetails> MessageHistory { get; private set; }
+			public MessageEditState NewMessage { get; }
+			public NonNullList<SavedMessageDetails> MessageHistory { get; }
 		}
 	}
 }

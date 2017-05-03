@@ -9,7 +9,7 @@ namespace Bridge.NET.Test.API
 			this.CtorSet(_ => _.Title, title);
 			this.CtorSet(_ => _.Content, content);
 		}
-		public NonBlankTrimmedString Title { get; private set; }
-		public NonBlankTrimmedString Content { get; private set; }
+		public NonBlankTrimmedString Title { get; }
+		public NonBlankTrimmedString Content { get; }
 	}
 }

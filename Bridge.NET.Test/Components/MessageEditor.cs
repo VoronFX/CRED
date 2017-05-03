@@ -48,10 +48,10 @@ namespace Bridge.NET.Test.Components
 				this.CtorSet(_ => _.OnChange, onChange);
 				this.CtorSet(_ => _.OnSave, onSave);
 			}
-			public Optional<NonBlankTrimmedString> ClassName { get; private set; }
-			public MessageEditState Message { get; private set; }
-			public Action<MessageEditState> OnChange { get; private set; }
-			public Action OnSave { get; private set; }
+			public Optional<NonBlankTrimmedString> ClassName { get; }
+			public MessageEditState Message { get; }
+			public Action<MessageEditState> OnChange { get; }
+			public Action OnSave { get; }
 		}
 	}
 }

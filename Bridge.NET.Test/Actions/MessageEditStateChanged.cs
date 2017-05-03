@@ -10,6 +10,6 @@ namespace Bridge.NET.Test.Actions
 		{
 			this.CtorSet(_ => _.NewState, newState);
 		}
-		public MessageEditState NewState { get; private set; }
+		public MessageEditState NewState { get; }
 	}
 }

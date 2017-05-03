@@ -13,14 +13,14 @@ namespace Bridge.NET.Test.API
 	public class MessageApi : IReadAndWriteMessages
 	{
 		private readonly AppDispatcher _dispatcher;
-		private Set<SavedMessageDetails> _messages;
+		private NonNullList<SavedMessageDetails> _messages;
 		public MessageApi(AppDispatcher dispatcher)
 		{
 			if (dispatcher == null)
 				throw new ArgumentNullException("dispatcher");
 
 			_dispatcher = dispatcher;
-			_messages = Set<SavedMessageDetails>.Empty;
+			_messages = NonNullList<SavedMessageDetails>.Empty;
 
 			// To further mimic a server-based API (where other people may be recording messages of their own), after a 10s delay a periodic task will be
 			// executed to retrieve a new message

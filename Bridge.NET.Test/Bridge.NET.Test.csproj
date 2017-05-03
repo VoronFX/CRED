@@ -48,6 +48,8 @@
     <Compile Include="API\SavedMessageDetails.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Components\AppContainer.cs" />
+    <Compile Include="Components\Azure\Portal.cs" />
+    <Compile Include="Helpers\StyleClassHelper.cs" />
     <Compile Include="Components\MessageEditor.cs" />
     <Compile Include="Components\MessageHistory.cs" />
     <Compile Include="Components\TextInput.cs" />

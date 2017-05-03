@@ -39,7 +39,7 @@ namespace Bridge.NET.Test.Components
 			{
 				this.CtorSet(_ => _.ValidationMessage, validationMessage);
 			}
-			public Optional<NonBlankTrimmedString> ValidationMessage { get; private set; }
+			public Optional<NonBlankTrimmedString> ValidationMessage { get; }
 		}
 	}
 }

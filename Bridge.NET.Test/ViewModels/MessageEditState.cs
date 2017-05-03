@@ -11,9 +11,9 @@ namespace Bridge.NET.Test.ViewModels
 			this.CtorSet(_ => _.Content, content);
 			this.CtorSet(_ => _.IsSaveInProgress, isSaveInProgress);
 		}
-		public NonBlankTrimmedString Caption { get; private set; }
-		public TextEditState Title { get; private set; }
-		public TextEditState Content { get; private set; }
-		public bool IsSaveInProgress { get; private set; }
+		public NonBlankTrimmedString Caption { get; }
+		public TextEditState Title { get; }
+		public TextEditState Content { get; }
+		public bool IsSaveInProgress { get; }
 	}
 }

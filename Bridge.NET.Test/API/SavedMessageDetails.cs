@@ -9,7 +9,7 @@ namespace Bridge.NET.Test.API
 			this.CtorSet(_ => _.Id, id);
 			this.CtorSet(_ => _.Message, message);
 		}
-		public uint Id { get; private set; }
-		public MessageDetails Message { get; private set; }
+		public uint Id { get; }
+		public MessageDetails Message { get; }
 	}
 }

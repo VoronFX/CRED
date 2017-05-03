@@ -4,8 +4,6 @@ using Bridge.NET.Test.API;
 using Bridge.NET.Test.ViewModels;
 using Bridge.React;
 using ProductiveRage.Immutable;
-using NonBlankTrimmedString = ProductiveRage.Immutable.NonBlankTrimmedString;
-using RequestId = ProductiveRage.Immutable.RequestId;
 
 namespace Bridge.NET.Test.Stores
 {
@@ -20,7 +18,7 @@ namespace Bridge.NET.Test.Stores
 				throw new ArgumentNullException("messageApi");
 
 			NewMessage = GetEmptyNewMessage();
-			MessageHistory = Set<SavedMessageDetails>.Empty;
+			MessageHistory = NonNullList<SavedMessageDetails>.Empty;
 
 			_saveActionRequestId = null;
 
@@ -60,11 +58,11 @@ namespace Bridge.NET.Test.Stores
 		}
 
 		public MessageEditState NewMessage;
-		public Set<SavedMessageDetails> MessageHistory;
+		public NonNullList<SavedMessageDetails> MessageHistory;
 
 		public event Action Change;
 
-		private MessageEditState UpdateValidationFor(MessageEditState messageEditState)
+		private static MessageEditState UpdateValidationFor(MessageEditState messageEditState)
 		{
 			if (messageEditState == null)
 				throw new ArgumentNullException("messageEditState");
@@ -75,7 +73,7 @@ namespace Bridge.NET.Test.Stores
 				.With(_ => _.Content, SetValidationError(messageEditState.Content, messageEditState.Content.Text.Trim() == "", "Must enter message content"));
 		}
 
-		private TextEditState SetValidationError(TextEditState textEditState, bool isInvalid, string ifInvalid)
+		private static TextEditState SetValidationError(TextEditState textEditState, bool isInvalid, string ifInvalid)
 		{
 			if (textEditState == null)
 				throw new ArgumentNullException("textEditState");
@@ -97,8 +95,7 @@ namespace Bridge.NET.Test.Stores
 
 		private void OnChange()
 		{
-			if (Change != null)
-				Change();
+			Change?.Invoke();
 		}
 	}
 }
