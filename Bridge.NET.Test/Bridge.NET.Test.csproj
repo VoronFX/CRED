@@ -41,9 +41,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Bridge\www\demo.html" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Bridge\bridge.json" />
     <None Include="packages.config" />
   </ItemGroup>

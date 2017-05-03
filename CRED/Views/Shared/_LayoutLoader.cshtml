@@ -20,7 +20,7 @@
     <div id="loader-message"></div>
     <environment names="Development">
         <script type="text/javascript">
-        var resources = [
+            window.resources = [
             //   { url: "@Context.AppendVersion("/css/site.min.css")" },
             { url: "@Context.AppendVersion("/js/site.js")" }
         ];
@@ -29,7 +29,7 @@
 
     <environment names="Staging,Production">
         <script type="text/javascript">
-        var resources = [
+            window.resources = [
             { url: "@Context.AppendVersion("/css/site.min.css")" },
             { url: "@Context.AppendVersion("/js/site.min.js")" }
         ];

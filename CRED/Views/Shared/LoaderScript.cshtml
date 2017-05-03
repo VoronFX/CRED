@@ -16,6 +16,7 @@
           }
 
           window.loadComplete = function () {
+              window.loadComplete = null;
               splashscreen.classList.add("splashscreen-container-out");
               setTimeout(() => splashscreen.remove(), 500);
           }
@@ -25,8 +26,8 @@
               var progress = 0;
               var loadedresources = 0;
               var complete = false;
-              var lres = resources;
-              resources = null;
+              var lres = window.resources;
+              window.resources = null;
 
               function updateprogress() {
                   progress = 0;

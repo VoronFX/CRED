@@ -290,6 +290,7 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bridge.NET.Test\Bridge.NET.Test.csproj" />
