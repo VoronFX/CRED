@@ -1,4 +1,6 @@
-﻿namespace Bridge.NET.Test.API
+﻿using ProductiveRage.Immutable;
+
+namespace Bridge.NET.Test.API
 {
 	public interface IReadAndWriteMessages
 	{

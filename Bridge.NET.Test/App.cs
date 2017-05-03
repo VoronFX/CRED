@@ -11,6 +11,7 @@ namespace Bridge.NET.Test
 {
 	public class App
 	{
+		[Ready]
 		public static void Main()
 		{
 			// Create a new Button
@@ -47,12 +48,11 @@ namespace Bridge.NET.Test
 			//	DOM.Div(new Attributes { ClassName = "welcome" }, "Hi!"),
 			//	Document.GetElementById("main")
 			//);
-
+			
 			var dispatcher = new AppDispatcher();
 			var store = new AppUIStore(dispatcher, new MessageApi(dispatcher));
 
 			var container = Document.GetElementById("main");
-			container.ClassName = string.Join(" ", container.ClassName.Split().Where(c => c != "loading"));
 			React.React.Render(
 				new AppContainer(store, dispatcher), 
 				container

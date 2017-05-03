@@ -16,8 +16,7 @@
         "inputFiles": [
             "wwwroot/lib/react/react.js",
             "wwwroot/lib/react/react-dom.js",
-            "../Bridge.NET.Test/Bridge/Build/bridge.js",
-            "../Bridge.NET.Test/Bridge/Build/bridge.nET.test.js"
+            "../Bridge.NET.Test/Bridge/Build/bridge.nEt.Test.js"
         ],
         "minify": {
             "enabled": false,
@@ -29,8 +28,7 @@
         "inputFiles": [
             "wwwroot/lib/react/react.js",
             "wwwroot/lib/react/react-dom.js",
-            "../Bridge.NET.Test/Bridge/Build/bridge.min.js",
-            "../Bridge.NET.Test/Bridge/Build/bridge.nET.test.min.js"
+            "../Bridge.NET.Test/Bridge/Build/bridge.nEt.Test.min.js"
         ],
         "minify": {
             "enabled": false,

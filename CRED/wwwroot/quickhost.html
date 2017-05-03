@@ -8,267 +8,272 @@
     <base href="/">
 </head>
 <body>
-<div id="main"></div>
-<div class="splashscreen-container">
+    <div id="main"></div>
+    <div class="splashscreen-container">
 
-<style>
-    .sk-folding-cube {
-        height: 100px;
-        width: 100px;
-        transition: width 2s;
-        display: inline-block;
-        padding: 50px;
-        -webkit-transform: rotateZ(45deg);
-        transform: rotateZ(45deg);
-    }
+        <style>
+            .sk-folding-cube {
+                height: 100px;
+                width: 100px;
+                transition: width 2s;
+                display: inline-block;
+                padding: 50px;
+                -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg);
+            }
 
-    .sk-folding-cube .sk-cube {
-        float: left;
-        width: 50%;
-        height: 50%;
-        position: relative;
-        -webkit-transform: scale(1.1);
-        -ms-transform: scale(1.1);
-        transform: scale(1.1);
-    }
+                .sk-folding-cube .sk-cube {
+                    float: left;
+                    width: 50%;
+                    height: 50%;
+                    position: relative;
+                    -webkit-transform: scale(1.1);
+                    -ms-transform: scale(1.1);
+                    transform: scale(1.1);
+                }
 
-    .sk-folding-cube .sk-cube:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        /*background-color: #333;*/
-        background-color: #000;
-        -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
-        animation: sk-foldCubeAngle 2.4s infinite linear both;
-        -webkit-transform-origin: 100% 100%;
-        -ms-transform-origin: 100% 100%;
-        transform-origin: 100% 100%;
-    }
-
-    .sk-folding-cube .sk-cube1 {
-        -webkit-transform: scale(1.1) rotateZ(0);
-        transform: scale(1.1) rotateZ(0);
-    }
-
-    .sk-folding-cube .sk-cube2 {
-        -webkit-transform: scale(1.1) rotateZ(90deg);
-        transform: scale(1.1) rotateZ(90deg);
-    }
-
-    .sk-folding-cube .sk-cube3 {
-        -webkit-transform: scale(1.1) rotateZ(180deg);
-        transform: scale(1.1) rotateZ(180deg);
-    }
-
-    .sk-folding-cube .sk-cube4 {
-        -webkit-transform: scale(1.1) rotateZ(270deg);
-        transform: scale(1.1) rotateZ(270deg);
-    }
-
-    .sk-folding-cube .sk-cube2:before {
-        -webkit-animation-delay: 0.3s;
-        animation-delay: 0.3s;
-    }
-
-    .sk-folding-cube .sk-cube3:before {
-        -webkit-animation-delay: 0.6s;
-        animation-delay: 0.6s;
-    }
-
-    .sk-folding-cube .sk-cube4:before {
-        -webkit-animation-delay: 0.9s;
-        animation-delay: 0.9s;
-    }
-
-    @-webkit-keyframes sk-foldCubeAngle {
-        0%, 10% {
-            -webkit-transform: perspective(300px) rotateX(-180deg);
-            transform: perspective(300px) rotateX(-180deg);
-            opacity: 0;
-        }
-
-        25%, 75% {
-            -webkit-transform: perspective(300px) rotateX(0deg);
-            transform: perspective(300px) rotateX(0deg);
-            opacity: 1;
-        }
-
-        90%, 100% {
-            -webkit-transform: perspective(300px) rotateY(180deg);
-            transform: perspective(300px) rotateY(180deg);
-            opacity: 0;
-        }
-    }
-
-    @keyframes sk-foldCubeAngle {
-        0%, 10% {
-            -webkit-transform: perspective(300px) rotateX(-180deg);
-            transform: perspective(300px) rotateX(-180deg);
-            opacity: 0;
-        }
-
-        25%, 75% {
-            -webkit-transform: perspective(300px) rotateX(0deg);
-            transform: perspective(300px) rotateX(0deg);
-            opacity: 1;
-        }
-
-        90%, 100% {
-            -webkit-transform: perspective(300px) rotateY(180deg);
-            transform: perspective(300px) rotateY(180deg);
-            opacity: 0;
-        }
-    }
-</style>
-<style>
-    .splashscreen-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        margin: auto;
-        right: 0;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        position: absolute;
-        background-color: #1a9cbc;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        animation: fadein 0.5s;
-        transition: background-color 1000ms linear;
-    }
-
-    .splashscreen-container-error {
-        background-color: #a52a2a;
-    }
-
-    .splashscreen-container-error .sk-folding-cube {
-        width: 0px;
-    }
-
-    .splashscreen-container-out {
-        animation: fadeout 0.5s ease-in;
-        opacity: 0;
-    }
-
-    .splashscreen-container > div {
-        animation: sizein 0.5s;
-    }
-
-    .splashscreen-container-out > div > div {
-        animation: sizeout 0.5s ease-in;
-    }
-
-    .splashscreen-progress {
-        background: #000000;
-        height: 10px;
-        width: 0%;
-        transition: width 0.5s;
-    }
-
-    .splashscreen-progressbar {
-        /*border: 1px;*/
-        /*border-style: solid;*/
-        /*border-color: #000000;*/
-        background-color: rgba(0,0,0,0.3);
-        padding: 3px;
-    }
-
-    .splashscreen-text {
-    }
-
-    .splashscreen-text-dev {
-        color: orange;
-    }
-
-    @keyframes fadein {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadeout {
-        from {
-            opacity: 1;
-        }
-
-        to {
-            opacity: 0;
-        }
-    }
-
-    @keyframes sizein {
-        from {
-            transform: scale(0.8);
-        }
-
-        to {
-            transform: scale(1.0);
-        }
-    }
-
-    @keyframes sizeout {
-        from {
-            transform: scale(1.0);
-        }
-
-        to {
-            transform: scale(1.2);
-        }
-    }
-</style>
-<div>
-    <div>
-        <div class="sk-folding-cube">
-            <div class="sk-cube1 sk-cube"></div>
-            <div class="sk-cube2 sk-cube"></div>
-            <div class="sk-cube4 sk-cube"></div>
-            <div class="sk-cube3 sk-cube"></div>
-        </div>
-        <div class="splashscreen-progressbar">
-            <div class="splashscreen-progress" width="0%"></div>
-        </div>
-        <h1 class="splashscreen-text">
-            <noscript>
-                <style>
-                    .splashscreen-container {
-                        background-color: #a52a2a;
+                    .sk-folding-cube .sk-cube:before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        /*background-color: #333;*/
+                        background-color: #000;
+                        -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+                        animation: sk-foldCubeAngle 2.4s infinite linear both;
+                        -webkit-transform-origin: 100% 100%;
+                        -ms-transform-origin: 100% 100%;
+                        transform-origin: 100% 100%;
                     }
 
-                    .sk-folding-cube {
-                        width: 0px;
-                    }
-                </style>
-                Sorry. JavaScript is required!
-            </noscript>
-            <br />
-        </h1>
-            
-        <h1 class="splashscreen-text-dev">Development Mode</h1>
-            
+                .sk-folding-cube .sk-cube1 {
+                    -webkit-transform: scale(1.1) rotateZ(0);
+                    transform: scale(1.1) rotateZ(0);
+                }
+
+                .sk-folding-cube .sk-cube2 {
+                    -webkit-transform: scale(1.1) rotateZ(90deg);
+                    transform: scale(1.1) rotateZ(90deg);
+                }
+
+                .sk-folding-cube .sk-cube3 {
+                    -webkit-transform: scale(1.1) rotateZ(180deg);
+                    transform: scale(1.1) rotateZ(180deg);
+                }
+
+                .sk-folding-cube .sk-cube4 {
+                    -webkit-transform: scale(1.1) rotateZ(270deg);
+                    transform: scale(1.1) rotateZ(270deg);
+                }
+
+                .sk-folding-cube .sk-cube2:before {
+                    -webkit-animation-delay: 0.3s;
+                    animation-delay: 0.3s;
+                }
+
+                .sk-folding-cube .sk-cube3:before {
+                    -webkit-animation-delay: 0.6s;
+                    animation-delay: 0.6s;
+                }
+
+                .sk-folding-cube .sk-cube4:before {
+                    -webkit-animation-delay: 0.9s;
+                    animation-delay: 0.9s;
+                }
+
+            @-webkit-keyframes sk-foldCubeAngle {
+                0%, 10% {
+                    -webkit-transform: perspective(300px) rotateX(-180deg);
+                    transform: perspective(300px) rotateX(-180deg);
+                    opacity: 0;
+                }
+
+                25%, 75% {
+                    -webkit-transform: perspective(300px) rotateX(0deg);
+                    transform: perspective(300px) rotateX(0deg);
+                    opacity: 1;
+                }
+
+                90%, 100% {
+                    -webkit-transform: perspective(300px) rotateY(180deg);
+                    transform: perspective(300px) rotateY(180deg);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes sk-foldCubeAngle {
+                0%, 10% {
+                    -webkit-transform: perspective(300px) rotateX(-180deg);
+                    transform: perspective(300px) rotateX(-180deg);
+                    opacity: 0;
+                }
+
+                25%, 75% {
+                    -webkit-transform: perspective(300px) rotateX(0deg);
+                    transform: perspective(300px) rotateX(0deg);
+                    opacity: 1;
+                }
+
+                90%, 100% {
+                    -webkit-transform: perspective(300px) rotateY(180deg);
+                    transform: perspective(300px) rotateY(180deg);
+                    opacity: 0;
+                }
+            }
+        </style>
+        <style>
+            .splashscreen-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                margin: auto;
+                right: 0;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                position: absolute;
+                background-color: #1a9cbc;
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                animation: fadein 0.5s;
+                transition: background-color 1000ms linear;
+            }
+
+            .splashscreen-container-error {
+                background-color: #a52a2a;
+            }
+
+                .splashscreen-container-error .sk-folding-cube {
+                    width: 0px;
+                }
+
+            .splashscreen-container-out {
+                animation: fadeout 0.5s ease-in;
+                opacity: 0;
+            }
+
+            .splashscreen-container > div {
+                animation: sizein 0.5s;
+            }
+
+            .splashscreen-container-out > div > div {
+                animation: sizeout 0.5s ease-in;
+            }
+
+            .splashscreen-progress {
+                background: #000000;
+                height: 10px;
+                width: 0%;
+                transition: width 0.5s;
+            }
+
+            .splashscreen-progressbar {
+                /*border: 1px;*/
+                /*border-style: solid;*/
+                /*border-color: #000000;*/
+                background-color: rgba(0,0,0,0.3);
+                padding: 3px;
+            }
+
+            .splashscreen-text {
+            }
+
+            .splashscreen-text-dev {
+                color: orange;
+            }
+
+            @keyframes fadein {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeout {
+                from {
+                    opacity: 1;
+                }
+
+                to {
+                    opacity: 0;
+                }
+            }
+
+            @keyframes sizein {
+                from {
+                    transform: scale(0.8);
+                }
+
+                to {
+                    transform: scale(1.0);
+                }
+            }
+
+            @keyframes sizeout {
+                from {
+                    transform: scale(1.0);
+                }
+
+                to {
+                    transform: scale(1.2);
+                }
+            }
+        </style>
+        <div>
+            <div>
+                <div class="sk-folding-cube">
+                    <div class="sk-cube1 sk-cube"></div>
+                    <div class="sk-cube2 sk-cube"></div>
+                    <div class="sk-cube4 sk-cube"></div>
+                    <div class="sk-cube3 sk-cube"></div>
+                </div>
+                <div class="splashscreen-progressbar">
+                    <div class="splashscreen-progress" width="0%"></div>
+                </div>
+                <h1 class="splashscreen-text">
+                    <noscript>
+                        <style>
+                            .splashscreen-container {
+                                background-color: #a52a2a;
+                            }
+
+                            .sk-folding-cube {
+                                width: 0px;
+                            }
+                        </style>
+                        Sorry. JavaScript is required!
+                    </noscript>
+                    <br />
+                </h1>
+
+                <h1 class="splashscreen-text-dev">Development Mode</h1>
+
+            </div>
+        </div>
     </div>
-</div>
-</div>
-<div id="loader-message"></div>
-    
-<script type="text/javascript">
-    window.resources = [
-        { url: "/css/site.min.css" },
-        { url: "/js/site.js" }
-    ];
-</script>
-    
 
-    
+    <script type="text/javascript">
+        window.resources = [
+            //{ url: "/css/site.min.css" },
+            //{ url: "/js/site.js" }
+        ];
+        window.isDevelopmentMode = true;
+    </script>
+
+
+
 <script type="text/javascript">
+    window.loadComplete = function() {
+        window.loadComplete = null;
+        document.getElementsByClassName("splashscreen-container")[0].classList.add("splashscreen-container-out");
+        setTimeout(() => document.getElementsByClassName("splashscreen-container")[0].remove(), 500);
+        }
 
     window.addEventListener("load", function () {
 
@@ -278,11 +283,16 @@
         var progressbar = document.getElementsByClassName("splashscreen-progress")[0];
 
         function seterror(cmessage, message) {
-            console.log(cmessage);
-            textcontainer.innerText = message;
-            if (textcontainerdev)
-                textcontainerdev.innerText = cmessage;
-            splashscreen.classList.add("splashscreen-container-error");
+            try {
+
+                textcontainer.innerText = message;
+                if (textcontainerdev)
+                    textcontainerdev.innerText = cmessage;
+                splashscreen.classList.add("splashscreen-container-error");
+            } catch (e) {
+                console.log(e);
+            }
+            throw cmessage;
         }
 
         window.loadComplete = function () {
@@ -329,11 +339,11 @@
                             if (loadedresources === lres.length) {
                                 complete = true;
                                 textcontainer.innerText = "Initializing...";
+                                var head = document.head || document.getElementsByTagName('head')[0];
                                 for (let i = 0; i < lres.length; i++) {
                                     switch (lres[i].xhr.getResponseHeader("content-type")) {
                                     case "text/css":
                                         var css = lres[i].xhr.responseText,
-                                            head = document.head || document.getElementsByTagName('head')[0],
                                             style = document.createElement('style');
 
                                         style.type = 'text/css';
@@ -347,10 +357,17 @@
 
                                         break;
                                     case "application/javascript":
-                                        if (typeof execScript !== "undefined")
-                                            execScript(lres[i].xhr.responseText);
+                                        var stext = lres[i].xhr.responseText;
+                                        if (window.isDevelopmentMode) {
+                                            var script = document.createElement('script');
+                                            script.type = 'text/javascript';
+                                            script.text = stext;
+                                            head.appendChild(script);
+                                        }
+                                        else if (typeof execScript !== "undefined")
+                                            execScript(stext);
                                         else
-                                            eval.call(null, lres[i].xhr.responseText);
+                                            eval.call(null, stext);
 
                                         break;
                                     default:
@@ -386,5 +403,11 @@
             seterror(e, "Error in loader");
         }
     });
-</script></body>
+</script>
+    
+<!-- Manually load resources for easyu debuggin in browser-->
+<link rel="stylesheet" href="/css/site.min.css" />
+<script type="text/javascript" src="/js/site.js" defer></script>
+
+</body>
 </html>

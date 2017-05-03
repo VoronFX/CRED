@@ -45,8 +45,6 @@
     <Compile Include="API\IReadAndWriteMessages.cs" />
     <Compile Include="API\MessageApi.cs" />
     <Compile Include="API\MessageDetails.cs" />
-    <Compile Include="API\NonBlankTrimmedString.cs" />
-    <Compile Include="API\RequestId.cs" />
     <Compile Include="API\SavedMessageDetails.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Components\AppContainer.cs" />
