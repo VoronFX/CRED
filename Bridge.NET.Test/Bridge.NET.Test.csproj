@@ -48,7 +48,11 @@
     <Compile Include="API\SavedMessageDetails.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Components\AppContainer.cs" />
+    <Compile Include="Components\Azure\Fxs.cs" />
+    <Compile Include="Components\Azure\FxSymbol.cs" />
     <Compile Include="Components\Azure\Portal.cs" />
+    <Compile Include="Components\Azure\Svg.cs" />
+    <Compile Include="Helpers\DOMEx.cs" />
     <Compile Include="Helpers\StyleClassHelper.cs" />
     <Compile Include="Components\MessageEditor.cs" />
     <Compile Include="Components\MessageHistory.cs" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Bridge.NET.Test.Helpers;
 using Bridge.NET.Test.ViewModels;
@@ -14,48 +13,6 @@ namespace Bridge.NET.Test.Components.Azure
 	{
 		public Portal(PortalTheme theme)
 			: base(new Props(theme)) { }
-
-		//private enum FxsContainerClasses { FxsPortal, DesktopNormal, FxsShowStartboard }
-		private static class Fxs
-		{
-			// Check for typos
-			static Fxs()
-			{
-				foreach (var property in typeof(Fxs).GetProperties())
-				{
-					Console.WriteLine(property.Name);
-					if ((string)property.GetValue(typeof(Fxs)) != nameof(Fxs) + property.Name)
-					{
-						throw new ArgumentException($"Property name of \"{property.GetValue(typeof(Fxs))}\""
-												  + $" not equal to \"{nameof(Fxs) + property.Name} \". Possible typo was made.");
-					}
-				}
-			}
-
-			public static string Portal => nameof(Fxs) +"-"+ nameof(Portal);
-			public static string DesktopNormal => nameof(Fxs) +"-"+ nameof(DesktopNormal);
-			public static string ShowStartboard => nameof(Fxs) +"-"+ nameof(ShowStartboard);
-			public static string ShowJourney => nameof(Fxs) +"-"+ nameof(ShowJourney);
-			public static string Topbar => nameof(Fxs) +"-"+ nameof(Topbar);
-			public static string SideBar => nameof(Fxs) +"-"+ nameof(SideBar);
-				    
-			public static string PortalTip => nameof(Fxs) +"-"+ nameof(PortalTip);
-			public static string PortalMain => nameof(Fxs) +"-"+ nameof(PortalMain);
-			public static string PortalContent => nameof(Fxs) +"-"+ nameof(PortalContent);
-				    
-			public static string Trim => nameof(Fxs) +"-"+ nameof(Trim);
-				  
-			public static string ScrollbarTransparent => nameof(Fxs) +"-"+ nameof(ScrollbarTransparent);
-			public static string ScrollbarDefaultHover => nameof(Fxs) +"-"+ nameof(ScrollbarDefaultHover);
-			public static string Panorama => nameof(Fxs) +"-"+ nameof(Panorama);
-
-
-			public static string SelectClasses(params string[] names)
-				=> string.Join(" ", names.Select(x => x.ToLower()));
-
-			public static Attributes ClassAttribute(params string[] names)
-				=> new Attributes { ClassName = SelectClasses(names) };
-		}
 
 		public override ReactElement Render()
 		{
@@ -78,15 +35,16 @@ namespace Bridge.NET.Test.Components.Azure
 			{
 				Id = "web-container",
 				ClassName = Fxs.SelectClasses(Fxs.Portal, Fxs.DesktopNormal, Fxs.ShowStartboard)
-			}, new[]
-				{
+			},
 				DOM.Div(Fxs.ClassAttribute(Fxs.Topbar)),
 				DOM.Div(Fxs.ClassAttribute(Fxs.PortalTip)),
 				DOM.Div(Fxs.ClassAttribute(Fxs.PortalMain)),
 				//contextpane
-				DOM.Div(Fxs.ClassAttribute(Fxs.SideBar)),
+				DOM.Div(Fxs.ClassAttribute(Fxs.Sidebar)),
+				//DOMEx.Svg(Fxs.ClassAttribute(Fxs.Sidebar)),
+				new Svg(FxSymbols.Hamburger)
 				//contextpane
-				});
+				);
 		}
 
 		public class Props : IAmImmutable

@@ -17,8 +17,8 @@ namespace Bridge.NET.Test.Helpers
 
 		public static string ToCssClassName(this string name, StyleClassSeparator separator)
 		{
-			name = String.Join(GetSeparatorChar(separator), 
-				Regex.Replace(Regex.Replace(name, "[^a-zA-Z_]", ""), "([a-zA-Z])(?=[A-Z])", "$1-"))
+			name = String.Join(GetSeparatorChar(separator),
+				Regex.Replace(Regex.Replace(name, "[^a-zA-Z_-]", ""), "([a-zA-Z])(?=[A-Z])", "$1-"))
 				.ToLower();
 			if (name.Length < 2)
 				throw new ArgumentException($"Resulting class name is less than 2 symbols: \"{name}\"");
