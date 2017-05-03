@@ -9,9 +9,36 @@ namespace Bridge.NET.Test.Helpers
 {
 	public static class StyleClassExtensionMethods
 	{
-		public static string ToClassesString<T>(this IEnumerable<T> clasessList) where T : IStyleClass 
+		public static string ToClassesString<T>(this IEnumerable<T> clasessList) where T : IStyleClass
 			=> string.Join(" ", clasessList.Select(x => x.ToString()));
 
+		public static string ToCssClassName(this string name)
+			=> ToCssClassName(name, StyleClassSeparator.Hyphen);
+
+		public static string ToCssClassName(this string name, StyleClassSeparator separator)
+		{
+			name = String.Join(GetSeparatorChar(separator), 
+				Regex.Replace(Regex.Replace(name, "[^a-zA-Z_]", ""), "([a-zA-Z])(?=[A-Z])", "$1-"))
+				.ToLower();
+			if (name.Length < 2)
+				throw new ArgumentException($"Resulting class name is less than 2 symbols: \"{name}\"");
+			return name;
+		}
+
+		private static string GetSeparatorChar(StyleClassSeparator separator)
+		{
+			switch (separator)
+			{
+				case StyleClassSeparator.Underscope:
+					return "_";
+				case StyleClassSeparator.Hyphen:
+					return "-";
+				case StyleClassSeparator.None:
+					return "";
+				default:
+					throw new ArgumentOutOfRangeException(nameof(separator), separator, null);
+			}
+		}
 	}
 
 	public interface IStyleClass

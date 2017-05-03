@@ -1,5 +1,6 @@
 ﻿using Bridge.NET.Test.Actions;
 using Bridge.NET.Test.API;
+using Bridge.NET.Test.Components.Azure;
 using Bridge.NET.Test.Stores;
 using Bridge.NET.Test.ViewModels;
 using Bridge.React;
@@ -36,28 +37,29 @@ namespace Bridge.NET.Test.Components
 
 			// A good guideline to follow with stateful components is that the State reference should contain everything required to draw the components and
 			// props should only be used to access a Dispatcher reference to deal with callbacks from those components
-			return DOM.Div(null,
-				new MessageEditor(
-					className: new NonBlankTrimmedString("message"),
-					message: state.Value.NewMessage,
-					onChange: newState => props.Dispatcher.HandleViewAction(new MessageEditStateChanged(newState)),
-					onSave: () =>
-					{
-						// No validation is required here since the MessageEditor shouldn't let OnSave be called if the current message state is invalid
-						// (ie. if either field has a ValidationMessage). In some applications, it is preferred that validation messages not be shown
-						// until a save request is attempted (in which case some additional validation WOULD be performed here), but this app keeps
-						// things simpler by showing validation messages for all inputs until they have acceptable values (meaning that the first
-						// time the form is draw, it has validation messages displayed even though the user hasn't interacted with it yet).
-						props.Dispatcher.HandleViewAction(new MessageSaveRequested(
-							new MessageDetails(
-								new NonBlankTrimmedString(state.Value.NewMessage.Title.Text),
-								new NonBlankTrimmedString(state.Value.NewMessage.Content.Text)
-							)
-						));
-					}
-				),
-				new MessageHistory(className: new NonBlankTrimmedString("history"), messages: state.Value.MessageHistory)
-			);
+			return DOM.Div(null, new Portal(Portal.PortalTheme.Azure));
+			//return DOM.Div(null,
+			//	new MessageEditor(
+			//		className: new NonBlankTrimmedString("message"),
+			//		message: state.Value.NewMessage,
+			//		onChange: newState => props.Dispatcher.HandleViewAction(new MessageEditStateChanged(newState)),
+			//		onSave: () =>
+			//		{
+			//			// No validation is required here since the MessageEditor shouldn't let OnSave be called if the current message state is invalid
+			//			// (ie. if either field has a ValidationMessage). In some applications, it is preferred that validation messages not be shown
+			//			// until a save request is attempted (in which case some additional validation WOULD be performed here), but this app keeps
+			//			// things simpler by showing validation messages for all inputs until they have acceptable values (meaning that the first
+			//			// time the form is draw, it has validation messages displayed even though the user hasn't interacted with it yet).
+			//			props.Dispatcher.HandleViewAction(new MessageSaveRequested(
+			//				new MessageDetails(
+			//					new NonBlankTrimmedString(state.Value.NewMessage.Title.Text),
+			//					new NonBlankTrimmedString(state.Value.NewMessage.Content.Text)
+			//				)
+			//			));
+			//		}
+			//	),
+			//	new MessageHistory(className: new NonBlankTrimmedString("history"), messages: state.Value.MessageHistory)
+			//);
 		}
 
 		public sealed class Props : IAmImmutable

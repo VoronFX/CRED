@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Bridge.NET.Test.Helpers;
 using Bridge.NET.Test.ViewModels;
 using Bridge.React;
@@ -9,10 +12,50 @@ namespace Bridge.NET.Test.Components.Azure
 {
 	public class Portal : PureComponent<Portal.Props>
 	{
-		public Portal(NonNullList<IStyleClass> classNames, PortalTheme theme)
-			: base(new Props(classNames, theme)) { }
+		public Portal(PortalTheme theme)
+			: base(new Props(theme)) { }
 
-		private enum FxsContainerClasses { FxsPortal, FxsDesktopNormal, FxsShowStartboard }
+		//private enum FxsContainerClasses { FxsPortal, DesktopNormal, FxsShowStartboard }
+		private static class Fxs
+		{
+			// Check for typos
+			static Fxs()
+			{
+				foreach (var property in typeof(Fxs).GetProperties())
+				{
+					Console.WriteLine(property.Name);
+					if ((string)property.GetValue(typeof(Fxs)) != nameof(Fxs) + property.Name)
+					{
+						throw new ArgumentException($"Property name of \"{property.GetValue(typeof(Fxs))}\""
+												  + $" not equal to \"{nameof(Fxs) + property.Name} \". Possible typo was made.");
+					}
+				}
+			}
+
+			public static string Portal => nameof(Fxs) +"-"+ nameof(Portal);
+			public static string DesktopNormal => nameof(Fxs) +"-"+ nameof(DesktopNormal);
+			public static string ShowStartboard => nameof(Fxs) +"-"+ nameof(ShowStartboard);
+			public static string ShowJourney => nameof(Fxs) +"-"+ nameof(ShowJourney);
+			public static string Topbar => nameof(Fxs) +"-"+ nameof(Topbar);
+			public static string SideBar => nameof(Fxs) +"-"+ nameof(SideBar);
+				    
+			public static string PortalTip => nameof(Fxs) +"-"+ nameof(PortalTip);
+			public static string PortalMain => nameof(Fxs) +"-"+ nameof(PortalMain);
+			public static string PortalContent => nameof(Fxs) +"-"+ nameof(PortalContent);
+				    
+			public static string Trim => nameof(Fxs) +"-"+ nameof(Trim);
+				  
+			public static string ScrollbarTransparent => nameof(Fxs) +"-"+ nameof(ScrollbarTransparent);
+			public static string ScrollbarDefaultHover => nameof(Fxs) +"-"+ nameof(ScrollbarDefaultHover);
+			public static string Panorama => nameof(Fxs) +"-"+ nameof(Panorama);
+
+
+			public static string SelectClasses(params string[] names)
+				=> string.Join(" ", names.Select(x => x.ToLower()));
+
+			public static Attributes ClassAttribute(params string[] names)
+				=> new Attributes { ClassName = SelectClasses(names) };
+		}
 
 		public override ReactElement Render()
 		{
@@ -30,54 +73,28 @@ namespace Bridge.NET.Test.Components.Azure
 			//	<azure-svg-symbols></azure-svg-symbols>
 			//	</div>
 			//	"
+
 			return DOM.Div(new Attributes
 			{
-				Id = "container",
-				ClassName = props.ClassNames.Union<IStyleClass>(new []{ 
-					FxsContainerClasses.FxsPortal,
-					FxsContainerClasses.FxsDesktopNormal, 
-					FxsContainerClasses.FxsShowStartboard})
-					.ToClassesString()
-			}
-
-			);
-
-
-			var formIsInvalid = props.Message.Title.ValidationError.IsDefined || props.Message.Content.ValidationError.IsDefined;
-			var isSaveDisabled = formIsInvalid || props.Message.IsSaveInProgress;
-			return DOM.Div(new FieldSetAttributes { ClassName = props.ClassName.IsDefined ? props.ClassName.Value : null },
-				DOM.Legend(null, props.Message.Caption.Value),
-				DOM.Span(new Attributes { ClassName = "label" }, "Title"),
-				new ValidatedTextInput(
-					className: new NonBlankTrimmedString("title"),
-					disabled: props.Message.IsSaveInProgress,
-					content: props.Message.Title.Text,
-					validationMessage: props.Message.Title.ValidationError,
-					onChange: newTitle => props.OnChange(props.Message.With(_ => _.Title, new TextEditState(newTitle)))
-				),
-				DOM.Span(new Attributes { ClassName = "label" }, "Content"),
-				new ValidatedTextInput(
-					className: new NonBlankTrimmedString("content"),
-					disabled: props.Message.IsSaveInProgress,
-					content: props.Message.Content.Text,
-					validationMessage: props.Message.Content.ValidationError,
-					onChange: newContent => props.OnChange(props.Message.With(_ => _.Content, new TextEditState(newContent)))
-				),
-				DOM.Button(
-					new ButtonAttributes { Disabled = isSaveDisabled, OnClick = e => props.OnSave() },
-					"Save"
-				)
-			);
+				Id = "web-container",
+				ClassName = Fxs.SelectClasses(Fxs.Portal, Fxs.DesktopNormal, Fxs.ShowStartboard)
+			}, new[]
+				{
+				DOM.Div(Fxs.ClassAttribute(Fxs.Topbar)),
+				DOM.Div(Fxs.ClassAttribute(Fxs.PortalTip)),
+				DOM.Div(Fxs.ClassAttribute(Fxs.PortalMain)),
+				//contextpane
+				DOM.Div(Fxs.ClassAttribute(Fxs.SideBar)),
+				//contextpane
+				});
 		}
 
 		public class Props : IAmImmutable
 		{
-			public Props(NonNullList<IStyleClass> classNames, PortalTheme theme)
+			public Props(PortalTheme theme)
 			{
-				this.CtorSet(_ => _.ClassNames, classNames);
 				this.CtorSet(_ => _.Theme, theme);
 			}
-			public NonNullList<IStyleClass> ClassNames { get; }
 			public PortalTheme Theme { get; }
 		}
 
