@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Bridge;
 using Bridge.Html5;
+using Bridge.NET.Test.Actions;
+using Bridge.NET.Test.API;
+using Bridge.NET.Test.Components;
+using Bridge.NET.Test.Stores;
 using Bridge.React;
 
 namespace Bridge.NET.Test
@@ -40,12 +43,29 @@ namespace Bridge.NET.Test
 			//	DOM.Div(new Attributes { ClassName = "welcome" }, "Hi!"),
 			//	container
 			//);
-			React.React.Render(
-				DOM.Div(new Attributes { ClassName = "welcome" }, "Hi!"),
-				Document.GetElementById("main")
-			);
-			Window.Eval<object>("window.loadComplete();");
+			//React.React.Render(
+			//	DOM.Div(new Attributes { ClassName = "welcome" }, "Hi!"),
+			//	Document.GetElementById("main")
+			//);
 
+			var dispatcher = new AppDispatcher();
+			var store = new AppUIStore(dispatcher, new MessageApi(dispatcher));
+
+			var container = Document.GetElementById("main");
+			container.ClassName = string.Join(" ", container.ClassName.Split().Where(c => c != "loading"));
+			React.React.Render(
+				new AppContainer(store, dispatcher), 
+				container
+			);
+
+			// After the Dispatcher and the Store and the Container Component are all associated with each other, the Store needs to be told that
+			// it's time to set its initial state, so that the Component can receive an OnChange event and draw itself accordingly. In a more
+			// complicated app, this would probably be an event fired by the router - initialising the Store appropriate to the current URL,
+			// but in this case there's only a single Store to initialise.
+			dispatcher.HandleViewAction(new StoreInitialised(store));
+
+			// Turning of spashscreen
+			Window.Eval<object>("window.loadComplete();");
 		}
 	}
 }
