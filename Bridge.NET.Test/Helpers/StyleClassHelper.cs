@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Bridge.React;
 using ProductiveRage.Immutable;
 
 namespace Bridge.NET.Test.Helpers
@@ -39,7 +40,40 @@ namespace Bridge.NET.Test.Helpers
 					throw new ArgumentOutOfRangeException(nameof(separator), separator, null);
 			}
 		}
+
+		//public static TAttr AddClass<TAttr>(this TAttr attributes, Func<bool> condition, params string[] classes) 
+		//	where TAttr : DomElementsAttributes
+		//{
+		//	attributes.ClassName.Join(" ", attributes.ClassName.Split(" ").Join(classes, s => s, s => s));
+		//	return attributes;
+		//}
 	}
+
+	public class Fluent
+	{
+
+		public class FluentClassName
+		{
+			private readonly List<string> classes = new List<string>();
+
+			public FluentClassName AddIf(Func<bool> condition, params string[] classNames)
+				=> condition() ? Add(classNames) : this;
+
+			public FluentClassName Add(params string[] classNames)
+			{
+				classes.AddRange(classNames);
+				return this;
+			}
+
+			public static implicit operator string(FluentClassName obj)
+				=> string.Join(" ", obj.classes.Distinct());
+
+		}
+
+		public static FluentClassName ClassName()
+			=> new FluentClassName();
+	}
+
 
 	public interface IStyleClass
 	{

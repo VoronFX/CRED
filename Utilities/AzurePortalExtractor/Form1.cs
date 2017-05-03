@@ -44,5 +44,28 @@ namespace AzurePortalExtractor
 				MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				var list = new List<string>();
+				foreach (Match match in Regex.Matches(Input.Text, "fxs(?<name>[-_][-_a-z]+?)[^-_a-z]"))
+				{
+					var s = Regex.Replace(match.Groups["name"].Value, "-[a-z]", match1 => match1.Value.ToUpper());
+					s = Regex.Replace(s, "[-_]", "");
+					//s = Regex.Replace(s, "fxs[A-Z]", "");
+					//list.Add(s);
+					list.Add($@"public static string {s} => Compose(nameof({s}));");
+				}
+				Input.Text = string.Join("\r\n", list.Distinct().OrderBy(x => x));
+				Input.SelectAll();
+				Clipboard.SetText(Input.Text);
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
 	}
 }

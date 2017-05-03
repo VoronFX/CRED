@@ -51,6 +51,7 @@
     <Compile Include="Components\Azure\Fxs.cs" />
     <Compile Include="Components\Azure\FxSymbol.cs" />
     <Compile Include="Components\Azure\Portal.cs" />
+    <Compile Include="Components\Azure\SideBar.cs" />
     <Compile Include="Components\Azure\Svg.cs" />
     <Compile Include="Helpers\DOMEx.cs" />
     <Compile Include="Helpers\StyleClassHelper.cs" />
@@ -82,6 +83,9 @@
     </Reference>
     <Reference Include="Bridge.SignalR, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Bridge.SignalR.2.0.1\lib\net40\Bridge.SignalR.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\..\..\.nuget\packages\microsoft.codeanalysis.csharp\1.3.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="ProductiveRage.Immutable, Version=1.12.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ProductiveRage.Immutable.1.12.2\lib\net40\ProductiveRage.Immutable.dll</HintPath>

@@ -10,53 +10,53 @@ namespace Bridge.NET.Test.Helpers
 	{
 		//[Name("a")]
 		[Template("React.createElement({0}, {1}, System.Linq.Enumerable.from({2}).toArray())")]
-		public static extern ReactElement Create(string tagName, DomElementsAttributes properties,
+		public static extern ReactElement Create(TagNames tagName, ReactDomElementAttributes<HTMLElement> properties,
 			params Union<ReactElement, string>[] children);
 
 		[Template("React.createElement({0}, null, System.Linq.Enumerable.from({1}).toArray())")]
-		public static extern ReactElement Create(string tagName, IEnumerable<ReactElement> children);
+		public static extern ReactElement Create(TagNames tagName, IEnumerable<ReactElement> children);
 
 		[IgnoreGeneric]
 		[Template("React.createElement({0}, null, Bridge.React.toReactElementArray({1}))")]
-		public static extern ReactElement Create<TProps>(string tagName, IEnumerable<PureComponent<TProps>> children);
+		public static extern ReactElement Create<TProps>(TagNames tagName, IEnumerable<PureComponent<TProps>> children);
 
 		[IgnoreGeneric]
 		[Template("React.createElement({0}, null, Bridge.React.toReactElementArray({1}))")]
-		public static extern ReactElement Create<TProps>(string tagName, IEnumerable<StatelessComponent<TProps>> children);
+		public static extern ReactElement Create<TProps>(TagNames tagName, IEnumerable<StatelessComponent<TProps>> children);
 
 		[Template("React.createElement({0}, null, System.Linq.Enumerable.from({1}).toArray())")]
-		public static extern ReactElement Create(string tagName, IEnumerable<string> children);
+		public static extern ReactElement Create(TagNames tagName, IEnumerable<string> children);
 
 		[Template("React.createElement({0}, null, {1})")]
-		public static extern ReactElement Create(string tagName, ReactElement child);
+		public static extern ReactElement Create(TagNames tagName, ReactElement child);
 
 		[Template("React.createElement({0}, null, {1})")]
-		public static extern ReactElement Create(string tagName, string child);
+		public static extern ReactElement Create(TagNames tagName, string child);
 
 		[Template("React.createElement({0}, {1}, System.Linq.Enumerable.from({2}).toArray())")]
-		public static extern ReactElement Create(string tagName, DomElementsAttributes properties,
+		public static extern ReactElement Create(TagNames tagName, ReactDomElementAttributes<HTMLElement> properties,
 			IEnumerable<ReactElement> children);
 
 		[IgnoreGeneric]
 		[Template("React.createElement({0}, {1}, Bridge.React.toReactElementArray({2}))")]
-		public static extern ReactElement Create<TProps>(string tagName, DomElementsAttributes properties,
+		public static extern ReactElement Create<TProps>(TagNames tagName, ReactDomElementAttributes<HTMLElement> properties,
 			IEnumerable<PureComponent<TProps>> children);
 
 		[IgnoreGeneric]
 		[Template("React.createElement({0}, {1}, Bridge.React.toReactElementArray({2}))")]
-		public static extern ReactElement Create<TProps>(string tagName, DomElementsAttributes properties,
+		public static extern ReactElement Create<TProps>(TagNames tagName, ReactDomElementAttributes<HTMLElement> properties,
 			IEnumerable<StatelessComponent<TProps>> children);
 
 		[Template("React.createElement({0}, {1}, System.Linq.Enumerable.from({2}).toArray())")]
-		public static extern ReactElement Create(string tagName, DomElementsAttributes properties,
+		public static extern ReactElement Create(TagNames tagName, ReactDomElementAttributes<HTMLElement> properties,
 			IEnumerable<string> children);
 
 		[Template("React.createElement({0}, {1}, {2})")]
-		public static extern ReactElement Create(string tagName, DomElementsAttributes properties,
+		public static extern ReactElement Create(TagNames tagName, ReactDomElementAttributes<HTMLElement> properties,
 			ReactElement child);
 
 		[Template("React.createElement({0}, {1}, {2})")]
-		public static extern ReactElement Create(string tagName, DomElementsAttributes properties,
+		public static extern ReactElement Create(TagNames tagName, ReactDomElementAttributes<HTMLElement> properties,
 			string child);
 
 		//public static ReactElement Svg(SvgAttributes properties, params Union<ReactElement, string>[] children)
@@ -99,44 +99,13 @@ namespace Bridge.NET.Test.Helpers
 		//	=> Create(TagNames.Svg, properties, child);
 	}
 
-	public static class DOMEx2
-	{
-
-		public static ReactElement Create<TAttr>(TAttr properties, params Union<ReactElement, string>[] children)
-			where TAttr : TagNameAttributes
-			=> DOMEx.Create(properties.TagName.ToString(), properties, children);
-
-		public static ReactElement Create<TAttr>(TAttr properties, IEnumerable<ReactElement> children)
-			where TAttr : TagNameAttributes
-			=> DOMEx.Create(properties.TagName.ToString(), properties, children);
-
-		public static ReactElement Svg<TAttr, TProps>(TAttr properties, IEnumerable<PureComponent<TProps>> children)
-			where TAttr : TagNameAttributes
-			=> DOMEx.Create(properties.TagName.ToString(), properties, children);
-
-		public static ReactElement Svg<TAttr, TProps>(TAttr properties, IEnumerable<StatelessComponent<TProps>> children)
-			where TAttr : TagNameAttributes
-			=> DOMEx.Create(properties.TagName.ToString(), properties, children);
-
-		public static ReactElement Create<TAttr>(TAttr properties, IEnumerable<string> children)
-			where TAttr : TagNameAttributes
-			=> DOMEx.Create(properties.TagName.ToString(), properties, children);
-
-		public static ReactElement Create<TAttr>(TAttr properties, ReactElement child)
-			where TAttr : TagNameAttributes
-			=> DOMEx.Create(properties.TagName.ToString(), properties, child);
-
-		public static ReactElement Create<TAttr>(TAttr properties, string child)
-			where TAttr : TagNameAttributes
-			=> DOMEx.Create(properties.TagName.ToString(), properties, child);
-
-	}
-
+	[External]
 	[Enum(Emit.StringNameLowerCase)]
 	[Name("String")]
 	public enum TagNames
 	{
-		Svg
+		Svg,
+		Use
 	}
 
 	//[External]
@@ -150,25 +119,21 @@ namespace Bridge.NET.Test.Helpers
 	//	public extern SVGElement();
 	//}
 
-	public abstract class TagNameAttributes : ReactDomElementAttributes<HTMLElement>
-	{
-		public TagNames TagName { get; }
 
-		protected TagNameAttributes(TagNames tag)
-		{
-			TagName = tag;
-		}
+	[External]
+	[ObjectLiteral]
+	public sealed class SvgAttributes : ReactDomElementAttributes<HTMLElement>
+	{
+		[Name("role")]
+		public RoleType Role { private get; set; }
 	}
 
 	[External]
 	[ObjectLiteral]
-	public class SvgAttributes : TagNameAttributes
+	public sealed class UseAttributes : ReactDomElementAttributes<HTMLElement>
 	{
-		[Name("role")]
-		public RoleType Role { private get; set; }
-
-		public SvgAttributes() 
-			: base(TagNames.Svg) { }
+		[Name("href")]
+		public string Href { private get; set; }
 	}
 
 	[External]
@@ -178,5 +143,7 @@ namespace Bridge.NET.Test.Helpers
 	{
 		Presentation,
 		Button,
+		MenuItem,
+		Link
 	}
 }
