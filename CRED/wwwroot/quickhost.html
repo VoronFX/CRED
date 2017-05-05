@@ -262,20 +262,20 @@
         window.resources = [
             //{ url: "/css/site.min.css" },
             //{ url: "/js/site.js" }
+            { url: "/app/bladeui/widgets/azuresvgsymbols/azuresvgsymbols.component.html" }
         ];
         window.isDevelopmentMode = true;
     </script>
 
 
 
-<script type="text/javascript">
-    window.loadComplete = function() {
-        window.loadComplete = null;
-        document.getElementsByClassName("splashscreen-container")[0].classList.add("splashscreen-container-out");
-        setTimeout(() => document.getElementsByClassName("splashscreen-container")[0].remove(), 500);
+    <script type="text/javascript">
+        window.loadComplete = function () {
+            window.loadComplete = null;
+            document.getElementsByClassName("splashscreen-container")[0].classList.add("splashscreen-container-out");
+            setTimeout(() => document.getElementsByClassName("splashscreen-container")[0].remove(), 500);
         }
 
-    window.addEventListener("load", function () {
 
         var splashscreen = document.getElementsByClassName("splashscreen-container")[0];
         var textcontainer = document.getElementsByClassName("splashscreen-text")[0];
@@ -342,39 +342,45 @@
                                 var head = document.head || document.getElementsByTagName('head')[0];
                                 for (let i = 0; i < lres.length; i++) {
                                     switch (lres[i].xhr.getResponseHeader("content-type")) {
-                                    case "text/css":
-                                        var css = lres[i].xhr.responseText,
-                                            style = document.createElement('style');
+                                        case "text/css":
+                                            var css = lres[i].xhr.responseText,
+                                                style = document.createElement('style');
 
-                                        style.type = 'text/css';
-                                        if (style.styleSheet) {
-                                            style.styleSheet.cssText = css;
-                                        } else {
-                                            style.appendChild(document.createTextNode(css));
-                                        }
+                                            style.type = 'text/css';
+                                            if (style.styleSheet) {
+                                                style.styleSheet.cssText = css;
+                                            } else {
+                                                style.appendChild(document.createTextNode(css));
+                                            }
 
-                                        head.appendChild(style);
+                                            head.appendChild(style);
 
-                                        break;
-                                    case "application/javascript":
-                                        var stext = lres[i].xhr.responseText;
-                                        if (window.isDevelopmentMode) {
-                                            var script = document.createElement('script');
-                                            script.type = 'text/javascript';
-                                            script.text = stext;
-                                            head.appendChild(script);
-                                        }
-                                        else if (typeof execScript !== "undefined")
-                                            execScript(stext);
-                                        else
-                                            eval.call(null, stext);
+                                            break;
+                                        case "text/html":
+                                            var html = lres[i].xhr.responseText,
+                                                container = document.createElement('div');
+                                            container.innerHTML = html;
+                                            head.appendChild(container);
+                                            break;
+                                        case "application/javascript":
+                                            var stext = lres[i].xhr.responseText;
+                                            if (window.isDevelopmentMode) {
+                                                var script = document.createElement('script');
+                                                script.type = 'text/javascript';
+                                                script.text = stext;
+                                                head.appendChild(script);
+                                            }
+                                            else if (typeof execScript !== "undefined")
+                                                execScript(stext);
+                                            else
+                                                eval.call(null, stext);
 
-                                        break;
-                                    default:
-                                        seterror("Unknown resource type: " +
-                                            lres[i].xhr.getResponseHeader("content-type"),
-                                            "Error loading resources");
-                                        throw "Unknown resource type: " + lres[i].xhr.getResponseHeader("content-type");
+                                            break;
+                                        default:
+                                            seterror("Unknown resource type: " +
+                                                lres[i].xhr.getResponseHeader("content-type"),
+                                                "Error loading resources");
+                                            throw "Unknown resource type: " + lres[i].xhr.getResponseHeader("content-type");
                                     }
                                 }
                             }
@@ -402,12 +408,10 @@
         } catch (e) {
             seterror(e, "Error in loader");
         }
-    });
-</script>
-    
-<!-- Manually load resources for easyu debuggin in browser-->
-<link rel="stylesheet" href="/css/site.min.css" />
-<script type="text/javascript" src="/js/site.js" defer></script>
+    </script>
+    <!-- Manually load resources for easyu debuggin in browser-->
+    <link rel="stylesheet" href="/css/site.min.css" />
+    <script type="text/javascript" src="/js/site.js" defer></script>
 
 </body>
 </html>

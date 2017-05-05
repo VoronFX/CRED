@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\RuntimeResourcePacker\RequireResourceAttribute.cs">
+      <Link>Helpers\RequireResourceAttribute.cs</Link>
+    </Compile>
     <Compile Include="Actions\MessageEditStateChanged.cs" />
     <Compile Include="Actions\MessageHistoryUpdated.cs" />
     <Compile Include="Actions\MessageSaveRequested.cs" />
@@ -48,11 +51,15 @@
     <Compile Include="API\SavedMessageDetails.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Components\AppContainer.cs" />
-    <Compile Include="Components\Azure\Fxs.cs" />
-    <Compile Include="Components\Azure\FxSymbol.cs" />
+    <Compile Include="Components\Azure\Resources\Fxs.cs" />
+    <Compile Include="Components\Azure\Resources\FxsClasses.cs" />
+    <Compile Include="Components\Azure\Resources\FxsText.cs" />
+    <Compile Include="Components\Azure\Resources\Symbols.cs" />
     <Compile Include="Components\Azure\Portal.cs" />
-    <Compile Include="Components\Azure\SideBar.cs" />
+    <Compile Include="Components\Azure\Sidebar.cs" />
     <Compile Include="Components\Azure\Svg.cs" />
+    <Compile Include="Components\Azure\Topbar.cs" />
+    <Compile Include="Components\Azure\TopbarSearch.cs" />
     <Compile Include="Helpers\DOMEx.cs" />
     <Compile Include="Helpers\StyleClassHelper.cs" />
     <Compile Include="Components\MessageEditor.cs" />

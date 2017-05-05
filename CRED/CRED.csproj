@@ -34,6 +34,10 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
     <DocumentationFile>bin\Debug\netcoreapp1.1\CRED.xml</DocumentationFile>
     <DefineConstants>TRACE;RELEASE;NETCOREAPP1_1</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot/js\site.min.j8s" />
+  </ItemGroup>
   
   <ItemGroup>
     <Content Include="wwwroot\app\about.component.js" />
@@ -294,6 +298,7 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bridge.NET.Test\Bridge.NET.Test.csproj" />
+    <ProjectReference Include="..\RuntimeResourcePacker\RuntimeResourcePacker.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="web.config">

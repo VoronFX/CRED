@@ -16,7 +16,7 @@ namespace Bridge.NET.Test.Components
 			var isSaveDisabled = formIsInvalid || props.Message.IsSaveInProgress;
 			return DOM.FieldSet(new FieldSetAttributes { ClassName = props.ClassName.IsDefined ? props.ClassName.Value : null },
 				DOM.Legend(null, props.Message.Caption.Value),
-				DOM.Span(new Attributes { ClassName = "label" }, "Title"),
+				DOM.Span(new Attributes { ClassName = "label" }, "Label"),
 				new ValidatedTextInput(
 					className: new NonBlankTrimmedString("title"),
 					disabled: props.Message.IsSaveInProgress,

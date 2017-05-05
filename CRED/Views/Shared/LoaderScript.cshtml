@@ -81,6 +81,12 @@
                                             head.appendChild(style);
 
                                             break;
+                                        case "text/html":
+                                            var html = lres[i].xhr.responseText,
+                                                container = document.createElement('div');
+                                            container.innerHTML = html.innerHTML;
+                                            head.appendChild(container);
+                                            break;
                                         case "application/javascript":
                                             var stext = lres[i].xhr.responseText;
                                             if (window.isDevelopmentMode) {

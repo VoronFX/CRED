@@ -47093,12 +47093,4213 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
 })(this);
 
 /**
+ * @version 1.12.6.0
+ * @copyright Copyright © ProductiveRage 2017
+ * @compiler Bridge.NET 15.7.0
+ */
+Bridge.assembly("Bridge.React", function ($asm, globals) {
+    "use strict";
+
+    Bridge.define("Bridge.React.IDispatcher", {
+        $kind: "interface"
+    });
+
+    /** @namespace System */
+
+    /**
+     * @memberof System
+     * @callback System.Action
+     * @return  {void}
+     */
+
+    /** @namespace Bridge.React */
+
+    /**
+     * This provides a class which may be derived from in order to declare React components. Due to the way that React initialises components, it is important that derived classes
+     do not perform any logic or initialisation in their constructor, nor may they have any other configuration passed into their constructor but that which is described by the
+     props (and state, where applicable) data. The constructors will not be executed and so any logic or member initialisation in there will be silenty ignored.
+     *
+     * @abstract
+     * @public
+     * @class Bridge.React.Component$2
+     */
+    Bridge.define("Bridge.React.Component$2", function (TProps, TState) { return {
+        statics: {
+            _reactComponentClasses: null,
+            config: {
+                init: function () {
+                    this._reactComponentClasses = new (System.Collections.Generic.Dictionary$2(Function,Object))();
+                }
+            },
+            op_Implicit: function (component) {
+                // Since React 0.11 (see https://facebook.github.io/react/blog/2014/07/17/react-v0.11.html), it has been acceptable to return null from a Render method to
+                // indicate that nothing should be rendered. As such, it's possible that a null Component reference will pass through this operator method and so null needs
+                // to be allowed (previously this would throw a ArgumentNullException for a null component).
+                if (component == null) {
+                    return null;
+                }
+                return component._reactElement;
+            },
+            op_Implicit$1: function (component) {
+                // Since React 0.11 (see https://facebook.github.io/react/blog/2014/07/17/react-v0.11.html), it has been acceptable to return null from a Render method to
+                // indicate that nothing should be rendered. As such, it's possible that a null Component reference will pass through this operator method and so null needs
+                // to be allowed (previously this would throw a ArgumentNullException for a null component).
+                if (component == null) {
+                    return null;
+                }
+                return component._reactElement;
+            }
+        },
+        _reactElement: null,
+        ctor: function (props, children) {
+            if (children === void 0) { children = []; }
+
+            this.$initialize();
+            if (children != null) {
+                if (System.Linq.Enumerable.from(children).any($asm.$.Bridge.React.Component$2.f1)) {
+                    throw new System.ArgumentException("Null reference encountered in children set");
+                }
+            }
+
+            // To ensure that a single "template" (ie. React component) is created per unique class, a static "_reactComponentClasss" dictionary is maintained. If it has no entry
+            // for the current type then this must be the first instantiation of that type and so a component class will be created and added to the dictionary, ready for re-use
+            // by any subsequent component instances.
+            var currentType = Bridge.getType(this); // Cast to object first in case derived class uses [IgnoreGeneric] - see http://forums.bridge.net/forum/bridge-net-pro/bugs/3343
+            var reactComponentClass = { };
+            if (!Bridge.React.Component$2(TProps,TState)._reactComponentClasses.tryGetValue(currentType, reactComponentClass)) {
+                reactComponentClass.v = this.createReactComponentClass();
+                Bridge.React.Component$2(TProps,TState)._reactComponentClasses.set(currentType, reactComponentClass.v);
+            }
+
+            // Now that the React component class is certain to have been defined (once per unique C# component class), this instance requires a React element to be created
+            // for it. The internal React mechanism means that the component's constructor will not be executed, which is why ALL state and configuration options for a
+            // component must be contained within the props (and state, where appropriate). Note: In most cases where children are specified as a params array, we don't want
+            // the "children require unique keys" warning from React (you don't get it if you call DOM.Div(null, "Item1", "Item2"), so we don't want it in most cases here
+            // either - to achieve this, we prepare an arguments array and pass that to React.createElement in an "apply" call.
+            var createElementArgs = System.Array.init([reactComponentClass.v, Bridge.React.ComponentPropsHelpers$1.wrapProps(props)], Object);
+            if (children != null) {
+                createElementArgs = createElementArgs.concat.apply(createElementArgs, children);
+            }
+            this._reactElement = React.createElement.apply(null, createElementArgs);
+        },
+        /**
+         * Props is not used by all components and so this may be null
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @function getprops
+         * @return  {TProps}
+         */
+        /**
+         * Props is not used by all components and so this may be null
+         *
+         * @instance
+         * @function setprops
+         */
+        getprops: function () {
+            return this.props ? this.props.value : null;
+        },
+        /**
+         * State is not used by all components and so this may be null
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @function getstate
+         * @return  {TState}
+         */
+        /**
+         * State is not used by all components and so this may be null
+         *
+         * @instance
+         * @function setstate
+         */
+        getstate: function () {
+            return this.state ? this.state.value : null;
+        },
+        /**
+         * This will never be null nor contain any null references, though it may be empty if there are no children to render
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @function getChildren
+         * @return  {Array.<Object>}
+         */
+        /**
+         * This will never be null nor contain any null references, though it may be empty if there are no children to render
+         *
+         * @instance
+         * @function setChildren
+         */
+        getChildren: function () {
+            return this.props && this.props.children ? this.props.children : [];
+        },
+        createReactComponentClass: function () {
+            // For each derived class we need to create React component class, this is like a template for the form of the component - individual instances will be created by
+            // taking this template and using React.createElement to prepare a new element with the specified props. There should only be one React component class per unique
+            // class but multiple React elements - one per instance of the class. The template is prepared by taking the first instance of any component class and ensuring
+            // promoting all functions from the class prototype (which is where they will be defined for Bridge classes) since React's internal logic uses hasOwnProperty when
+            // looking for key functions such as "render". Most functions can be promoted in a simple manner but there are some exceptions - "constructor" must be ignored
+            // (otherwise React will raise a warning "You are attempting to define `constructor` on your component more than once" and "setState") and any of the component
+            // lifecycle methods that involves props or state access need special handling. This is because React presumes that all props and state objects will be simple
+            // object literals and they get picked apart during processing - so if a Bridge class is used for the props object that has a "name" property with "getName" and
+            // "setName" functions on the prototype then React will maintain the "name" value but lose the getter and setter. The way around this is to stash the props object
+            // in a simple wrapper with a "value" property which React will allow through its internals since it doesn't recursively meddle with the data - this "value" may be
+            // a Bridge class (or an ObjectLiteral, it doesn't matter). The only complications around this approach are that anywhere that props are accessed, a redirection is
+            // required - so that the component class gets the "value" reference. This counts not only for components' "this.props" access but also for functions such as
+            // "componentWillReceiveProps" since the C# code will expect the "nextProps" value to be of type TProps and not a wrapper with a "value" property of type TProps.
+            // The same logic goes for the state reference. Note that this effectively means that state is completely replaced when the "SetState" function is called, since the
+            // single "value" reference is over-written. This makes the "SetState" implementation here closer to "replaceState" in React, but I didn't name it "ReplaceState"
+            // instead of "SetState" since the React 0.14 docs say that that function may be removed in the future. However, "SetState" replacing the entire state reference,
+            // rather than merging it with whatever data is already there is - I think - the least surprising approach when considered in terms of C#; it makes more sense to
+            // replace the current data with the new reference, rather than merge - merging is not a common action in C#, though it is in JavaScript (eg. merging default
+            // "options" with any explicit settings in many JavaScript APIs).
+            var className = Bridge.React.ComponentNameHelpers.getDisplayName(this);
+            var reactComponentClass = null;
+            
+			var bridgeComponentInstance = this;
+			bridgeComponentInstance.displayName = className; // This is used by the React dev tools extension
+				
+			// Copy over all functions that may be needed first (ignoring the constructor since copying that causes a Reacts warning and because the constructor will not
+			// be used when createElement initialises new element instances)..
+			for (var i in bridgeComponentInstance) {
+				if (i === 'constructor') {
+					continue;
+				}
+				bridgeComponentInstance[i] = bridgeComponentInstance[i];
+			}
+
+			// .. then overwrite the functions that need special treatment (lifecycle functions involving props and/or state)
+			var getInitialState = bridgeComponentInstance.getInitialState;
+			bridgeComponentInstance.getInitialState = function (state) {
+				return { value: getInitialState.apply(this) };
+			};
+			var componentWillReceiveProps = bridgeComponentInstance.componentWillReceiveProps;
+			bridgeComponentInstance.componentWillReceiveProps = function (nextProps) {
+				componentWillReceiveProps.apply(this, [ nextProps ? nextProps.value : nextProps ]);
+			};
+			var shouldComponentUpdate = bridgeComponentInstance.shouldComponentUpdate;
+			bridgeComponentInstance.shouldComponentUpdate = function (nextProps, nextState) {
+				return shouldComponentUpdate.apply(this, [ nextProps ? nextProps.value : nextProps, nextState ? nextState.value : nextState ]);
+			};
+			var componentWillUpdate = bridgeComponentInstance.componentWillUpdate;
+			bridgeComponentInstance.componentWillUpdate = function (nextProps, nextState) {
+				componentWillUpdate.apply(this, [ nextProps ? nextProps.value : nextProps, nextState ? nextState.value : nextState ]);
+			};
+			var componentDidUpdate = bridgeComponentInstance.componentDidUpdate;
+			bridgeComponentInstance.componentDidUpdate = function (previousProps, previousState) {
+				componentDidUpdate.apply(this, [ previousProps ? previousProps.value : previousProps, previousState ? previousState.value : previousState ]);
+			};
+			reactComponentClass = React.createClass(bridgeComponentInstance);
+			
+            return reactComponentClass;
+        },
+        /**
+         * State is not used by all components and so it is valid to return null from any implementation of this function
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @return  {TState}
+         */
+        getInitialState: function () {
+            return Bridge.getDefaultValue(TState);
+        },
+        componentWillMount: function () {
+        },
+        componentDidMount: function () {
+        },
+        /**
+         * Props is not used by all components and so it is valid for the nextProps reference passed up here to be null
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @param   {TProps}    nextProps
+         * @return  {void}
+         */
+        componentWillReceiveProps: function (nextProps) {
+        },
+        /**
+         * If this returns false then the proposed component update will be cancelled - this may be used as an optimisation to avoid unnecessary updates. Since deep equality
+         checks can be expensive, taking advantage of this mechanism is easiest when the props and state types are immutable and so equality checks are as simple (and cheap)
+         as a reference equality test. Props and State are not used by all components and so it is valid for either or both of the nextProps and nextState references passed
+         up here to be null.
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @param   {TProps}     nextProps    
+         * @param   {TState}     nextState
+         * @return  {boolean}
+         */
+        shouldComponentUpdate: function (nextProps, nextState) {
+            return true;
+        },
+        /**
+         * Props and State are not used by all components and so it is valid for either or both of the nextProps and nextState references passed up here to be null
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @param   {TProps}    nextProps    
+         * @param   {TState}    nextState
+         * @return  {void}
+         */
+        componentWillUpdate: function (nextProps, nextState) {
+        },
+        /**
+         * Props and State are not used by all components and so it is valid for either or both of the nextProps and nextState references passed up here to be null
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @param   {TProps}    previousProps    
+         * @param   {TState}    previousState
+         * @return  {void}
+         */
+        componentDidUpdate: function (previousProps, previousState) {
+        },
+        componentWillUnmount: function () {
+        },
+        /**
+         * This replaces the entire state for the component instance - it does not merge any state data with any state data already present on the instance. As such, it might
+         be best to consider this implementation to be more like ReplaceState.
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @param   {TState}    state
+         * @return  {void}
+         */
+        setWrappedState: function (state) {
+            this.setState({ value: state });
+        },
+        /**
+         * This replaces the entire state for the component instance, and executes the callback delegate when the state has been
+         successfully mutated. See http://stackoverflow.com/questions/30782948/why-calling-react-setstate-method-doesnt-mutate-the-state-immediately
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @param   {TState}           state     
+         * @param   {System.Action}    action
+         * @return  {void}
+         */
+        setWrappedStateCallback: function (state, action) {
+            this.setState({ value: state }, action);
+        },
+        /**
+         * This replaces the entire state for the component instance asynchronously. Execution will continue when the state has been successfully mutated.
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.Component$2
+         * @memberof Bridge.React.Component$2
+         * @param   {TState}                         state
+         * @return  {System.Threading.Tasks.Task}
+         */
+        setWrappedStateAsync: function (state) {
+            var tcs = new System.Threading.Tasks.TaskCompletionSource();
+            this.setWrappedStateCallback(state, function () {
+                tcs.setResult(null);
+            });
+            return tcs.task;
+        }
+    }; });
+
+    Bridge.ns("Bridge.React.Component$2", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.React.Component$2, {
+        f1: function (element) {
+            return element == null;
+        }
+    });
+
+    Bridge.define("Bridge.React", {
+        statics: {
+            /**
+             * This should only be used by the React.DOM factory method overloads - as such, I haven't created separate strongly-typed method signatures for StatelessComponent and PureComponent,
+             I've rolled them together by having a single signature that takes an object set. This means that this method could feasibly be called with an object of references without the
+             private "_reactElement" property, but no-one should be able to call this anyway so that's very low risk. Note that this won't work with the Component base class, it causes
+             React to throw a "Maximum call stack size exceeded" error that I haven't been able to get to the bottom of yet (the ToChildComponentArray extension methods only supported
+             StatelessComponent and PureComponent, so I'm ok for now with only supporting DOM factory methods that handle dynamic sets of StatelessComponent and PureComponent but
+             not Component)
+             *
+             * @static
+             * @this Bridge.React
+             * @memberof Bridge.React
+             * @param   {System.Collections.Generic.IEnumerable$1}    components
+             * @return  {Array.<Object>}
+             */
+            toReactElementArray: function (components) {
+                if (components == null) {
+                    throw new System.ArgumentNullException("components");
+                }
+
+                var componentsArray = System.Linq.Enumerable.from(components).toArray();
+                var reactElements = System.Array.init(componentsArray.length, null, Object);
+                
+			for (var i = 0; i < componentsArray.length; i++) {
+				reactElements[i] = (componentsArray[i] == null) ? null : componentsArray[i]._reactElement;
+			}
+			 
+                return reactElements;
+            }
+        }
+    });
+
+    Bridge.define("Bridge.React.ComponentNameHelpers", {
+        statics: {
+            getDisplayName: function (source) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+
+                if (Bridge.isPlainObject(source)) {
+                    return "Component";
+                }
+
+                return System.Linq.Enumerable.from(System.String.split(Bridge.Reflection.getTypeName(Bridge.getType(source)), [46, 91, 36].map(function(i) {{ return String.fromCharCode(i); }}))).first();
+            }
+        }
+    });
+
+    /**
+     * React internals do some monkeying about with props references that will cause problems if the props reference is a Bridge class which does not have
+     the [ObjectLiteral] attribute on it. The way that the Component and StatelessComponent classes work around this is to wrap props reference in an
+     object literal since React's meddling is not recursive, it doesn't change any property values on props, it just changes how those top-level
+     properties are described. This class provides a standard way to wrap the props data. It also performs some magic to extract any "Key"
+     value from the props, since this must not be tucked away one level deeper as it is a magic React property (for more information
+     about keyed elements, see https://facebook.github.io/react/docs/multiple-components.html#dynamic-children).
+     *
+     * @static
+     * @abstract
+     * @class Bridge.React.ComponentPropsHelpers$1
+     */
+    Bridge.define("Bridge.React.ComponentPropsHelpers$1", {
+        statics: {
+            wrapProps: function (propsIfAny) {
+                // Try to extract a Key value from the props - it might be a simple "key" value or it might be a property with a "getKey" function or it
+                // might be absent altogether
+                var keyIfAny = null;
+                if (propsIfAny != null) {
+                    
+					if (propsIfAny.key || (propsIfAny.key === 0)) { // Ensure that a zero key is not considered "no-key-defined"
+						keyIfAny = propsIfAny.key;
+					}
+					else if (propsIfAny.getKey && (typeof(propsIfAny.getKey) == "function")) {
+						var keyIfAnyFromPropertyGetter = propsIfAny.getKey();
+						if (keyIfAnyFromPropertyGetter || (keyIfAnyFromPropertyGetter === 0)) { // Ensure that a zero key is not considered "no-key-defined"
+							keyIfAny = keyIfAnyFromPropertyGetter;
+						}
+						else {
+							keyIfAny = undefined;
+						}
+					}
+					else {
+						keyIfAny = undefined;
+					}
+				
+                }
+
+                // With the changes in React 15.0.0 (vs 0.14.7), a null Key value will be interpreted AS a key (and will either be ".$null" or ".$undefined")
+                // when really we want a null Key to mean NO KEY. Possibly related to https://github.com/facebook/react/issues/2386, but I would have expected
+                // to have seen this issue in 0.14 if it was that. The workaround is to return a type of "wrapped props" that doesn't even have a Key property
+                // on it if there is no key value to use.
+                if ((typeof(keyIfAny) !== 'undefined')) {
+                    return Bridge.React.ComponentPropsHelpers$1.WrappedPropsWithKey.ctor({ value: propsIfAny, key: keyIfAny });
+                }
+                return Bridge.React.ComponentPropsHelpers$1.WrappedProps.ctor({ value: propsIfAny });
+            },
+            doPropsReferencesMatch: function (props1, props2) {
+                if ((props1 == null) && (props2 == null)) {
+                    return true;
+                } else {
+                    if ((props1 == null) || (props2 == null)) {
+                        return false;
+                    }
+                }
+
+                // Cast to object before calling GetType since we're using [IgnoreGeneric] (Bridge 15.7.0 bug workaround) - see http://forums.bridge.net/forum/bridge-net-pro/bugs/3343
+                if (!Bridge.referenceEquals(Bridge.getType(props1), Bridge.getType(props2))) {
+                    return false;
+                }
+
+                
+			for (var propName in props1) {
+				var propValue1 = props1[propName];
+				var propValue2 = props2[propName];
+				if ((propValue1 === propValue2) 
+				|| ((propValue1 === null) && (propValue2 === null))
+				|| ((typeof(propValue1) === "undefined") && (typeof(propValue2) === "undefined"))) {
+					// Very simple cases where the properties match
+					continue;
+				}
+				else if ((propValue1 === null) || (propValue2 === null) || (typeof(propValue1) === "undefined") || (typeof(propValue2) === "undefined")) {
+					// Simple cases where one or both of the values are some sort of no-value (but either one of them has a value or they're inconsistent types of no-value,
+					// since we'd have caught them above otherwise)
+					return false;
+				}
+				else if ((typeof(propValue1) === "function") && (typeof(propValue2) === "function")) {
+					// If they're Bridge-bound functions (which is what the presence of $scope and $method properties indicates), then check whether the underlying $method
+					// and $scope references match (if they do then this means that it's the same method bound to the same "this" scope, but the actual function references
+					// are not the same since they were the results from two different calls to Bridge.fn.bind)
+					if (propValue1.$scope && propValue1.$method && propValue2.$scope && propValue2.$method && (propValue1.$scope === propValue2.$scope)) {
+						if (propValue1.$method === propValue2.$method) {
+							continue;
+						}
+						if (propValue1.$method.toString() === propValue2.$method.toString()) {
+							// If the bound method is a named function then we can use the cheap reference equality comparison above. This is the ideal case, not only because
+							// the comparison is so cheap but also because it means that the function is only declared once. Anonymous functions can't be compared by reference
+							// and they have a cost (in terms of creation and in terms of additional GC work) that makes them less desirable. However, if the underlying bound
+							// functions are anonymous functions then so long as they have the same content then they may be considered equivalent (since we've already checked
+							// the references that they're bound to are the same, above).
+							continue;
+						}
+					}
+					// Due to the way that properties are currently initialised on types in Bridge, if a property's type is a struct then the getter and setter for it will
+					// be created for each instance of the type, rather than being shared across all instances of the type (which is the case for reference type properties).
+					// This means that when it comes to a "getName" property, for example, the "getName" function will not be the same value for two instances of the same
+					// class, which is a problem for this function since it will mean that two props references that contain the same data are not identified as such as
+					// the getter / setter functions are distinct across instances. A proper fix for this has been requested at:
+					//   http://forums.bridge.net/forum/general/feature-requests/1737
+					// A temporary workaround is for the getter and setter functions to be identified as such, and then ignored by this process. That would not be particularly
+					// easy to do in general, but it IS something that's relatively easy to add to the ProductiveRage.Immutable library (every time that CtorSet is called, the
+					// getter and setter methods for the property will have a $scaffolding value set to true). This can be unpicked if the Bridge translation process changes
+					// but it means that types that have struct properties that are declared using the IAmImmutable helpers will work before that time.
+					if ((propValue1.$scaffolding === true) && (propValue2.$scaffolding === true)) {
+						continue;
+					}
+				}
+				else if ((typeof(propValue1.equals) === "function") && (propValue1.equals(propValue2) === true)) {
+					// If propValue1 has an "equals" implementation then give that a go
+					continue;
+				}
+				return false;
+			}
+			
+                return true;
+            }
+        }
+    });
+
+    Bridge.define("Bridge.React.ComponentPropsHelpers$1.WrappedProps", {
+        $literal: true
+    });
+
+    Bridge.define("Bridge.React.DispatcherMessage", {
+        config: {
+            properties: {
+                Source: 0,
+                /**
+                 * This will never be null
+                 *
+                 * @instance
+                 * @public
+                 * @this Bridge.React.DispatcherMessage
+                 * @memberof Bridge.React.DispatcherMessage
+                 * @function getAction
+                 * @return  {Bridge.React.IDispatcherAction}
+                 */
+                /**
+                 * This will never be null
+                 *
+                 * @instance
+                 * @private
+                 * @this Bridge.React.DispatcherMessage
+                 * @memberof Bridge.React.DispatcherMessage
+                 * @function setAction
+                 * @param   {Bridge.React.IDispatcherAction}    value
+                 * @return  {void}
+                 */
+                Action: null
+            }
+        },
+        ctor: function (source, action) {
+            this.$initialize();
+            if ((source !== Bridge.React.MessageSourceOptions.Server) && (source !== Bridge.React.MessageSourceOptions.View)) {
+                throw new System.ArgumentOutOfRangeException("source");
+            }
+            if (action == null) {
+                throw new System.ArgumentNullException("action");
+            }
+
+            this.setSource(source);
+            this.setAction(action);
+        }
+    });
+
+    /**
+     * @memberof System
+     * @callback System.Func
+     * @param   {T}          arg
+     * @return  {boolean}
+     */
+
+    Bridge.define("Bridge.React.DispatcherMessageExtensions", {
+        statics: {
+            /**
+             * This will execute the specified callback with a non-null reference if the current DispatcherMessage action matches type T.
+             It will never call the work action with a null reference and it will never return a null reference. It will throw an exception
+             for a null DispatcherMessage or null work reference.
+             *
+             * @static
+             * @public
+             * @this Bridge.React.DispatcherMessageExtensions
+             * @memberof Bridge.React.DispatcherMessageExtensions
+             * @param   {Function}                                                             T          
+             * @param   {Bridge.React.DispatcherMessage}                                       message    
+             * @param   {System.Action}                                                        work
+             * @return  {Bridge.React.DispatcherMessageExtensions.IMatchDispatcherMessages}
+             */
+            if: function (T, message, work) {
+                return new Bridge.React.DispatcherMessageExtensions.DispatcherMessageMatcher(message).else(T, work);
+            },
+            /**
+             * This will execute the specified callback with a non-null reference if the current DispatcherMessage action matches type T and
+             if that instance of T meets the specified conditions. It will never call the work action with a null reference and it will never
+             return a null reference. It will throw an exception for a null DispatcherMessage, null condition or null work reference.
+             *
+             * @static
+             * @public
+             * @this Bridge.React.DispatcherMessageExtensions
+             * @memberof Bridge.React.DispatcherMessageExtensions
+             * @param   {Function}                                                             T            
+             * @param   {Bridge.React.DispatcherMessage}                                       message      
+             * @param   {System.Func}                                                          condition    
+             * @param   {System.Action}                                                        work
+             * @return  {Bridge.React.DispatcherMessageExtensions.IMatchDispatcherMessages}
+             */
+            if$1: function (T, message, condition, work) {
+                return new Bridge.React.DispatcherMessageExtensions.DispatcherMessageMatcher(message).else$1(T, condition, work);
+            }
+        }
+    });
+
+    Bridge.define("Bridge.React.DispatcherMessageExtensions.IMatchDispatcherMessages", {
+        $kind: "interface"
+    });
+
+    Bridge.define("Bridge.React.EnumerableComponentExtensions", {
+        statics: {
+            /**
+             * When initialising a component that will accept a set of child components, each child components must be of type Any&lt;ReactElement, string&gt; - if you have an enumerable
+             set of ReactElements then calling ToArray will not return an array of the appropriate type, so either each entry must be cast to an Any&lt;ReactElement, string&gt; before
+             calling ToArray or this helper function may be used.
+             *
+             * @static
+             * @public
+             * @this Bridge.React.EnumerableComponentExtensions
+             * @memberof Bridge.React.EnumerableComponentExtensions
+             * @param   {System.Collections.Generic.IEnumerable$1}    elements
+             * @return  {Array.<Object>}
+             */
+            toChildComponentArray: function (elements) {
+                if (elements == null) {
+                    throw new System.ArgumentNullException("elements");
+                }
+
+                return System.Linq.Enumerable.from(elements).select($asm.$.Bridge.React.EnumerableComponentExtensions.f1).toArray();
+            },
+            /**
+             * When initialising a component that will accept a set of child components, each child components must be of type Any&lt;ReactElement, string&gt; - if you have an enumerable
+             set of PureComponents of the same type then this helper function may be called to produce an array of the correct type (otherwise, each entry must be cast to an
+             Any&lt;ReactElement, string&gt; before ToArray is called on that set)
+             *
+             * @static
+             * @public
+             * @this Bridge.React.EnumerableComponentExtensions
+             * @memberof Bridge.React.EnumerableComponentExtensions
+             * @param   {Function}                                    TProps        
+             * @param   {System.Collections.Generic.IEnumerable$1}    components
+             * @return  {Array.<Object>}
+             */
+            toChildComponentArray$1: function (TProps, components) {
+                if (components == null) {
+                    throw new System.ArgumentNullException("components");
+                }
+
+                return System.Linq.Enumerable.from(components).select(function (component) {
+                        return Bridge.React.PureComponent$1(TProps).op_Implicit$1(component);
+                    }).toArray();
+            },
+            /**
+             * When initialising a component that will accept a set of child components, each child components must be of type Any&lt;ReactElement, string&gt; - if you have an enumerable
+             set of PureComponents of the same type then this helper function may be called to produce an array of the correct type (otherwise, each entry must be cast to an
+             Any&lt;ReactElement, string&gt; before ToArray is called on that set)
+             *
+             * @static
+             * @public
+             * @this Bridge.React.EnumerableComponentExtensions
+             * @memberof Bridge.React.EnumerableComponentExtensions
+             * @param   {Function}                                    TProps        
+             * @param   {System.Collections.Generic.IEnumerable$1}    components
+             * @return  {Array.<Object>}
+             */
+            toChildComponentArray$2: function (TProps, components) {
+                if (components == null) {
+                    throw new System.ArgumentNullException("components");
+                }
+
+                return System.Linq.Enumerable.from(components).select(function (component) {
+                        return Bridge.React.StatelessComponent$1(TProps).op_Implicit$1(component);
+                    }).toArray();
+            }
+        }
+    });
+
+    Bridge.ns("Bridge.React.EnumerableComponentExtensions", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.React.EnumerableComponentExtensions, {
+        f1: function (component) {
+            return component;
+        }
+    });
+
+    Bridge.define("Bridge.React.IDispatcherAction", {
+        $kind: "interface"
+    });
+
+    Bridge.define("Bridge.React.MessageSourceOptions", {
+        $kind: "enum",
+        statics: {
+            Server: 0,
+            View: 1
+        }
+    });
+
+    /**
+     * This provides a class that is like a combination of the StatelessComponent and the React "PureRenderMixin" - it has no State and will not update if given a new Props reference
+     whose individual properties are the same as the previous Props reference. Only a shallow equality check is performed, with simple referential equality tests performed - this
+     will be most reliable if immutable, persistent types are used for any nested data structures (as is the case with the PureRenderMixin). Using this base class means that there
+     is often less work for the Virtual DOM to do, meaning that UI updates require less work / are faster / are more efficient. Note that this class only supports the Render method,
+     the other lifecycle methods (ComponentWillReceiveProps, ComponentWillUpdate, etc..) may not be overridden (ShouldComponentUpdate has an internal implementation here that may
+     not be altered) - this is because it is possible that this class' internals may be changed for future versions of React, depending upon what optimisations become available for
+     Stateless Components. As with the Component and StatelessComponent base classes (and due to the way that React initialises components), it is important that derived classes do
+     not perform any logic or initialisation in their constructor, nor may they have any other configuration passed into their constructor but that which is described by the Props
+     data. The constructors will not be executed and so any logic or member initialisation in there will be silenty ignored.
+     *
+     * @abstract
+     * @public
+     * @class Bridge.React.PureComponent$1
+     */
+    Bridge.define("Bridge.React.PureComponent$1", function (TProps) { return {
+        statics: {
+            _reactComponentClasses: null,
+            config: {
+                init: function () {
+                    this._reactComponentClasses = new (System.Collections.Generic.Dictionary$2(Function,Object))();
+                }
+            },
+            op_Implicit: function (component) {
+                // Since React 0.11 (see https://facebook.github.io/react/blog/2014/07/17/react-v0.11.html), it has been acceptable to return null from a Render method to
+                // indicate that nothing should be rendered. As such, it's possible that a null PureComponent reference will pass through this operator method and so null
+                // needs to be allowed (previously this would throw a ArgumentNullException for a null component).
+                if (component == null) {
+                    return null;
+                }
+                return component._reactElement;
+            },
+            op_Implicit$1: function (component) {
+                // Since React 0.11 (see https://facebook.github.io/react/blog/2014/07/17/react-v0.11.html), it has been acceptable to return null from a Render method to
+                // indicate that nothing should be rendered. As such, it's possible that a null PureComponent reference will pass through this operator method and so null
+                // needs to be allowed (previously this would throw a ArgumentNullException for a null component).
+                if (component == null) {
+                    return null;
+                }
+                return component._reactElement;
+            }
+        },
+        _reactElement: null,
+        ctor: function (props, children) {
+            if (children === void 0) { children = []; }
+
+            this.$initialize();
+            if (children != null) {
+                if (System.Linq.Enumerable.from(children).any($asm.$.Bridge.React.PureComponent$1.f1)) {
+                    throw new System.ArgumentException("Null reference encountered in children set");
+                }
+            }
+
+            // To ensure that a single "template" (ie. React component) is created per unique class, a static "_reactComponentClasss" dictionary is maintained. If it has no entry
+            // for the current type then this must be the first instantiation of that type and so a component class will be created and added to the dictionary, ready for re-use
+            // by any subsequent component instances.
+            var currentType = Bridge.getType(this); // Cast to object first in case derived class uses [IgnoreGeneric] - see http://forums.bridge.net/forum/bridge-net-pro/bugs/3343
+            var reactComponentClass = { };
+            if (!Bridge.React.PureComponent$1(TProps)._reactComponentClasses.tryGetValue(currentType, reactComponentClass)) {
+                reactComponentClass.v = this.createReactComponentClass();
+                Bridge.React.PureComponent$1(TProps)._reactComponentClasses.set(currentType, reactComponentClass.v);
+            }
+
+            // Now that the React component class is certain to have been defined (once per unique C# component class), this instance requires a React element to be created
+            // for it. The internal React mechanism means that the component's constructor will not be executed, which is why ALL configuration options for a component must
+            // be contained within the props. Note: In most cases where children are specified as a params array, we don't want the "children require unique keys" warning
+            // from React (you don't get it if you call DOM.Div(null, "Item1", "Item2"), so we don't want it in most cases here either - to achieve this, we prepare an
+            // arguments array and pass that to React.createElement in an "apply" call.
+            var createElementArgs = System.Array.init([reactComponentClass.v, Bridge.React.ComponentPropsHelpers$1.wrapProps(props)], Object);
+            if (children != null) {
+                createElementArgs = createElementArgs.concat.apply(createElementArgs, children);
+            }
+            this._reactElement = React.createElement.apply(null, createElementArgs);
+        },
+        /**
+         * Props is not used by all components and so this may be null
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.PureComponent$1
+         * @memberof Bridge.React.PureComponent$1
+         * @function getprops
+         * @return  {TProps}
+         */
+        /**
+         * Props is not used by all components and so this may be null
+         *
+         * @instance
+         * @function setprops
+         */
+        getprops: function () {
+            return this.props ? this.props.value : null;
+        },
+        /**
+         * This will never be null nor contain any null references, though it may be empty if there are no children to render
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.PureComponent$1
+         * @memberof Bridge.React.PureComponent$1
+         * @function getChildren
+         * @return  {Array.<Object>}
+         */
+        /**
+         * This will never be null nor contain any null references, though it may be empty if there are no children to render
+         *
+         * @instance
+         * @function setChildren
+         */
+        getChildren: function () {
+            return this.props && this.props.children ? this.props.children : [];
+        },
+        createReactComponentClass: function () {
+            var className = Bridge.React.ComponentNameHelpers.getDisplayName(this);
+            var reactComponentClass = null;
+            
+			var bridgeComponentInstance = this;
+			bridgeComponentInstance.displayName = className; // This is used by the React dev tools extension
+				
+			// Copy over all functions that may be needed first (ignoring the constructor since copying that causes a Reacts warning and because the constructor will not
+			// be used when createElement initialises new element instances)..
+			for (var i in bridgeComponentInstance) {
+				if (i === 'constructor') {
+					continue;
+				}
+				bridgeComponentInstance[i] = bridgeComponentInstance[i];
+			}
+
+			// .. then overwrite the supported life cycle functions (ComponentDidMount, ComponentDidUpdate, ShouldComponentUpdate), since they need special treatment
+			var componentDidMount = bridgeComponentInstance.componentDidMount;
+			bridgeComponentInstance.componentDidMount = function () {
+				componentDidMount.apply(this, [ ]);
+			};
+			var componentDidUpdate = bridgeComponentInstance.componentDidUpdate;
+			bridgeComponentInstance.componentDidUpdate = function (previousProps) {
+				componentDidUpdate.apply(this, [ previousProps ? previousProps.value : previousProps ]);
+			};
+			var shouldComponentUpdate = bridgeComponentInstance.shouldComponentUpdate;
+			bridgeComponentInstance.shouldComponentUpdate = function (nextProps, nextState) {
+				return shouldComponentUpdate.apply(this, [ nextProps ? nextProps.value : nextProps, nextState ? nextState.value : nextState ]);
+			};
+
+			reactComponentClass = React.createClass(bridgeComponentInstance);
+			
+            return reactComponentClass;
+        },
+        shouldComponentUpdate: function (nextProps, nextState) {
+            return !Bridge.React.ComponentPropsHelpers$1.doPropsReferencesMatch(this.getprops(), nextProps);
+        },
+        /**
+         * This will be invoked once, immediately after the initial rendering occurs
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.PureComponent$1
+         * @memberof Bridge.React.PureComponent$1
+         * @return  {void}
+         */
+        componentDidMount: function () {
+        },
+        /**
+         * This will be invoked immediately after the component's updates are flushed to the DOM (but not called for the initial render, ComponentDidMount is called then instead)
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.PureComponent$1
+         * @memberof Bridge.React.PureComponent$1
+         * @param   {TProps}    previousProps
+         * @return  {void}
+         */
+        componentDidUpdate: function (previousProps) {
+        }
+    }; });
+
+    Bridge.ns("Bridge.React.PureComponent$1", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.React.PureComponent$1, {
+        f1: function (element) {
+            return element == null;
+        }
+    });
+
+    Bridge.define("Bridge.React.RawHtml", {
+        config: {
+            properties: {
+                __html: null
+            }
+        }
+    });
+
+    /**
+     * This is a helper class for constructing sets of ReactElement instances. It has a single Add method that has three overloads - one to take a single ReactElement,
+     one to take an IEnumerable of ReactElement and one to take a params array of ReactElement. Since many React library methods allow null ReactElement references,
+     null element references are allowed here (though null sets of elements are not).
+     *
+     * @public
+     * @class Bridge.React.ReactElementList
+     * @implements  System.Collections.Generic.IEnumerable$1
+     */
+    Bridge.define("Bridge.React.ReactElementList", {
+        inherits: [System.Collections.Generic.IEnumerable$1(Object)],
+        statics: {
+            config: {
+                properties: {
+                    Empty: null
+                },
+                init: function () {
+                    this.Empty = new Bridge.React.ReactElementList(System.Array.init(0, null, Object));
+                }
+            }
+        },
+        _items: null,
+        config: {
+            alias: [
+            "getEnumerator", "System$Collections$Generic$IEnumerable$1$Object$getEnumerator"
+            ]
+        },
+        ctor: function (items) {
+            this.$initialize();
+            if (items == null) {
+                throw new System.ArgumentNullException("items");
+            }
+
+            this._items = items;
+        },
+        /**
+         * A null item reference is acceptable here
+         *
+         * @instance
+         * @public
+         * @this Bridge.React.ReactElementList
+         * @memberof Bridge.React.ReactElementList
+         * @param   {Object}                           item
+         * @return  {Bridge.React.ReactElementList}
+         */
+        add: function (item) {
+            return new Bridge.React.ReactElementList(System.Linq.Enumerable.from(this._items).concat(System.Array.init([item], Object)));
+        },
+        /**
+         * The items set may contain null references but the set itself must not be null
+         *
+         * @instance
+         * @public
+         * @this Bridge.React.ReactElementList
+         * @memberof Bridge.React.ReactElementList
+         * @param   {System.Collections.Generic.IEnumerable$1}    items
+         * @return  {Bridge.React.ReactElementList}
+         */
+        add$2: function (items) {
+            if (items == null) {
+                throw new System.ArgumentNullException("items");
+            }
+
+            return new Bridge.React.ReactElementList(System.Linq.Enumerable.from(this._items).concat(items));
+        },
+        /**
+         * The items params array may contain null references but the array itself must not be null
+         *
+         * @instance
+         * @public
+         * @this Bridge.React.ReactElementList
+         * @memberof Bridge.React.ReactElementList
+         * @param   {Array.<Object>}                   items
+         * @return  {Bridge.React.ReactElementList}
+         */
+        add$1: function (items) {
+            if (items === void 0) { items = []; }
+            if (items == null) {
+                throw new System.ArgumentNullException("items");
+            }
+
+            return new Bridge.React.ReactElementList(System.Linq.Enumerable.from(this._items).concat(items));
+        },
+        getEnumerator: function () {
+            return Bridge.getEnumerator(this._items, Object);
+        },
+        System$Collections$IEnumerable$getEnumerator: function () {
+            return this.getEnumerator();
+        }
+    });
+
+    /**
+     * This class defines the properties of the inline styles you can add to react elements
+     *
+     * @public
+     * @class Bridge.React.ReactStyle
+     */
+    Bridge.define("Bridge.React.ReactStyle", {
+        $literal: true
+    });
+
+    Bridge.define("Bridge.React.StatelessComponent$1", function (TProps) { return {
+        statics: {
+            _reactStatelessRenderFunctions: null,
+            config: {
+                init: function () {
+                    this._reactStatelessRenderFunctions = new (System.Collections.Generic.Dictionary$2(Function,Function))();
+                }
+            },
+            op_Implicit: function (component) {
+                // Since React 0.11 (see https://facebook.github.io/react/blog/2014/07/17/react-v0.11.html), it has been acceptable to return null from a Render method to
+                // indicate that nothing should be rendered. As such, it's possible that a null StatelessComponent reference will pass through this operator method and
+                // so null needs to be allowed (previously this would throw a ArgumentNullException for a null component).
+                if (component == null) {
+                    return null;
+                }
+                return component._reactElement;
+            },
+            op_Implicit$1: function (component) {
+                // Since React 0.11 (see https://facebook.github.io/react/blog/2014/07/17/react-v0.11.html), it has been acceptable to return null from a Render method to
+                // indicate that nothing should be rendered. As such, it's possible that a null StatelessComponent reference will pass through this operator method and
+                // so null needs to be allowed (previously this would throw a ArgumentNullException for a null component).
+                if (component == null) {
+                    return null;
+                }
+                return component._reactElement;
+            }
+        },
+        _reactElement: null,
+        ctor: function (props, children) {
+            if (children === void 0) { children = []; }
+
+            this.$initialize();
+            if (children != null) {
+                if (System.Linq.Enumerable.from(children).any($asm.$.Bridge.React.StatelessComponent$1.f1)) {
+                    throw new System.ArgumentException("Null reference encountered in children set");
+                }
+            }
+
+            // When preparing the "_reactStatelessRenderFunction" reference, a local "reactStatelessRenderFunction" alias is used - this is just so that the JavaScript
+            // code further down (which calls React.createElement) can use this local alias and not have to know how Bridge stores static references.
+            var reactStatelessRenderFunction = { };
+            var currentType = Bridge.getType(this); // Cast to object first in case derived class uses [IgnoreGeneric] - see http://forums.bridge.net/forum/bridge-net-pro/bugs/3343
+            if (!Bridge.React.StatelessComponent$1(TProps)._reactStatelessRenderFunctions.tryGetValue(currentType, reactStatelessRenderFunction)) {
+                reactStatelessRenderFunction.v = this.createStatelessRenderFunction();
+                Bridge.React.StatelessComponent$1(TProps)._reactStatelessRenderFunctions.set(currentType, reactStatelessRenderFunction.v);
+            }
+
+            // When we pass the props reference to React.createElement, React's internals will rip it apart and reform it - which will cause problems if TProps is a
+            // class with property getters and setters (or any other function) defined on the prototype, since members from the class prototype are not maintained
+            // in this process. Wrapping the props reference into a "value" property gets around this problem, we just have to remember to unwrap them again when
+            // we render. In most cases where children are specified as a params array, we don't want the "children require unique keys" warning from React (you
+            // don't get it if you call DOM.Div(null, "Item1", "Item2"), so we don't want it in most cases here either - to achieve this, we prepare an arguments
+            // array and pass that to React.createElement in an "apply" call. Similar techniques are used in the stateful component.
+            var createElementArgs = System.Array.init([reactStatelessRenderFunction.v, Bridge.React.ComponentPropsHelpers$1.wrapProps(props)], Object);
+            if (children != null) {
+                createElementArgs = createElementArgs.concat.apply(createElementArgs, children);
+            }
+            this._reactElement = React.createElement.apply(null, createElementArgs);
+        },
+        /**
+         * Props is not used by all components and so this may be null
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.StatelessComponent$1
+         * @memberof Bridge.React.StatelessComponent$1
+         * @function getprops
+         * @return  {TProps}
+         */
+        /**
+         * Props is not used by all components and so this may be null
+         *
+         * @instance
+         * @function setprops
+         */
+        getprops: function () {
+            return this.props ? this.props.value : null;
+        },
+        /**
+         * This will never be null nor contain any null references, though it may be empty if there are no children to render
+         *
+         * @instance
+         * @protected
+         * @this Bridge.React.StatelessComponent$1
+         * @memberof Bridge.React.StatelessComponent$1
+         * @function getChildren
+         * @return  {Array.<Object>}
+         */
+        /**
+         * This will never be null nor contain any null references, though it may be empty if there are no children to render
+         *
+         * @instance
+         * @function setChildren
+         */
+        getChildren: function () {
+            return this.props && this.props.children ? this.props.children : [];
+        },
+        createStatelessRenderFunction: function () {
+            // We need to prepare a function to give to React.createElement that takes a props reference and maintains that for the instance of the element for the
+            // duration of the Render call AND for any work that might happen later, such as in an OnChange callback (or other event-handler). To do this, we need an
+            // instance that will capture this props value and that has all of the functionality of the original component (such as any functions that it has). The
+            // best way that I can think of is to use Object.create to prepare a new instance, taking the prototype of the component class, and then setting its
+            // props reference, then wrapping this all in a function that calls its Render function, binding to this instance. This woud mean that the constructor
+            // would not get called on the component, but that's just the same as for stateful components (from the Component class).
+            
+			var classPrototype = this.constructor.prototype;
+			var scopeBoundFunction = function(props) {
+				var target = Object.create(classPrototype);
+				target.props = props;
+				return target.render.apply(target, []);
+			}
+			
+
+            // We have an anonymous function for the renderer now but it would better to name it, since React Dev Tools will use show the function name (if defined) as
+            // the component name in the tree. The only way to do this is, unfortunately, with eval - but the only dynamic content is the class name (which should be
+            // safe to use since valid C# class names should be valid JavaScript function names, with no escaping required) and this work is only performed once per
+            // class, since it is stored in a static variable - so the eval calls will be made very infrequently (so performance is not a concern).
+            var className = Bridge.React.ComponentNameHelpers.getDisplayName(this);
+            var namedScopeBoundFunction = null;
+            
+			eval("namedScopeBoundFunction = function " + className + "(props) { return scopeBoundFunction(props); };");
+			
+            return namedScopeBoundFunction;
+        }
+    }; });
+
+    Bridge.ns("Bridge.React.StatelessComponent$1", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.React.StatelessComponent$1, {
+        f1: function (element) {
+            return element == null;
+        }
+    });
+
+    /**
+     * While the class-based component structure (using the PureComponent and StatelessComponent base classes) is very convenient and feels natural, there is some overhead to
+     constructing the component instances. For the vast majority of the time, this will probably not cause any problems. However, if you have a page where you may need to
+     update 1000s of elements at a time then this construction cost may become non-neligible. An alternative is to use static render methods instead of component classes.
+     The methods in this class make that possible - the render methods used provided must take a single props argument and return a ReactElement. If the props type supports
+     shallow comparison for change detection (which is highly recommended but often requires immutable types to be used for all properties) then the Pure method should be
+     used; this will result in a component with a ShouldComponentUpdate implementation that will tell React not to re-render if the props data hasn't changed. If the props
+     type does not support shallow comparison then the Stateless method should be used; this uses a lighter weight structure to create the React element but there is no
+     way to support a ShouldComponentUpdate mechanism.
+     *
+     * @static
+     * @abstract
+     * @public
+     * @class Bridge.React.StaticComponent
+     */
+    Bridge.define("Bridge.React.StaticComponent", {
+        statics: {
+            /**
+             * Use this if the props type supports shallow comparison (which generally requires immutable types to be used for all of the props values) - the resulting component
+             will automatically be assigned a ShouldComponentUpdate function so that re-renders of the component may be avoided if the props data has not changed.
+             *
+             * @static
+             * @public
+             * @this Bridge.React.StaticComponent
+             * @memberof Bridge.React.StaticComponent
+             * @param   {Function}       TProps      
+             * @param   {System.Func}    renderer    
+             * @param   {TProps}         props
+             * @return  {Object}
+             */
+            pure: function (TProps, renderer, props) {
+                
+			var componentClass = renderer.$$componentClass;
+			if (!componentClass) {
+				var doPropsReferencesMatch = this.doPropsReferencesMatch;
+				componentClass = React.createClass({
+					displayName: renderer.name,
+					render: function () {
+						return renderer(this.props.value);
+					},
+					shouldComponentUpdate: function (nextProps, nextState) {
+						return !doPropsReferencesMatch(this.props ? this.props.value : null, nextProps ? nextProps.value : null);
+					}
+				});
+				renderer.$$componentClass = componentClass;
+			}
+			
+                var wrappedProps = Bridge.React.ComponentPropsHelpers$1.wrapProps(props);
+                return React.createElement(componentClass, wrappedProps);
+            },
+            /**
+             * Use this if the props type does not support shallow comparisons
+             *
+             * @static
+             * @public
+             * @this Bridge.React.StaticComponent
+             * @memberof Bridge.React.StaticComponent
+             * @param   {Function}       TProps      
+             * @param   {System.Func}    renderer    
+             * @param   {TProps}         props
+             * @return  {Object}
+             */
+            stateless: function (TProps, renderer, props) {
+                
+			var namedScopeBoundFunction;
+			eval("namedScopeBoundFunction = function " + renderer.name + "(props) { return renderer(props ? props.value : props); };");
+			
+                var wrappedProps = Bridge.React.ComponentPropsHelpers$1.wrapProps(props);
+                return React.createElement(namedScopeBoundFunction, wrappedProps);
+            },
+            /**
+             * This method is just here to make it easier for the native JavaScript in the method above to call the static function in the ComponentPropsHelpers
+             class without us having to bake in the way that Bridge represents static functions on classes
+             *
+             * @static
+             * @this Bridge.React.StaticComponent
+             * @memberof Bridge.React.StaticComponent
+             * @param   {Function}    TProps    
+             * @param   {TProps}      props1    
+             * @param   {TProps}      props2
+             * @return  {boolean}
+             */
+            doPropsReferencesMatch: function (props1, props2) {
+                return Bridge.React.ComponentPropsHelpers$1.doPropsReferencesMatch(props1, props2);
+            }
+        }
+    });
+
+    Bridge.define("Bridge.React.Style", {
+        statics: {
+            mergeWith: function (source, other) {
+                var merged = { };
+                
+            if (source) {
+                for (var i in source) {
+                    merged[i] = source[i];
+                }
+            }
+            if (other) {
+                for (var i in other) {
+                    merged[i] = other[i];
+                }
+            }
+            
+                return merged;
+            },
+            height$1: function (height) {
+                return Bridge.React.ReactStyle.ctor({ height: height });
+            },
+            height: function (style, height) {
+                style.height = height;
+                return style;
+            },
+            width$1: function (width) {
+                return Bridge.React.ReactStyle.ctor({ width: width });
+            },
+            width: function (style, width) {
+                style.width = width;
+                return style;
+            },
+            fontSize$1: function (fontSize) {
+                return Bridge.React.ReactStyle.ctor({ fontSize: fontSize });
+            },
+            fontSize: function (style, fontSize) {
+                style.fontSize = fontSize;
+                return style;
+            },
+            margin$2: function (margin) {
+                return Bridge.React.ReactStyle.ctor({ margin: margin });
+            },
+            margin$3: function (top, right, bottom, left) {
+                return Bridge.React.ReactStyle.ctor({ marginTop: top, marginLeft: left, marginRight: right, marginBottom: bottom });
+            },
+            margin: function (style, margin) {
+                style.margin = margin;
+                return style;
+            },
+            margin$1: function (style, top, right, bottom, left) {
+                style.marginTop = top;
+                style.marginLeft = left;
+                style.marginRight = right;
+                style.marginBottom = bottom;
+                return style;
+            },
+            padding$2: function (padding) {
+                return Bridge.React.ReactStyle.ctor({ padding: padding });
+            },
+            padding$3: function (top, right, bottom, left) {
+                return Bridge.React.ReactStyle.ctor({ paddingTop: top, paddingLeft: left, paddingRight: right, paddingBottom: bottom });
+            },
+            padding: function (style, padding) {
+                style.padding = padding;
+                return style;
+            },
+            padding$1: function (style, top, right, bottom, left) {
+                style.paddingTop = top;
+                style.paddingLeft = left;
+                style.paddingRight = right;
+                style.paddingBottom = bottom;
+                return style;
+            }
+        }
+    });
+
+    Bridge.define("Bridge.React.AppDispatcher", {
+        inherits: [Bridge.React.IDispatcher],
+        _currentDispatching: false,
+        config: {
+            events: {
+                _dispatcher: null
+            },
+            alias: [
+            "register", "Bridge$React$IDispatcher$register",
+            "handleViewAction", "Bridge$React$IDispatcher$handleViewAction",
+            "handleServerAction", "Bridge$React$IDispatcher$handleServerAction"
+            ]
+        },
+        ctor: function () {
+            this.$initialize();
+            this._currentDispatching = false;
+        },
+        /**
+         * Actions will sent to each receiver in the same order as which the receivers called Register
+         *
+         * @instance
+         * @public
+         * @this Bridge.React.AppDispatcher
+         * @memberof Bridge.React.AppDispatcher
+         * @param   {System.Action}    callback
+         * @return  {void}
+         */
+        register: function (callback) {
+            this.add_dispatcher(callback);
+        },
+        handleViewAction: function (action) {
+            if (action == null) {
+                throw new System.ArgumentNullException("action");
+            }
+
+            this.dispatch(new Bridge.React.DispatcherMessage(Bridge.React.MessageSourceOptions.View, action));
+        },
+        handleServerAction: function (action) {
+            if (action == null) {
+                throw new System.ArgumentNullException("action");
+            }
+
+            this.dispatch(new Bridge.React.DispatcherMessage(Bridge.React.MessageSourceOptions.Server, action));
+        },
+        dispatch: function (message) {
+            if (message == null) {
+                throw new System.ArgumentNullException("message");
+            }
+
+            // Dispatching a message during the handling of another is not allowed, in order to be consistent with the Facebook Dispatcher
+            // (see https://github.com/facebook/flux/blob/master/src/Dispatcher.js#L183)
+            if (!Bridge.staticEquals(this._dispatcher, null)) {
+                if (this._currentDispatching) {
+                    throw new System.Exception("Cannot dispatch in the middle of a dispatch.");
+                }
+                this._currentDispatching = true;
+                try {
+                    this._dispatcher(message);
+                }
+                finally {
+                    this._currentDispatching = false;
+                }
+            }
+        }
+    });
+
+    Bridge.define("Bridge.React.ComponentPropsHelpers$1.WrappedPropsWithKey", {
+        inherits: [Bridge.React.ComponentPropsHelpers$1.WrappedProps],
+        $literal: true
+    });
+
+    Bridge.define("Bridge.React.DispatcherMessageExtensions.DispatcherMessageMatcher", {
+        inherits: [Bridge.React.DispatcherMessageExtensions.IMatchDispatcherMessages],
+        _message: null,
+        config: {
+            alias: [
+            "else", "Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$else",
+            "else$1", "Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$else$1",
+            "ifAnyMatched", "Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$ifAnyMatched"
+            ]
+        },
+        ctor: function (message) {
+            this.$initialize();
+            if (message == null) {
+                throw new System.ArgumentNullException("message");
+            }
+            this._message = message;
+        },
+        else: function (T, work) {
+            return this.elseWithOptionalCondition(T, null, work);
+        },
+        else$1: function (T, condition, work) {
+            if (Bridge.staticEquals(condition, null)) {
+                throw new System.ArgumentNullException("condition");
+            }
+
+            return this.elseWithOptionalCondition(T, condition, work);
+        },
+        elseWithOptionalCondition: function (T, optionalCondition, work) {
+            if (Bridge.staticEquals(work, null)) {
+                throw new System.ArgumentNullException("work");
+            }
+
+            var actionOfDesiredType = Bridge.as(this._message.getAction(), T);
+            if ((actionOfDesiredType == null) || ((!Bridge.staticEquals(optionalCondition, null)) && !optionalCondition(actionOfDesiredType))) {
+                return this;
+            }
+
+            work(actionOfDesiredType);
+            return Bridge.React.DispatcherMessageExtensions.MatchFoundSoMatchNoMoreDispatcherMessageMatcher.instance;
+        },
+        ifAnyMatched: function (work) {
+            if (Bridge.staticEquals(work, null)) {
+                throw new System.ArgumentNullException("work");
+            }
+
+            // Do nothing here - there has been no DispatcherMessage action successfully matched by this point (if there had been then
+            // we would have returned a MatchFoundSoMatchNoMoreDispatcherMessageMatcher)
+        }
+    });
+
+    Bridge.define("Bridge.React.DispatcherMessageExtensions.MatchFoundSoMatchNoMoreDispatcherMessageMatcher", {
+        inherits: [Bridge.React.DispatcherMessageExtensions.IMatchDispatcherMessages],
+        statics: {
+            instance: null,
+            config: {
+                init: function () {
+                    this.instance = new Bridge.React.DispatcherMessageExtensions.MatchFoundSoMatchNoMoreDispatcherMessageMatcher();
+                }
+            }
+        },
+        config: {
+            alias: [
+            "else", "Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$else",
+            "else$1", "Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$else$1",
+            "ifAnyMatched", "Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$ifAnyMatched"
+            ]
+        },
+        ctor: function () {
+            this.$initialize();
+        },
+        else: function (T, work) {
+            if (Bridge.staticEquals(work, null)) {
+                throw new System.ArgumentNullException("work");
+            }
+            return this;
+        },
+        else$1: function (T, condition, work) {
+            if (Bridge.staticEquals(condition, null)) {
+                throw new System.ArgumentNullException("condition");
+            }
+            if (Bridge.staticEquals(work, null)) {
+                throw new System.ArgumentNullException("work");
+            }
+            return this;
+        },
+        ifAnyMatched: function (work) {
+            if (Bridge.staticEquals(work, null)) {
+                throw new System.ArgumentNullException("work");
+            }
+
+            // This class is only used if a DispatcherMessage action has been succesfully matched, so any calls to IfMatched on this
+            // class should result in the if-successful work being executed
+            work();
+        }
+    });
+});
+
+/**
+ * @version 1.12.2.0
+ * @copyright Copyright © Productive Rage 2017
+ * @compiler Bridge.NET 15.7.0
+ */
+Bridge.assembly("ProductiveRage.Immutable", function ($asm, globals) {
+    "use strict";
+
+    /** @namespace ProductiveRage.Immutable */
+
+    /**
+     * The CtorSet extension method should only be used with types that are intended for its use so it will only operate against classes the implement this interface. The
+     interface itself is empty, it is just to identify the for-use-with-CtorSet types (and the only thing to bear in mind with that is that properties should all be set
+     for the instance within the constructor so that they can not later be altered externally, with CtorSet would allow for properties that had NOT been set in a ctor).
+     *
+     * @abstract
+     * @public
+     * @class ProductiveRage.Immutable.IAmImmutable
+     */
+    Bridge.define("ProductiveRage.Immutable.IAmImmutable", {
+        $kind: "interface"
+    });
+
+    /**
+     * @memberof ProductiveRage.Immutable
+     * @callback ProductiveRage.Immutable.ImmutabilityHelpers.PropertySetter
+     * @param   {Object}     source                   
+     * @param   {Object}     newPropertyValue         
+     * @param   {boolean}    ignoreAnyExistingLock
+     * @return  {void}
+     */
+
+    /** @namespace System */
+
+    /**
+     * @memberof System
+     * @callback System.Func
+     * @param   {T}                 arg
+     * @return  {TPropertyValue}
+     */
+
+    Bridge.define("ProductiveRage.Immutable.ImmutabilityHelpers", {
+        statics: {
+            cache: null,
+            STRIP_COMMENTS: null,
+            WHITESPACE_SEGMENTS: null,
+            ESCAPE_FOR_REGEX: null,
+            config: {
+                init: function () {
+                    this.cache = new (System.Collections.Generic.Dictionary$2(ProductiveRage.Immutable.ImmutabilityHelpers.CacheKey,Function))();
+                    this.STRIP_COMMENTS = new System.Text.RegularExpressions.Regex.$ctor1("(\\/\\/.*$)|(\\/\\*[\\s\\S]*?\\*\\/)|(\\s*=[^,\\)]*(('(?:\\\\'|[^'\\r\\n])*')|(\"(?:\\\\\"|[^\"\\r\\n])*\"))|(\\s*=[^,\\)]*))", 2);
+                    this.WHITESPACE_SEGMENTS = new System.Text.RegularExpressions.Regex.ctor("\\s+");
+                    this.ESCAPE_FOR_REGEX = new System.Text.RegularExpressions.Regex.ctor("[-\\/\\\\^$*+?.()|[\\]{}]");
+                }
+            },
+            /**
+             * This will take a source reference, a lambda that identifies the getter of a property on the source type and a new value to set that reference's property to - it will
+             try to set the property to the new value. This requires that the propertyIdentifier is, in fact, a simple lambda to a getter and that a setter exists that follows
+             the naming convention of the getter (so if the getter is called getName then a setter must exist called setName). If these conditions are not met then an exception
+             will be thrown. It is not acceptable for any of the arguments to be null - if the property must be nullable then it should have a type wrapped in an Optional
+             struct, which will ensure that "value" itself will not be null (though it may represent a "missing" value). Once a property has been set once, it may not be
+             set again - it is "locked". Subsequent attempts to change it will result in an exception being thrown. THIS SHOULD ONLY BE CALLED FROM WITHIN CONSTRUCTORS
+             AND THOSE CONSTRUCTOR SHOULD EXPLICITLY SET EVERY PROPERTY - that will result in every property being lock into its initial state and any attempt by an
+             external reference to change property values will result in an exception being thrown. Note: Because this function could be used to set private state
+             on a reference (if that reference did not lock all of the properties in its constructor) then it will only operate against types that implement the
+             IAmImmutable interface - this is an empty interface whose only purpose is to identify a class that has been designed to work with this process.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}          T                     
+             * @param   {Function}          TPropertyValue        
+             * @param   {T}                 source                
+             * @param   {System.Func}       propertyIdentifier    
+             * @param   {TPropertyValue}    value
+             * @return  {void}
+             */
+            ctorSet: function (source, propertyIdentifier, value) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+                if (value == null) {
+                    throw new System.ArgumentNullException("value");
+                }
+
+                var setter = ProductiveRage.Immutable.ImmutabilityHelpers.getSetter(source, propertyIdentifier);
+                setter(source, value, false);
+            },
+            /**
+             * There are analysers to ensure that the IAmImmutable.With extension method is only called with lambdas that match the required format (the lambdas must be a simple
+             property access for a property that has a getter and setter and that doesn't have any special translation rules applied via Bridge attributes). However, sometimes
+             it is useful to be able to pass references to these lambdas around, which is problematic with the analyser that checks the propertyIdentifier argument of all calls
+             to the With method. To workaround this, a property identifier reference may be created using this method and then passed into the With method - note that all of the
+             same validation rules are applied to GetProperty as to With, so it must still be a simple property-access lambda (but now a lambda reference may be created once and
+             shared or passed around). Note that the source argument here is only present so that this may exist as an extension method and to make the code more succinct when
+             working with an IAmImmutable reference already (it will be possible to use type inference to save having to explicitly specify the T and TPropertyValue type params
+             but the returned PropertyIdentifier will not be tied to the source instance).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}                                         T                     
+             * @param   {Function}                                         TPropertyValue        
+             * @param   {T}                                                source                
+             * @param   {System.Func}                                      propertyIdentifier
+             * @return  {ProductiveRage.Immutable.PropertyIdentifier$2}
+             */
+            getProperty: function (source, propertyIdentifier) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+
+                return new ProductiveRage.Immutable.PropertyIdentifier$2(propertyIdentifier);
+            },
+            /**
+             * There are analysers to ensure that the IAmImmutable.With extension method is only called with lambdas that match the required format (the lambdas must be a simple
+             property access for a property that has a getter and setter and that doesn't have any special translation rules applied via Bridge attributes). However, sometimes
+             it is useful to be able to pass references to these lambdas around, which is problematic with the analyser that checks the propertyIdentifier argument of all calls
+             to the With method. To workaround this, a property identifier reference may be created using this method and then passed into the With method - note that all of the
+             same validation rules are applied to GetProperty as to With, so it must still be a simple property-access lambda (but now a lambda reference may be created once and
+             shared or passed around).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}                                         T                     
+             * @param   {Function}                                         TPropertyValue        
+             * @param   {System.Func}                                      propertyIdentifier
+             * @return  {ProductiveRage.Immutable.PropertyIdentifier$2}
+             */
+            getProperty$1: function (propertyIdentifier) {
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+
+                return new ProductiveRage.Immutable.PropertyIdentifier$2(propertyIdentifier);
+            },
+            /**
+             * This will take a source reference, a lambda that identifies the getter of a property on the source type and a new value to set for that property - it will try to
+             clone the source reference and then change the value of the indicated property on the new reference. The same restrictions that apply to "CtorSet" apply here (in
+             terms of the propertyIdentifier having to be a simple property retrieval and of the getter / setter having to follow a naming convention), if they are not met then
+             an exception will be thrown. Note that if the new property value is the same as the current property value on the source reference then this process will be skipped
+             and the source reference will be passed straight back out. The new property value may not be null - if the property must be nullable then it should have a type
+             wrapped in an Optional struct, which will ensure that "value" itself will not be null (though it may represent a "missing" value).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}          T                     
+             * @param   {Function}          TPropertyValue        
+             * @param   {T}                 source                
+             * @param   {System.Func}       propertyIdentifier    
+             * @param   {TPropertyValue}    value
+             * @return  {T}
+             */
+            with: function (source, propertyIdentifier, value) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+                if (value == null) {
+                    throw new System.ArgumentNullException("value");
+                }
+
+                // Try to get the setter delegate first since this will validate the propertyIdentifier
+                var setter = ProductiveRage.Immutable.ImmutabilityHelpers.getSetter(source, propertyIdentifier);
+
+                // Ensure that the value has actually changed, otherwise return the source reference straight back out
+                var currentValue = propertyIdentifier(source);
+                if (Bridge.equals(value, currentValue)) {
+                    return source;
+                }
+
+                var update = ProductiveRage.Immutable.ImmutabilityHelpers.clone(source);
+                setter(update, value, true);
+                ProductiveRage.Immutable.ImmutabilityHelpers.validateAfterUpdateIfValidateMethodDefined(update);
+                return update;
+            },
+            /**
+             * This will take a source reference, a lambda that identifies the getter of a property on the source type and a lambda that will receive the current value and return
+             a new one. It will try to clone the source reference and then change the value of the indicated property on the new reference. The same restrictions that apply to
+             "CtorSet" apply here (in terms of the propertyIdentifier having to be a simple property retrieval and of the getter / setter having to follow a naming convention),
+             if they are not met then an exception will be thrown. An exception will also be thrown if the valueUpdater delegate returns null - if the property must be nullable
+             then it should have a type wrapped in an Optional struct, which will ensure that "value" itself will not be null (though it may represent a "missing" value). Note
+             that if the new property value is the same as the current property value on the source reference then no clone will be performed and the source reference will be
+             passed straight back out.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}       T                     
+             * @param   {Function}       TPropertyValue        
+             * @param   {T}              source                
+             * @param   {System.Func}    propertyIdentifier    
+             * @param   {System.Func}    valueUpdater
+             * @return  {T}
+             */
+            with$1: function (source, propertyIdentifier, valueUpdater) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+                if (Bridge.staticEquals(valueUpdater, null)) {
+                    throw new System.ArgumentNullException("valueUpdater");
+                }
+
+                // Try to get the setter delegate first since this will validate the propertyIdentifier
+                var setter = ProductiveRage.Immutable.ImmutabilityHelpers.getSetter(source, propertyIdentifier);
+
+                // Ensure that the value has actually changed, otherwise return the source reference straight back out
+                var currentValue = propertyIdentifier(source);
+                var newValue = valueUpdater(currentValue);
+                if (newValue == null) {
+                    throw new System.Exception("The specified valueUpdater returned null, which is invalid (if this is a property that may sometimes not have a value then it should be of type Optional)");
+                }
+                if (Bridge.equals(newValue, currentValue)) {
+                    return source;
+                }
+
+                var update = ProductiveRage.Immutable.ImmutabilityHelpers.clone(source);
+                setter(update, newValue, true);
+                ProductiveRage.Immutable.ImmutabilityHelpers.validateAfterUpdateIfValidateMethodDefined(update);
+                return update;
+            },
+            /**
+             * This will take a source reference, a lambda that identifies the getter of a property on the source type that is a Set, an index that must exist within the current
+             value for the specified property on the source reference and a new value to set for that property - it will try to clone the source reference and then change the
+             value of the element at the specified index on the indicated property on the new reference. The same restrictions that apply to "CtorSet" apply here (in terms of
+             the propertyIdentifier having to be a simple property retrieval and of the getter / setter having to follow a naming convention), if they are not met then an
+             exception will be thrown. Note that if the new value is the same as the current value then this process will be skipped and the source reference will be passed
+             straight back out. The new property value may not be null - if the property must be nullable then it should have a type wrapped in an Optional struct, which will
+             ensure that "value" itself will not be null (though it may represent a "missing" value).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}            T                     
+             * @param   {Function}            TPropertyElement      
+             * @param   {T}                   source                
+             * @param   {System.Func}         propertyIdentifier    
+             * @param   {number}              index                 
+             * @param   {TPropertyElement}    value
+             * @return  {T}
+             */
+            with$3: function (source, propertyIdentifier, index, value) {
+                // Set and NonNullList have the interface so we can safely cast from
+                //   Func<T, Set<TPropertyElement>>
+                // to
+                //   Func<T, NonNullList<TPropertyElement>>
+                // which we'll do with a Script.Write call
+                return ProductiveRage.Immutable.ImmutabilityHelpers.with$2(source, propertyIdentifier, index, value);
+            },
+            /**
+             * This will take a source reference, a lambda that identifies the getter of a property on the source type that is a NonNullList, an index that must exist within the
+             current value for the specified property on the source reference and a new value to set for that property - it will try to clone the source reference and then change
+             the value of the element at the specified index on the indicated property on the new reference. The same restrictions that apply to "CtorSet" apply here (in terms
+             of the propertyIdentifier having to be a simple property retrieval and of the getter / setter having to follow a naming convention), if they are not met then an
+             exception will be thrown. Note that if the new value is the same as the current value then this process will be skipped and the source reference will be passed
+             straight back out. The new property value may not be null - if the property must be nullable then it should have a type wrapped in an Optional struct, which will
+             ensure that "value" itself will not be null (though it may represent a "missing" value).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}            T                     
+             * @param   {Function}            TPropertyElement      
+             * @param   {T}                   source                
+             * @param   {System.Func}         propertyIdentifier    
+             * @param   {number}              index                 
+             * @param   {TPropertyElement}    value
+             * @return  {T}
+             */
+            with$2: function (source, propertyIdentifier, index, value) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+                if (value == null) {
+                    throw new System.ArgumentNullException("value");
+                }
+
+                return ProductiveRage.Immutable.ImmutabilityHelpers.with(source, propertyIdentifier, propertyIdentifier(source).setValue(index, value));
+            },
+            /**
+             * This will take a source reference and a lambda that identifies the getter of a property on the source type and it will try to return a lambda that will take a
+             new value for the specified property and return a new instance of the source reference, with the property on the new instance set to the provided value. This
+             is like a partial application of the With method that takes a value argument as well as a source and propertyIdentifier. The same restrictions apply as for
+             "CtorSet" and the other "With" implementation - the propertyIdentifier must be a simple property retrieval and the property's getter and setter may not
+             use a Bridge [Name] attribute. The returned lambda will throw an exception if called with a null value - if the property must be nullable then it should
+             have a type wrapped in an Optional struct, which will ensure that "value" itself will not be null (though it may represent a "missing" value).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}       T                     
+             * @param   {Function}       TPropertyValue        
+             * @param   {T}              source                
+             * @param   {System.Func}    propertyIdentifier
+             * @return  {System.Func}
+             */
+            with$4: function (source, propertyIdentifier) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+
+                // Try to get the setter delegate first since this will validate the propertyIdentifier
+                var setter = ProductiveRage.Immutable.ImmutabilityHelpers.getSetter(source, propertyIdentifier);
+                return function (value) {
+                    if (value == null) {
+                        throw new System.ArgumentNullException("value");
+                    }
+
+                    // Ensure that the value has actually changed, otherwise return the source reference straight back out
+                    var currentValue = propertyIdentifier(source);
+                    if (Bridge.equals(value, currentValue)) {
+                        return source;
+                    }
+
+                    var update = ProductiveRage.Immutable.ImmutabilityHelpers.clone(source);
+                    setter(update, value, true);
+                    ProductiveRage.Immutable.ImmutabilityHelpers.validateAfterUpdateIfValidateMethodDefined(update);
+                    return update;
+                };
+            },
+            /**
+             * This will take a source reference, a lambda that identifies the getter of a property on the source type that is a Set and an index that must exist within the
+             current value for the specified property on the source reference. It will try to return a lambda that will take a new value for the specified index within the
+             specified Set property and return a new instance of the source reference, with that element update. This is like a partial application of the With method that
+             takes a value argument as well as a source, propertyIdentifier and index. The same restrictions apply as for "CtorSet" and the other "With" implementation -
+             the propertyIdentifier must be a simple property retrieval and the property's getter and setter may not use a Bridge [Name] attribute (if any of these conditions
+             are not met then an argument exception will be thrown, as is the case if an invalid index is specified). The returned lambda will throw an exception if called
+             with a null value - if the property must be nullable then it should have a type wrapped in an Optional struct, which will ensure that "value" itself will not
+             be null (though it may represent a "missing" value).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}       T                     
+             * @param   {Function}       TPropertyElement      
+             * @param   {T}              source                
+             * @param   {System.Func}    propertyIdentifier    
+             * @param   {number}         index
+             * @return  {System.Func}
+             */
+            with$5: function (source, propertyIdentifier, index) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+                if (index < 0) {
+                    throw new System.ArgumentOutOfRangeException("index");
+                }
+
+                // Try to get the setter delegate first since this will validate the propertyIdentifier
+                var setter = ProductiveRage.Immutable.ImmutabilityHelpers.getSetter(source, propertyIdentifier);
+
+                // Likewise with the index (since this function is only supposed to be used with immutable types, the "currentValue" that we retrieve now
+                // should be exactly the same as we would retrieve when the lambda that we return is evaluated, so there should be no possible inconsistency
+                // that could arise from retrieving the current property value now rather than when the lambda is called)
+                var currentValue = propertyIdentifier(source);
+                if (index >= currentValue.getCount()) {
+                    throw new System.ArgumentOutOfRangeException("index");
+                }
+
+                return function (value) {
+                    if (value == null) {
+                        throw new System.ArgumentNullException("value");
+                    }
+
+                    // Ensure that the value has actually changed, otherwise return the source reference straight back out (the Set class has a condition
+                    // that ensures that the original Set instance is returned if the new value is the same as the existing value at the specified index)
+                    var newValue = currentValue.setValue(index, value);
+                    if (Bridge.equals(newValue, currentValue)) {
+                        return source;
+                    }
+
+                    var update = ProductiveRage.Immutable.ImmutabilityHelpers.clone(source);
+                    setter(update, newValue, true);
+                    ProductiveRage.Immutable.ImmutabilityHelpers.validateAfterUpdateIfValidateMethodDefined(update);
+                    return update;
+                };
+            },
+            clone: function (source) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+
+                // The simplest way to clone a generic reference seems to be a combination of Object.create and then copying the properties from the source to the clone (copying
+                // may not be done from the prototype since there may be instance data that must be carried across)
+                var clone = Object.create(source.constructor.prototype);
+                for (var i in source) {
+				clone[i] = source[i];
+			}
+                return clone;
+            },
+            /**
+             * This will get the setter delegate from cache if available - if not then it will construct a new setter, push it into the cache and then return it
+             *
+             * @static
+             * @private
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}                                                       T                     
+             * @param   {Function}                                                       TPropertyValue        
+             * @param   {T}                                                              source                
+             * @param   {System.Func}                                                    propertyIdentifier
+             * @return  {ProductiveRage.Immutable.ImmutabilityHelpers.PropertySetter}
+             */
+            getSetter: function (source, propertyIdentifier) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+
+                // The strange "(object)" cast before GetType is called is required due to a new-to-15.7.0 bug that causes GetType calls to fail if the method is generic and has
+                // the [IgnoreGeneric] attribute applied to it and if the GetType target reference is one of the method's generic type arguments. By casting it to object, the
+                // issue is avoided. See http://forums.bridge.net/forum/bridge-net-pro/bugs/3343 for more details.
+                var cacheKey = new ProductiveRage.Immutable.ImmutabilityHelpers.CacheKey(Bridge.Reflection.getTypeFullName(Bridge.getType(source)), ProductiveRage.Immutable.ImmutabilityHelpers.getFunctionStringRepresentation(propertyIdentifier));
+
+                var setter = { };
+                if (ProductiveRage.Immutable.ImmutabilityHelpers.cache.tryGetValue(cacheKey, setter)) {
+                    return setter.v;
+                }
+
+                setter.v = ProductiveRage.Immutable.ImmutabilityHelpers.constructSetter(source, propertyIdentifier);
+                ProductiveRage.Immutable.ImmutabilityHelpers.cache.set(cacheKey, setter.v);
+                return setter.v;
+            },
+            constructSetter: function (source, propertyIdentifier) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+
+                if (ProductiveRage.Immutable.ImmutabilityHelpers.getFunctionArgumentCount(propertyIdentifier) !== 1) {
+                    throw new System.ArgumentException("The specified propertyIdentifier function must have precisely one argument");
+                }
+
+                // Ensure that the propertyIdentifier is of a form similar to
+                //   function (_) { return _.getName(); }
+                // Note that in minified JavaScript, it may be
+                //   function(_){return _.getName()}
+                // The way that this is verified is to get a "normalised" version of the string representation of the propertyIdentifier function - this removes any comments
+                // and replaces any single whitespace characters (line returns, tabs, whatever) with a space and ensures that any runs of whitespace are reduced to a single
+                // character. We compare this (with a reg ex) to an expected format which is a string that is built up to match the first form. This is then tweaked to make
+                // the spaces and semi-colon optional (so that it can also match the minified form).
+                // 2016-08-04 DWR: There are some additional forms that should be supported; for example, Firefox may report "use strict" as part of the function content -
+                //   function (_) { "use strict"; return _.getName(); }
+                // .. and code coverage tools may inject other content before the getter is called -
+                //   function (_) { coverageFramework.track("MyClass.cs", 18); return _.getName(); }
+                // .. as such, the function format matching has been relaxed to allow a section to be ignored before the getter call. I contempled removing this entirely since
+                // there is an analyser to ensure that only valid properties are referenced in the C# code but this change seemed minor and could be useful if a project included
+                // IAmImmutable implementations that disabled the analyser (or that were built in VS2013 or earlier). If there are any further problems then I may reconsider.
+                var singleArgumentNameForPropertyIdentifier = ProductiveRage.Immutable.ImmutabilityHelpers.getFunctionSingleArgumentName(propertyIdentifier);
+
+                // In case there are any new lines in the additional content that is supported before the getter call (see 2016-08-04 notes above), we need to look for "any
+                // character" that includes line returns and so use "[.\s\S]*" instead of just ".*" (see http://trentrichardson.com/2012/07/13/5-must-know-javascript-regex-tips/).
+                // It might be cleaner to use the C# RegEx which is fully supported by Bridge (but wasn't when this code was first written).
+                var argumentName = ProductiveRage.Immutable.ImmutabilityHelpers.getFunctionSingleArgumentName(propertyIdentifier);
+
+                // If an IAmImmutable type is also decorated with [ObjectLiteral] then instances won't actually have real getter and setter methods, they will just have raw
+                // properties. There are some hoops to jump through to combine IAmImmutable and [ObjectLiteral] (the constructor won't be called and so CtorSet can't be used
+                // to initialise the instance) but if this combination is required then the "With" method may still be used by identifying whether the current object is a
+                // "plain object" and working directly on the property value if so.
+                var isObjectLiteral = Bridge.isPlainObject(source);
+                if (isObjectLiteral) {
+                    var objectLiteralRegExSegments = System.Array.init([ProductiveRage.Immutable.ImmutabilityHelpers.asRegExSegment(System.String.format("function ({0}) {{", argumentName)), ProductiveRage.Immutable.ImmutabilityHelpers.asRegExSegment(System.String.format("return {0}.", argumentName)), ProductiveRage.Immutable.ImmutabilityHelpers.asRegExSegment("; }")], String);
+                    var objectLiteralExpectedFunctionFormatMatcher = new System.Text.RegularExpressions.Regex.ctor(objectLiteralRegExSegments.join("([.\\s\\S]*?)"));
+                    var objectLiteralPropertyIdentifierStringContent = ProductiveRage.Immutable.ImmutabilityHelpers.getNormalisedFunctionStringRepresentation(propertyIdentifier);
+                    var objectLiteralPropertyNameMatchResults = objectLiteralExpectedFunctionFormatMatcher.matches(objectLiteralPropertyIdentifierStringContent);
+                    if (objectLiteralPropertyNameMatchResults.getCount() === 0) {
+                        throw new System.ArgumentException(System.String.concat("The specified propertyIdentifier function did not match the expected format - must be a simple property access for an [ObjectLiteral], such as \"function(_) { return _.name; }\", rather than \"", objectLiteralPropertyIdentifierStringContent, "\""));
+                    }
+
+                    // If the target is an [ObjectLiteral] then just set the property name on the target, don't try to call a setter (since it won't be defined)
+                    var objectLiteralPropertyName = objectLiteralPropertyNameMatchResults.get(((objectLiteralPropertyNameMatchResults.getCount() - 1) | 0));
+                    return function (target, newValue, ignoreAnyExistingLock) {
+target[                        objectLiteralPropertyName] = newValue;
+                    };
+                }
+
+                // 2016-10-21 DWR: Split out "return {0}.get" into two segments since Bridge uses aliases for properties if a class is cast to an interface and an interface
+                // property is being specified for update (eg. "function (_) { return _.Example$IHaveName$getName(); }" instead of function (_) { return _.getName(); }").
+                // If the property is being accessed directly (and not via an interface) then there will be type alias prefix.
+                var regExSegments = System.Array.init([ProductiveRage.Immutable.ImmutabilityHelpers.asRegExSegment(System.String.format("function ({0}) {{", argumentName)), ProductiveRage.Immutable.ImmutabilityHelpers.asRegExSegment(System.String.format("return {0}.", argumentName)), ProductiveRage.Immutable.ImmutabilityHelpers.asRegExSegment("get"), ProductiveRage.Immutable.ImmutabilityHelpers.asRegExSegment("(); }")], String);
+                var expectedFunctionFormatMatcher = new System.Text.RegularExpressions.Regex.ctor(regExSegments.join("([.\\s\\S]*?)"));
+                var propertyIdentifierStringContent = ProductiveRage.Immutable.ImmutabilityHelpers.getNormalisedFunctionStringRepresentation(propertyIdentifier);
+                var propertyNameMatchResults = expectedFunctionFormatMatcher.matches(propertyIdentifierStringContent);
+                if (propertyNameMatchResults.getCount() === 0) {
+                    throw new System.ArgumentException(System.String.concat("The specified propertyIdentifier function did not match the expected format - must be a simple property get, such as \"function(_) { return _.getName(); }\", rather than \"", propertyIdentifierStringContent, "\""));
+                }
+
+                var typeAliasPrefix = propertyNameMatchResults.get(0).getGroups().get(2);
+                var propertyName = propertyNameMatchResults.get(0).getGroups().get(3);
+                var propertyGetterName = System.String.concat(typeAliasPrefix, "get", propertyName);
+                var propertySetterName = System.String.concat(typeAliasPrefix, "set", propertyName);
+                var hasFunctionWithExpectedSetterName = false;
+                var hasExpectedSetter = false;
+                var setter = source[propertySetterName];
+				hasFunctionWithExpectedSetterName = (typeof(setter) === "function");
+				if (hasFunctionWithExpectedSetterName) {
+					hasExpectedSetter = (setter.length === 1); // Ensure that it takes precisely one argument
+				}
+				var getter = source[propertyGetterName];
+                if (!hasFunctionWithExpectedSetterName) {
+                    throw new System.ArgumentException(System.String.concat("Failed to find expected property setter \"", propertySetterName, "\""));
+                } else {
+                    if (!hasExpectedSetter) {
+                        throw new System.ArgumentException(System.String.concat("Property setter does not match expected format (single argument): \"", propertySetterName, "\""));
+                    }
+                }
+
+                return function (target, newValue, ignoreAnyExistingLock) {
+                    var isLocked = false;
+                    var propertyLockName = System.String.concat("__", propertyName, "_Lock");
+                    isLocked = !ignoreAnyExistingLock && (target[propertyLockName] === true);
+					if (!isLocked) {
+						setter.apply(target, [newValue]);
+						target[propertyLockName] = true;
+						if (typeof(target[propertyGetterName]) === "function") {
+							target[propertyGetterName].$scaffolding = true;
+						}
+						if (typeof(target[propertySetterName]) === "function") {
+							target[propertySetterName].$scaffolding = true;
+						}
+					}
+                    if (isLocked) {
+                        throw new System.ArgumentException("This property has been locked - it should only be set within the constructor");
+                    }
+                };
+            },
+            asRegExSegment: function (value) {
+                if (value == null) {
+                    throw new System.ArgumentNullException("value");
+                }
+
+                return System.String.replaceAll(System.String.replaceAll(System.String.replaceAll(System.String.replaceAll(ProductiveRage.Immutable.ImmutabilityHelpers.escapeForReg(value), " ", "[ ]?"), ";", ";?"), "(", "\\("), ")", "\\)");
+            },
+            getFunctionSingleArgumentName: function (propertyIdentifier) {
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+                if (ProductiveRage.Immutable.ImmutabilityHelpers.getFunctionArgumentCount(propertyIdentifier) !== 1) {
+                    throw new System.ArgumentException("The specified propertyIdentifier function must have precisely one argument");
+                }
+
+                // Inspired by http://stackoverflow.com/a/9924463
+                var propertyIdentifierString = ProductiveRage.Immutable.ImmutabilityHelpers.getNormalisedFunctionStringRepresentation(propertyIdentifier);
+                var argumentListStartsAt = System.String.indexOf(propertyIdentifierString, "(");
+                var argumentListEndsAt = System.String.indexOf(propertyIdentifierString, ")");
+                return propertyIdentifierString.substr(((argumentListStartsAt + 1) | 0), ((argumentListEndsAt - (((argumentListStartsAt + 1) | 0))) | 0));
+            },
+            getFunctionArgumentCount: function (propertyIdentifier) {
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+
+                return propertyIdentifier.length;
+            },
+            /**
+             * If there is an argument-less Validate method on the instance then call that (this is to make up for the fact that the constructor is not called after properties are updated)
+             *
+             * @static
+             * @private
+             * @this ProductiveRage.Immutable.ImmutabilityHelpers
+             * @memberof ProductiveRage.Immutable.ImmutabilityHelpers
+             * @param   {Function}    T         
+             * @param   {T}           source
+             * @return  {void}
+             */
+            validateAfterUpdateIfValidateMethodDefined: function (source) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+
+                
+			var validate = source.validate;
+			if (validate && (typeof(validate) === "function") && (validate.length === 0)) {
+				validate.apply(source);
+			}
+			
+            },
+            getFunctionStringRepresentation: function (propertyIdentifier) {
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+
+                return propertyIdentifier.toString();
+            },
+            getNormalisedFunctionStringRepresentation: function (propertyIdentifier) {
+                if (Bridge.staticEquals(propertyIdentifier, null)) {
+                    throw new System.ArgumentNullException("propertyIdentifier");
+                }
+
+                var content = ProductiveRage.Immutable.ImmutabilityHelpers.getFunctionStringRepresentation(propertyIdentifier);
+                content = ProductiveRage.Immutable.ImmutabilityHelpers.STRIP_COMMENTS.replace(content, "");
+                content = ProductiveRage.Immutable.ImmutabilityHelpers.WHITESPACE_SEGMENTS.replace(content, "");
+                return content.trim();
+            },
+            escapeForReg: function (value) {
+                if (value == null) {
+                    throw new System.ArgumentNullException("value");
+                }
+
+                // Courtesy of http://stackoverflow.com/a/3561711
+                var matcher = ProductiveRage.Immutable.ImmutabilityHelpers.ESCAPE_FOR_REGEX;
+                return value.replace(matcher, '\\$&');
+            }
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.ImmutabilityHelpers.CacheKey", {
+        inherits: function () { return [System.IEquatable$1(ProductiveRage.Immutable.ImmutabilityHelpers.CacheKey)]; },
+        config: {
+            properties: {
+                SourceClassName: null,
+                PropertyIdentifierFunctionString: null
+            },
+            alias: [
+            "equalsT", "System$IEquatable$1$ProductiveRage$Immutable$ImmutabilityHelpers$CacheKey$equalsT"
+            ]
+        },
+        ctor: function (sourceClassName, propertyIdentifierFunctionString) {
+            this.$initialize();
+            if (sourceClassName == null) {
+                throw new System.ArgumentNullException("sourceClassName");
+            }
+            if (propertyIdentifierFunctionString == null) {
+                throw new System.ArgumentNullException("propertyIdentifierFunctionString");
+            }
+
+            this.setSourceClassName(sourceClassName);
+            this.setPropertyIdentifierFunctionString(propertyIdentifierFunctionString);
+        },
+        equalsT: function (other) {
+            return (other != null) && (Bridge.referenceEquals(other.getSourceClassName(), this.getSourceClassName())) && (Bridge.referenceEquals(other.getPropertyIdentifierFunctionString(), this.getPropertyIdentifierFunctionString()));
+        },
+        equals: function (o) {
+            return this.equalsT(Bridge.as(o, ProductiveRage.Immutable.ImmutabilityHelpers.CacheKey));
+        },
+        getHashCode: function () {
+            // Inspired by http://stackoverflow.com/a/263416
+            var hash = 17;
+            hash = hash ^ (((23 + Bridge.getHashCode(this.getSourceClassName())) | 0));
+            hash = hash ^ (((23 + Bridge.getHashCode(this.getPropertyIdentifierFunctionString())) | 0));
+            return hash;
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.NonNullList", {
+        statics: {
+            /**
+             * This will throw an exception for any null references in the values parameters - if nulls may be required then the type parameter should be an Optional
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.NonNullList
+             * @memberof ProductiveRage.Immutable.NonNullList
+             * @param   {Function}                                  T         
+             * @param   {Array.<T>}                                 values
+             * @return  {ProductiveRage.Immutable.NonNullList$1}
+             */
+            of: function (T, values) {
+                if (values === void 0) { values = []; }
+                var list = ProductiveRage.Immutable.NonNullList$1(T).getEmpty();
+                if (values != null) {
+                    for (var i = (values.length - 1) | 0; i >= 0; i = (i - 1) | 0) {
+                        var item = values[i];
+                        if (item == null) {
+                            throw new System.ArgumentException("Null reference encountered at index " + i);
+                        }
+                        list = list.insert(item);
+                    }
+                }
+                return list;
+            }
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.NonNullList$1", function (T) { return {
+        inherits: [System.Collections.Generic.IEnumerable$1(T)],
+        statics: {
+            _empty: null,
+            config: {
+                init: function () {
+                    this._empty = new (ProductiveRage.Immutable.NonNullList$1(T))(null);
+                }
+            },
+            getEmpty: function () {
+                return ProductiveRage.Immutable.NonNullList$1(T)._empty;
+            },
+            op_Implicit: function (source) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+
+                return new (ProductiveRage.Immutable.NonNullList$1(T))(source._headIfAny);
+            }
+        },
+        _headIfAny: null,
+        config: {
+            alias: [
+            "getEnumerator", "System$Collections$Generic$IEnumerable$1$" + Bridge.getTypeAlias(T) + "$getEnumerator"
+            ]
+        },
+        ctor: function (headIfAny) {
+            this.$initialize();
+            this._headIfAny = headIfAny;
+        },
+        getCount: function () {
+            return (this._headIfAny == null) ? 0 : ((this._headIfAny.count) >>> 0);
+        },
+        /**
+         * This will throw an exception for an invalid index value. It will never return a null reference as this data type will not store null references - if nulls
+         may be required then the type parameter should be an Optional.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.NonNullList$1
+         * @memberof ProductiveRage.Immutable.NonNullList$1
+         * @param   {number}    index
+         * @return  {T}
+         */
+        getItem: function (index) {
+            if (index >= this.getCount()) {
+                throw new System.ArgumentOutOfRangeException("index");
+            }
+
+            var node = this._headIfAny;
+            for (var i = 0; System.Int64(i).lt(System.Int64(index)); i = (i + 1) | 0) {
+                node = node.nextIfAny;
+            }
+            return node.item;
+        },
+        /**
+         * Due to the internal structure of this class, this is the cheapest way to add an item to a set. Null references are not allowed (an exception will be thrown),
+         if you require values that may be null then the type parameter should be an Optional.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.NonNullList$1
+         * @memberof ProductiveRage.Immutable.NonNullList$1
+         * @param   {T}                                         item
+         * @return  {ProductiveRage.Immutable.NonNullList$1}
+         */
+        insert: function (item) {
+            if (item == null) {
+                throw new System.ArgumentNullException("item");
+            }
+
+            if (this._headIfAny == null) {
+                return new (ProductiveRage.Immutable.NonNullList$1(T))(Bridge.merge(new (ProductiveRage.Immutable.NonNullList$1.Node(T))(), {
+                    count: 1,
+                    item: item,
+                    nextIfAny: null
+                } ));
+            }
+
+            return new (ProductiveRage.Immutable.NonNullList$1(T))(Bridge.merge(new (ProductiveRage.Immutable.NonNullList$1.Node(T))(), {
+                count: ((this._headIfAny.count + 1) | 0),
+                item: item,
+                nextIfAny: this._headIfAny
+            } ));
+        },
+        /**
+         * Due to the internal structure of this class, this is a more expensive operation that Insert (which inserts a new item at the start of the set, rather than at
+         the end, which this function does).  Null references are not allowed (an exception will be thrown), if you require values that may be null then the type parameter
+         should be an Optional.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.NonNullList$1
+         * @memberof ProductiveRage.Immutable.NonNullList$1
+         * @param   {T}                                         item
+         * @return  {ProductiveRage.Immutable.NonNullList$1}
+         */
+        add: function (item) {
+            if (item == null) {
+                throw new System.ArgumentNullException("item");
+            }
+
+            var currentValues = System.Array.init(this.getCount(), function (){
+                return Bridge.getDefaultValue(T);
+            }, T);
+            var node = this._headIfAny;
+            for (var index = 0; System.Int64(index).lt(System.Int64(this.getCount())); index = (index + 1) | 0) {
+                currentValues[index] = node.item;
+                node = node.nextIfAny;
+            }
+            var newHead = Bridge.merge(new (ProductiveRage.Immutable.NonNullList$1.Node(T))(), {
+                count: 1,
+                item: item,
+                nextIfAny: null
+            } );
+            for (var loopIndex = 0; System.Int64(loopIndex).lt(System.Int64(this.getCount())); loopIndex = (loopIndex + 1) | 0) {
+                var index1 = System.Int64((((this.getCount() - 1) >>> 0))).sub(System.Int64(loopIndex));
+                newHead = Bridge.merge(new (ProductiveRage.Immutable.NonNullList$1.Node(T))(), {
+                    count: ((newHead.count + 1) | 0),
+                    item: currentValues[System.Int64.toNumber(index1)],
+                    nextIfAny: newHead
+                } );
+            }
+            return new (ProductiveRage.Immutable.NonNullList$1(T))(newHead);
+        },
+        /**
+         * This will throw an exception for an invalid index value or for a null value reference. This data type will not store null references - if nulls may be required
+         then the type parameter should be an Optional.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.NonNullList$1
+         * @memberof ProductiveRage.Immutable.NonNullList$1
+         * @param   {number}                                    index    
+         * @param   {T}                                         value
+         * @return  {ProductiveRage.Immutable.NonNullList$1}
+         */
+        setValue: function (index, value) {
+            if (index >= this.getCount()) {
+                throw new System.ArgumentOutOfRangeException("index");
+            }
+            if (value == null) {
+                throw new System.ArgumentNullException("value");
+            }
+
+            var valuesBeforeUpdate = System.Array.init(index, function (){
+                return Bridge.getDefaultValue(T);
+            }, T);
+            var node = this._headIfAny;
+            for (var i = 0; System.Int64(i).lt(System.Int64(index)); i = (i + 1) | 0) {
+                valuesBeforeUpdate[i] = node.item;
+                node = node.nextIfAny;
+            }
+            if (Bridge.equals(node.item, value)) {
+                return this;
+            } // If the new value is the same as the current then return this instance unaltered
+            var nodeAfterUpdate = node.nextIfAny;
+            var newNode = Bridge.merge(new (ProductiveRage.Immutable.NonNullList$1.Node(T))(), {
+                count: (nodeAfterUpdate == null) ? 1 : (((nodeAfterUpdate.count + 1) | 0)),
+                item: value,
+                nextIfAny: nodeAfterUpdate
+            } );
+            for (var i1 = (valuesBeforeUpdate.length - 1) | 0; i1 >= 0; i1 = (i1 - 1) | 0) {
+                newNode = Bridge.merge(new (ProductiveRage.Immutable.NonNullList$1.Node(T))(), {
+                    count: ((newNode.count + 1) | 0),
+                    item: valuesBeforeUpdate[i1],
+                    nextIfAny: newNode
+                } );
+            }
+            return new (ProductiveRage.Immutable.NonNullList$1(T))(newNode);
+        },
+        /**
+         * Since the Set class uses uint for its index value, the standard LINQ indexed Select class requires a cast from int to uint - this version prevents that cast from
+         being necessary
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.NonNullList$1
+         * @memberof ProductiveRage.Immutable.NonNullList$1
+         * @param   {Function}                                    TResult     
+         * @param   {System.Func}                                 selector
+         * @return  {System.Collections.Generic.IEnumerable$1}
+         */
+        select: function (TResult, selector) {
+            var $yield = [];
+            if (Bridge.staticEquals(selector, null)) {
+                throw new System.ArgumentNullException("selector");
+            }
+
+            var index = 0;
+            var node = this._headIfAny;
+            while (node != null) {
+                $yield.push(selector(node.item, index));
+                node = node.nextIfAny;
+                index = (index + 1) >>> 0;
+            }
+            return System.Array.toEnumerable($yield);
+        },
+        /**
+         * This will return a new Set of the same element type, where each item has been processed with the specified updater delegate. It is not valid for the updater to
+         return a null reference, this data type will not store null references (if there may be missing values then the type parameter should be an Optional). If the
+         set is empty or if the updater returns the same reference for every item then no change is required and the current Set reference will be returned unaltered.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.NonNullList$1
+         * @memberof ProductiveRage.Immutable.NonNullList$1
+         * @param   {System.Func}                               updater
+         * @return  {ProductiveRage.Immutable.NonNullList$1}
+         */
+        updateAll: function (updater) {
+            if (Bridge.staticEquals(updater, null)) {
+                throw new System.ArgumentNullException("updater");
+            }
+
+            return this.updateInternal(updater, null);
+        },
+        /**
+         * This will return a new Set of the same element type, where any item that matches the specified filter will be processed with the specified updater delegate. It
+         is not valid for the updater to return a null reference, this data type will not store null references (if there may be missing values then the type parameter
+         should be an Optional). If the set is empty, if the filter does not match any items or if the updater returns the same reference for every matched item then
+         no change is required and the current Set reference will be returned unaltered.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.NonNullList$1
+         * @memberof ProductiveRage.Immutable.NonNullList$1
+         * @param   {System.Func}                               updater    
+         * @param   {System.Func}                               filter
+         * @return  {ProductiveRage.Immutable.NonNullList$1}
+         */
+        update: function (updater, filter) {
+            if (Bridge.staticEquals(updater, null)) {
+                throw new System.ArgumentNullException("updater");
+            }
+            if (Bridge.staticEquals(filter, null)) {
+                throw new System.ArgumentNullException("filter");
+            }
+
+            return this.updateInternal(updater, filter);
+        },
+        updateInternal: function (updater, optionalFilter) {
+            if (Bridge.staticEquals(updater, null)) {
+                throw new System.ArgumentNullException("updater");
+            }
+
+            if (this.getCount() === 0) {
+                return this;
+            }
+
+            // Walk down the list, generating the updated values on the way
+            var newValues = System.Array.init(this.getCount(), function (){
+                return Bridge.getDefaultValue(T);
+            }, T);
+            var node = this._headIfAny;
+            var earliestUnchangedValueAndIndex = null;
+            for (var i = 0; System.Int64(i).lt(System.Int64(this.getCount())); i = (i + 1) | 0) {
+                var currentValue = node.item;
+                var needToApplyUpdateToThisValue = (Bridge.staticEquals(optionalFilter, null)) || optionalFilter(currentValue);
+                if (!needToApplyUpdateToThisValue) {
+                    if (earliestUnchangedValueAndIndex == null) {
+                        earliestUnchangedValueAndIndex = { item1: node, item2: i };
+                    }
+                    newValues[i] = currentValue;
+                } else {
+                    var newValue = updater(currentValue);
+                    if (newValue == null) {
+                        throw new System.ArgumentException("updated returned a null reference - this is not acceptable, NonNullList<T> will not record nulls");
+                    }
+                    var isNewValueTheSameAsCurrentValue = Bridge.equals(newValue, currentValue);
+                    if ((earliestUnchangedValueAndIndex == null) && isNewValueTheSameAsCurrentValue) {
+                        earliestUnchangedValueAndIndex = { item1: node, item2: i };
+                    } else {
+                        if (!isNewValueTheSameAsCurrentValue) {
+                            earliestUnchangedValueAndIndex = null;
+                        }
+                    }
+                    newValues[i] = newValue;
+                }
+                node = node.nextIfAny;
+            }
+
+            // If we are able to persist some of the nodes, then start at that point - otherwise, we'll have to rebuild the entire list
+            var startIndexOfReusableContent;
+            if (earliestUnchangedValueAndIndex == null) {
+                startIndexOfReusableContent = (this.getCount()) | 0;
+            } else {
+                if (earliestUnchangedValueAndIndex.item2 === 0) {
+                    // If we're able to share the first item then we're able to share the entire list and there's no need to create a new one
+                    return this;
+                }
+                startIndexOfReusableContent = earliestUnchangedValueAndIndex.item2;
+                node = earliestUnchangedValueAndIndex.item1;
+            }
+
+            // Now create a new list with the new values, starting before the content that may be reused (if any)
+            for (var i1 = (startIndexOfReusableContent - 1) | 0; i1 >= 0; i1 = (i1 - 1) | 0) {
+                node = Bridge.merge(new (ProductiveRage.Immutable.NonNullList$1.Node(T))(), {
+                    count: (node == null) ? 1 : (((node.count + 1) | 0)),
+                    item: newValues[i1],
+                    nextIfAny: node
+                } );
+            }
+            return new (ProductiveRage.Immutable.NonNullList$1(T))(node);
+        },
+        /**
+         * This will throw an exception for an invalid index value or for a null value reference
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.NonNullList$1
+         * @memberof ProductiveRage.Immutable.NonNullList$1
+         * @param   {number}                                    index
+         * @return  {ProductiveRage.Immutable.NonNullList$1}
+         */
+        removeAt: function (index) {
+            if (index >= this.getCount()) {
+                throw new System.ArgumentOutOfRangeException("index");
+            }
+
+            // Walk down the list until the node-to-be-removed is reached, tracking the values passed through on the way
+            var valuesBeforeRemove = System.Array.init(index, function (){
+                return Bridge.getDefaultValue(T);
+            }, T);
+            var node = this._headIfAny;
+            for (var i = 0; System.Int64(i).lt(System.Int64(index)); i = (i + 1) | 0) {
+                valuesBeforeRemove[i] = node.item;
+                node = node.nextIfAny;
+            }
+
+            // Move to the node (if there is one) after the one that was removed
+            node = node.nextIfAny;
+
+            // Rebuilding the list from list from here, the node chain after the removal does not need to be altered
+            for (var i1 = (valuesBeforeRemove.length - 1) | 0; i1 >= 0; i1 = (i1 - 1) | 0) {
+                node = Bridge.merge(new (ProductiveRage.Immutable.NonNullList$1.Node(T))(), {
+                    count: (node == null) ? 1 : (((node.count + 1) | 0)),
+                    item: valuesBeforeRemove[i1],
+                    nextIfAny: node
+                } );
+            }
+            return new (ProductiveRage.Immutable.NonNullList$1(T))(node);
+        },
+        /**
+         * This will remove any items from the set that match the specified filter. If no items were matched then the initial set will be returned unaltered.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.NonNullList$1
+         * @memberof ProductiveRage.Immutable.NonNullList$1
+         * @param   {System.Func}                               filter
+         * @return  {ProductiveRage.Immutable.NonNullList$1}
+         */
+        remove: function (filter) {
+            if (Bridge.staticEquals(filter, null)) {
+                throw new System.ArgumentNullException("filter");
+            }
+
+            if (this.getCount() === 0) {
+                return this;
+            }
+
+            // Walk down the list, generating the updated values on the way
+            var newValues = System.Array.init(this.getCount(), function (){
+                return new (ProductiveRage.Immutable.Optional$1(T))();
+            }, ProductiveRage.Immutable.Optional$1(T));
+            var node = this._headIfAny;
+            var earliestUnchangedValueAndIndex = null;
+            for (var i = 0; System.Int64(i).lt(System.Int64(this.getCount())); i = (i + 1) | 0) {
+                if (filter(node.item)) {
+                    earliestUnchangedValueAndIndex = null;
+                    newValues[i] = ProductiveRage.Immutable.Optional$1(T).getMissing();
+                } else {
+                    if (earliestUnchangedValueAndIndex == null) {
+                        earliestUnchangedValueAndIndex = { item1: node, item2: i };
+                    }
+                    newValues[i] = ProductiveRage.Immutable.Optional$1(T).op_Implicit(node.item);
+                }
+                node = node.nextIfAny;
+            }
+
+            // If we are able to persist some of the nodes, then start at that point - otherwise, we'll have to rebuild the entire list
+            var startIndexOfReusableContent;
+            if (earliestUnchangedValueAndIndex == null) {
+                startIndexOfReusableContent = (this.getCount()) | 0;
+            } else {
+                if (earliestUnchangedValueAndIndex.item2 === 0) {
+                    // If we're able to share the first item then we're able to share the entire list and there's no need to create a new one
+                    return this;
+                }
+                startIndexOfReusableContent = earliestUnchangedValueAndIndex.item2;
+                node = earliestUnchangedValueAndIndex.item1;
+            }
+
+            // Now create a new list with the new values, starting before the content that may be reused (if any)
+            for (var i1 = (startIndexOfReusableContent - 1) | 0; i1 >= 0; i1 = (i1 - 1) | 0) {
+                if (!newValues[i1].getIsDefined()) {
+                    continue;
+                }
+
+                node = Bridge.merge(new (ProductiveRage.Immutable.NonNullList$1.Node(T))(), {
+                    count: (node == null) ? 1 : (((node.count + 1) | 0)),
+                    item: newValues[i1].getValue(),
+                    nextIfAny: node
+                } );
+            }
+            return new (ProductiveRage.Immutable.NonNullList$1(T))(node);
+        },
+        getEnumerator: function () {
+            var $yield = [];
+            var node = this._headIfAny;
+            while (node != null) {
+                $yield.push(node.item);
+                node = node.nextIfAny;
+            }
+            return System.Array.toEnumerator($yield, T);
+        },
+        System$Collections$IEnumerable$getEnumerator: function () {
+            return this.getEnumerator();
+        }
+    }; });
+
+    Bridge.define("ProductiveRage.Immutable.NonNullList$1.Node", function (T) { return {
+        count: 0,
+        item: Bridge.getDefaultValue(T),
+        nextIfAny: null
+    }; });
+
+    Bridge.define("ProductiveRage.Immutable.Optional", {
+        statics: {
+            for: function (T, value) {
+                return ProductiveRage.Immutable.Optional$1(T).op_Implicit(value);
+            }
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.Optional$1", function (T) { return {
+        inherits: function () { return [System.IEquatable$1(ProductiveRage.Immutable.Optional$1(T))]; },
+        $kind: "struct",
+        statics: {
+            config: {
+                init: function () {
+                    this._missing = new (ProductiveRage.Immutable.Optional$1(T)).$ctor2(Bridge.getDefaultValue(T), false);
+                }
+            },
+            /**
+             * Gets an instance that indicates the value was not specified.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.Optional$1
+             * @memberof ProductiveRage.Immutable.Optional$1
+             * @function getMissing
+             * @return  {ProductiveRage.Immutable.Optional$1}
+             */
+            /**
+             * Gets an instance that indicates the value was not specified.
+             *
+             * @instance
+             * @function setMissing
+             */
+            getMissing: function () {
+                return ProductiveRage.Immutable.Optional$1(T)._missing;
+            }/**
+             * Implicitly wraps the specified value as an Optional.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.Optional$1
+             * @memberof ProductiveRage.Immutable.Optional$1
+             * @param   {T}                                      value
+             * @return  {ProductiveRage.Immutable.Optional$1}
+             */
+            ,
+            op_Implicit: function (value) {
+                return (value == null) ? ProductiveRage.Immutable.Optional$1(T)._missing : new (ProductiveRage.Immutable.Optional$1(T)).$ctor1(value);
+            },
+            op_Equality: function (x, y) {
+                return x.equalsT(y);
+            },
+            op_Inequality: function (x, y) {
+                return !(ProductiveRage.Immutable.Optional$1(T).op_Equality(x, y));
+            },
+            getDefaultValue: function () { return new (ProductiveRage.Immutable.Optional$1(T))(); }
+        },
+        value: Bridge.getDefaultValue(T),
+        isDefined: false,
+        config: {
+            alias: [
+            "equalsT", "System$IEquatable$1$ProductiveRage$Immutable$Optional$1$" + Bridge.getTypeAlias(T) + "$equalsT"
+            ]
+        },
+        $ctor1: function (value) {
+            ProductiveRage.Immutable.Optional$1(T).$ctor2.call(this, value, value != null);
+        },
+        $ctor2: function (value, isDefined) {
+            this.$initialize();
+            // Need to check both isDefined and whether the value is null when deciding whether the instace's IsDefined should be set -
+            // if the Missing value is used for a non-reference type (such as int) then value will be non-null (since non-reference
+            // types CAN'T be null) and isDefined will be false, so the final IsDefined value should be false. If an instance is
+            // declared through the public constructor (or through a cast or through the static generic For function) and T is
+            // a reference type then IsDefined only be set to true if the specified value is not null (since there is no point
+            // in saying IsDefined: true but value: null, if a null value is desired then IsDefined should be false!)
+            this.isDefined = isDefined && (value != null);
+            this.value = value;
+        },
+        ctor: function () {
+            this.$initialize();
+        },
+        /**
+         * Gets a value indicating whether the value was specified.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Optional$1
+         * @memberof ProductiveRage.Immutable.Optional$1
+         * @function getIsDefined
+         * @return  {boolean}
+         */
+        /**
+         * Gets a value indicating whether the value was specified.
+         *
+         * @instance
+         * @function setIsDefined
+         */
+        getIsDefined: function () {
+            return this.isDefined;
+        },
+        /**
+         * Gets the specified value, or the default value for the type if {@link } is <pre><code>false</code></pre>.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Optional$1
+         * @memberof ProductiveRage.Immutable.Optional$1
+         * @function getValue
+         * @return  {T}
+         */
+        /**
+         * Gets the specified value, or the default value for the type if {@link } is <pre><code>false</code></pre>.
+         *
+         * @instance
+         * @function setValue
+         */
+        getValue: function () {
+            return this.value;
+        },
+        getValueOrDefault: function (defaultValue) {
+            return this.getIsDefined() ? this.value : defaultValue;
+        },
+        /**
+         * If this Optional instance has a value then the value will be transformed using the specified mapper. If this instance
+         does not have a value or if the mapper returns null then a Missing Optional-of-TResult will be returned.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Optional$1
+         * @memberof ProductiveRage.Immutable.Optional$1
+         * @param   {Function}                               TResult    
+         * @param   {System.Func}                            mapper
+         * @return  {ProductiveRage.Immutable.Optional$1}
+         */
+        map: function (TResult, mapper) {
+            if (Bridge.staticEquals(mapper, null)) {
+                throw new System.ArgumentNullException("mapper");
+            }
+
+            if (this.getIsDefined()) {
+                var newValue = mapper(this.value);
+                if (newValue == null) {
+                    return ProductiveRage.Immutable.Optional$1(TResult).getMissing();
+                }
+                if ((Bridge.referenceEquals(TResult, T)) && Bridge.equals(newValue, this.getValue())) {
+                    // If the destination type is the same as the current type and the new value is the same as the existing value
+                    // then just return this instance immediately, rather than creating a new issue. We can't perform a cast because
+                    // the compiler will complain.
+                    return this;
+                }
+                return ProductiveRage.Immutable.Optional$1(TResult).op_Implicit(mapper(this.value));
+            }
+
+            // Don't need to worry about returning new instances here, the "Missing" value is shared across all Optional<T> instances
+            return ProductiveRage.Immutable.Optional$1(TResult).getMissing();
+        },
+        equals: function (obj) {
+            if (!(Bridge.is(obj, ProductiveRage.Immutable.Optional$1(T)))) {
+                return false;
+            }
+            return this.equalsT(System.Nullable.getValue(Bridge.cast(obj, ProductiveRage.Immutable.Optional$1(T))));
+        },
+        equalsT: function (other) {
+            if (!this.getIsDefined() && !other.isDefined) {
+                return true;
+            } else {
+                if (!this.getIsDefined() || !other.isDefined) {
+                    return false;
+                }
+            }
+            return Bridge.equals(this.getValue(), other.value);
+        },
+        getHashCode: function () {
+            return this.getIsDefined() ? Bridge.getHashCode(this.value) : 0; // Choose zero for no-value to be consistent with the framework Nullable type
+        },
+        toString: function () {
+            return this.isDefined ? this.getValue().toString() : "{Missing}";
+        },
+        $clone: function (to) { return this; }
+    }; });
+
+    /**
+     * This class allows a property identifier reference to be created and then passed into the With extension method. The validation that would be applied to the With
+     call will be bypassed if a PropertyIdentifier is provided (instead of a Func) because the same validation is applied to the GetProperty extension method, which
+     is the only way that an instance of this class may be created.
+     *
+     * @public
+     * @class ProductiveRage.Immutable.PropertyIdentifier$2
+     */
+    Bridge.define("ProductiveRage.Immutable.PropertyIdentifier$2", {
+        statics: {
+            op_Implicit: function (source) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+
+                return source.getMethod();
+            }
+        },
+        config: {
+            properties: {
+                Method: null
+            }
+        },
+        ctor: function (method) {
+            this.$initialize();
+            if (Bridge.staticEquals(method, null)) {
+                throw new System.ArgumentNullException("method");
+            }
+
+            this.setMethod(method);
+        },
+        get: function (value) {
+            if (value == null) {
+                throw new System.ArgumentNullException("value");
+            }
+
+            return this.getMethod()(value);
+        }
+    });
+
+    /**
+     * This attribute may be used a way to pass a Property Identifier reference from one method to another (and then on to the IAmImmutable With extension method). When an argument
+     has this attribute on it, the caller must always provide a lambda that meets the same criteria as calls to With (or CtorSet or GetProperty) - it must be a simple lambda that
+     references a simple property on an IAmImmutable target. Method arguments that have this attribute on may not be reassigned within the method since could bypass the performed
+     validation (and it might not be possible to ensure that the new value meets the required criteria).
+     *
+     * @public
+     * @class ProductiveRage.Immutable.PropertyIdentifierAttribute
+     * @augments System.Attribute
+     */
+    Bridge.define("ProductiveRage.Immutable.PropertyIdentifierAttribute", {
+        inherits: [System.Attribute]
+    });
+
+    Bridge.define("ProductiveRage.Immutable.Set", {
+        statics: {
+            /**
+             * This will throw an exception for any null references in the values parameters - if nulls may be required then the type parameter should be an Optional
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.Set
+             * @memberof ProductiveRage.Immutable.Set
+             * @param   {Function}                          T         
+             * @param   {Array.<T>}                         values
+             * @return  {ProductiveRage.Immutable.Set$1}
+             */
+            of: function (T, values) {
+                if (values === void 0) { values = []; }
+                var list = ProductiveRage.Immutable.Set$1(T).getEmpty();
+                if (values != null) {
+                    for (var i = (values.length - 1) | 0; i >= 0; i = (i - 1) | 0) {
+                        var item = values[i];
+                        if (item == null) {
+                            throw new System.ArgumentException("Null reference encountered at index " + i);
+                        }
+                        list = list.insert(item);
+                    }
+                }
+                return list;
+            }
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.Set$1", function (T) { return {
+        inherits: [System.Collections.Generic.IEnumerable$1(T)],
+        statics: {
+            _empty: null,
+            config: {
+                init: function () {
+                    this._empty = new (ProductiveRage.Immutable.Set$1(T))(null);
+                }
+            },
+            getEmpty: function () {
+                return ProductiveRage.Immutable.Set$1(T)._empty;
+            },
+            op_Implicit: function (source) {
+                if (source == null) {
+                    throw new System.ArgumentNullException("source");
+                }
+
+                return new (ProductiveRage.Immutable.Set$1(T))(source._headIfAny);
+            }
+        },
+        _headIfAny: null,
+        config: {
+            alias: [
+            "getEnumerator", "System$Collections$Generic$IEnumerable$1$" + Bridge.getTypeAlias(T) + "$getEnumerator"
+            ]
+        },
+        ctor: function (headIfAny) {
+            this.$initialize();
+            this._headIfAny = headIfAny;
+        },
+        getCount: function () {
+            return (this._headIfAny == null) ? 0 : ((this._headIfAny.count) >>> 0);
+        },
+        /**
+         * This will throw an exception for an invalid index value. It will never return a null reference as this data type will not store null references - if nulls
+         may be required then the type parameter should be an Optional.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Set$1
+         * @memberof ProductiveRage.Immutable.Set$1
+         * @param   {number}    index
+         * @return  {T}
+         */
+        getItem: function (index) {
+            if (index >= this.getCount()) {
+                throw new System.ArgumentOutOfRangeException("index");
+            }
+
+            var node = this._headIfAny;
+            for (var i = 0; System.Int64(i).lt(System.Int64(index)); i = (i + 1) | 0) {
+                node = node.nextIfAny;
+            }
+            return node.item;
+        },
+        /**
+         * Due to the internal structure of this class, this is the cheapest way to add an item to a set. Null references are not allowed (an exception will be thrown),
+         if you require values that may be null then the type parameter should be an Optional.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Set$1
+         * @memberof ProductiveRage.Immutable.Set$1
+         * @param   {T}                                 item
+         * @return  {ProductiveRage.Immutable.Set$1}
+         */
+        insert: function (item) {
+            if (item == null) {
+                throw new System.ArgumentNullException("item");
+            }
+
+            if (this._headIfAny == null) {
+                return new (ProductiveRage.Immutable.Set$1(T))({ count: 1, item: item, nextIfAny: null });
+            }
+
+            return new (ProductiveRage.Immutable.Set$1(T))({ count: ((this._headIfAny.count + 1) | 0), item: item, nextIfAny: this._headIfAny });
+        },
+        /**
+         * Due to the internal structure of this class, this is a more expensive operation that Insert (which inserts a new item at the start of the set, rather than at
+         the end, which this function does).  Null references are not allowed (an exception will be thrown), if you require values that may be null then the type parameter
+         should be an Optional.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Set$1
+         * @memberof ProductiveRage.Immutable.Set$1
+         * @param   {T}                                 item
+         * @return  {ProductiveRage.Immutable.Set$1}
+         */
+        add: function (item) {
+            if (item == null) {
+                throw new System.ArgumentNullException("item");
+            }
+
+            var currentValues = System.Array.init(this.getCount(), function (){
+                return Bridge.getDefaultValue(T);
+            }, T);
+            var node = this._headIfAny;
+            for (var index = 0; System.Int64(index).lt(System.Int64(this.getCount())); index = (index + 1) | 0) {
+                currentValues[index] = node.item;
+                node = node.nextIfAny;
+            }
+            var newHead = { count: 1, item: item, nextIfAny: null };
+            for (var loopIndex = 0; System.Int64(loopIndex).lt(System.Int64(this.getCount())); loopIndex = (loopIndex + 1) | 0) {
+                var index1 = System.Int64((((this.getCount() - 1) >>> 0))).sub(System.Int64(loopIndex));
+                newHead = { count: ((newHead.count + 1) | 0), item: currentValues[System.Int64.toNumber(index1)], nextIfAny: newHead };
+            }
+            return new (ProductiveRage.Immutable.Set$1(T))(newHead);
+        },
+        /**
+         * This will throw an exception for an invalid index value or for a null value reference. This data type will not store null references - if nulls may be required
+         then the type parameter should be an Optional.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Set$1
+         * @memberof ProductiveRage.Immutable.Set$1
+         * @param   {number}                            index    
+         * @param   {T}                                 value
+         * @return  {ProductiveRage.Immutable.Set$1}
+         */
+        setValue: function (index, value) {
+            if (index >= this.getCount()) {
+                throw new System.ArgumentOutOfRangeException("index");
+            }
+            if (value == null) {
+                throw new System.ArgumentNullException("value");
+            }
+
+            var valuesBeforeUpdate = System.Array.init(index, function (){
+                return Bridge.getDefaultValue(T);
+            }, T);
+            var node = this._headIfAny;
+            for (var i = 0; System.Int64(i).lt(System.Int64(index)); i = (i + 1) | 0) {
+                valuesBeforeUpdate[i] = node.item;
+                node = node.nextIfAny;
+            }
+            if (Bridge.equals(node.item, value)) {
+                return this;
+            } // If the new value is the same as the current then return this instance unaltered
+            var nodeAfterUpdate = node.nextIfAny;
+            var newNode = { count: (nodeAfterUpdate == null) ? 1 : (((nodeAfterUpdate.count + 1) | 0)), item: value, nextIfAny: nodeAfterUpdate };
+            for (var i1 = (valuesBeforeUpdate.length - 1) | 0; i1 >= 0; i1 = (i1 - 1) | 0) {
+                newNode = { count: ((newNode.count + 1) | 0), item: valuesBeforeUpdate[i1], nextIfAny: newNode };
+            }
+            return new (ProductiveRage.Immutable.Set$1(T))(newNode);
+        },
+        /**
+         * Since the Set class uses uint for its index value, the standard LINQ indexed Select class requires a cast from int to uint - this version prevents that cast from
+         being necessary
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Set$1
+         * @memberof ProductiveRage.Immutable.Set$1
+         * @param   {Function}                                    TResult     
+         * @param   {System.Func}                                 selector
+         * @return  {System.Collections.Generic.IEnumerable$1}
+         */
+        select: function (TResult, selector) {
+            var $yield = [];
+            if (Bridge.staticEquals(selector, null)) {
+                throw new System.ArgumentNullException("selector");
+            }
+
+            var index = 0;
+            var node = this._headIfAny;
+            while (node != null) {
+                $yield.push(selector(node.item, index));
+                node = node.nextIfAny;
+                index = (index + 1) >>> 0;
+            }
+            return System.Array.toEnumerable($yield);
+        },
+        /**
+         * This will return a new Set of the same element type, where each item has been processed with the specified updater delegate. It is not valid for the updater to
+         return a null reference, this data type will not store null references (if there may be missing values then the type parameter should be an Optional). If the
+         set is empty or if the updater returns the same reference for every item then no change is required and the current Set reference will be returned unaltered.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Set$1
+         * @memberof ProductiveRage.Immutable.Set$1
+         * @param   {System.Func}                       updater
+         * @return  {ProductiveRage.Immutable.Set$1}
+         */
+        updateAll: function (updater) {
+            if (Bridge.staticEquals(updater, null)) {
+                throw new System.ArgumentNullException("updater");
+            }
+
+            return this.updateInternal(updater, null);
+        },
+        /**
+         * This will return a new Set of the same element type, where any item that matches the specified filter will be processed with the specified updater delegate. It
+         is not valid for the updater to return a null reference, this data type will not store null references (if there may be missing values then the type parameter
+         should be an Optional). If the set is empty, if the filter does not match any items or if the updater returns the same reference for every matched item then
+         no change is required and the current Set reference will be returned unaltered.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Set$1
+         * @memberof ProductiveRage.Immutable.Set$1
+         * @param   {System.Func}                       updater    
+         * @param   {System.Func}                       filter
+         * @return  {ProductiveRage.Immutable.Set$1}
+         */
+        update: function (updater, filter) {
+            if (Bridge.staticEquals(updater, null)) {
+                throw new System.ArgumentNullException("updater");
+            }
+            if (Bridge.staticEquals(filter, null)) {
+                throw new System.ArgumentNullException("filter");
+            }
+
+            return this.updateInternal(updater, filter);
+        },
+        updateInternal: function (updater, optionalFilter) {
+            if (Bridge.staticEquals(updater, null)) {
+                throw new System.ArgumentNullException("updater");
+            }
+
+            if (this.getCount() === 0) {
+                return this;
+            }
+
+            // Walk down the list, generating the updated values on the way
+            var newValues = System.Array.init(this.getCount(), function (){
+                return Bridge.getDefaultValue(T);
+            }, T);
+            var node = this._headIfAny;
+            var earliestUnchangedValueAndIndex = null;
+            for (var i = 0; System.Int64(i).lt(System.Int64(this.getCount())); i = (i + 1) | 0) {
+                var currentValue = node.item;
+                var needToApplyUpdateToThisValue = (Bridge.staticEquals(optionalFilter, null)) || optionalFilter(currentValue);
+                if (!needToApplyUpdateToThisValue) {
+                    if (earliestUnchangedValueAndIndex == null) {
+                        earliestUnchangedValueAndIndex = { item1: node, item2: i };
+                    }
+                    newValues[i] = currentValue;
+                } else {
+                    var newValue = updater(currentValue);
+                    if (newValue == null) {
+                        throw new System.ArgumentException("updated returned a null reference - this is not acceptable, Set<T> will not record nulls");
+                    }
+                    var isNewValueTheSameAsCurrentValue = Bridge.equals(newValue, currentValue);
+                    if ((earliestUnchangedValueAndIndex == null) && isNewValueTheSameAsCurrentValue) {
+                        earliestUnchangedValueAndIndex = { item1: node, item2: i };
+                    } else {
+                        if (!isNewValueTheSameAsCurrentValue) {
+                            earliestUnchangedValueAndIndex = null;
+                        }
+                    }
+                    newValues[i] = newValue;
+                }
+                node = node.nextIfAny;
+            }
+
+            // If we are able to persist some of the nodes, then start at that point - otherwise, we'll have to rebuild the entire list
+            var startIndexOfReusableContent;
+            if (earliestUnchangedValueAndIndex == null) {
+                startIndexOfReusableContent = (this.getCount()) | 0;
+            } else {
+                if (earliestUnchangedValueAndIndex.item2 === 0) {
+                    // If we're able to share the first item then we're able to share the entire list and there's no need to create a new one
+                    return this;
+                }
+                startIndexOfReusableContent = earliestUnchangedValueAndIndex.item2;
+                node = earliestUnchangedValueAndIndex.item1;
+            }
+
+            // Now create a new list with the new values, starting before the content that may be reused (if any)
+            for (var i1 = (startIndexOfReusableContent - 1) | 0; i1 >= 0; i1 = (i1 - 1) | 0) {
+                node = { count: (node == null) ? 1 : (((node.count + 1) | 0)), item: newValues[i1], nextIfAny: node };
+            }
+            return new (ProductiveRage.Immutable.Set$1(T))(node);
+        },
+        /**
+         * This will throw an exception for an invalid index value or for a null value reference
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Set$1
+         * @memberof ProductiveRage.Immutable.Set$1
+         * @param   {number}                            index
+         * @return  {ProductiveRage.Immutable.Set$1}
+         */
+        removeAt: function (index) {
+            if (index >= this.getCount()) {
+                throw new System.ArgumentOutOfRangeException("index");
+            }
+
+            // Walk down the list until the node-to-be-removed is reached, tracking the values passed through on the way
+            var valuesBeforeRemove = System.Array.init(index, function (){
+                return Bridge.getDefaultValue(T);
+            }, T);
+            var node = this._headIfAny;
+            for (var i = 0; System.Int64(i).lt(System.Int64(index)); i = (i + 1) | 0) {
+                valuesBeforeRemove[i] = node.item;
+                node = node.nextIfAny;
+            }
+
+            // Move to the node (if there is one) after the one that was removed
+            node = node.nextIfAny;
+
+            // Rebuilding the list from list from here, the node chain after the removal does not need to be altered
+            for (var i1 = (valuesBeforeRemove.length - 1) | 0; i1 >= 0; i1 = (i1 - 1) | 0) {
+                node = { count: (node == null) ? 1 : (((node.count + 1) | 0)), item: valuesBeforeRemove[i1], nextIfAny: node };
+            }
+            return new (ProductiveRage.Immutable.Set$1(T))(node);
+        },
+        /**
+         * This will remove any items from the set that match the specified filter. If no items were matched then the initial set will be returned unaltered.
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.Set$1
+         * @memberof ProductiveRage.Immutable.Set$1
+         * @param   {System.Func}                       filter
+         * @return  {ProductiveRage.Immutable.Set$1}
+         */
+        remove: function (filter) {
+            if (Bridge.staticEquals(filter, null)) {
+                throw new System.ArgumentNullException("filter");
+            }
+
+            if (this.getCount() === 0) {
+                return this;
+            }
+
+            // Walk down the list, generating the updated values on the way
+            var newValues = System.Array.init(this.getCount(), function (){
+                return new (ProductiveRage.Immutable.Optional$1(T))();
+            }, ProductiveRage.Immutable.Optional$1(T));
+            var node = this._headIfAny;
+            var earliestUnchangedValueAndIndex = null;
+            for (var i = 0; System.Int64(i).lt(System.Int64(this.getCount())); i = (i + 1) | 0) {
+                if (filter(node.item)) {
+                    earliestUnchangedValueAndIndex = null;
+                    newValues[i] = ProductiveRage.Immutable.Optional$1(T).getMissing();
+                } else {
+                    if (earliestUnchangedValueAndIndex == null) {
+                        earliestUnchangedValueAndIndex = { item1: node, item2: i };
+                    }
+                    newValues[i] = ProductiveRage.Immutable.Optional$1(T).op_Implicit(node.item);
+                }
+                node = node.nextIfAny;
+            }
+
+            // If we are able to persist some of the nodes, then start at that point - otherwise, we'll have to rebuild the entire list
+            var startIndexOfReusableContent;
+            if (earliestUnchangedValueAndIndex == null) {
+                startIndexOfReusableContent = (this.getCount()) | 0;
+            } else {
+                if (earliestUnchangedValueAndIndex.item2 === 0) {
+                    // If we're able to share the first item then we're able to share the entire list and there's no need to create a new one
+                    return this;
+                }
+                startIndexOfReusableContent = earliestUnchangedValueAndIndex.item2;
+                node = earliestUnchangedValueAndIndex.item1;
+            }
+
+            // Now create a new list with the new values, starting before the content that may be reused (if any)
+            for (var i1 = (startIndexOfReusableContent - 1) | 0; i1 >= 0; i1 = (i1 - 1) | 0) {
+                if (!newValues[i1].getIsDefined()) {
+                    continue;
+                }
+
+                node = { count: (node == null) ? 1 : (((node.count + 1) | 0)), item: newValues[i1].getValue(), nextIfAny: node };
+            }
+            return new (ProductiveRage.Immutable.Set$1(T))(node);
+        },
+        getEnumerator: function () {
+            var $yield = [];
+            var node = this._headIfAny;
+            while (node != null) {
+                $yield.push(node.item);
+                node = node.nextIfAny;
+            }
+            return System.Array.toEnumerator($yield, T);
+        },
+        System$Collections$IEnumerable$getEnumerator: function () {
+            return this.getEnumerator();
+        }
+    }; });
+});
+
+/**
+ * @version 1.5.0.0
+ * @copyright Copyright © ProductiveRage 2017
+ * @compiler Bridge.NET 15.7.0
+ */
+Bridge.assembly("ProductiveRage.Immutable.Extensions", function ($asm, globals) {
+    "use strict";
+
+    Bridge.define("ProductiveRage.Immutable.NonBlankTrimmedString", {
+        statics: {
+            /**
+             * It's convenient to be able to pass a NonBlankTrimmedString instance as any argument
+             that requires a string
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.NonBlankTrimmedString
+             * @memberof ProductiveRage.Immutable.NonBlankTrimmedString
+             * @param   {ProductiveRage.Immutable.NonBlankTrimmedString}    value
+             * @return  {string}
+             */
+            op_Implicit$1: function (value) {
+                // A null NonBlankTrimmedString should be mapped onto a null string. As an example, if props.ClassName is Optional<NonBlankTrimmedString> then
+                // the below would result in a call to this implicit operator for a null value, which would error here unless we support null -
+                //   string x = props.ClassName.IsDefined ? props.ClassName.Value : null;
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(value, null)) {
+                    return null;
+                }
+                return value.getValue();
+            }/**
+             * It's convenient to be able to pass a NonBlankTrimmedString instance as any argument
+             that requires a ReactElement-or-string, such as for the children array of the React
+             DOM component factories
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.NonBlankTrimmedString
+             * @memberof ProductiveRage.Immutable.NonBlankTrimmedString
+             * @param   {ProductiveRage.Immutable.NonBlankTrimmedString}    value
+             * @return  {Object}
+             */
+            ,
+            op_Implicit: function (value) {
+                // Support null input for the same sort of reason as in the to-string operator above
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(value, null)) {
+                    return null;
+                }
+
+                var text = value.getValue();
+                return text;
+            },
+            op_Equality: function (x, y) {
+                var xIsNull = Bridge.referenceEquals(x, null);
+                var yIsNull = Bridge.referenceEquals(y, null);
+                if (xIsNull && yIsNull) {
+                    return true;
+                } else {
+                    if (xIsNull || yIsNull) {
+                        return false;
+                    } else {
+                        return x.equals(y);
+                    }
+                }
+            },
+            op_Inequality: function (x, y) {
+                return !(ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(x, y));
+            }
+        },
+        config: {
+            properties: {
+                /**
+                 * This will never be null, blank or have any leading or trailing whitespace
+                 *
+                 * @instance
+                 * @public
+                 * @this ProductiveRage.Immutable.NonBlankTrimmedString
+                 * @memberof ProductiveRage.Immutable.NonBlankTrimmedString
+                 * @function getValue
+                 * @return  {string}
+                 */
+                /**
+                 * This will never be null, blank or have any leading or trailing whitespace
+                 *
+                 * @instance
+                 * @private
+                 * @this ProductiveRage.Immutable.NonBlankTrimmedString
+                 * @memberof ProductiveRage.Immutable.NonBlankTrimmedString
+                 * @function setValue
+                 * @param   {string}    value
+                 * @return  {void}
+                 */
+                Value: null
+            }
+        },
+        ctor: function (value) {
+            this.$initialize();
+            if (System.String.isNullOrWhiteSpace(value)) {
+                throw new System.ArgumentException("Null, blank or whitespace-only value specified");
+            }
+
+            this.setValue(value.trim());
+        },
+        equals: function (obj) {
+            if ((obj == null) || (!Bridge.referenceEquals(Bridge.getType(obj), Bridge.getType(this)))) {
+                return false;
+            }
+            return Bridge.referenceEquals(Bridge.cast(obj, ProductiveRage.Immutable.NonBlankTrimmedString).getValue(), this.getValue());
+        },
+        getHashCode: function () {
+            return Bridge.getHashCode(this.getValue());
+        },
+        toString: function () {
+            return this.getValue();
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.ClassNameExtensions", {
+        statics: {
+            /**
+             * Combine a ClassName instance with an Optional ClassName instance, if the Optional ClassName has a value - otherwise the ClassName will be
+             returned. If the Optional ClassName has a value then the two will be joined by a single space.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ClassNameExtensions
+             * @memberof ProductiveRage.Immutable.ClassNameExtensions
+             * @param   {ProductiveRage.Immutable.ClassName}     source    
+             * @param   {ProductiveRage.Immutable.Optional$1}    other
+             * @return  {ProductiveRage.Immutable.ClassName}
+             */
+            add$1: function (source, other) {
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(source, null)) {
+                    throw new System.ArgumentNullException("source");
+                }
+
+                return ProductiveRage.Immutable.ClassNameExtensions.add$3(source, " ", other);
+            },
+            /**
+             * Combine a ClassName instance with an Optional ClassName instance, if the Optional ClassName has a value - otherwise the ClassName will be
+             returned. If the Optional ClassName has a value then the two will be joined by a specified delimiter string (which may be blank if desired).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ClassNameExtensions
+             * @memberof ProductiveRage.Immutable.ClassNameExtensions
+             * @param   {ProductiveRage.Immutable.ClassName}     source       
+             * @param   {string}                                 delimiter    
+             * @param   {ProductiveRage.Immutable.Optional$1}    other
+             * @return  {ProductiveRage.Immutable.ClassName}
+             */
+            add$3: function (source, delimiter, other) {
+                if (delimiter == null) {
+                    throw new System.ArgumentNullException("delimiter");
+                }
+
+                if (!other.getIsDefined()) {
+                    return source;
+                }
+
+                return new ProductiveRage.Immutable.ClassName(System.String.concat(source.getValue(), delimiter, other.getValue().getValue()));
+            },
+            /**
+             * Combine two ClassNames, joining their values with a single space
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ClassNameExtensions
+             * @memberof ProductiveRage.Immutable.ClassNameExtensions
+             * @param   {ProductiveRage.Immutable.ClassName}    source    
+             * @param   {ProductiveRage.Immutable.ClassName}    other
+             * @return  {ProductiveRage.Immutable.ClassName}
+             */
+            add: function (source, other) {
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(source, null)) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(other, null)) {
+                    throw new System.ArgumentNullException("other");
+                }
+
+                return ProductiveRage.Immutable.ClassNameExtensions.add$2(source, " ", other);
+            },
+            /**
+             * Combine two ClassNames, joining their values with a specified delimiter string (which may be blank if desired)
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ClassNameExtensions
+             * @memberof ProductiveRage.Immutable.ClassNameExtensions
+             * @param   {ProductiveRage.Immutable.ClassName}    source       
+             * @param   {string}                                delimiter    
+             * @param   {ProductiveRage.Immutable.ClassName}    other
+             * @return  {ProductiveRage.Immutable.ClassName}
+             */
+            add$2: function (source, delimiter, other) {
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(source, null)) {
+                    throw new System.ArgumentNullException("source");
+                }
+                if (delimiter == null) {
+                    throw new System.ArgumentNullException("delimiter");
+                }
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(other, null)) {
+                    throw new System.ArgumentNullException("other");
+                }
+
+                return new ProductiveRage.Immutable.ClassName(System.String.concat(source.getValue(), delimiter, other.getValue()));
+            }
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.CommonProps", {
+        statics: {
+            for: function (state, onChange) {
+                return ProductiveRage.Immutable.CommonProps.buildCommonPropsObjectLiteral(state, onChange, ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ClassName).getMissing(), false, ProductiveRage.Immutable.Optional$1(Object).op_Implicit(null));
+            },
+            for$5: function (state, onChange, key) {
+                return ProductiveRage.Immutable.CommonProps.buildCommonPropsObjectLiteral(state, onChange, ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ClassName).getMissing(), false, ProductiveRage.Immutable.Optional$1(Object).op_Implicit(key));
+            },
+            for$1: function (state, onChange, className, disabled) {
+                return ProductiveRage.Immutable.CommonProps.buildCommonPropsObjectLiteral(state, onChange, className, disabled, ProductiveRage.Immutable.Optional$1(Object).op_Implicit(null));
+            },
+            for$3: function (state, onChange, classNameIfAny, disabled) {
+                var className = System.String.isNullOrWhiteSpace(classNameIfAny) ? ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ClassName).getMissing() : ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ClassName).op_Implicit(new ProductiveRage.Immutable.ClassName(classNameIfAny));
+                return ProductiveRage.Immutable.CommonProps.buildCommonPropsObjectLiteral(state, onChange, className, disabled, ProductiveRage.Immutable.Optional$1(Object).getMissing());
+            },
+            for$2: function (state, onChange, className, disabled, key) {
+                return ProductiveRage.Immutable.CommonProps.buildCommonPropsObjectLiteral(state, onChange, className, disabled, ProductiveRage.Immutable.Optional$1(Object).op_Implicit(key));
+            },
+            for$4: function (state, onChange, classNameIfAny, disabled, key) {
+                var className = System.String.isNullOrWhiteSpace(classNameIfAny) ? ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ClassName).getMissing() : ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ClassName).op_Implicit(new ProductiveRage.Immutable.ClassName(classNameIfAny));
+                return ProductiveRage.Immutable.CommonProps.buildCommonPropsObjectLiteral(state, onChange, className, disabled, ProductiveRage.Immutable.Optional$1(Object).op_Implicit(key));
+            },
+            buildCommonPropsObjectLiteral: function (model, onChange, className, disabled, key) {
+                if (model == null) {
+                    throw new System.ArgumentNullException("model");
+                }
+                if (Bridge.staticEquals(onChange, null)) {
+                    throw new System.ArgumentNullException("onChange");
+                }
+
+                // Note: The key argument may be null but this is one of the places that we don't want to model that using Optional<T> since we want to be sure that it
+                // is actually stored as null in the CommonProps object, so that React doesn't try to interpret a Missing Optional value as the key to use
+                return { model: model, onChange: onChange, className: className, disabled: disabled, key: key };
+            }
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.CommonProps$1", function (T) { return {
+        $literal: true
+    }; });
+
+    Bridge.define("ProductiveRage.Immutable.ComponentKeyGenerator", {
+        statics: {
+            _offsetOfLastId: 0,
+            config: {
+                init: function () {
+                    this._timeOfLastId = new Date(-864e13) || new Date(-864e13);
+                }
+            },
+            /**
+             * When declaring dynamic child components, each should one should have a consistent unique key. For some components, this is easy - eg. if rendering a list of
+             messages that have been persisted on the server, each message is likely to have a unique id that may be used as the key. However, there are also times when
+             a dynamic list of items may be created and managed where items may be added and removed (which prevents a simple incrementing numeric value to be used)
+             where there is no "persistence id" to rely upon. This function will generate a new key that is guaranteed to be unique from any other keys that it
+             has returned (so it is not safe to have a set of child components where some use keys from here and some use keys from elsewhere).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.ComponentKeyGenerator
+             * @memberof ProductiveRage.Immutable.ComponentKeyGenerator
+             * @return  {Object}
+             */
+            getNew: function () {
+                // This uses the same logic as the RequestId, but we can't use just re-use the RequestId's code since it doesn't expose its internal requestTime and
+                // requestOffset values. Also, we may want to change this logic in the future.
+                var requestTime = new Date();
+                if (Bridge.Date.lt(ProductiveRage.Immutable.ComponentKeyGenerator._timeOfLastId, requestTime)) {
+                    ProductiveRage.Immutable.ComponentKeyGenerator._offsetOfLastId = 0;
+                    ProductiveRage.Immutable.ComponentKeyGenerator._timeOfLastId = requestTime;
+                } else {
+                    ProductiveRage.Immutable.ComponentKeyGenerator._offsetOfLastId = (ProductiveRage.Immutable.ComponentKeyGenerator._offsetOfLastId + 1) | 0;
+                }
+
+                return System.String.format("{0}-{1}", System.Int64((requestTime).getTime()), ProductiveRage.Immutable.ComponentKeyGenerator._offsetOfLastId);
+            }
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.IEnumerableExtensions", {
+        statics: {
+            /**
+             * This will throw an exception for any null references (either the values set or any reference within that set)
+             since the Set type will not accept any nulls (if it must potentially contain missing values then type T should
+             be an Optional of some type)
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.IEnumerableExtensions
+             * @memberof ProductiveRage.Immutable.IEnumerableExtensions
+             * @param   {Function}                                    T         
+             * @param   {System.Collections.Generic.IEnumerable$1}    values
+             * @return  {ProductiveRage.Immutable.Set$1}
+             */
+            toSet: function (T, values) {
+                if (values == null) {
+                    throw new System.ArgumentNullException("values");
+                }
+
+                return ProductiveRage.Immutable.Set.of(T, System.Linq.Enumerable.from(values).toArray());
+            },
+            /**
+             * This will throw an exception for any null references (either the values set or any reference within that set)
+             since the NonNullList type will not accept any nulls (if it must potentially contain missing values then type T
+             should be an Optional of some type)
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.IEnumerableExtensions
+             * @memberof ProductiveRage.Immutable.IEnumerableExtensions
+             * @param   {Function}                                    T         
+             * @param   {System.Collections.Generic.IEnumerable$1}    values
+             * @return  {ProductiveRage.Immutable.NonNullList$1}
+             */
+            toNonNullList: function (T, values) {
+                if (values == null) {
+                    throw new System.ArgumentNullException("values");
+                }
+
+                return ProductiveRage.Immutable.NonNullList.of(T, System.Linq.Enumerable.from(values).toArray());
+            }
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.OptionalClassNameExtensions", {
+        statics: {
+            /**
+             * Combine two Optional ClassName instances if both arguments have values, separating them with a single space. If only one argument has a value
+             then that argument will be returned. If neither argument have a value then a missing value will be returned.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.OptionalClassNameExtensions
+             * @memberof ProductiveRage.Immutable.OptionalClassNameExtensions
+             * @param   {ProductiveRage.Immutable.Optional$1}    source    
+             * @param   {ProductiveRage.Immutable.Optional$1}    other
+             * @return  {ProductiveRage.Immutable.Optional$1}
+             */
+            add$2: function (source, other) {
+                return ProductiveRage.Immutable.OptionalClassNameExtensions.add$3(source, " ", other);
+            },
+            /**
+             * Combine two Optional ClassName instances if both arguments have values, separating them with a specified delimiter string (which may be blank
+             if desired). If only one argument has a value then that argument will be returned. If neither argument have a value then a missing value will
+             be returned.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.OptionalClassNameExtensions
+             * @memberof ProductiveRage.Immutable.OptionalClassNameExtensions
+             * @param   {ProductiveRage.Immutable.Optional$1}    source       
+             * @param   {string}                                 delimiter    
+             * @param   {ProductiveRage.Immutable.Optional$1}    other
+             * @return  {ProductiveRage.Immutable.Optional$1}
+             */
+            add$3: function (source, delimiter, other) {
+                if (delimiter == null) {
+                    throw new System.ArgumentNullException("delimiter");
+                }
+
+                if (!source.getIsDefined() && !other.getIsDefined()) {
+                    return ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ClassName).getMissing();
+                } else {
+                    if (!source.getIsDefined()) {
+                        return other;
+                    } else {
+                        if (!other.getIsDefined()) {
+                            return source;
+                        }
+                    }
+                }
+
+                return ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ClassName).op_Implicit(new ProductiveRage.Immutable.ClassName(System.String.concat(source.getValue().getValue(), delimiter, other.getValue().getValue())));
+            },
+            /**
+             * Combine an Optional ClassName instance with a non-Optional ClassName - if the first instance has a value then the two will be combined, separated
+             by a single space. If the source Optional ClassName has no value then the non Optional ClassName will be returned.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.OptionalClassNameExtensions
+             * @memberof ProductiveRage.Immutable.OptionalClassNameExtensions
+             * @param   {ProductiveRage.Immutable.Optional$1}    source    
+             * @param   {ProductiveRage.Immutable.ClassName}     other
+             * @return  {ProductiveRage.Immutable.ClassName}
+             */
+            add: function (source, other) {
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(other, null)) {
+                    throw new System.ArgumentNullException("other");
+                }
+
+                return ProductiveRage.Immutable.OptionalClassNameExtensions.add$1(source, " ", other);
+            },
+            /**
+             * Combine an Optional ClassName instance with a non-Optional ClassName - if the first instance has a value then the two will be combined, separated
+             by a specified delimiter string (which may be blank if desired). If the source Optional ClassName has no value then the non Optional ClassName
+             will be returned.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.OptionalClassNameExtensions
+             * @memberof ProductiveRage.Immutable.OptionalClassNameExtensions
+             * @param   {ProductiveRage.Immutable.Optional$1}    source       
+             * @param   {string}                                 delimiter    
+             * @param   {ProductiveRage.Immutable.ClassName}     other
+             * @return  {ProductiveRage.Immutable.ClassName}
+             */
+            add$1: function (source, delimiter, other) {
+                if (delimiter == null) {
+                    throw new System.ArgumentNullException("delimiter");
+                }
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(other, null)) {
+                    throw new System.ArgumentNullException("other");
+                }
+
+                if (!source.getIsDefined()) {
+                    return other;
+                }
+
+                return new ProductiveRage.Immutable.ClassName(System.String.concat(source.getValue().getValue(), delimiter, other.getValue()));
+            }
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.OptionalNonBlankTrimmedStringExtensions", {
+        statics: {
+            /**
+             * Translate an Optional NonBlankTrimmedString instance into a string - returning null if there is no value. Nulls are usually not desirable since it's
+             difficult for the type system to describe where a null is and isn't acceptable (which is what the Optional struct is intended to help with) but, if
+             an Optional NonBlankTrimmedString is to be used as a class name of an element then it will need to be reduced to a string instance again at some
+             point since React elements have a string ClassName property (which may be null, meaning set no class attribute).
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.OptionalNonBlankTrimmedStringExtensions
+             * @memberof ProductiveRage.Immutable.OptionalNonBlankTrimmedStringExtensions
+             * @param   {Function}                               T         
+             * @param   {ProductiveRage.Immutable.Optional$1}    source
+             * @return  {string}
+             */
+            toNullableString: function (T, source) {
+                return source.getIsDefined() ? source.getValue().getValue() : null;
+            }
+        }
+    });
+
+    /** @namespace System */
+
+    /**
+     * @memberof System
+     * @callback System.Func
+     * @param   {T}         arg
+     * @return  {Object}
+     */
+
+    Bridge.define("ProductiveRage.Immutable.OptionalResultOrErrorExtensions", {
+        statics: {
+            /**
+             * It is common to want to match an Optional Result-or-Errort to one of three ReactElements (a loading state, an error state and a result state) but if all three delegates are specified as anonymous
+             lambdas and they all return custom components (that are derived from Bridge.React's Component, PureComponent or StatelessComponent) then the compiler will not be able to infer a common base type
+             for them and so type inference on the two-type-argument Match method will fail. Having this method signature gives the compiler a big enough clue that it can work out that common case.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.OptionalResultOrErrorExtensions
+             * @memberof ProductiveRage.Immutable.OptionalResultOrErrorExtensions
+             * @param   {Function}                               T                
+             * @param   {ProductiveRage.Immutable.Optional$1}    source           
+             * @param   {Object}                                 handleNoValue    
+             * @param   {System.Func}                            handleResult     
+             * @param   {System.Func}                            handleError
+             * @return  {Object}
+             */
+            match$2: function (T, source, handleNoValue, handleResult, handleError) {
+                if (handleNoValue == null) {
+                    throw new System.ArgumentNullException("handleNoValue");
+                }
+                if (Bridge.staticEquals(handleResult, null)) {
+                    throw new System.ArgumentNullException("handleResult");
+                }
+                if (Bridge.staticEquals(handleError, null)) {
+                    throw new System.ArgumentNullException("handleError");
+                }
+
+                if (!source.getIsDefined()) {
+                    return handleNoValue;
+                }
+
+                return source.getValue().match(Object, handleResult, handleError);
+            },
+            match: function (T, TResult, source, handleNoValue, handleResult, handleError) {
+                if (handleNoValue == null) {
+                    throw new System.ArgumentNullException("handleNoValue");
+                }
+                if (Bridge.staticEquals(handleResult, null)) {
+                    throw new System.ArgumentNullException("handleResult");
+                }
+                if (Bridge.staticEquals(handleError, null)) {
+                    throw new System.ArgumentNullException("handleError");
+                }
+
+                if (!source.getIsDefined()) {
+                    return handleNoValue;
+                }
+
+                return source.getValue().match(TResult, handleResult, handleError);
+            },
+            match$1: function (T, TResult, source, handleNoValue, handleResult, handleError) {
+                if (Bridge.staticEquals(handleNoValue, null)) {
+                    throw new System.ArgumentNullException("handleNoValue");
+                }
+                if (Bridge.staticEquals(handleResult, null)) {
+                    throw new System.ArgumentNullException("handleResult");
+                }
+                if (Bridge.staticEquals(handleError, null)) {
+                    throw new System.ArgumentNullException("handleError");
+                }
+
+                if (!source.getIsDefined()) {
+                    return handleNoValue();
+                }
+
+                return source.getValue().match(TResult, handleResult, handleError);
+            },
+            match$3: function (T, source, handleNoValue, handleResult, handleError) {
+                if (Bridge.staticEquals(handleNoValue, null)) {
+                    throw new System.ArgumentNullException("handleNoValue");
+                }
+                if (Bridge.staticEquals(handleResult, null)) {
+                    throw new System.ArgumentNullException("handleResult");
+                }
+                if (Bridge.staticEquals(handleError, null)) {
+                    throw new System.ArgumentNullException("handleError");
+                }
+
+                if (!source.getIsDefined()) {
+                    handleNoValue();
+                } else {
+                    source.getValue().match$1(handleResult, handleError);
+                }
+            },
+            /**
+             * If this instance represents a Result then that Result will be transformed using the provided delegate, creating a new ResultOrError (potentially wrapping a different type) unless
+             the new value is the same as the current value, in which case the current ResultOrError instance will be returned (there would be no need to create a new one). If this instance
+             represents an Error then this will return a ResultOrError instance for the mapper's destination type, maintaining the same error information (unless the destination type is the
+             same as the current type, in which case the current instance may be directly returned). If this is a missing Optional value then a missing Optional for the destination type will
+             be returned.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.OptionalResultOrErrorExtensions
+             * @memberof ProductiveRage.Immutable.OptionalResultOrErrorExtensions
+             * @param   {Function}                               T               
+             * @param   {Function}                               TDestination    
+             * @param   {ProductiveRage.Immutable.Optional$1}    source          
+             * @param   {System.Func}                            mapper
+             * @return  {ProductiveRage.Immutable.Optional$1}
+             */
+            map: function (T, TDestination, source, mapper) {
+                if (Bridge.staticEquals(mapper, null)) {
+                    throw new System.ArgumentNullException("mapper");
+                }
+
+                if (!source.getIsDefined()) {
+                    // If the destination type is the same as the current type then we don't need a new instance (but the C# compiler won't let us do a cast so we have to Script.Write it)
+                    if (Bridge.referenceEquals(T, TDestination)) {
+                        return source;
+                    }
+                    return ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ResultOrError$1(TDestination)).getMissing();
+                }
+
+                return ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.ResultOrError$1(TDestination)).op_Implicit(source.getValue().map(TDestination, mapper));
+            },
+            /**
+             * To deal correctly with all of the no-value, error, result states it is strongly recommended that the Match methods be used but there are some times where you just want to be
+             able to say give me the if you have it (and Missing if not). On those occasions, this method may be used.
+             *
+             * @static
+             * @public
+             * @this ProductiveRage.Immutable.OptionalResultOrErrorExtensions
+             * @memberof ProductiveRage.Immutable.OptionalResultOrErrorExtensions
+             * @param   {Function}                               T        
+             * @param   {ProductiveRage.Immutable.Optional$1}    value
+             * @return  {ProductiveRage.Immutable.Optional$1}
+             */
+            tryToGetResult: function (T, value) {
+                return ProductiveRage.Immutable.OptionalResultOrErrorExtensions.match(T, ProductiveRage.Immutable.Optional$1(T), value, ProductiveRage.Immutable.Optional$1(T).getMissing(), function (result) {
+                    return ProductiveRage.Immutable.Optional.for(T, result);
+                }, function (error) {
+                    return ProductiveRage.Immutable.Optional$1(T).getMissing();
+                });
+            }
+        }
+    });
+
+    /** @namespace ProductiveRage.Immutable */
+
+    /**
+     * It is a common pattern in a Flux-like architecture for API calls to initiate work and for an action to be sent to the Dispatcher when
+     that work has completed, as all other communications are handled (rather than using the Dispatcher for some events and other async
+     mechanisms, such as Promises, for other communications). It is often important to be able to identify a particular work-completed
+     action back to the where the API call was made (for example, if a form's content is to be saved then that form may be displayed in
+     a disabled state until that particular save operation has completed) or for a particular work-completed action to be compared to
+     another, to determine which is more recent (if there are multiple ways in which new data may arrive in an application, it is useful
+     to be able to ignore stale data that arrives after more recent data). A new RequestId instance is guaranteed to be unique, while
+     still being comparable to other instances to determine which was created more recently. The RequestId is useful as the return
+     value for API calls, so the caller keeps the RequestId and then waits for an action to arrive that corresponds to it.
+     *
+     * @public
+     * @class ProductiveRage.Immutable.RequestId
+     */
+    Bridge.define("ProductiveRage.Immutable.RequestId", {
+        statics: {
+            _offsetOfLastId: 0,
+            config: {
+                init: function () {
+                    this._timeOfLastId = new Date(-864e13) || new Date(-864e13);
+                }
+            }
+        },
+        _requestOffset: 0,
+        config: {
+            init: function () {
+                this._requestTime = new Date(-864e13);
+            }
+        },
+        ctor: function () {
+            this.$initialize();
+            this._requestTime = new Date();
+            if (Bridge.Date.lt(ProductiveRage.Immutable.RequestId._timeOfLastId, this._requestTime)) {
+                ProductiveRage.Immutable.RequestId._offsetOfLastId = 0;
+                ProductiveRage.Immutable.RequestId._timeOfLastId = this._requestTime;
+            } else {
+                ProductiveRage.Immutable.RequestId._offsetOfLastId = (ProductiveRage.Immutable.RequestId._offsetOfLastId + 1) | 0;
+            }
+            this._requestOffset = ProductiveRage.Immutable.RequestId._offsetOfLastId;
+        },
+        comesAfter: function (other) {
+            if (other == null) {
+                throw new System.ArgumentNullException("other");
+            }
+
+            if (Bridge.equals(this._requestTime, other._requestTime)) {
+                return this._requestOffset > other._requestOffset;
+            }
+            return (Bridge.Date.gt(this._requestTime, other._requestTime));
+        },
+        isEqualToOrComesAfter: function (other) {
+            // If the "other" reference is no-RequestId then the "source" may be considered to come after it
+            if (!other.getIsDefined()) {
+                return true;
+            }
+
+            return (Bridge.referenceEquals(other.getValue(), this)) || this.comesAfter(other.getValue());
+        }
+    });
+
+    Bridge.define("ProductiveRage.Immutable.ResultOrError", {
+        statics: {
+            fromResult: function (T, result) {
+                return ProductiveRage.Immutable.ResultOrError$1(T).fromResult(result);
+            }
+        }
+    });
+
+    /**
+     * This represents EITHER a result or an error message - never both and never neither. It does not directly expose the Result and Error properties since they encourages code based upon conditionals
+     that are very easy to write such that they only handle one case or the other. Instead, this class has Match methods which must be provided delegates to deal with both the result AND the error cases.
+     *
+     * @public
+     * @class ProductiveRage.Immutable.ResultOrError$1
+     */
+    Bridge.define("ProductiveRage.Immutable.ResultOrError$1", function (T) { return {
+        statics: {
+            fromResult: function (result) {
+                if (result == null) {
+                    throw new System.ArgumentNullException("result");
+                }
+                return new (ProductiveRage.Immutable.ResultOrError$1(T))(ProductiveRage.Immutable.Optional$1(T).op_Implicit(result), ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString).op_Implicit(null));
+            },
+            fromError: function (errorMessage) {
+                if (ProductiveRage.Immutable.NonBlankTrimmedString.op_Equality(errorMessage, null)) {
+                    throw new System.ArgumentNullException("errorMessage");
+                }
+                return new (ProductiveRage.Immutable.ResultOrError$1(T))(ProductiveRage.Immutable.Optional$1(T).getMissing(), ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString).op_Implicit(errorMessage));
+            }
+        },
+        config: {
+            init: function () {
+                this._result = new (ProductiveRage.Immutable.Optional$1(T))();
+                this._errorMessage = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))();
+            }
+        },
+        ctor: function (result, errorMessage) {
+            this.$initialize();
+            if ((result.getIsDefined() && errorMessage.getIsDefined()) || (!result.getIsDefined() && !errorMessage.getIsDefined())) {
+                throw new System.ArgumentException(System.String.format("Precisely one of {0} and {1} must have a value", "result", "errorMessage"));
+            }
+
+            this._result = result;
+            this._errorMessage = errorMessage;
+        },
+        match: function (TResult, handleResult, handleError) {
+            if (Bridge.staticEquals(handleResult, null)) {
+                throw new System.ArgumentNullException("handleResult");
+            }
+            if (Bridge.staticEquals(handleError, null)) {
+                throw new System.ArgumentNullException("handleError");
+            }
+
+            return this._result.getIsDefined() ? handleResult(this._result.getValue()) : handleError(this._errorMessage.getValue());
+        },
+        match$1: function (handleResult, handleError) {
+            if (Bridge.staticEquals(handleResult, null)) {
+                throw new System.ArgumentNullException("handleResult");
+            }
+            if (Bridge.staticEquals(handleError, null)) {
+                throw new System.ArgumentNullException("handleError");
+            }
+
+            if (this._result.getIsDefined()) {
+                handleResult(this._result.getValue());
+            } else {
+                handleError(this._errorMessage.getValue());
+            }
+        },
+        /**
+         * If this instance represents a Result then that Result will be transformed using the provided delegate, creating a new ResultOrError (potentially wrapping a different type) unless
+         the new value is the same as the current value, in which case the current ResultOrError instance will be returned (there would be no need to create a new one). If this instance
+         represents an Error then this will return a ResultOrError instance for the mapper's destination type, maintaining the same error information (unless the destination type is the
+         same as the current type, in which case the current instance may be directly returned).
+         *
+         * @instance
+         * @public
+         * @this ProductiveRage.Immutable.ResultOrError$1
+         * @memberof ProductiveRage.Immutable.ResultOrError$1
+         * @param   {Function}                                    TDestination    
+         * @param   {System.Func}                                 mapper
+         * @return  {ProductiveRage.Immutable.ResultOrError$1}
+         */
+        map: function (TDestination, mapper) {
+            if (Bridge.staticEquals(mapper, null)) {
+                throw new System.ArgumentNullException("mapper");
+            }
+
+            if (!this._result.getIsDefined()) {
+                if (Bridge.referenceEquals(T, TDestination)) {
+                    // If the destination type is the same as the current type then we don't need a new instance (but the C# compiler won't let us do a cast so we have to Script.Write it)
+                    return this;
+                }
+                return ProductiveRage.Immutable.ResultOrError$1(TDestination).fromError(this._errorMessage.getValue()); // If there is no result then there must be an error
+            }
+
+            var newResult = mapper(this._result.getValue());
+            if (newResult == null) {
+                throw new System.ArgumentException(System.String.format("The provided {0} returned null, which is not valid", "mapper"));
+            }
+
+            if ((Bridge.referenceEquals(T, TDestination)) && Bridge.equals(newResult, this._result.getValue())) {
+                // If the destination type is the same as the current type and the new value is the same as the current one then we don't need a new instance (but the C# compiler won't let us
+                // do a cast so we have to Script.Write it)
+                return this;
+            }
+            return new (ProductiveRage.Immutable.ResultOrError$1(TDestination))(ProductiveRage.Immutable.Optional$1(TDestination).op_Implicit(newResult), this._errorMessage);
+        }
+    }; });
+
+    Bridge.define("ProductiveRage.Immutable.ClassName", {
+        inherits: [ProductiveRage.Immutable.NonBlankTrimmedString],
+        ctor: function (value) {
+            this.$initialize();
+            ProductiveRage.Immutable.NonBlankTrimmedString.ctor.call(this, value);
+        }
+    });
+});
+
+/**
  * @version 1.0.0.0
  * @copyright Copyright ©  2017
  * @compiler Bridge.NET 15.7.0
  */
 Bridge.assembly("Bridge.NET.Test", function ($asm, globals) {
     "use strict";
+
+    Bridge.define("Bridge.NET.Test.Actions.MessageEditStateChanged", {
+        inherits: [Bridge.React.IDispatcherAction,ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                NewState: null
+            }
+        },
+        ctor: function (newState) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Actions.MessageEditStateChanged.f1, newState);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Actions.MessageEditStateChanged", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Actions.MessageEditStateChanged, {
+        f1: function (_) {
+            return _.getNewState();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Actions.MessageHistoryUpdated", {
+        inherits: [Bridge.React.IDispatcherAction,ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                RequestId: null,
+                Messages: null
+            }
+        },
+        ctor: function (requestId, messages) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Actions.MessageHistoryUpdated.f1, requestId);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Actions.MessageHistoryUpdated.f2, messages);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Actions.MessageHistoryUpdated", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Actions.MessageHistoryUpdated, {
+        f1: function (_) {
+            return _.getRequestId();
+        },
+        f2: function (_) {
+            return _.getMessages();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Actions.MessageSaveRequested", {
+        inherits: [Bridge.React.IDispatcherAction,ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Message: null
+            }
+        },
+        ctor: function (message) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Actions.MessageSaveRequested.f1, message);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Actions.MessageSaveRequested", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Actions.MessageSaveRequested, {
+        f1: function (_) {
+            return _.getMessage();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Actions.MessageSaveSucceeded", {
+        inherits: [Bridge.React.IDispatcherAction,ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                RequestId: null
+            }
+        },
+        ctor: function (requestId) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Actions.MessageSaveSucceeded.f1, requestId);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Actions.MessageSaveSucceeded", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Actions.MessageSaveSucceeded, {
+        f1: function (_) {
+            return _.getRequestId();
+        }
+    });
+
+    /** @namespace Bridge.NET.Test.Actions */
+
+    /**
+     * This action is raised when the app is ready, when the Dispatcher has been created and the initial Store is ready to be fired up (in a more
+     complex app
+     *
+     * @public
+     * @class Bridge.NET.Test.Actions.StoreInitialised
+     * @implements  Bridge.React.IDispatcherAction
+     * @implements  ProductiveRage.Immutable.IAmImmutable
+     */
+    Bridge.define("Bridge.NET.Test.Actions.StoreInitialised", {
+        inherits: [Bridge.React.IDispatcherAction,ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Store: null
+            }
+        },
+        ctor: function (store) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Actions.StoreInitialised.f1, store);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Actions.StoreInitialised", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Actions.StoreInitialised, {
+        f1: function (_) {
+            return _.getStore();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.API.IReadAndWriteMessages", {
+        $kind: "interface"
+    });
+
+    Bridge.define("Bridge.NET.Test.API.MessageApi.ChuckNorrisFactApiResponse");
+
+    Bridge.define("Bridge.NET.Test.API.MessageApi.ChuckNorrisFactApiResponse.FactDetails");
+
+    Bridge.define("Bridge.NET.Test.API.MessageDetails", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Title: null,
+                Content: null
+            }
+        },
+        ctor: function (title, content) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.API.MessageDetails.f1, title);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.API.MessageDetails.f2, content);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.API.MessageDetails", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.API.MessageDetails, {
+        f1: function (_) {
+            return _.getTitle();
+        },
+        f2: function (_) {
+            return _.getContent();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.API.SavedMessageDetails", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Id: 0,
+                Message: null
+            }
+        },
+        ctor: function (id, message) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.API.SavedMessageDetails.f1, id);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.API.SavedMessageDetails.f2, message);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.API.SavedMessageDetails", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.API.SavedMessageDetails, {
+        f1: function (_) {
+            return _.getId();
+        },
+        f2: function (_) {
+            return _.getMessage();
+        }
+    });
 
     Bridge.define("Bridge.NET.Test.App", {
         $main: function () {
@@ -47131,9 +51332,1947 @@ Bridge.assembly("Bridge.NET.Test", function ($asm, globals) {
             //	DOM.Div(new Attributes { ClassName = "welcome" }, "Hi!"),
             //	container
             //);
-            ReactDOM.render(React.DOM.div({ className: "welcome" }, "Hi!"), document.getElementById("main"));
-            eval("window.loadComplete();");
+            //React.React.Render(
+            //	DOM.Div(new Attributes { ClassName = "welcome" }, "Hi!"),
+            //	Document.GetElementById("main")
+            //);
 
+            var dispatcher = new Bridge.React.AppDispatcher();
+            var store = new Bridge.NET.Test.Stores.AppUIStore(dispatcher, new Bridge.NET.Test.API.MessageApi(dispatcher));
+
+            var container = document.getElementById("main");
+            ReactDOM.render(Bridge.React.Component$2(Bridge.NET.Test.Components.AppContainer.Props,ProductiveRage.Immutable.Optional$1(Bridge.NET.Test.Components.AppContainer.State)).op_Implicit(new Bridge.NET.Test.Components.AppContainer(store, dispatcher)), container);
+
+            // After the Dispatcher and the Store and the Container Component are all associated with each other, the Store needs to be told that
+            // it's time to set its initial state, so that the Component can receive an OnChange event and draw itself accordingly. In a more
+            // complicated app, this would probably be an event fired by the router - initialising the Store appropriate to the current URL,
+            // but in this case there's only a single Store to initialise.
+            dispatcher.handleViewAction(new Bridge.NET.Test.Actions.StoreInitialised(store));
+
+            // Turning of spashscreen
+            eval("window.loadComplete();");
         }
     });
+
+    Bridge.define("Bridge.NET.Test.Components.AppContainer.State", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                NewMessage: null,
+                MessageHistory: null
+            }
+        },
+        ctor: function (newMessage, messageHistory) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.AppContainer.State.f1, newMessage);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.AppContainer.State.f2, messageHistory);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.AppContainer.State", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.AppContainer.State, {
+        f1: function (_) {
+            return _.getNewMessage();
+        },
+        f2: function (_) {
+            return _.getMessageHistory();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.AppContainer.Props", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Store: null,
+                Dispatcher: null
+            }
+        },
+        ctor: function (store, dispatcher) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.AppContainer.Props.f1, store);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.AppContainer.Props.f2, dispatcher);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.AppContainer.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.AppContainer.Props, {
+        f1: function (_) {
+            return _.getStore();
+        },
+        f2: function (_) {
+            return _.getDispatcher();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Portal.Props", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Fxs: null,
+                ShowStartboard: false,
+                Theme: 0
+            }
+        },
+        ctor: function (fxs, theme, showStartboard) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.Portal.Props.f1, fxs);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.Portal.Props.f2, showStartboard);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.Portal.Props.f3, theme);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.Portal.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.Portal.Props, {
+        f1: function (_) {
+            return _.getFxs();
+        },
+        f2: function (_) {
+            return _.getShowStartboard();
+        },
+        f3: function (_) {
+            return _.getTheme();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Portal.PortalTheme", {
+        $kind: "enum",
+        statics: {
+            Azure: 0,
+            Blue: 1,
+            Light: 2,
+            Black: 3
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Resources.Fxs", {
+        config: {
+            properties: {
+                Classes: null,
+                Text: null
+            },
+            init: function () {
+                this.Classes = new Bridge.NET.Test.Components.Azure.Resources.FxsClasses();
+                this.Text = new Bridge.NET.Test.Components.Azure.Resources.FxsTextRu();
+            }
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Resources.Fxs.Symbols", {
+        $kind: "enum",
+        statics: {
+            Hamburger: 15,
+            Plus: 16,
+            Ellipsis: 19,
+            CaretUp: 17,
+            Search: 14,
+            FxSymbol0_01c: 28
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Resources.FxsClasses", {
+        statics: {
+            selectClasses: function (names) {
+                if (names === void 0) { names = []; }
+                return Bridge.toArray(System.Linq.Enumerable.from(names).select($asm.$.Bridge.NET.Test.Components.Azure.Resources.FxsClasses.f1)).join(" ");
+            },
+            compose: function (name) {
+                return System.String.concat("Fxs-", Bridge.NET.Test.Helpers.StyleClassExtensionMethods.toCssClassName(name));
+            }
+        },
+        config: {
+            properties: {
+                Accent: null,
+                Avatarmenu: null,
+                AvatarmenuBilling: null,
+                AvatarmenuChangepassword: null,
+                AvatarmenuDropdown: null,
+                AvatarmenuDropdownTitle: null,
+                AvatarmenuFeedback: null,
+                AvatarmenuHeader: null,
+                AvatarmenuListSystem: null,
+                AvatarmenuListTenant: null,
+                AvatarmenuMyaccess: null,
+                AvatarmenuScrollviewer: null,
+                AvatarmenuSignout: null,
+                AvatarmenuTenant: null,
+                AvatarmenuTenantContainer: null,
+                AvatarmenuTenantImage: null,
+                AvatarmenuTenantName: null,
+                AvatarmenuTenantUri: null,
+                AvatarmenuUsername: null,
+                BgDirty: null,
+                BgError: null,
+                BgInfo: null,
+                BgNone: null,
+                BgOverlayDark: null,
+                BgPrimary: null,
+                BgSuccess: null,
+                BgUpsell: null,
+                BgWarning: null,
+                BgWhite: null,
+                Blade: null,
+                BladeAction: null,
+                BladeActions: null,
+                BladeActivationstyle: null,
+                BladeAppblade: null,
+                BladeBorder: null,
+                BladeClose: null,
+                BladeCommand: null,
+                Bladecontent: null,
+                BladeContent: null,
+                BladeContentContainer: null,
+                BladeContentContainerDefault: null,
+                BladeContentContainerDetails: null,
+                BladecontentProgress: null,
+                BladecontentUnlocked: null,
+                BladeContentWrapper: null,
+                BladeDialog: null,
+                BladeDialoghost: null,
+                BladeDisabled: null,
+                BladeDisabledMessage: null,
+                BladeHasActivation: null,
+                BladeHeader: null,
+                BladeHeaderIcon: null,
+                BladeInitializing: null,
+                BladeLoaded: null,
+                BladeLoadingStatus: null,
+                BladeLocked: null,
+                BladeMaximize: null,
+                BladeMaximized: null,
+                BladePin: null,
+                BladePlaceholder: null,
+                BladeProgress: null,
+                BladeProgressTranslucent: null,
+                BladeShieldTranslucent: null,
+                BladesizeMenu: null,
+                BladesizeSmall: null,
+                BladeStacklayout: null,
+                BladeStatusArrow: null,
+                BladeStatusbar: null,
+                BladeStatusbarText: null,
+                BladeStatusbarWrapper: null,
+                BladeStatusbg: null,
+                BladeStatusContainer: null,
+                BladeStatusIcon: null,
+                BladeStatusText: null,
+                BladeStatusTextContainer: null,
+                BladestyleApp: null,
+                BladestyleBasic: null,
+                BladestyleBasicwithcommands: null,
+                BladestyleContext: null,
+                BladestyleContextaction: null,
+                BladestyleCreate: null,
+                BladestyleHelp: null,
+                BladestyleHub: null,
+                BladestyleHubsubmenu: null,
+                BladeSummaryContainer: null,
+                BladeTitle: null,
+                BladeTitleContent: null,
+                BladeTitleDescription: null,
+                BladeTitleHelpIcon: null,
+                BladeTitleHelpLink: null,
+                BladeTitleImage: null,
+                BladeTitleSubtitle: null,
+                BladeTitleTitle: null,
+                BladeUnauthorized: null,
+                BladeWithcolumns: null,
+                BoxWrapper: null,
+                BrDirty: null,
+                Breadcrumb: null,
+                BreadcrumbCrumb: null,
+                BreadcrumbDivider: null,
+                BreadcrumbDropmenu: null,
+                BreadcrumbOverflow: null,
+                BreadcrumbWrapper: null,
+                BrError: null,
+                BrInfo: null,
+                BrPrimary: null,
+                BrSuccess: null,
+                BrWarning: null,
+                Button: null,
+                ButtonDefault: null,
+                ButtonDisabled: null,
+                CanUseMultiline: null,
+                Command: null,
+                CommandsContext: null,
+                Context: null,
+                ContextbladePlaceholder: null,
+                Contextpane: null,
+                ContextpaneButtonInner: null,
+                ContextpaneClose: null,
+                ContextpaneContent: null,
+                ContextpaneExpand: null,
+                ContextpaneLoading: null,
+                ContextpaneVisible: null,
+                Copyfield: null,
+                CopyfieldContainer: null,
+                CopyfieldCopied: null,
+                CopyfieldWrapper: null,
+                Cross: null,
+                DesktopNormal: null,
+                DesktopOrganize: null,
+                Dialogballoon: null,
+                DisplayNone: null,
+                DragDisable: null,
+                DragSurface: null,
+                Dropmenu: null,
+                DropmenuButton: null,
+                DropmenuContent: null,
+                DropmenuExtend: null,
+                DropmenuHidden: null,
+                DropmenuImage: null,
+                DropmenuInvisible: null,
+                DropmenuLeft: null,
+                DropmenuLineSeparator: null,
+                DropmenuListContent: null,
+                DropmenuListSystem: null,
+                DropmenuRight: null,
+                Ellipsis: null,
+                Errorpart: null,
+                ErrorpartClickable: null,
+                ExtensionFrame: null,
+                FillDirty: null,
+                FillError: null,
+                FillInfo: null,
+                FillNone: null,
+                FillSuccess: null,
+                FillUpsell: null,
+                FillWarning: null,
+                FillWhite: null,
+                Flowlayout: null,
+                FlowlayoutChildcontainer: null,
+                FlowlayoutDropPlaceholder: null,
+                FlowlayoutElement: null,
+                FlowlayoutLivepreview: null,
+                FlowlayoutResizehandle: null,
+                FlowlayoutResolutionguide: null,
+                Formdialog: null,
+                FormdialogButtons: null,
+                FormdialogDescription: null,
+                FormdialogForm: null,
+                FormdialogHeader: null,
+                FullHeight: null,
+                FullWidth: null,
+                GraphFill: null,
+                Header: null,
+                HiddenImportant: null,
+                HideAccessibleLabel: null,
+                HideInCustomize: null,
+                HideInNormal: null,
+                Highlight: null,
+                Hub: null,
+                Icon: null,
+                Indicator: null,
+                IndicatorAnimated: null,
+                Input: null,
+                IsFavorite: null,
+                Journey: null,
+                JourneyBreadcrumbOverflow: null,
+                JourneyLayout: null,
+                Journeys: null,
+                JourneysmenuContent: null,
+                JourneysmenuJourney: null,
+                JourneysmenuJourneyContent: null,
+                JourneysmenuJourneyNodata: null,
+                JourneysmenuJourneyNodataContent: null,
+                JourneysmenuJourneyWrapper: null,
+                JourneysmenuList: null,
+                JourneyTarget: null,
+                JourneyWithspacer: null,
+                Keyboardshortcuts: null,
+                KeyboardshortcutsCategory: null,
+                KeyboardshortcutsKey: null,
+                KeyboardshortcutsShortcut: null,
+                Lens: null,
+                LensButtonCollapse: null,
+                LensCollapsed: null,
+                LensFit: null,
+                LensLayout: null,
+                LensLayoutFlow: null,
+                LensTitle: null,
+                LensTitleContainer: null,
+                LensTitleHr: null,
+                Listpopup: null,
+                ListpopupItem: null,
+                ListpopupList: null,
+                Loading: null,
+                ManifestFrame: null,
+                Menu: null,
+                MenuAccount: null,
+                MenuBrowse: null,
+                MenuSettings: null,
+                Messagebox: null,
+                MessageboxButtons: null,
+                MessageboxConfirmation: null,
+                MessageboxHtml: null,
+                MessageboxText: null,
+                MessageboxTitle: null,
+                Modal: null,
+                ModalBottomTriangle: null,
+                ModalCanTransition: null,
+                ModalLeftTriangle: null,
+                ModalOverlay: null,
+                ModalOverlayDismiss: null,
+                ModalProgress: null,
+                ModalProgressCircle: null,
+                ModalProgressCurrent: null,
+                ModalRightTriangle: null,
+                Modaltooltip: null,
+                ModaltooltipButton: null,
+                ModaltooltipButtonContainer: null,
+                ModaltooltipClose: null,
+                ModaltooltipDescription: null,
+                ModaltooltipNext: null,
+                ModaltooltipNextIcon: null,
+                ModaltooltipPrev: null,
+                ModaltooltipPrevIcon: null,
+                ModaltooltipProgress: null,
+                ModaltooltipTitle: null,
+                ModalTopTriangle: null,
+                ModalTriangle: null,
+                Modalwelcomeprompt: null,
+                ModalwelcomepromptBody: null,
+                ModalwelcomepromptButtonContainer: null,
+                ModalwelcomepromptMaybelater: null,
+                ModalwelcomepromptStarttour: null,
+                ModalwelcomepromptTitle: null,
+                ModeDark: null,
+                ModeLight: null,
+                ModeLocked: null,
+                NotificationmenuButtonUnreadcount: null,
+                NotificationmenuButtonUnreadcountCircle: null,
+                NotificationmenuButtonUnreadcountOval: null,
+                NotificationmenuDropdown: null,
+                NotificationmenuIcon: null,
+                NotificationmenuIndeterminateProgress: null,
+                NotificationmenuList: null,
+                NotificationmenuNotification: null,
+                NotificationmenuNotificationclick: null,
+                NotificationmenuNotificationDescription: null,
+                NotificationmenuNotificationDetails: null,
+                NotificationmenuNotificationDismiss: null,
+                NotificationmenuNotificationExpand: null,
+                NotificationmenuNotificationExpanded: null,
+                NotificationmenuNotificationIcon: null,
+                NotificationmenuNotificationNodata: null,
+                NotificationmenuNotificationNodataContent: null,
+                NotificationmenuNotificationProgressbar: null,
+                NotificationmenuNotificationTitle: null,
+                NotificationmenuNotificationTitleIcon: null,
+                NotificationmenuNotificationTitleProgresstext: null,
+                NotificationmenuNotificationTitleSubtitle: null,
+                NotificationmenuNotificationTitleText: null,
+                Notificationspane: null,
+                NotificationspaneButtonUnreadcount: null,
+                NotificationspaneButtonUnreadcountCircle: null,
+                NotificationspaneButtonUnreadcountOval: null,
+                NotificationspaneDismiss: null,
+                NotificationspaneDismisscontainer: null,
+                NotificationspaneDismissitem: null,
+                NotificationspaneDismissitemdisabled: null,
+                NotificationspaneDismisslist: null,
+                NotificationspaneHeader: null,
+                NotificationspaneLabel: null,
+                NotificationspaneList: null,
+                NotificationspaneProgressbar: null,
+                NotificationspaneTitle: null,
+                NotificationspaneTop: null,
+                Nps: null,
+                NpsButtonHolder: null,
+                NpsCheckbox: null,
+                NpsComments: null,
+                NpsCommentstitle: null,
+                NpsHelp: null,
+                NpsLinkSurvey: null,
+                NpsScore: null,
+                NpsScoreSelected: null,
+                NpsSubmit: null,
+                NpsSurvey: null,
+                NpsTitle: null,
+                Overlay: null,
+                PanningCursor: null,
+                Panorama: null,
+                PanoramaScrollbounceOnleft: null,
+                PanoramaScrollbounceOnright: null,
+                PanoramaScrollbounceReset: null,
+                Part: null,
+                PartAssetpart: null,
+                PartAssetpartAsset: null,
+                PartAssetpartBadge: null,
+                PartAssetpartIcon: null,
+                PartAssetpartInner: null,
+                PartAssetpartOuter: null,
+                PartAssetpartStatus: null,
+                PartAssetpartType: null,
+                PartBlockuiShield: null,
+                PartButtonpart: null,
+                PartButtonpartAdornment: null,
+                PartButtonpartAssetname: null,
+                PartButtonpartDesc: null,
+                PartButtonpartExternallink: null,
+                PartButtonpartIconcontainer: null,
+                PartButtonpartInner: null,
+                PartButtonpartInnerPad: null,
+                PartButtonpartTextcontainer: null,
+                PartButtonpartTitle: null,
+                PartClickable: null,
+                PartCollectionpart: null,
+                PartCollectionpartMoreData: null,
+                PartCollectionpartNoRollupCount: null,
+                PartCollectionpartPartTitle: null,
+                PartCollectionpartRollupContainer: null,
+                PartCollectionpartRollupCount: null,
+                PartCollectionpartRollupForceshow: null,
+                PartCollectionpartRollupIcon: null,
+                PartCollectionpartRollupLabel: null,
+                PartColorWhite: null,
+                PartContent: null,
+                PartError: null,
+                PartErrorContent: null,
+                PartErrorDevmode: null,
+                PartErrorIcon: null,
+                PartErrorReason: null,
+                PartErrorSubtitle: null,
+                PartErrorText: null,
+                PartErrorTitle: null,
+                PartForTemplateBlade: null,
+                PartgalleryContainer: null,
+                PartgalleryLoadingStatus: null,
+                PartgalleryPartscontainer: null,
+                PartgalleryTitle: null,
+                PartgalleryTopcontainer: null,
+                PartIsV: null,
+                PartNoaccessmessage: null,
+                PartNoaccessmessageText: null,
+                PartNoaccessmessageTextsmall: null,
+                PartNoaccessmessageWithtitle: null,
+                PartNodata: null,
+                PartNodatamessage: null,
+                PartNodatamessageText: null,
+                PartNotfound: null,
+                PartNotfoundmessage: null,
+                PartNotfoundmessageText: null,
+                PartPartTitleVisible: null,
+                PartProperties: null,
+                PartPropertiesCopyfield: null,
+                PartPropertiesImage: null,
+                PartPropertiesPropertyWrapped: null,
+                PartPropertiesText: null,
+                PartResourcesummary: null,
+                PartResourcesummaryBottom: null,
+                PartResourcesummaryShortcuts: null,
+                PartSelected: null,
+                PartSelectedCommand: null,
+                PartSuccess: null,
+                PartTitle: null,
+                Popup: null,
+                PopupButton: null,
+                Portal: null,
+                PortalBackground: null,
+                PortalBackgroundPrimary: null,
+                PortalBackgroundSecondary: null,
+                PortalBgTxtBr: null,
+                PortalBorder: null,
+                PortalButtonPrimary: null,
+                PortalConsole: null,
+                PortalContent: null,
+                PortalContextpaneLeft: null,
+                PortalContextpaneRight: null,
+                PortalControlloadfailed: null,
+                PortalHover: null,
+                PortalMain: null,
+                PortalSelected: null,
+                PortalShield: null,
+                PortalShieldIcon: null,
+                PortalShieldIconError: null,
+                PortalShieldIconOnTopbar: null,
+                PortalShieldIconWarning: null,
+                PortalShieldModaldialog: null,
+                PortalShieldModaldialogOnJumpbar: null,
+                PortalSvg: null,
+                PortalSvgSecondary: null,
+                PortalText: null,
+                PortalTextPrimary: null,
+                PortalTip: null,
+                PortalTipContent: null,
+                PortalTitle: null,
+                Progress: null,
+                ProgressAnimated: null,
+                Progressbox: null,
+                ProgressboxProgressbar: null,
+                ProgressboxText: null,
+                ProgressDots: null,
+                Search: null,
+                Searchbox: null,
+                SearchExpanded: null,
+                SearchIcon: null,
+                Searching: null,
+                SearchNoJourneys: null,
+                Settingspane: null,
+                SettingspaneApply: null,
+                SettingspaneBody: null,
+                SettingspaneBottom: null,
+                SettingspaneCancel: null,
+                SettingspaneCustomize: null,
+                SettingspaneCustomizeIcon: null,
+                SettingspaneCustomizeLabel: null,
+                SettingspaneHeader: null,
+                SettingspaneItem: null,
+                SettingspaneLabel: null,
+                SettingspaneResetlayoutLink: null,
+                SettingspaneSeparator: null,
+                SettingspaneSubfilter: null,
+                SettingspaneTheme: null,
+                SettingspaneThemeContainer: null,
+                SettingspaneThemeRadio: null,
+                SettingspaneThemeSelection: null,
+                ShouldUseSingleLine: null,
+                ShowJourney: null,
+                ShowStartboard: null,
+                Sidebar: null,
+                SidebarBar: null,
+                SidebarBottom: null,
+                SidebarBrowse: null,
+                SidebarBrowseIcon: null,
+                SidebarBrowseLabel: null,
+                SidebarBrowseShown: null,
+                SidebarButtonFlex: null,
+                SidebarCloud: null,
+                SidebarCollapseButton: null,
+                SidebarContent: null,
+                SidebarCreate: null,
+                SidebarCreateIcon: null,
+                SidebarCreateLabel: null,
+                SidebarDefaultviewenabled: null,
+                SidebarDraggable: null,
+                SidebarDroppable: null,
+                SidebarExternal: null,
+                SidebarFavorites: null,
+                SidebarFlyout: null,
+                SidebarFlyoutIsHidden: null,
+                SidebarFlyoutIsOpen: null,
+                SidebarHandle: null,
+                SidebarHome: null,
+                SidebarIcon: null,
+                SidebarIsCollapsed: null,
+                SidebarItem: null,
+                SidebarItemIcon: null,
+                SidebarItemLink: null,
+                SidebarLabel: null,
+                SidebarMiddle: null,
+                SidebarShowIfCollapsed: null,
+                SidebarShowIfExpanded: null,
+                SidebarStar: null,
+                SidebarTop: null,
+                Splashscreen: null,
+                SplashscreenLoaderContainer: null,
+                SplashscreenLogo: null,
+                Stacklayout: null,
+                StacklayoutChild: null,
+                StacklayoutHorizontal: null,
+                StacklayoutVertical: null,
+                Startboard: null,
+                StartboardActions: null,
+                StartboardButton: null,
+                StartboardButtonBrowse: null,
+                StartboardButtonClone: null,
+                StartboardButtonContainer: null,
+                StartboardButtonDelete: null,
+                StartboardButtonEdit: null,
+                StartboardButtonFullscreen: null,
+                StartboardButtonIcon: null,
+                StartboardButtonMigrate: null,
+                StartboardButtonNew: null,
+                StartboardButtonShare: null,
+                StartboardButtonText: null,
+                StartboardDropdown: null,
+                StartboardDropdownBrowseall: null,
+                StartboardDropdownItem: null,
+                StartboardDropdownSubscriptions: null,
+                StartboardHeader: null,
+                StartboardHeaderMigration: null,
+                StartboardHeaderNormal: null,
+                StartboardItemContainer: null,
+                StartboardItemIcon: null,
+                StartboardItemTitle: null,
+                StartboardLayout: null,
+                StartboardLoadanimation: null,
+                StartboardLoading: null,
+                StartboardMessageBody: null,
+                StartboardMessageContainer: null,
+                StartboardMessageTitle: null,
+                StartboardMigration: null,
+                StartboardNotfound: null,
+                StartboardTarget: null,
+                StartboardTitle: null,
+                StartboardTitleEdit: null,
+                StartboardTitleNext: null,
+                TextDirty: null,
+                TextError: null,
+                TextInfo: null,
+                TextLink: null,
+                TextSuccess: null,
+                TextWarning: null,
+                TextWhite: null,
+                ThemeAzure: null,
+                ThemeBlue: null,
+                ThemeContextStart: null,
+                ThemeDark: null,
+                ThemeLight: null,
+                Tile: null,
+                TileActionbar: null,
+                TileActionbarAction: null,
+                TileActionbarActionlist: null,
+                TileActionbarActionPressed: null,
+                TileActionbarCommandUnpinfromstartboard: null,
+                TileActionbarcontainer: null,
+                TileActions: null,
+                TileActionsContextmenu: null,
+                TileContainer: null,
+                TileContent: null,
+                TileOverlay: null,
+                TileProgress: null,
+                TileProgressTransparent: null,
+                TileSelected: null,
+                TileSelectedfromhover: null,
+                TilesizeFittocontainer: null,
+                TilesizeFullwidthfitheight: null,
+                TilesizeHero: null,
+                TilesizeHerotall: null,
+                TilesizeHerowide: null,
+                TilesizeHerowidefitheight: null,
+                TilesizeLarge: null,
+                TilesizeMini: null,
+                TilesizeNormal: null,
+                TilesizeSmall: null,
+                TilesizeTall: null,
+                TilesizeWide: null,
+                Toast: null,
+                ToastClose: null,
+                ToastContent: null,
+                ToastDescription: null,
+                ToastHeader: null,
+                ToastIcon: null,
+                ToastItem: null,
+                ToastLink: null,
+                ToastProgressbar: null,
+                ToastTime: null,
+                ToastTitle: null,
+                Topbar: null,
+                TopbarAvatarmenu: null,
+                TopbarButton: null,
+                TopbarConsole: null,
+                TopbarContent: null,
+                TopbarDashboard: null,
+                TopbarDashboardChanged: null,
+                TopbarDashboardDiscard: null,
+                TopbarDashboardDoneCustomize: null,
+                TopbarDashboardMessage: null,
+                TopbarDashboardSave: null,
+                TopbarDashboardView: null,
+                TopbarDevmode: null,
+                TopbarExitCustomize: null,
+                TopbarExitCustomizeButton: null,
+                TopbarExitCustomizeMessage: null,
+                TopbarExitdevmode: null,
+                TopbarFeedback: null,
+                TopbarHelpmenu: null,
+                TopbarHome: null,
+                TopbarInput: null,
+                TopbarInternal: null,
+                TopbarJourneyIcon: null,
+                TopbarNotifications: null,
+                TopbarReportbug: null,
+                TopbarSearch: null,
+                TopbarSettings: null,
+                TopbarToast: null,
+                Trim: null,
+                TrimBorder: null,
+                TrimBtn: null,
+                TrimHover: null,
+                TrimSelected: null,
+                TrimSvg: null,
+                TrimSvgSecondary: null,
+                TrimText: null,
+                TrimTextPrimary: null,
+                TrimTitle: null,
+                Workaround: null
+            }
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.Resources.FxsClasses", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.Resources.FxsClasses, {
+        f1: function (x) {
+            return x.toLowerCase();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Resources.FxsClasses.ClassesWorkaround", {
+        config: {
+            properties: {
+                MsPortalFxSvgFlipHorizontal: "msportalfx-svg-flip-horizontal",
+                DropmenuDefaultWidth: "fxs-dropmenu-defaultWidth",
+                Base: "fxc-base"
+            }
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Resources.IFxsText", {
+        $kind: "interface"
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Resources.FxSymbolExtension", {
+        statics: {
+            ctor: function () {
+                var $t;
+                $t = Bridge.getEnumerator(System.Enum.getValues(Bridge.NET.Test.Components.Azure.Resources.Fxs.Symbols));
+                while ($t.moveNext()) {
+                    var value = Bridge.cast($t.getCurrent(), Bridge.NET.Test.Components.Azure.Resources.Fxs.Symbols);
+                    if (document.getElementById(Bridge.NET.Test.Components.Azure.Resources.FxSymbolExtension.toElementId(value)) == null) {
+                        throw new System.ArgumentException(System.String.format("Resource {0} was not found.", Bridge.NET.Test.Components.Azure.Resources.FxSymbolExtension.toHref(value)));
+                    }
+                }
+        },
+        toElementId: function (symbol) {
+            return System.String.format("FxSymbol0-{0:x3}", symbol);
+        },
+        toHref: function (symbol) {
+            return System.String.format("#{0}", Bridge.NET.Test.Components.Azure.Resources.FxSymbolExtension.toElementId(symbol));
+        }
+    }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.SideBar.State", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Collapsed: false,
+                FlyoutIsHidden: false
+            }
+        },
+        ctor: function (collapsed, flyoutIsHidden) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.State.f1, collapsed);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.State.f2, flyoutIsHidden);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.SideBar.State", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.SideBar.State, {
+        f1: function (_) {
+            return _.getCollapsed();
+        },
+        f2: function (_) {
+            return _.getFlyoutIsHidden();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.SideBar.Props", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Fxs: null,
+                Favorites: null,
+                Buttons: null
+            }
+        },
+        ctor: function (fxs, favorites, buttons) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.Props.f1, fxs);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.Props.f2, favorites);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.Props.f3, buttons);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.SideBar.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.SideBar.Props, {
+        f1: function (_) {
+            return _.getFxs();
+        },
+        f2: function (_) {
+            return _.getFavorites();
+        },
+        f3: function (_) {
+            return _.getButtons();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.SideBar.SideBarButton", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Label: null,
+                Action: null,
+                OpensExternal: false,
+                Icon: null
+            }
+        },
+        ctor: function (title, action, opensExternal, icon) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.SideBarButton.f1, title);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.SideBarButton.f2, action);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.SideBarButton.f3, opensExternal);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.SideBarButton.f4, icon);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.SideBar.SideBarButton", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.SideBar.SideBarButton, {
+        f1: function (_) {
+            return _.getLabel();
+        },
+        f2: function (_) {
+            return _.getAction();
+        },
+        f3: function (_) {
+            return _.getOpensExternal();
+        },
+        f4: function (_) {
+            return _.getIcon();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Svg.Props", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Symbol: 0
+            }
+        },
+        ctor: function (symbol) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.Svg.Props.f1, symbol);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.Svg.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.Svg.Props, {
+        f1: function (_) {
+            return _.getSymbol();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Topbar.Props", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Fxs: null,
+                ShowStartboard: false,
+                ShowPreview: false
+            }
+        },
+        ctor: function (fxs, showStartboard, showPreview) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.Topbar.Props.f1, fxs);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.Topbar.Props.f2, showStartboard);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.Topbar.Props.f3, showPreview);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.Topbar.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.Topbar.Props, {
+        f1: function (_) {
+            return _.getFxs();
+        },
+        f2: function (_) {
+            return _.getShowStartboard();
+        },
+        f3: function (_) {
+            return _.getShowPreview();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.TopbarSearch.State", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                IsExpanded: false
+            }
+        },
+        ctor: function (isExpanded) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch.State.f1, isExpanded);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.TopbarSearch.State", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch.State, {
+        f1: function (_) {
+            return _.getIsExpanded();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.TopbarSearch.Props", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Fxs: null,
+                JourneysShown: false,
+                ShowSearching: false
+            }
+        },
+        ctor: function (fxs, journeysShown, showSearching) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch.Props.f1, fxs);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch.Props.f2, journeysShown);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch.Props.f3, showSearching);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.TopbarSearch.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch.Props, {
+        f1: function (_) {
+            return _.getFxs();
+        },
+        f2: function (_) {
+            return _.getJourneysShown();
+        },
+        f3: function (_) {
+            return _.getShowSearching();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.MessageEditor.Props", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                ClassName: null,
+                Message: null,
+                OnChange: null,
+                OnSave: null
+            },
+            init: function () {
+                this.ClassName = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))();
+            }
+        },
+        ctor: function (className, message, onChange, onSave) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.MessageEditor.Props.f1, className);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.MessageEditor.Props.f2, message);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.MessageEditor.Props.f3, onChange);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.MessageEditor.Props.f4, onSave);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.MessageEditor.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.MessageEditor.Props, {
+        f1: function (_) {
+            return _.getClassName();
+        },
+        f2: function (_) {
+            return _.getMessage();
+        },
+        f3: function (_) {
+            return _.getOnChange();
+        },
+        f4: function (_) {
+            return _.getOnSave();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.MessageHistory.Props", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                ClassName: null,
+                Messages: null
+            },
+            init: function () {
+                this.ClassName = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))();
+            }
+        },
+        ctor: function (className, messages) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.MessageHistory.Props.f1, className);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.MessageHistory.Props.f2, messages);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.MessageHistory.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.MessageHistory.Props, {
+        f1: function (_) {
+            return _.getClassName();
+        },
+        f2: function (_) {
+            return _.getMessages();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.TextInput.Props", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                ClassName: null,
+                Disabled: false,
+                Content: null,
+                OnChange: null
+            },
+            init: function () {
+                this.ClassName = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))();
+            }
+        },
+        ctor: function (className, disabled, content, onChange) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.TextInput.Props.f1, className);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.TextInput.Props.f2, disabled);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.TextInput.Props.f3, content);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.TextInput.Props.f4, onChange);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.TextInput.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.TextInput.Props, {
+        f1: function (_) {
+            return _.getClassName();
+        },
+        f2: function (_) {
+            return _.getDisabled();
+        },
+        f3: function (_) {
+            return _.getContent();
+        },
+        f4: function (_) {
+            return _.getOnChange();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Helpers.Fluent", {
+        statics: {
+            className: function (classNames) {
+                if (classNames === void 0) { classNames = []; }
+                return new Bridge.NET.Test.Helpers.Fluent.FluentClassName().add(classNames);
+            }
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Helpers.Fluent.FluentClassName", {
+        statics: {
+            op_Implicit: function (obj) {
+                return Bridge.toArray(System.Linq.Enumerable.from(obj.classes).distinct()).join(" ");
+            }
+        },
+        classes: null,
+        config: {
+            init: function () {
+                this.classes = new (System.Collections.Generic.List$1(String))();
+            }
+        },
+        addIf: function (condition, classNames) {
+            if (classNames === void 0) { classNames = []; }
+            return condition() ? this.add(classNames) : this;
+        },
+        add: function (classNames) {
+            if (classNames === void 0) { classNames = []; }
+            this.classes.addRange(classNames);
+            return this;
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Helpers.IStyleClass", {
+        $kind: "interface"
+    });
+
+    Bridge.define("Bridge.NET.Test.Helpers.StyleClassExtensionMethods", {
+        statics: {
+            toClassesString: function (T, clasessList) {
+                return Bridge.toArray(System.Linq.Enumerable.from(clasessList).select($asm.$.Bridge.NET.Test.Helpers.StyleClassExtensionMethods.f1)).join(" ");
+            },
+            toCssClassName: function (name) {
+                return Bridge.NET.Test.Helpers.StyleClassExtensionMethods.toCssClassName$1(name, Bridge.NET.Test.Helpers.StyleClassSeparator.Hyphen);
+            },
+            toCssClassName$1: function (name, separator) {
+                name = [System.Text.RegularExpressions.Regex.replace(System.Text.RegularExpressions.Regex.replace(name, "[^a-zA-Z_-]", ""), "([a-zA-Z])(?=[A-Z])", "$1-")].join(Bridge.NET.Test.Helpers.StyleClassExtensionMethods.getSeparatorChar(separator)).toLowerCase();
+                if (name.length < 2) {
+                    throw new System.ArgumentException(System.String.format("Resulting class name is less than 2 symbols: \"{0}\"", name));
+                }
+                return name;
+            },
+            getSeparatorChar: function (separator) {
+                switch (separator) {
+                    case Bridge.NET.Test.Helpers.StyleClassSeparator.Underscope: 
+                        return "_";
+                    case Bridge.NET.Test.Helpers.StyleClassSeparator.Hyphen: 
+                        return "-";
+                    case Bridge.NET.Test.Helpers.StyleClassSeparator.None: 
+                        return "";
+                    default: 
+                        throw new System.ArgumentOutOfRangeException("separator", null, null, separator);
+                }
+            }
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Helpers.StyleClassExtensionMethods", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Helpers.StyleClassExtensionMethods, {
+        f1: function (x) {
+            return x.Bridge$NET$Test$Helpers$IStyleClass$toString();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Helpers.StyleClassSeparator", {
+        $kind: "enum",
+        statics: {
+            Underscope: 0,
+            Hyphen: 1,
+            None: 2
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Stores.AppUIStore", {
+        statics: {
+            updateValidationFor: function (messageEditState) {
+                if (messageEditState == null) {
+                    throw new System.ArgumentNullException("messageEditState");
+                }
+
+                return ProductiveRage.Immutable.ImmutabilityHelpers.with(ProductiveRage.Immutable.ImmutabilityHelpers.with(ProductiveRage.Immutable.ImmutabilityHelpers.with(messageEditState, $asm.$.Bridge.NET.Test.Stores.AppUIStore.f1, new ProductiveRage.Immutable.NonBlankTrimmedString(Bridge.referenceEquals(messageEditState.getTitle().getText().trim(), "") ? "Untitled" : messageEditState.getTitle().getText())), $asm.$.Bridge.NET.Test.Stores.AppUIStore.f2, Bridge.NET.Test.Stores.AppUIStore.setValidationError(messageEditState.getTitle(), Bridge.referenceEquals(messageEditState.getTitle().getText().trim(), ""), "Must enter a title")), $asm.$.Bridge.NET.Test.Stores.AppUIStore.f3, Bridge.NET.Test.Stores.AppUIStore.setValidationError(messageEditState.getContent(), Bridge.referenceEquals(messageEditState.getContent().getText().trim(), ""), "Must enter message content"));
+            },
+            setValidationError: function (textEditState, isInvalid, ifInvalid) {
+                if (textEditState == null) {
+                    throw new System.ArgumentNullException("textEditState");
+                }
+
+                return ProductiveRage.Immutable.ImmutabilityHelpers.with(textEditState, $asm.$.Bridge.NET.Test.Stores.AppUIStore.f4, ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString).op_Implicit(isInvalid ? new ProductiveRage.Immutable.NonBlankTrimmedString(ifInvalid) : null));
+            }
+        },
+        _saveActionRequestId: null,
+        newMessage: null,
+        messageHistory: null,
+        config: {
+            events: {
+                Change: null
+            }
+        },
+        ctor: function (dispatcher, messageApi) {
+            this.$initialize();
+            if (dispatcher == null) {
+                throw new System.ArgumentNullException("dispatcher");
+            }
+            if (messageApi == null) {
+                throw new System.ArgumentNullException("messageApi");
+            }
+
+            this.newMessage = this.getEmptyNewMessage();
+            this.messageHistory = ProductiveRage.Immutable.NonNullList$1(Bridge.NET.Test.API.SavedMessageDetails).getEmpty();
+
+            this._saveActionRequestId = null;
+
+            dispatcher.register(Bridge.fn.bind(this, function (message) {
+                Bridge.React.DispatcherMessageExtensions.if$1(Bridge.NET.Test.Actions.StoreInitialised, message, Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Stores.AppUIStore.f5), $asm.$.Bridge.NET.Test.Stores.AppUIStore.f6).Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$else(Bridge.NET.Test.Actions.MessageEditStateChanged, Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Stores.AppUIStore.f7)).Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$else(Bridge.NET.Test.Actions.MessageSaveRequested, Bridge.fn.bind(this, function (action) {
+                    this.newMessage = ProductiveRage.Immutable.ImmutabilityHelpers.with(this.newMessage, $asm.$.Bridge.NET.Test.Stores.AppUIStore.f8, true);
+                    this._saveActionRequestId = messageApi.Bridge$NET$Test$API$IReadAndWriteMessages$saveMessage(action.getMessage());
+                })).Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$else$1(Bridge.NET.Test.Actions.MessageSaveSucceeded, Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Stores.AppUIStore.f9), Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Stores.AppUIStore.f10)).Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$else(Bridge.NET.Test.Actions.MessageHistoryUpdated, Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Stores.AppUIStore.f11)).Bridge$React$DispatcherMessageExtensions$IMatchDispatcherMessages$ifAnyMatched(Bridge.fn.cacheBind(this, this.onChange));
+            }));
+        },
+        getEmptyNewMessage: function () {
+            return Bridge.NET.Test.Stores.AppUIStore.updateValidationFor(new Bridge.NET.Test.ViewModels.MessageEditState(new ProductiveRage.Immutable.NonBlankTrimmedString("Untitled"), new Bridge.NET.Test.ViewModels.TextEditState.ctor(""), new Bridge.NET.Test.ViewModels.TextEditState.ctor(""), false));
+        },
+        onChange: function () {
+            !Bridge.staticEquals(this.Change, null) ? this.Change() : null;
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Stores.AppUIStore", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Stores.AppUIStore, {
+        f1: function (_) {
+            return _.getCaption();
+        },
+        f2: function (_) {
+            return _.getTitle();
+        },
+        f3: function (_) {
+            return _.getContent();
+        },
+        f4: function (_) {
+            return _.getValidationError();
+        },
+        f5: function (action) {
+            return Bridge.referenceEquals(action.getStore(), this);
+        },
+        f6: function (action) {
+            // When it's time for a Store to be initialised (to set its initial state and call OnChange to let any interested Components know
+            // that it's ready), a StoreInitialised action will be dispatched that references the Store. In a more complicated app, a router
+            // might choose an initial Store based upon the current URL. (We don't need to do anything within this callback, we just need to
+            // match the StoreInitialised so that IfAnyMatched will fire and call OnChange).
+        },
+        f7: function (action) {
+            this.newMessage = Bridge.NET.Test.Stores.AppUIStore.updateValidationFor(action.getNewState());
+        },
+        f8: function (_) {
+            return _.getIsSaveInProgress();
+        },
+        f9: function (action) {
+            return Bridge.referenceEquals(action.getRequestId(), this._saveActionRequestId);
+        },
+        f10: function (action) {
+            // The API's SaveMessage function will fire a MessageSaveSucceeded action when (if) the save is successful and then a subsequent
+            // MessageHistoryUpdated action after it's automatically retrieved fresh data, including the newly-saved item (so we need only
+            // reset the form here, a MessageHistoryUpdated should be along shortly containig the new item..) 
+            this._saveActionRequestId = null;
+            this.newMessage = this.getEmptyNewMessage();
+        },
+        f11: function (action) {
+            this.messageHistory = action.getMessages();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.ViewModels.MessageEditState", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Caption: null,
+                Title: null,
+                Content: null,
+                IsSaveInProgress: false
+            }
+        },
+        ctor: function (caption, title, content, isSaveInProgress) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.ViewModels.MessageEditState.f1, caption);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.ViewModels.MessageEditState.f2, title);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.ViewModels.MessageEditState.f3, content);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.ViewModels.MessageEditState.f4, isSaveInProgress);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.ViewModels.MessageEditState", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.ViewModels.MessageEditState, {
+        f1: function (_) {
+            return _.getCaption();
+        },
+        f2: function (_) {
+            return _.getTitle();
+        },
+        f3: function (_) {
+            return _.getContent();
+        },
+        f4: function (_) {
+            return _.getIsSaveInProgress();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.ViewModels.TextEditState", {
+        inherits: [ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                Text: null,
+                ValidationError: null
+            },
+            init: function () {
+                this.ValidationError = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))();
+            }
+        },
+        ctor: function (text) {
+            Bridge.NET.Test.ViewModels.TextEditState.$ctor1.call(this, text, ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString).getMissing());
+        },
+        $ctor1: function (text, validationError) {
+            this.$initialize();
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.ViewModels.TextEditState.f1, text);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.ViewModels.TextEditState.f2, validationError);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.ViewModels.TextEditState", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.ViewModels.TextEditState, {
+        f1: function (_) {
+            return _.getText();
+        },
+        f2: function (_) {
+            return _.getValidationError();
+        }
+    });
+
+    Bridge.define("ResourcePack.RequireResourceAttribute", {
+        inherits: [System.Attribute],
+        statics: {
+            config: {
+                properties: {
+                    ResourcesVariableName: "EmbeddedResources"
+                }
+            }
+        },
+        config: {
+            properties: {
+                ResourceKey: null,
+                Priority: 0
+            }
+        },
+        ctor: function (resourceKey, priority) {
+            if (priority === void 0) { priority = 0; }
+
+            this.$initialize();
+            System.Attribute.ctor.call(this);
+            resourceKey = resourceKey.trim();
+            if (System.String.isNullOrWhiteSpace(resourceKey)) {
+                throw new System.ArgumentException(System.String.format("{0} should contain valid path", "resourceKey"));
+            }
+
+            this.setResourceKey(resourceKey);
+            this.setPriority(priority);
+        }
+    });
+
+    /** @namespace Bridge.NET.Test.API */
+
+    /**
+     * In a real application, this would talk to the server to send and retrieve data - to keep this example simple, it handles all of the data internally
+     (but introduces a few artificial delays to simulate the server communications)
+     *
+     * @public
+     * @class Bridge.NET.Test.API.MessageApi
+     * @implements  Bridge.NET.Test.API.IReadAndWriteMessages
+     */
+    Bridge.define("Bridge.NET.Test.API.MessageApi", {
+        inherits: [Bridge.NET.Test.API.IReadAndWriteMessages],
+        _dispatcher: null,
+        _messages: null,
+        config: {
+            alias: [
+            "saveMessage", "Bridge$NET$Test$API$IReadAndWriteMessages$saveMessage",
+            "getMessages", "Bridge$NET$Test$API$IReadAndWriteMessages$getMessages"
+            ]
+        },
+        ctor: function (dispatcher) {
+            this.$initialize();
+            if (dispatcher == null) {
+                throw new System.ArgumentNullException("dispatcher");
+            }
+
+            this._dispatcher = dispatcher;
+            this._messages = ProductiveRage.Immutable.NonNullList$1(Bridge.NET.Test.API.SavedMessageDetails).getEmpty();
+
+            // To further mimic a server-based API (where other people may be recording messages of their own), after a 10s delay a periodic task will be
+            // executed to retrieve a new message
+            window.setTimeout(Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.API.MessageApi.f1), 10000);
+        },
+        /**
+         * A MessageSaveSucceeded action will be dispatched when this succeeds, the action's RequestId will match that returned here - after
+         this, the API wrapper will automatically trigger a re-load and a MessageHistoryUpdated action will be dispatched once the new,
+         expanded set of messages is available
+         *
+         * @instance
+         * @public
+         * @this Bridge.NET.Test.API.MessageApi
+         * @memberof Bridge.NET.Test.API.MessageApi
+         * @param   {Bridge.NET.Test.API.MessageDetails}    message
+         * @return  {ProductiveRage.Immutable.RequestId}
+         */
+        saveMessage: function (message) {
+            if (message == null) {
+                throw new System.ArgumentNullException("message");
+            }
+
+            var requestId = new ProductiveRage.Immutable.RequestId();
+            window.setTimeout(Bridge.fn.bind(this, function () {
+                this._messages = this._messages.add(new Bridge.NET.Test.API.SavedMessageDetails(this._messages.getCount(), message));
+                this._dispatcher.handleServerAction(new Bridge.NET.Test.Actions.MessageSaveSucceeded(requestId));
+                window.setTimeout(Bridge.fn.bind(this, function () {
+                    this.dispatchHistoryUpdatedAction(requestId);
+                }), 500);
+            }), 1000);
+            return requestId;
+        },
+        /**
+         * A MessageHistoryUpdated action will be dispatched when this succeeds, the action's RequestId will match that returned here
+         *
+         * @instance
+         * @public
+         * @this Bridge.NET.Test.API.MessageApi
+         * @memberof Bridge.NET.Test.API.MessageApi
+         * @return  {ProductiveRage.Immutable.RequestId}
+         */
+        getMessages: function () {
+            var requestId = new ProductiveRage.Immutable.RequestId();
+            window.setTimeout(Bridge.fn.bind(this, function () {
+                this.dispatchHistoryUpdatedAction(requestId);
+            }), 1000);
+            return requestId;
+        },
+        dispatchHistoryUpdatedAction: function (requestId) {
+            // ToArray is used to return a clone of the message set - otherwise, the caller would end up with a list that is updated when the internal
+            // reference within this class is updated (which sounds convenient but it's not the behaviour that would be exhibited if this was "API"
+            // was really persisting messages to a server somewhere)
+            this._dispatcher.handleServerAction(new Bridge.NET.Test.Actions.MessageHistoryUpdated(requestId, this._messages));
+        },
+        getChuckNorrisFact: function () {
+            var request = new XMLHttpRequest();
+            request.responseType = "json";
+            request.onreadystatechange = Bridge.fn.bind(this, function () {
+                if (request.readyState !== 4) {
+                    return;
+                }
+
+                if ((request.status === 200) || (request.status === 304)) {
+                    try {
+                        var apiResponse = request.response;
+                        if ((Bridge.referenceEquals(apiResponse.type, "success")) && (apiResponse.value != null) && !System.String.isNullOrWhiteSpace(apiResponse.value.joke)) {
+                            // The Chuck Norris Facts API (http://www.icndb.com/api/) returns strings html-encoded, so they need decoding before
+                            // be wrapped up in a MessageDetails instance
+                            this._messages = this._messages.add(new Bridge.NET.Test.API.SavedMessageDetails(this._messages.getCount(), new Bridge.NET.Test.API.MessageDetails(new ProductiveRage.Immutable.NonBlankTrimmedString("Fact"), new ProductiveRage.Immutable.NonBlankTrimmedString(this.htmlDecode(apiResponse.value.joke)))));
+                            this.dispatchHistoryUpdatedAction(new ProductiveRage.Immutable.RequestId());
+                            return;
+                        }
+                    }
+                    catch ($e1) {
+                        $e1 = System.Exception.create($e1);
+                        // Ignore any error and drop through to the fallback message-generator below
+                    }
+                }
+                this._messages = this._messages.add(new Bridge.NET.Test.API.SavedMessageDetails(this._messages.getCount(), new Bridge.NET.Test.API.MessageDetails(new ProductiveRage.Immutable.NonBlankTrimmedString("Fact"), new ProductiveRage.Immutable.NonBlankTrimmedString("API call failed when polling for server content :("))));
+                this.dispatchHistoryUpdatedAction(new ProductiveRage.Immutable.RequestId());
+            });
+            request.open("GET", "http://api.icndb.com/jokes/random");
+            request.send();
+        },
+        htmlDecode: function (value) {
+            if (value == null) {
+                throw new System.ArgumentNullException("value");
+            }
+
+            var wrapper = document.createElement("div");
+            wrapper.innerHTML = value;
+            return wrapper.textContent;
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.API.MessageApi", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.API.MessageApi, {
+        f1: function () {
+            window.setInterval(Bridge.fn.cacheBind(this, this.getChuckNorrisFact), 5000);
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.AppContainer", {
+        inherits: [Bridge.React.Component$2(Bridge.NET.Test.Components.AppContainer.Props,ProductiveRage.Immutable.Optional$1(Bridge.NET.Test.Components.AppContainer.State))],
+        ctor: function (store, dispatcher) {
+            this.$initialize();
+            Bridge.React.Component$2(Bridge.NET.Test.Components.AppContainer.Props,ProductiveRage.Immutable.Optional$1(Bridge.NET.Test.Components.AppContainer.State)).ctor.call(this, new Bridge.NET.Test.Components.AppContainer.Props(store, dispatcher));
+        },
+        componentDidMount: function () {
+            this.getprops().getStore().addChange(Bridge.fn.cacheBind(this, this.storeChanged));
+        },
+        componentWillUnmount: function () {
+            this.getprops().getStore().removeChange(Bridge.fn.cacheBind(this, this.storeChanged));
+        },
+        storeChanged: function () {
+            this.setWrappedState(ProductiveRage.Immutable.Optional$1(Bridge.NET.Test.Components.AppContainer.State).op_Implicit(new Bridge.NET.Test.Components.AppContainer.State(this.getprops().getStore().newMessage, this.getprops().getStore().messageHistory)));
+        },
+        render: function () {
+            // If state has no valueyet, then the Store has not been initialised and its OnChange event has not been called - in this case, we are not ready to
+            // render anything and so should return null here
+            if (!this.getstate().getIsDefined()) {
+                return null;
+            }
+
+            // A good guideline to follow with stateful components is that the State reference should contain everything required to draw the components and
+            // props should only be used to access a Dispatcher reference to deal with callbacks from those components
+            return React.DOM.div(null, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Portal.Props).op_Implicit(new Bridge.NET.Test.Components.Azure.Portal(new Bridge.NET.Test.Components.Azure.Resources.Fxs(), Bridge.NET.Test.Components.Azure.Portal.PortalTheme.Azure, false)));
+            //return DOM.Div(null,
+            //	new MessageEditor(
+            //		className: new NonBlankTrimmedString("message"),
+            //		message: state.Value.NewMessage,
+            //		onChange: newState => props.Dispatcher.HandleViewAction(new MessageEditStateChanged(newState)),
+            //		onSave: () =>
+            //		{
+            //			// No validation is required here since the MessageEditor shouldn't let OnSave be called if the current message state is invalid
+            //			// (ie. if either field has a ValidationMessage). In some applications, it is preferred that validation messages not be shown
+            //			// until a save request is attempted (in which case some additional validation WOULD be performed here), but this app keeps
+            //			// things simpler by showing validation messages for all inputs until they have acceptable values (meaning that the first
+            //			// time the form is draw, it has validation messages displayed even though the user hasn't interacted with it yet).
+            //			props.Dispatcher.HandleViewAction(new MessageSaveRequested(
+            //				new MessageDetails(
+            //					new NonBlankTrimmedString(state.Value.NewMessage.Title.Text),
+            //					new NonBlankTrimmedString(state.Value.NewMessage.Content.Text)
+            //				)
+            //			));
+            //		}
+            //	),
+            //	new MessageHistory(className: new NonBlankTrimmedString("history"), messages: state.Value.MessageHistory)
+            //);
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Portal", {
+        inherits: [Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Portal.Props)],
+        ctor: function (fxs, theme, showStartboard) {
+            this.$initialize();
+            Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Portal.Props).ctor.call(this, new Bridge.NET.Test.Components.Azure.Portal.Props(fxs, theme, showStartboard));
+        },
+        getClasses: function () {
+            return this.getprops().getFxs().getClasses();
+        },
+        getText: function () {
+            return this.getprops().getFxs().getText();
+        },
+        render: function () {
+            return React.DOM.div({ id: "web-container", className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getPortal(), this.getClasses().getDesktopNormal()]).add([this.getprops().getShowStartboard() ? this.getClasses().getShowStartboard() : this.getClasses().getShowJourney()])) }, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Topbar.Props).op_Implicit(new Bridge.NET.Test.Components.Azure.Topbar(this.getprops().getFxs(), true, true)));
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Resources.FxsTextRu", {
+        inherits: [Bridge.NET.Test.Components.Azure.Resources.IFxsText],
+        config: {
+            properties: {
+                SearchTooltip: "����� �������� (����������)",
+                ProductName: "Microsoft Azure",
+                DashboardTooltip: "������� � ������ �����������",
+                InternalText: "��������������� ������",
+                BrowseText: "More services",
+                CreateText: "�������",
+                ShowMenu: "�������� ����",
+                ExitCustomizeText: "����������, ������������ � ����������� ������, � ����� ������� �� ������.",
+                ExitCustomizeButton: "��������� ���������"
+            },
+            alias: [
+            "getSearchTooltip", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$getSearchTooltip",
+            "setSearchTooltip", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$setSearchTooltip",
+            "getProductName", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$getProductName",
+            "setProductName", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$setProductName",
+            "getDashboardTooltip", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$getDashboardTooltip",
+            "setDashboardTooltip", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$setDashboardTooltip",
+            "getInternalText", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$getInternalText",
+            "setInternalText", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$setInternalText",
+            "getBrowseText", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$getBrowseText",
+            "setBrowseText", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$setBrowseText",
+            "getCreateText", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$getCreateText",
+            "setCreateText", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$setCreateText",
+            "getShowMenu", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$getShowMenu",
+            "setShowMenu", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$setShowMenu",
+            "getExitCustomizeText", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$getExitCustomizeText",
+            "setExitCustomizeText", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$setExitCustomizeText",
+            "getExitCustomizeButton", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$getExitCustomizeButton",
+            "setExitCustomizeButton", "Bridge$NET$Test$Components$Azure$Resources$IFxsText$setExitCustomizeButton"
+            ]
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.SideBar", {
+        inherits: [Bridge.React.Component$2(Bridge.NET.Test.Components.Azure.SideBar.Props,Bridge.NET.Test.Components.Azure.SideBar.State)],
+        ctor: function (fxs, favorites, buttons) {
+            this.$initialize();
+            Bridge.React.Component$2(Bridge.NET.Test.Components.Azure.SideBar.Props,Bridge.NET.Test.Components.Azure.SideBar.State).ctor.call(this, new Bridge.NET.Test.Components.Azure.SideBar.Props(fxs, favorites, buttons));
+        },
+        getClasses: function () {
+            return this.getprops().getFxs().getClasses();
+        },
+        getText: function () {
+            return this.getprops().getFxs().getText();
+        },
+        render: function () {
+            return React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebar(), this.getClasses().getTrimBorder()]).addIf(Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.f1), [this.getClasses().getSidebar()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarBar(), this.getClasses().getTrim(), this.getClasses().getTrimText()])) }, this.renderSidebarTop(), this.renderSidebarMiddle(), this.renderSidebarBottom()));
+        },
+        renderSidebarTop: function () {
+            return React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarTop()])) }, React.DOM.button({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarCollapseButton(), this.getClasses().getTrimSvg()])), title: this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getShowMenu(), onClick: Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.f3) }, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Svg.Props).op_Implicit(new Bridge.NET.Test.Components.Azure.Svg(Bridge.NET.Test.Components.Azure.Resources.Fxs.Symbols.Hamburger))), React.DOM.button({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarCreate(), this.getClasses().getTrimHover(), this.getClasses().getTrimBorder()])), title: this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getCreateText() }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarButtonFlex()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarCreateIcon(), this.getClasses().getFillSuccess()])) }, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Svg.Props).op_Implicit(new Bridge.NET.Test.Components.Azure.Svg(Bridge.NET.Test.Components.Azure.Resources.Fxs.Symbols.Plus)))), React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarCreateLabel(), this.getClasses().getSidebarShowIfExpanded(), this.getClasses().getTrimText()])) }, this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getCreateText())));
+        },
+        renderSidebarMiddle: function () {
+            return React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarMiddle()])) }, React.DOM.ul({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarFavorites()])) }, System.Linq.Enumerable.from(this.getprops().getFavorites().select(Object, Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.f4))).toArray()));
+        },
+        renderSidebarBottom: function () {
+            return React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarBottom()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarBrowse(), this.getClasses().getTrimHover(), this.getClasses().getMenuBrowse()])), title: this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getBrowseText() }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarButtonFlex()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarBrowseLabel(), this.getClasses().getTrimText(), this.getClasses().getSidebarShowIfExpanded()])) }, this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getBrowseText()), React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarBrowseIcon(), this.getClasses().getTrimSvg()])) }, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Svg.Props).op_Implicit(new Bridge.NET.Test.Components.Azure.Svg(Bridge.NET.Test.Components.Azure.Resources.Fxs.Symbols.CaretUp))))), React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarFlyout(), this.getClasses().getPopup(), this.getClasses().getPortalBgTxtBr()]).add([this.getstate().getFlyoutIsHidden() ? this.getClasses().getSidebarFlyoutIsHidden() : this.getClasses().getSidebarFlyoutIsOpen()]).addIf(Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.Azure.SideBar.f5), [this.getClasses().getSidebarBrowseShown()])) }, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Svg.Props).op_Implicit(new Bridge.NET.Test.Components.Azure.Svg(Bridge.NET.Test.Components.Azure.Resources.Fxs.Symbols.CaretUp))));
+        },
+        getInitialState: function () {
+            return new Bridge.NET.Test.Components.Azure.SideBar.State(true, true);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.SideBar", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.SideBar, {
+        f1: function () {
+            return this.getstate().getCollapsed();
+        },
+        f2: function (_) {
+            return _.getCollapsed();
+        },
+        f3: function (e) {
+            this.setWrappedState(ProductiveRage.Immutable.ImmutabilityHelpers.with(this.getstate(), $asm.$.Bridge.NET.Test.Components.Azure.SideBar.f2, !this.getstate().getCollapsed()));
+        },
+        f4: function (fav, index) {
+            return React.DOM.li({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarItem(), this.getClasses().getTrimHover(), this.getClasses().getSidebarDraggable(), this.getClasses().getSidebarDraggable(), this.getClasses().getTrimBorder()])) }, React.DOM.a({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarItemLink(), this.getClasses().getTrimText()])), title: fav.getLabel() }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarIcon(), this.getClasses().getTrimSvg()])) }, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Svg.Props).op_Implicit(fav.getIcon())), React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarLabel(), this.getClasses().getSidebarShowIfExpanded()])) }, fav.getLabel()), React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarExternal(), this.getClasses().getSidebarShowIfExpanded()])) }), React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSidebarHandle(), this.getClasses().getTrimSvgSecondary()])) }, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Svg.Props).op_Implicit(new Bridge.NET.Test.Components.Azure.Svg(Bridge.NET.Test.Components.Azure.Resources.Fxs.Symbols.Ellipsis)))));
+        },
+        f5: function () {
+            return this.getstate().getFlyoutIsHidden();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Svg", {
+        inherits: [Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Svg.Props)],
+        ctor: function (symbol) {
+            this.$initialize();
+            Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Svg.Props).ctor.call(this, new Bridge.NET.Test.Components.Azure.Svg.Props(symbol));
+        },
+        render: function () {
+            return React.createElement("svg", { style: Bridge.React.ReactStyle.ctor({ width: "100%", height: "100%" }) }, React.createElement("use", { href: Bridge.NET.Test.Components.Azure.Resources.FxSymbolExtension.toHref(this.getprops().getSymbol()) }, System.Linq.Enumerable.from(null).toArray()));
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.Topbar", {
+        inherits: [Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Topbar.Props)],
+        ctor: function (fxs, showStartboard, showPreview) {
+            this.$initialize();
+            Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Topbar.Props).ctor.call(this, new Bridge.NET.Test.Components.Azure.Topbar.Props(fxs, showStartboard, showPreview));
+        },
+        getClasses: function () {
+            return this.getprops().getFxs().getClasses();
+        },
+        getText: function () {
+            return this.getprops().getFxs().getText();
+        },
+        render: function () {
+            return React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getTopbar()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getTopbarExitCustomize()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getTopbarExitCustomizeMessage()])) }, this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getExitCustomizeText()), React.DOM.button({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getTopbarExitCustomizeButton(), this.getClasses().getButton(), this.getClasses().getPortalButtonPrimary()])) }, this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getExitCustomizeButton())), React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getTopbarContent(), this.getClasses().getHideInCustomize()])) }, this.getprops().getShowPreview() ? React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getTopbarInternal(), this.getClasses().getBgWarning()])) }, this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getInternalText()) : null, React.DOM.a({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getTopbarHome(), this.getClasses().getTrimTextPrimary(), this.getClasses().getTrimHover()])), title: this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getDashboardTooltip(), href: "#" }, this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getProductName()), this.renderBreadcrumb(), Bridge.React.Component$2(Bridge.NET.Test.Components.Azure.TopbarSearch.Props,Bridge.NET.Test.Components.Azure.TopbarSearch.State).op_Implicit$1(new Bridge.NET.Test.Components.Azure.TopbarSearch(this.getprops().getFxs(), false, false))));
+        },
+        renderBreadcrumb: function () {
+            return React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getBreadcrumb()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getBreadcrumbWrapper()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getBreadcrumbDropmenu()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getDropmenu()])) }, React.DOM.button({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getDropmenuButton(), this.getClasses().getPopupButton()])) }, "�"), React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getDropmenuContent(), this.getClasses().getTextLink(), this.getClasses().getPopup(), this.getClasses().getPortalBgTxtBr(), this.getClasses().getWorkaround().getDropmenuDefaultWidth(), this.getClasses().getDropmenuRight(), this.getClasses().getDropmenuInvisible()])) }, React.DOM.ul({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getBreadcrumbOverflow()])) }))))));
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.Azure.TopbarSearch", {
+        inherits: [Bridge.React.Component$2(Bridge.NET.Test.Components.Azure.TopbarSearch.Props,Bridge.NET.Test.Components.Azure.TopbarSearch.State)],
+        ctor: function (fxs, journeysShown, showSearching) {
+            this.$initialize();
+            Bridge.React.Component$2(Bridge.NET.Test.Components.Azure.TopbarSearch.Props,Bridge.NET.Test.Components.Azure.TopbarSearch.State).ctor.call(this, new Bridge.NET.Test.Components.Azure.TopbarSearch.Props(fxs, journeysShown, showSearching));
+        },
+        getClasses: function () {
+            return this.getprops().getFxs().getClasses();
+        },
+        getText: function () {
+            return this.getprops().getFxs().getText();
+        },
+        render: function () {
+            return React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getTopbarSearch(), this.getClasses().getSearch()])), title: this.getText().Bridge$NET$Test$Components$Azure$Resources$IFxsText$getSearchTooltip() }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSearch()]).addIf(Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch.f1), [this.getClasses().getSearchExpanded()]).addIf(Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch.f2), [this.getClasses().getSearchNoJourneys()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getBoxWrapper()]).addIf(Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch.f3), [this.getClasses().getSearching()])) }, React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getIcon(), this.getClasses().getWorkaround().getMsPortalFxSvgFlipHorizontal()])) }, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.Azure.Svg.Props).op_Implicit(new Bridge.NET.Test.Components.Azure.Svg(Bridge.NET.Test.Components.Azure.Resources.Fxs.Symbols.Search))), React.DOM.div({ className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.className([this.getClasses().getSearchbox(), this.getClasses().getTopbarInput(), this.getClasses().getWorkaround().getBase()])) }))));
+        },
+        getInitialState: function () {
+            return new Bridge.NET.Test.Components.Azure.TopbarSearch.State(false);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.Azure.TopbarSearch", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.Azure.TopbarSearch, {
+        f1: function () {
+            return this.getstate().getIsExpanded();
+        },
+        f2: function () {
+            return !this.getprops().getJourneysShown();
+        },
+        f3: function () {
+            return this.getprops().getShowSearching();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.MessageEditor", {
+        inherits: [Bridge.React.PureComponent$1(Bridge.NET.Test.Components.MessageEditor.Props)],
+        ctor: function (className, message, onChange, onSave) {
+            this.$initialize();
+            Bridge.React.PureComponent$1(Bridge.NET.Test.Components.MessageEditor.Props).ctor.call(this, new Bridge.NET.Test.Components.MessageEditor.Props(className, message, onChange, onSave));
+        },
+        render: function () {
+            var formIsInvalid = this.getprops().getMessage().getTitle().getValidationError().getIsDefined() || this.getprops().getMessage().getContent().getValidationError().getIsDefined();
+            var isSaveDisabled = formIsInvalid || this.getprops().getMessage().getIsSaveInProgress();
+            return React.DOM.fieldset({ className: ProductiveRage.Immutable.NonBlankTrimmedString.op_Implicit$1(this.getprops().getClassName().getIsDefined() ? this.getprops().getClassName().getValue() : null) }, React.DOM.legend(null, this.getprops().getMessage().getCaption().getValue()), React.DOM.span({ className: "label" }, "Label"), Bridge.React.PureComponent$1(Bridge.NET.Test.Components.ValidatedTextInput.Props).op_Implicit$1(new Bridge.NET.Test.Components.ValidatedTextInput(this.getprops().getMessage().getIsSaveInProgress(), this.getprops().getMessage().getTitle().getText(), Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.MessageEditor.f2), this.getprops().getMessage().getTitle().getValidationError(), ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString).op_Implicit(new ProductiveRage.Immutable.NonBlankTrimmedString("title")))), React.DOM.span({ className: "label" }, "Content"), Bridge.React.PureComponent$1(Bridge.NET.Test.Components.ValidatedTextInput.Props).op_Implicit$1(new Bridge.NET.Test.Components.ValidatedTextInput(this.getprops().getMessage().getIsSaveInProgress(), this.getprops().getMessage().getContent().getText(), Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.MessageEditor.f4), this.getprops().getMessage().getContent().getValidationError(), ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString).op_Implicit(new ProductiveRage.Immutable.NonBlankTrimmedString("content")))), React.DOM.button({ disabled: isSaveDisabled, onClick: Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.MessageEditor.f5) }, "Save"));
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.MessageEditor", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.MessageEditor, {
+        f1: function (_) {
+            return _.getTitle();
+        },
+        f2: function (newTitle) {
+            this.getprops().getOnChange()(ProductiveRage.Immutable.ImmutabilityHelpers.with(this.getprops().getMessage(), $asm.$.Bridge.NET.Test.Components.MessageEditor.f1, new Bridge.NET.Test.ViewModels.TextEditState.ctor(newTitle)));
+        },
+        f3: function (_) {
+            return _.getContent();
+        },
+        f4: function (newContent) {
+            this.getprops().getOnChange()(ProductiveRage.Immutable.ImmutabilityHelpers.with(this.getprops().getMessage(), $asm.$.Bridge.NET.Test.Components.MessageEditor.f3, new Bridge.NET.Test.ViewModels.TextEditState.ctor(newContent)));
+        },
+        f5: function (e) {
+            this.getprops().getOnSave()();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.MessageHistory", {
+        inherits: [Bridge.React.PureComponent$1(Bridge.NET.Test.Components.MessageHistory.Props)],
+        ctor: function (messages, className) {
+            if (className === void 0) { className = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))(); }
+
+            this.$initialize();
+            Bridge.React.PureComponent$1(Bridge.NET.Test.Components.MessageHistory.Props).ctor.call(this, new Bridge.NET.Test.Components.MessageHistory.Props(className, messages));
+        },
+        render: function () {
+            var className = this.getprops().getClassName().getIsDefined() ? ProductiveRage.Immutable.NonBlankTrimmedString.op_Implicit$1(this.getprops().getClassName().getValue()) : "";
+            if (!System.Linq.Enumerable.from(this.getprops().getMessages()).any()) {
+                className = System.String.concat(className, (System.String.concat((Bridge.referenceEquals(className, "") ? "" : " "), "zero-messages")));
+            }
+
+            var messageElements = System.Linq.Enumerable.from(this.getprops().getMessages()).select($asm.$.Bridge.NET.Test.Components.MessageHistory.f1);
+
+            return React.DOM.fieldset({ className: (Bridge.referenceEquals(className, "") ? null : className) }, React.DOM.legend(null, "Message History"), React.DOM.div.apply(React.DOM, [null].concat(Bridge.React.EnumerableComponentExtensions.toChildComponentArray(messageElements))));
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.MessageHistory", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.MessageHistory, {
+        f1: function (savedMessage) {
+            return React.DOM.div({ key: savedMessage.getId().toString(), className: "historical-message" }, React.DOM.span({ className: "title" }, savedMessage.getMessage().getTitle().getValue()), React.DOM.span({ className: "content" }, savedMessage.getMessage().getContent().getValue()));
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.TextInput", {
+        inherits: [Bridge.React.PureComponent$1(Bridge.NET.Test.Components.TextInput.Props)],
+        ctor: function (disabled, content, onChange, className) {
+            if (className === void 0) { className = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))(); }
+
+            this.$initialize();
+            Bridge.React.PureComponent$1(Bridge.NET.Test.Components.TextInput.Props).ctor.call(this, new Bridge.NET.Test.Components.TextInput.Props(className, disabled, content, onChange));
+        },
+        render: function () {
+            return React.DOM.input({ type: "text", className: ProductiveRage.Immutable.NonBlankTrimmedString.op_Implicit$1(this.getprops().getClassName().getIsDefined() ? this.getprops().getClassName().getValue() : null), disabled: this.getprops().getDisabled(), value: this.getprops().getContent(), onChange: Bridge.fn.bind(this, $asm.$.Bridge.NET.Test.Components.TextInput.f1) });
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.TextInput", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.TextInput, {
+        f1: function (e) {
+            this.getprops().getOnChange()(e.currentTarget.value);
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Components.ValidatedTextInput.Props", {
+        inherits: [Bridge.NET.Test.Components.TextInput.Props,ProductiveRage.Immutable.IAmImmutable],
+        config: {
+            properties: {
+                ValidationMessage: null
+            },
+            init: function () {
+                this.ValidationMessage = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))();
+            }
+        },
+        ctor: function (className, disabled, content, onChange, validationMessage) {
+            this.$initialize();
+            Bridge.NET.Test.Components.TextInput.Props.ctor.call(this, className, disabled, content, onChange);
+            ProductiveRage.Immutable.ImmutabilityHelpers.ctorSet(this, $asm.$.Bridge.NET.Test.Components.ValidatedTextInput.Props.f1, validationMessage);
+        }
+    });
+
+    Bridge.ns("Bridge.NET.Test.Components.ValidatedTextInput.Props", $asm.$);
+
+    Bridge.apply($asm.$.Bridge.NET.Test.Components.ValidatedTextInput.Props, {
+        f1: function (_) {
+            return _.getValidationMessage();
+        }
+    });
+
+    Bridge.define("Bridge.NET.Test.Helpers.StyleClass$1", function (T) { return {
+        inherits: [Bridge.NET.Test.Helpers.IStyleClass],
+        $kind: "struct",
+        statics: {
+            getSeparatorChar: function (separator) {
+                switch (separator) {
+                    case Bridge.NET.Test.Helpers.StyleClassSeparator.Underscope: 
+                        return "_";
+                    case Bridge.NET.Test.Helpers.StyleClassSeparator.Hyphen: 
+                        return "-";
+                    case Bridge.NET.Test.Helpers.StyleClassSeparator.None: 
+                        return "";
+                    default: 
+                        throw new System.ArgumentOutOfRangeException("separator", null, null, separator);
+                }
+            },
+            getDefaultValue: function () { return new (Bridge.NET.Test.Helpers.StyleClass$1(T))(); }
+        },
+        config: {
+            properties: {
+                Value: Bridge.getDefaultValue(T)
+            },
+            alias: [
+            "toString", "Bridge$NET$Test$Helpers$IStyleClass$toString",
+            "toString$1", "Bridge$NET$Test$Helpers$IStyleClass$toString$1"
+            ]
+        },
+        $ctor1: function (value) {
+            this.$initialize();
+            if (!Bridge.Reflection.isEnum(T)) {
+                throw new System.ArgumentException("T must be an enumerated type");
+            }
+            this.setValue(value);
+        },
+        ctor: function () {
+            this.$initialize();
+        },
+        toString: function () {
+            return this.toString$1(Bridge.NET.Test.Helpers.StyleClassSeparator.Hyphen);
+        },
+        toString$1: function (separator) {
+            var name = System.Text.RegularExpressions.Regex.replace(System.Enum.getName(T, this), "^[A-Z_a-z]", "");
+            name = System.Text.RegularExpressions.Regex.split(name, "([A-Z_][a-z]+)").join(Bridge.NET.Test.Helpers.StyleClass$1(T).getSeparatorChar(separator)).toLowerCase();
+            if (name.length < 2) {
+                throw new System.ArgumentException(System.String.format("Resulting class name is less than 2 symbols: \"{0}\"", name));
+            }
+            return name;
+        },
+        getHashCode: function () {
+            var h = Bridge.addHash([3454413611, this.Value]);
+            return h;
+        },
+        equals: function (o) {
+            if (!Bridge.is(o, Bridge.NET.Test.Helpers.StyleClass$1(T))) {
+                return false;
+            }
+            return Bridge.equals(this.Value, o.Value);
+        },
+        $clone: function (to) { return this; }
+    }; });
+
+    Bridge.define("Bridge.NET.Test.Components.ValidatedTextInput", {
+        inherits: [Bridge.React.PureComponent$1(Bridge.NET.Test.Compone   nts.ValidatedTextInput.Props)],
+        ctor: function (disabled, content, onChange, validationMessage, className) {
+            if (validationMessage === void 0) { validationMessage = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))(); }
+            if (className === void 0) { className = new (ProductiveRage.Immutable.Optional$1(ProductiveRage.Immutable.NonBlankTrimmedString))(); }
+
+            this.$initialize();
+            Bridge.React.PureComponent$1(Bridge.NET.Test.Components.ValidatedTextInput.Props).ctor.call(this, new Bridge.NET.Test.Components.ValidatedTextInput.Props(className, disabled, content, onChange, validationMessage));
+        },
+        render: function () {
+            var className = this.getprops().getClassName().getIsDefined() ? ProductiveRage.Immutable.NonBlankTrimmedString.op_Implicit$1(this.getprops().getClassName().getValue()) : "";
+            var validationMessageIfAny;
+            if (this.getprops().getValidationMessage().getIsDefined()) {
+                className = System.String.concat(className, (System.String.concat((Bridge.referenceEquals(className, "") ? "" : " "), "invalid")));
+                validationMessageIfAny = React.DOM.span({ className: "validation-message" }, ProductiveRage.Immutable.NonBlankTrimmedString.op_Implicit$1(this.getprops().getValidationMessage().getValue()));
+            } else {
+                validationMessageIfAny = null;  
+            } 
+
+            return React.DOM.span({ className: className }, Bridge.React.PureComponent$1(Bridge.NET.Test.Components.TextInput.Props).op_Implicit$1(new Bridge.NET.Test.Components.TextInput(this.getprops().getDisabled(), this.getprops().getContent(), this.getprops().getOnChange(), this.getprops().getClassName())), validationMessageIfAny);
+        } 
+    });
+
+    var $m = Bridge.setMetadata,
+        $n = [ResourcePack,Bridge.NET.Test.Components.Azure];
+    $m($n[0].RequireResourceAttribute, function () { return {"ni":true,"am":true}; });
+    $m($n[1].TopbarSearch, function () { return {"at":[new ResourcePack.RequireResourceAttribute("quickhost.html", 0)]}; });
 });

@@ -70,8 +70,8 @@ namespace Bridge.NET.Test.Helpers
 
 		}
 
-		public static FluentClassName ClassName()
-			=> new FluentClassName();
+		public static FluentClassName ClassName(params string[] classNames)
+			=> new FluentClassName().Add(classNames);
 	}
 
 

@@ -16,6 +16,7 @@ using System.Reflection;
 using CRED.Controllers;
 using CRED.Data;
 using CRED.Models;
+using Microsoft.Extensions.Logging.Console;
 using WebMarkupMin.AspNetCore1;
 
 namespace CRED
@@ -44,8 +45,19 @@ namespace CRED
 			// Add WebMarkupMin services.
 			services.AddWebMarkupMin()
 				.AddHtmlMinification()
+				.AddHtmlMinification()
 				.AddXmlMinification()
 				.AddHttpCompression();
+
+			// Add ResourcePacker
+			services.AddRuntimeResourcePacker(options =>
+			{
+				options.EnableCssMinification = true;
+				options.EnableJsMinification = true;
+				options.EnableHtmlMinification = true;
+				options.WatchFilesForChanges = true;
+				options.PacksDirectory = "/js";
+			});
 
 			// Add framework services.
 			services.AddMvc();
@@ -146,6 +158,7 @@ namespace CRED
 
 			app.UseOpenIddict();
 			app.UseWebMarkupMin();
+			app.UseRuntimeResourcePacker();
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions
@@ -174,6 +187,11 @@ namespace CRED
 
 			app.UseMvc(routes =>
 			{
+				routes.MapRoute(
+					name: "pack",
+					template: "pack/{path}",
+					defaults: new { controller = "Pack", action = "Index" });
+
 				routes.MapRoute(
 					name: "partial",
 					template: "component/{*component}",
