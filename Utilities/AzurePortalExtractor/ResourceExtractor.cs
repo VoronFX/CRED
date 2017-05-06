@@ -44,7 +44,7 @@ namespace AzurePortalExtractor
 					urlToOverride:
 					"/Content/Dynamic/UxFxStableCssCyrillic_C7498CEC16966F59B995A5ED9691B131213D24B7.css?c1=ru&amp;c2=ru",
 					sourceFileUrl: CurrentUri +
-					               "/Content/Dynamic/UxFxStableCssCyrillic_C7498CEC16966F59B995A5ED9691B131213D24B7.css?c1=ru&amp;c2=ru",
+								   "/Content/Dynamic/UxFxStableCssCyrillic_C7498CEC16966F59B995A5ED9691B131213D24B7.css?c1=ru&amp;c2=ru",
 					sourceFilePath: "Overrides/UxFxStableCssCyrillic_C7498CEC16966F59B995A5ED9691B131213D24B7.css",
 					targetPath: "LinkHrefStylesheet"),
 			}
@@ -53,7 +53,7 @@ namespace AzurePortalExtractor
 
 		public void ExtractAzureResources(string sourceDirectory, string wwwrootDirectory, string relativeOutputDirectory)
 		{
-			var OutputDirectory = Path.Combine(wwwrootDirectory, relativeOutputDirectory);
+			var outputDirectory = Path.Combine(wwwrootDirectory, relativeOutputDirectory);
 
 			var parsedResources = Directory.GetFiles(sourceDirectory, "*.html")
 				.Select(File.ReadAllText)
@@ -99,7 +99,7 @@ namespace AzurePortalExtractor
 					// Throw all missing resources in one exception
 					if (missing.Any())
 						throw new Exception("Missing overrides for such resources: "
-						                    + Environment.NewLine + string.Join(Environment.NewLine, missing));
+											+ Environment.NewLine + string.Join(Environment.NewLine, missing));
 
 					//TODO: Prettify extracted files some day?
 
@@ -124,14 +124,30 @@ namespace AzurePortalExtractor
 					//});
 
 					return resources;
-				}).First().ToArray();
+				}).ToArray();
 
-			Parallel.ForEach(parsedResources,
-				resource => resource.Save(OutputDirectory));
+			var resourcesBase = parsedResources.First().ToArray();
 
-			GenerateDefinitions(relativeOutputDirectory, OutputDirectory, parsedResources);
-			GenerateStyleClassesMap(OutputDirectory, parsedResources);
-			GenerateRequireAllStyles(OutputDirectory, parsedResources);
+			// Fill empty styles with other files
+			foreach (var resource in resourcesBase.Where(r =>
+				r.Type == Resource.ResType.Style
+				&& string.IsNullOrWhiteSpace(r.Content)))
+			{
+				var overlayRes = parsedResources
+					.Skip(1)
+					.SelectMany(x => x)
+					.FirstOrDefault(ro => ro.IdentifierFull == resource.IdentifierFull
+										  && !string.IsNullOrWhiteSpace(ro.Content));
+				if (overlayRes != null)
+					resource.Content = overlayRes.Content;
+			}
+
+			Parallel.ForEach(resourcesBase,
+				resource => resource.Save(outputDirectory));
+
+			GenerateDefinitions(relativeOutputDirectory, outputDirectory, resourcesBase);
+			GenerateRequireAllStyles(outputDirectory, resourcesBase);
+			GenerateStyleClassesMap(outputDirectory, sourceDirectory, resourcesBase);
 
 			//foreach (string file in Directory.GetFiles(textBox1.Text, "*.html").Select(File.ReadAllText))
 			//{
@@ -173,7 +189,7 @@ namespace AzurePortalExtractor
 								content: DefinitionGenerator.GenerateProperty(
 										name: $"{name}Directory",
 										value: $"@\"{relativeOutputDirectory.Replace(@"\", "/")}\"",
-										comment: new[] {$"Path to {name} folder"},
+										comment: new[] { $"Path to {name} folder" },
 										@const: true,
 										@static: false,
 										field: true,
@@ -185,7 +201,7 @@ namespace AzurePortalExtractor
 											DefinitionGenerator.GenerateProperty(
 												name: r.IdentifierFull,
 												value: $"{name}Directory + @\"{r.TargetPathFull.Replace(@"\", "/")}\"",
-												comment: new[] {r.Comment},
+												comment: new[] { r.Comment },
 												@const: true,
 												@static: false,
 												field: true,
@@ -209,8 +225,9 @@ namespace AzurePortalExtractor
 				resource.Type == Resource.ResType.FontSvg));
 		}
 
-		private static void GenerateStyleClassesMap(string outputDirectory,
-			Resource[] parsedResources)
+
+
+		private static void GenerateStyleClassesMap(string outputDirectory, string sourceDirectory, Resource[] parsedResources)
 		{
 			var classesPacks = parsedResources.Where(resource => resource.Type == Resource.ResType.Style)
 				.Select(r => new
@@ -220,10 +237,8 @@ namespace AzurePortalExtractor
 						.Cast<Match>()
 						.Select(rgx => new
 						{
-							name = rgx.Value.Substring(1),
-							prettyName =
-							Regex.Replace(Regex.Replace(rgx.Value, "(?si)[^A-Za-z0-9]+", "-"), "(?si)-[A-Za-z0-9]",
-								x => x.Value.ToUpperInvariant().Substring(1))
+							className = rgx.Value.Substring(1),
+							identifier = rgx.Value.ToPascalCaseIdentifier()
 						})
 						.Distinct()
 						.ToList()
@@ -261,8 +276,8 @@ namespace AzurePortalExtractor
 							@sealed: true,
 							content: cp.classes.SelectMany(r =>
 								DefinitionGenerator.GenerateProperty(
-									name: r.prettyName,
-									value: $"@\"{r.name}\"",
+									name: r.identifier,
+									value: $"@\"{r.className}\"",
 									comment: new string[] { },
 									@const: false,
 									@static: false,
@@ -274,6 +289,45 @@ namespace AzurePortalExtractor
 					)
 				)
 			);
+
+			var dummyStyleClasses = Directory.GetFiles(sourceDirectory, "*.html")
+				.Select(File.ReadAllText)
+				.SelectMany(x => Regex.Matches(x, "(?si)(?<=class=\")[-_A-Za-z0-9\\s]+?(?=\")").Cast<Match>())
+				.SelectMany(x => x.Value.Split(' '))
+				.Select(x => x.Trim())
+				.Where(x => !string.IsNullOrWhiteSpace(x))
+				.Distinct()
+				.Select(x => new { className = x, identifier = x.ToPascalCaseIdentifier() })
+				.Where(x => classesPacks.SelectMany(c => c.classes).All(c => c.identifier != x.identifier));
+
+			File.WriteAllLines(outputDirectory + $"GeneratedDummyClassesMap.cs",
+				DefinitionGenerator.GenerateNamespace(
+					name: GeneratedXmlNamespace,
+					comment: GeneratedXmlComment,
+					imports: new string[] { },
+					content: 
+					DefinitionGenerator.GenerateClass(
+							name: "DummyClassesMap",
+							comment: new[]{ "Classes that has no associated style" },
+							@static: false,
+							partial: false,
+							@public: true,
+							@sealed: true,
+							content: dummyStyleClasses.SelectMany(r =>
+								DefinitionGenerator.GenerateProperty(
+									name: r.identifier,
+									value: $"@\"{r.className}\"",
+									comment: new string[] { },
+									@const: false,
+									@static: false,
+									field: false,
+									@public: true,
+									@readonly: true,
+									type: "string"))
+						)
+					
+				)
+			);
 		}
 
 		private static void GenerateRequireAllStyles(string outputDirectory,
@@ -283,7 +337,7 @@ namespace AzurePortalExtractor
 				DefinitionGenerator.GenerateNamespace(
 					name: GeneratedXmlNamespace,
 					comment: GeneratedXmlComment,
-					imports: new[] {"CRED", $"static {GeneratedXmlNamespace}.Definitions.Styles"},
+					imports: new[] { "CRED", $"static {GeneratedXmlNamespace}.Definitions.Styles" },
 					content: parsedResources
 						.Where(r => r.Type == Resource.ResType.Style)
 						.Select(r => $"[RequireResource({r.IdentifierFull})]")

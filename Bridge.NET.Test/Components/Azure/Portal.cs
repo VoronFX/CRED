@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using AzurePortal;
 using Bridge.NET.Test.Components.Azure.Resources;
 using Bridge.NET.Test.Helpers;
 using Bridge.NET.Test.ViewModels;
@@ -20,15 +21,15 @@ namespace Bridge.NET.Test.Components.Azure
 			return DOM.Div(new Attributes
 			{
 				Id = "web-container",
-				ClassName = Fluent.ClassName(Classes.Portal, Classes.DesktopNormal)
-					.Add(props.ShowStartboard ? Classes.ShowStartboard : Classes.ShowJourney)
+				ClassName = Fluent.ClassName(Classes.FxsPortal, Classes.FxsDesktopNormal)
+					.Add(props.ShowStartboard ? Classes.FxsShowStartboard : Classes.FxsShowJourney)
 			},
-				//DOM.Div(Classes.ClassAttribute(Classes.Topbar)),
-				//DOM.Div(Classes.ClassAttribute(Classes.PortalTip)),
-				//DOM.Div(Classes.ClassAttribute(Classes.PortalMain)),
+				//DOM.Div(Classes.FxsClassAttribute(Classes.FxsTopbar)),
+				//DOM.Div(Classes.FxsClassAttribute(Classes.FxsPortalTip)),
+				//DOM.Div(Classes.FxsClassAttribute(Classes.FxsPortalMain)),
 				////contextpane
-				//DOM.Div(Classes.ClassAttribute(Classes.Sidebar)),
-				//DOMEx.Svg(Classes.ClassAttribute(Classes.Sidebar)),
+				//DOM.Div(Classes.FxsClassAttribute(Classes.FxsSidebar)),
+				//DOMEx.Svg(Classes.FxsClassAttribute(Classes.FxsSidebar)),
 				new Topbar(props.Fxs, true, true)
 				//new Sidebar(props.Fxs,
 				//NonNullList<Sidebar.SideBarButton>.Empty,
@@ -37,7 +38,8 @@ namespace Bridge.NET.Test.Components.Azure
 			//contextpane
 			);
 		}
-		private FxsClasses Classes => props.Fxs.Classes;
+		private StyleClassesMap Classes => props.Fxs.StyleClasses;
+		private DummyClassesMap DummyClasses => props.Fxs.DummyClasses;
 		private IFxsText Text => props.Fxs.Text;
 
 		public sealed class Props : IAmImmutable

@@ -1,3 +1,4 @@
+using AzurePortal;
 using Bridge.NET.Test.Components.Azure.Resources;
 using Bridge.NET.Test.Helpers;
 using Bridge.React;
@@ -16,40 +17,40 @@ namespace Bridge.NET.Test.Components.Azure
 		{
 			return DOM.Div(new Attributes
 			{
-				ClassName = Fluent.ClassName(Classes.Topbar)
+				ClassName = Fluent.ClassName(Classes.FxsTopbar)
 			},
 				DOM.Div(new Attributes
 				{
-					ClassName = Fluent.ClassName(Classes.TopbarExitCustomize)
+					ClassName = Fluent.ClassName(Classes.FxsTopbarExitCustomize)
 				},
 					DOM.Div(new Attributes
 					{
-						ClassName = Fluent.ClassName(Classes.TopbarExitCustomizeMessage)
+						ClassName = Fluent.ClassName(Classes.FxsTopbarExitCustomizeMessage)
 					},
 						Text.ExitCustomizeText
 					),
 					DOM.Button(new ButtonAttributes
 					{
-						ClassName = Fluent.ClassName(Classes.TopbarExitCustomizeButton, Classes.Button, Classes.PortalButtonPrimary)
+						ClassName = Fluent.ClassName(Classes.FxsTopbarExitCustomizeButton, Classes.FxsButton, Classes.FxsPortalButtonPrimary)
 					},
 						Text.ExitCustomizeButton
 					)
 				),
 				DOM.Div(new Attributes
 				{
-					ClassName = Fluent.ClassName(Classes.TopbarContent, Classes.HideInCustomize)
+					ClassName = Fluent.ClassName(Classes.FxsTopbarContent, Classes.FxsHideInCustomize)
 				},
 					props.ShowPreview
 						? DOM.Div(new Attributes
 						{
-							ClassName = Fluent.ClassName(Classes.TopbarInternal, Classes.BgWarning),
+							ClassName = Fluent.ClassName(Classes.FxsTopbarInternal, Classes.FxsBgWarning),
 						},
 							Text.InternalText
 						)
 						: null,
 					DOM.A(new AnchorAttributes
 					{
-						ClassName = Fluent.ClassName(Classes.TopbarHome, Classes.TrimTextPrimary, Classes.TrimHover),
+						ClassName = Fluent.ClassName(Classes.FxsTopbarHome, Classes.FxsTrimTextPrimary, Classes.FxsTrimHover),
 						Title = Text.DashboardTooltip,
 						Href = "#"
 					},
@@ -67,34 +68,34 @@ namespace Bridge.NET.Test.Components.Azure
 		{
 			return DOM.Div(new Attributes
 			{
-				ClassName = Fluent.ClassName(Classes.Breadcrumb)
+				ClassName = Fluent.ClassName(Classes.FxsBreadcrumb)
 			},
 				DOM.Div(new Attributes
 				{
-					ClassName = Fluent.ClassName(Classes.BreadcrumbWrapper)
+					ClassName = Fluent.ClassName(Classes.FxsBreadcrumbWrapper)
 				},
 					DOM.Div(new Attributes
 					{
-						ClassName = Fluent.ClassName(Classes.BreadcrumbDropmenu)
+						ClassName = Fluent.ClassName(Classes.FxsBreadcrumbDropmenu)
 					},
 						DOM.Div(new Attributes
 						{
-							ClassName = Fluent.ClassName(Classes.Dropmenu)
+							ClassName = Fluent.ClassName(Classes.FxsDropmenu)
 						},
 							DOM.Button(new ButtonAttributes
 							{
-								ClassName = Fluent.ClassName(Classes.DropmenuButton, Classes.PopupButton)
+								ClassName = Fluent.ClassName(Classes.FxsDropmenuButton, DummyClasses.FxsPopupButton)
 							},
 								"«"
 							),
 							DOM.Div(new Attributes
 							{
-								ClassName = Fluent.ClassName(Classes.DropmenuContent, Classes.TextLink, Classes.Popup, Classes.PortalBgTxtBr,
-										Classes.Workaround.DropmenuDefaultWidth, Classes.DropmenuRight, Classes.DropmenuInvisible)
+								ClassName = Fluent.ClassName(Classes.FxsDropmenuContent, DummyClasses.FxsTextLink, Classes.FxsPopup, Classes.FxsPortalBgTxtBr,
+										Classes.FxsDropmenuDefaultWidth, Classes.FxsDropmenuRight, Classes.FxsDropmenuInvisible)
 							},
 								DOM.UL(new Attributes
 								{
-									ClassName = Fluent.ClassName(Classes.BreadcrumbOverflow)
+									ClassName = Fluent.ClassName(Classes.FxsBreadcrumbOverflow)
 								}
 								)
 							)
@@ -104,7 +105,9 @@ namespace Bridge.NET.Test.Components.Azure
 			);
 		}
 
-		private FxsClasses Classes => props.Fxs.Classes;
+
+		private StyleClassesMap Classes => props.Fxs.StyleClasses;
+		private DummyClassesMap DummyClasses => props.Fxs.DummyClasses;
 		private IFxsText Text => props.Fxs.Text;
 
 		public sealed class Props : IAmImmutable

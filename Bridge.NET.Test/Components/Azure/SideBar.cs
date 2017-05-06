@@ -1,4 +1,5 @@
 using System;
+using AzurePortal;
 using Bridge.NET.Test.Components.Azure.Resources;
 using Bridge.NET.Test.Helpers;
 using Bridge.React;
@@ -18,12 +19,12 @@ namespace Bridge.NET.Test.Components.Azure
 			return DOM.Div(
 				new Attributes
 				{
-					ClassName = Fluent.ClassName(Classes.Sidebar, Classes.TrimBorder)
-						.AddIf(() => state.Collapsed, Classes.Sidebar)
+					ClassName = Fluent.ClassName(Classes.FxsSidebar, Classes.FxsTrimBorder)
+						.AddIf(() => state.Collapsed, Classes.FxsSidebar)
 				},
 				DOM.Div(new Attributes
 				{
-					ClassName = Fluent.ClassName(Classes.SidebarBar, Classes.Trim, Classes.TrimText)
+					ClassName = Fluent.ClassName(Classes.FxsSidebarBar, Classes.FxsTrim, Classes.FxsTrimText)
 				},
 					RenderSidebarTop(),
 					RenderSidebarMiddle(),
@@ -35,11 +36,11 @@ namespace Bridge.NET.Test.Components.Azure
 		{
 			return DOM.Div(new Attributes
 			{
-				ClassName = Fluent.ClassName(Classes.SidebarTop)
+				ClassName = Fluent.ClassName(Classes.FxsSidebarTop)
 			},
 				DOM.Button(new ButtonAttributes
 				{
-					ClassName = Fluent.ClassName(Classes.SidebarCollapseButton, Classes.TrimSvg),
+					ClassName = Fluent.ClassName(Classes.FxsSidebarCollapseButton, Classes.FxsTrimSvg),
 					Title = Text.ShowMenu,
 					OnClick = e => SetState(state.With(_ => _.Collapsed, !state.Collapsed))
 				},
@@ -47,24 +48,25 @@ namespace Bridge.NET.Test.Components.Azure
 				),
 				DOM.Button(new ButtonAttributes
 				{
-					ClassName = Fluent.ClassName(Classes.SidebarCreate, Classes.TrimHover, Classes.TrimBorder),
+					ClassName = Fluent.ClassName(Classes.FxsSidebarCreate, Classes.FxsTrimHover, Classes.FxsTrimBorder),
 					Title = Text.CreateText,
 					//OnClick = e => SetState(state.With(_ => _.Collapsed, !state.Collapsed))
 				},
 					DOM.Div(new Attributes
 					{
-						ClassName = Fluent.ClassName(Classes.SidebarButtonFlex)
+						ClassName = Fluent.ClassName(Classes.FxsSidebarButtonFlex)
 					},
 						DOM.Div(new Attributes
 						{
-							ClassName = Fluent.ClassName(Classes.SidebarCreateIcon, Classes.FillSuccess)
+							ClassName = Fluent.ClassName(Classes.FxsSidebarCreateIcon, Classes.FxsFillSuccess)
 						},
 							new Svg(Fxs.Symbols.Plus)
 						)
 					),
 					DOM.Div(new Attributes
 					{
-						ClassName = Fluent.ClassName(Classes.SidebarCreateLabel, Classes.SidebarShowIfExpanded, Classes.TrimText)
+						ClassName = Fluent.ClassName(Classes.FxsSidebarCreateLabel, Classes.FxsSidebarShowIfExpanded,
+								Classes.FxsTrimText)
 					},
 						Text.CreateText
 					)
@@ -76,45 +78,44 @@ namespace Bridge.NET.Test.Components.Azure
 		{
 			return DOM.Div(new Attributes
 			{
-				ClassName = Fluent.ClassName(Classes.SidebarMiddle)
+				ClassName = Fluent.ClassName(Classes.FxsSidebarMiddle)
 			},
 				DOM.UL(new Attributes
 				{
-					ClassName = Fluent.ClassName(Classes.SidebarFavorites)
+					ClassName = Fluent.ClassName(Classes.FxsSidebarFavorites)
 				},
 					props.Favorites.Select((fav, index) =>
 						DOM.Li(new LIAttributes
 						{
-							ClassName = Fluent.ClassName(Classes.SidebarItem, Classes.TrimHover, Classes.SidebarDraggable,
-									Classes.SidebarDraggable,
-									Classes.TrimBorder),
+							ClassName = Fluent.ClassName(Classes.FxsSidebarItem, Classes.FxsTrimHover,
+									DummyClasses.FxsSidebarDraggable, Classes.FxsTrimBorder),
 							//TODO: draggable=true
 						},
 							DOM.A(new AnchorAttributes
 							{
-								ClassName = Fluent.ClassName(Classes.SidebarItemLink, Classes.TrimText),
+								ClassName = Fluent.ClassName(Classes.FxsSidebarItemLink, Classes.FxsTrimText),
 								Title = fav.Label
 							},
 								DOM.Div(new Attributes
 								{
-									ClassName = Fluent.ClassName(Classes.SidebarIcon, Classes.TrimSvg)
+									ClassName = Fluent.ClassName(Classes.FxsSidebarIcon, Classes.FxsTrimSvg)
 								},
 									fav.Icon
 								),
 								DOM.Div(new Attributes
 								{
-									ClassName = Fluent.ClassName(Classes.SidebarLabel, Classes.SidebarShowIfExpanded)
+									ClassName = Fluent.ClassName(Classes.FxsSidebarLabel, Classes.FxsSidebarShowIfExpanded)
 								},
 									fav.Label
 								),
 								DOM.Div(new Attributes
 								{
-									ClassName = Fluent.ClassName(Classes.SidebarExternal, Classes.SidebarShowIfExpanded)
+									ClassName = Fluent.ClassName(Classes.FxsSidebarExternal, Classes.FxsSidebarShowIfExpanded)
 								}
 								),
 								DOM.Div(new Attributes
 								{
-									ClassName = Fluent.ClassName(Classes.SidebarHandle, Classes.TrimSvgSecondary)
+									ClassName = Fluent.ClassName(Classes.FxsSidebarHandle, Classes.FxsTrimSvgSecondary)
 								},
 									new Svg(Fxs.Symbols.Ellipsis)
 								)
@@ -127,26 +128,27 @@ namespace Bridge.NET.Test.Components.Azure
 		{
 			return DOM.Div(new Attributes
 			{
-				ClassName = Fluent.ClassName(Classes.SidebarBottom)
+				ClassName = Fluent.ClassName(Classes.FxsSidebarBottom)
 			},
 				DOM.Div(new Attributes
 				{
-					ClassName = Fluent.ClassName(Classes.SidebarBrowse, Classes.TrimHover, Classes.MenuBrowse),
+					ClassName = Fluent.ClassName(Classes.FxsSidebarBrowse, Classes.FxsTrimHover, DummyClasses.FxsMenuBrowse),
 					Title = Text.BrowseText
 				},
 					DOM.Div(new Attributes
 					{
-						ClassName = Fluent.ClassName(Classes.SidebarButtonFlex)
+						ClassName = Fluent.ClassName(Classes.FxsSidebarButtonFlex)
 					},
 						DOM.Div(new Attributes
 						{
-							ClassName = Fluent.ClassName(Classes.SidebarBrowseLabel, Classes.TrimText, Classes.SidebarShowIfExpanded)
+							ClassName = Fluent.ClassName(Classes.FxsSidebarBrowseLabel, Classes.FxsTrimText,
+									Classes.FxsSidebarShowIfExpanded)
 						},
 							Text.BrowseText
 						),
 						DOM.Div(new Attributes
 						{
-							ClassName = Fluent.ClassName(Classes.SidebarBrowseIcon, Classes.TrimSvg)
+							ClassName = Fluent.ClassName(Classes.FxsSidebarBrowseIcon, Classes.FxsTrimSvg)
 						},
 							new Svg(Fxs.Symbols.CaretUp)
 						)
@@ -154,9 +156,9 @@ namespace Bridge.NET.Test.Components.Azure
 				),
 				DOM.Div(new Attributes
 				{
-					ClassName = Fluent.ClassName(Classes.SidebarFlyout, Classes.Popup, Classes.PortalBgTxtBr)
-						.Add(state.FlyoutIsHidden ? Classes.SidebarFlyoutIsHidden : Classes.SidebarFlyoutIsOpen)
-						.AddIf(() => state.FlyoutIsHidden, Classes.SidebarBrowseShown)
+					ClassName = Fluent.ClassName(Classes.FxsSidebarFlyout, Classes.FxsPopup, Classes.FxsPortalBgTxtBr)
+							.Add(state.FlyoutIsHidden ? Classes.FxsSidebarFlyoutIsHidden : DummyClasses.FxsSidebarFlyoutIsOpen)
+							.AddIf(() => state.FlyoutIsHidden, DummyClasses.FxsSidebarBrowseShown)
 				},
 					new Svg(Fxs.Symbols.CaretUp)
 				)
@@ -184,7 +186,8 @@ namespace Bridge.NET.Test.Components.Azure
 			return new State(true, true);
 		}
 
-		private FxsClasses Classes => props.Fxs.Classes;
+		private StyleClassesMap Classes => props.Fxs.StyleClasses;
+		private DummyClassesMap DummyClasses => props.Fxs.DummyClasses;
 		private IFxsText Text => props.Fxs.Text;
 
 		public sealed class Props : IAmImmutable

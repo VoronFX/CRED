@@ -8,14 +8,15 @@ namespace AzurePortalExtractor
 {
 	public static class HtmlToReactConverter
 	{
-		public static string ToPascalCase(this string text)
-			=> text.ToUpperInvariant().Substring(0, 1) + text.Substring(1);
+		public static string ToPascalCaseIdentifier(this string styleClass)
+			=> Regex.Replace(Regex.Replace("-" + styleClass, "(?si)[^A-Za-z0-9]+", "-"), "(?si)-+([A-Za-z0-9]?)",
+				x => x.Groups[1].Value.ToUpperInvariant());
 
 		public static IEnumerable<string> CreateComment(string text)
 			=> (string.IsNullOrWhiteSpace(text) || text == "$1")
 				? new string[] { }
 				: text
-					.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries)
+					.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
 					.Select(s => $"// {s}");
 
 		public static IEnumerable<string> CreateHead(HtmlNode node)
@@ -27,16 +28,12 @@ namespace AzurePortalExtractor
 							  node.Attributes["class"]
 								  .Value
 								  .Split(' ')
-								  .Select(c => "Classes."+Regex.Replace(
-									  Regex.Replace("-" + c, "(?si)[^A-Za-z0-9]+", "-"), "(?si)-[A-Za-z0-9]",
-									  x => x.Value
-										  .ToUpperInvariant()
-										  .Substring(1)))) + "),"
+								  .Select(c => $"Classes.{c.ToPascalCaseIdentifier()}")) + "),"
 				}
 				.Concat(node
 					.Attributes
 					.Where(a => a.Name != "class")
-					.Select(a => $"// {a.Name.ToPascalCase()} = {a.Value},"))
+					.Select(a => $"// {a.Name.ToPascalCaseIdentifier()} = {a.Value},"))
 				.Concat(CreateComment(node.OuterHtml.Substring(0,
 					node.OuterHtml.IndexOf(node.InnerHtml, StringComparison.Ordinal))));
 
@@ -46,7 +43,7 @@ namespace AzurePortalExtractor
 				: new string[] { }
 					.Concat(new[]
 					{
-						$"DOM.{node.Name.ToPascalCase()}(new Attributes",
+						$"DOM.{node.Name.ToPascalCaseIdentifier()}(new Attributes",
 						"{"
 					})
 					.Concat(CreateHead(node).Indent())

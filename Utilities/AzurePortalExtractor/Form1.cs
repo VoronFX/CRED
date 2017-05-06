@@ -12,17 +12,37 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using HtmlAgilityPack;
+using FastColoredTextBoxNS;
 
 // ReSharper disable InconsistentNaming
 
 namespace AzurePortalExtractor
 {
-	public partial class Form1 : Form
+	public sealed partial class Form1 : Form
 	{
 		public Form1()
 		{
 			InitializeComponent();
+			Input = new FastColoredTextBox()
+			{
+				Parent = this,
+				Anchor = InputOld.Anchor,
+				Left = InputOld.Left,
+				Top = InputOld.Top,
+				Width = InputOld.Width,
+				Height = InputOld.Height,
+				Language = Language.HTML,
+				BackColor = BackColor,
+				AutoIndent = true
+			};
+			Input.TextChanged += (sender, args) =>
+			{
+				Input.Language = (Input.Lines.Count > 0 && Input.Lines[0].Contains("<")) ? Language.HTML : Language.CSharp;
+			};
+			Controls.Remove(InputOld);
 		}
+
+		public FastColoredTextBox Input { get; }
 
 		private const string cssNamesRegex = "(?<=class=\")[^\"].+?css(?:\")";
 
@@ -102,9 +122,9 @@ namespace AzurePortalExtractor
 				if (string.IsNullOrWhiteSpace(Input.Text))
 					Input.Text = Clipboard.GetText();
 
-				Input.Text = string.Join(Environment.NewLine, 
-					HtmlToReactConverter.CreateElement(HtmlNode.CreateNode(Input.Text)).Where(x=>
-					!Regex.IsMatch(x,@"\s*//\s\$1")));
+				Input.Text = string.Join(Environment.NewLine,
+					HtmlToReactConverter.CreateElement(HtmlNode.CreateNode(Input.Text)).Where(x =>
+						!Regex.IsMatch(x, @"\s*//\s\$1")));
 
 				Input.SelectAll();
 				if (!string.IsNullOrWhiteSpace(Input.Text))
@@ -118,7 +138,7 @@ namespace AzurePortalExtractor
 
 		private void button3_Click(object sender, EventArgs e)
 		{
-			Input.Text= String.Empty;
+			Input.Text = String.Empty;
 		}
 
 		private void button5_Click(object sender, EventArgs e)

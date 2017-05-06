@@ -1,6 +1,6 @@
 ﻿namespace AzurePortalExtractor
 {
-	partial class Form1
+	sealed partial class Form1
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.Input = new System.Windows.Forms.TextBox();
+			this.components = new System.ComponentModel.Container();
+			this.InputOld = new System.Windows.Forms.TextBox();
 			this.ExtractSvgToAngularTemplate = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.textBox1 = new System.Windows.Forms.TextBox();
@@ -42,21 +43,23 @@
 			this.button3 = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
 			this.button5 = new System.Windows.Forms.Button();
+			this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+			((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// Input
+			// InputOld
 			// 
-			this.Input.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.InputOld.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.Input.Location = new System.Drawing.Point(12, 134);
-			this.Input.MaxLength = 1000000;
-			this.Input.Multiline = true;
-			this.Input.Name = "Input";
-			this.Input.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.Input.Size = new System.Drawing.Size(1131, 565);
-			this.Input.TabIndex = 0;
-			this.Input.WordWrap = false;
+			this.InputOld.Location = new System.Drawing.Point(12, 134);
+			this.InputOld.MaxLength = 1000000;
+			this.InputOld.Multiline = true;
+			this.InputOld.Name = "InputOld";
+			this.InputOld.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.InputOld.Size = new System.Drawing.Size(1131, 565);
+			this.InputOld.TabIndex = 0;
+			this.InputOld.WordWrap = false;
 			// 
 			// ExtractSvgToAngularTemplate
 			// 
@@ -197,9 +200,10 @@
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.ExtractSvgToAngularTemplate);
-			this.Controls.Add(this.Input);
+			this.Controls.Add(this.InputOld);
 			this.Name = "Form1";
 			this.Text = "Form1";
+			((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -207,7 +211,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.TextBox Input;
+		private System.Windows.Forms.TextBox InputOld;
 		private System.Windows.Forms.Button ExtractSvgToAngularTemplate;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.TextBox textBox1;
@@ -221,6 +225,7 @@
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.Button button4;
 		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.BindingSource bindingSource1;
 	}
 }
 

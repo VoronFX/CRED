@@ -1,5 +1,7 @@
 using System;
 using Bridge.Html5;
+//using CRED;
+//using static AzurePortal.Definitions.Svg;
 
 namespace Bridge.NET.Test.Components.Azure.Resources
 {
@@ -23,6 +25,11 @@ namespace Bridge.NET.Test.Components.Azure.Resources
 			=> $"#{symbol.ToElementId()}";
 	}
 
+	//[RequireResource(Svg_FxSymbol0_00f_svg)]
+	//[RequireResource(Svg_FxSymbol0_010_svg)]
+	//[RequireResource(Svg_FxSymbol0_013_svg)]
+	//[RequireResource(Svg_FxSymbol0_011_svg)]
+	//[RequireResource(Svg_FxSymbol0_00e_svg)]
 	public sealed partial class Fxs
 	{
 		public enum Symbols
@@ -31,8 +38,7 @@ namespace Bridge.NET.Test.Components.Azure.Resources
 			Plus = 0x010,
 			Ellipsis = 0x013,
 			CaretUp = 0x011,
-			Search = 0x00e,
-			FxSymbol0_01c = 0x01c
+			Search = 0x00e
 		}
 	}
 }

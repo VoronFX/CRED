@@ -1,9 +1,9 @@
 using System;
+using AzurePortal;
 using Bridge.NET.Test.Components.Azure.Resources;
 using Bridge.NET.Test.Helpers;
 using Bridge.React;
 using ProductiveRage.Immutable;
-using CRED;
 
 namespace Bridge.NET.Test.Components.Azure
 {
@@ -18,30 +18,30 @@ namespace Bridge.NET.Test.Components.Azure
 		{
 			return DOM.Div(new Attributes
 			{
-				ClassName = Fluent.ClassName(Classes.TopbarSearch, Classes.Search),
+				ClassName = Fluent.ClassName(Classes.FxsTopbarSearch, Classes.FxsSearch),
 				Title = Text.SearchTooltip
 
 			},
 				DOM.Div(new Attributes
 				{
-					ClassName = Fluent.ClassName(Classes.Search)
-							.AddIf(() => state.IsExpanded, Classes.SearchExpanded)
-							.AddIf(() => !props.JourneysShown, Classes.SearchNoJourneys)
+					ClassName = Fluent.ClassName(Classes.FxsSearch)
+							.AddIf(() => state.IsExpanded, Classes.FxsSearchExpanded)
+							.AddIf(() => !props.JourneysShown, Classes.FxsSearchNoJourneys)
 				},
 					DOM.Div(new Attributes
 					{
-						ClassName = Fluent.ClassName(Classes.BoxWrapper)
-								.AddIf(() => props.ShowSearching, Classes.Searching)
+						ClassName = Fluent.ClassName(Classes.FxsBoxWrapper)
+								.AddIf(() => props.ShowSearching, Classes.FxsSearching)
 					},
 						DOM.Div(new Attributes
 						{
-							ClassName = Fluent.ClassName(Classes.Icon, Classes.Workaround.MsPortalFxSvgFlipHorizontal)
+							ClassName = Fluent.ClassName(Classes.FxsIcon, Classes.MsportalfxSvgFlipHorizontal)
 						},
 							new Svg(Fxs.Symbols.Search)
 						),
 						DOM.Div(new Attributes
 						{
-							ClassName = Fluent.ClassName(Classes.Searchbox, Classes.TopbarInput, Classes.Workaround.Base)
+							ClassName = Fluent.ClassName(Classes.FxsSearchbox, DummyClasses.FxsTopbarInput, Classes.FxcBase)
 						}
 						)
 					)
@@ -54,7 +54,8 @@ namespace Bridge.NET.Test.Components.Azure
 			return new State(false);
 		}
 
-		private FxsClasses Classes => props.Fxs.Classes;
+		private StyleClassesMap Classes => props.Fxs.StyleClasses;
+		private DummyClassesMap DummyClasses => props.Fxs.DummyClasses;
 		private IFxsText Text => props.Fxs.Text;
 
 		public sealed class Props : IAmImmutable

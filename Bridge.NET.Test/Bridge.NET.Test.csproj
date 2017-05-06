@@ -37,21 +37,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedFontsDefinitions.cs">
+    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedDummyClassesMap.cs">
+      <Link>Generated\GeneratedDummyClassesMap.cs</Link>
+    </Compile>
+    <None Include="..\CRED\wwwroot\azure\extracted\GeneratedFontsDefinitions.cs">
       <Link>Generated\GeneratedFontsDefinitions.cs</Link>
-    </Compile>
-    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedRequireAllStyles.cs">
+    </None>
+    <None Include="..\CRED\wwwroot\azure\extracted\GeneratedRequireAllStyles.cs">
       <Link>Generated\GeneratedRequireAllStyles.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedStyleClassesMap.cs">
       <Link>Generated\GeneratedStyleClassesMap.cs</Link>
     </Compile>
-    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedStylesDefinitions.cs">
+    <None Include="..\CRED\wwwroot\azure\extracted\GeneratedStylesDefinitions.cs">
       <Link>Generated\GeneratedStylesDefinitions.cs</Link>
-    </Compile>
-    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedSvgDefinitions.cs">
+    </None>
+    <None Include="..\CRED\wwwroot\azure\extracted\GeneratedSvgDefinitions.cs">
       <Link>Generated\GeneratedSvgDefinitions.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\RuntimeResourcePacker\RequireResourceAttribute.cs">
       <Link>Helpers\RequireResourceAttribute.cs</Link>
     </Compile>
@@ -67,7 +70,6 @@
     <Compile Include="App.cs" />
     <Compile Include="Components\AppContainer.cs" />
     <Compile Include="Components\Azure\Resources\Fxs.cs" />
-    <Compile Include="Components\Azure\Resources\FxsClasses.cs" />
     <Compile Include="Components\Azure\Resources\FxsText.cs" />
     <Compile Include="Components\Azure\Resources\Symbols.cs" />
     <Compile Include="Components\Azure\Portal.cs" />
