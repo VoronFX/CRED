@@ -101,6 +101,8 @@ namespace AzurePortalExtractor
 						throw new Exception("Missing overrides for such resources: "
 						                    + Environment.NewLine + string.Join(Environment.NewLine, missing));
 
+					//TODO: Prettify extracted files some day?
+
 					// Format
 					//Parallel.ForEach(resources, resource =>
 					//{

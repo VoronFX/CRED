@@ -10,6 +10,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using HtmlAgilityPack;
 
 // ReSharper disable InconsistentNaming
 
@@ -44,7 +46,8 @@ namespace AzurePortalExtractor
 				Input.Text = string.Join("\r\n", svgs);
 				//.Replace("class role=\"presentation\"", "role=\"img\"")
 				Input.SelectAll();
-				Clipboard.SetText(Input.Text);
+				if (!string.IsNullOrWhiteSpace(Input.Text))
+					Clipboard.SetText(Input.Text);
 			}
 			catch (Exception exception)
 			{
@@ -70,14 +73,14 @@ namespace AzurePortalExtractor
 				}
 				Input.Text = string.Join("\r\n", list.Distinct().OrderBy(x => x));
 				Input.SelectAll();
-				Clipboard.SetText(Input.Text);
+				if (!string.IsNullOrWhiteSpace(Input.Text))
+					Clipboard.SetText(Input.Text);
 			}
 			catch (Exception exception)
 			{
 				MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
-
 
 
 		private void ExtractFromAzureSourcesBtn_Click(object sender, EventArgs e)
@@ -90,6 +93,48 @@ namespace AzurePortalExtractor
 			{
 				MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if (string.IsNullOrWhiteSpace(Input.Text))
+					Input.Text = Clipboard.GetText();
+
+				Input.Text = string.Join(Environment.NewLine, 
+					HtmlToReactConverter.CreateElement(HtmlNode.CreateNode(Input.Text)).Where(x=>
+					!Regex.IsMatch(x,@"\s*//\s\$1")));
+
+				Input.SelectAll();
+				if (!string.IsNullOrWhiteSpace(Input.Text))
+					Clipboard.SetText(Input.Text);
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			Input.Text= String.Empty;
+		}
+
+		private void button5_Click(object sender, EventArgs e)
+		{
+			Input.SelectAll();
+			if (!string.IsNullOrWhiteSpace(Input.Text))
+				Clipboard.SetText(Input.Text);
+		}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			var t = Clipboard.GetText();
+			Input.SelectAll();
+			if (!string.IsNullOrWhiteSpace(Input.Text))
+				Clipboard.SetText(Input.Text);
+			Input.Text = t;
 		}
 	}
 }
