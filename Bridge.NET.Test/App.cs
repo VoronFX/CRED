@@ -6,13 +6,22 @@ using Bridge.NET.Test.API;
 using Bridge.NET.Test.Components;
 using Bridge.NET.Test.Stores;
 using Bridge.React;
+using CRED;
 
 namespace Bridge.NET.Test
 {
+	[RequireResource("/lib/react/react.js")]
+	[RequireResource("/lib/react/react-dom.js")]
 	public class App
 	{
 		public static void Main()
 		{
+			foreach (string key in Keys(Window.Get(RequireResourceAttribute.ResourcesVariableName)))
+			{
+				Window.Eval<object>((string)Window.Get(RequireResourceAttribute.ResourcesVariableName)[key]);
+			}
+			Window.Set(RequireResourceAttribute.ResourcesVariableName, null);
+
 			// Create a new Button
 			//var button = new HTMLButtonElement
 			//{
@@ -47,13 +56,13 @@ namespace Bridge.NET.Test
 			//	DOM.Div(new Attributes { ClassName = "welcome" }, "Hi!"),
 			//	Document.GetElementById("main")
 			//);
-			
+
 			var dispatcher = new AppDispatcher();
 			var store = new AppUIStore(dispatcher, new MessageApi(dispatcher));
 
 			var container = Document.GetElementById("main");
 			React.React.Render(
-				new AppContainer(store, dispatcher), 
+				new AppContainer(store, dispatcher),
 				container
 			);
 
@@ -66,5 +75,7 @@ namespace Bridge.NET.Test
 			// Turning of spashscreen
 			Window.Eval<object>("window.loadComplete();");
 		}
+
+
 	}
 }

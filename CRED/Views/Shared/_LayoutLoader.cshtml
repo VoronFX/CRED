@@ -17,25 +17,11 @@
         Html.RenderPartial("SplashScreen");
         IgnoreBody();
     }
-    <environment names="Development">
-        <script type="text/javascript">
+    <script type="text/javascript">
             window.resources = [
-            //   { url: "@Context.AppendVersion("/css/site.min.css")" },
-            { url: "@Context.AppendVersion("/js/site.js")" },
-            { url: "@Context.AppendVersion("/app/bladeui/widgets/azuresvgsymbols/azuresvgsymbols.component.html")" }
+            { url: "@Context.AppendVersion("/js/site.pack.js")" },
         ];
-        </script>
-    </environment>
-
-    <environment names="Staging,Production">
-        <script type="text/javascript">
-            window.resources = [
-            { url: "@Context.AppendVersion("/css/site.min.css")" },
-            { url: "@Context.AppendVersion("/js/site.min.js")" },
-            { url: "@Context.AppendVersion("/app/bladeui/widgets/azuresvgsymbols/azuresvgsymbols.component.html")" }
-        ];
-        </script>
-    </environment>
+    </script>
     @{
         Html.RenderPartial("LoaderScript");
     }

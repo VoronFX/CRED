@@ -7,7 +7,6 @@ using CRED;
 
 namespace Bridge.NET.Test.Components.Azure
 {
-	[RequireResource("quickhost.html")]
 	public sealed class TopbarSearch : Component<TopbarSearch.Props, TopbarSearch.State>
 	{
 		public TopbarSearch(Fxs fxs, bool journeysShown, bool showSearching)

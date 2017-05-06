@@ -14,25 +14,11 @@
     {
         "outputFileName": "wwwroot/js/site.js",
         "inputFiles": [
-            "wwwroot/lib/react/react.js",
-            "wwwroot/lib/react/react-dom.js",
             "../Bridge.NET.Test/Bridge/Build/bridge.nEt.Test.js"
         ],
         "minify": {
             "enabled": false,
-            "renameLocals": true
-        }
-    },
-    {
-        "outputFileName": "wwwroot/js/site.min.js",
-        "inputFiles": [
-            "wwwroot/lib/react/react.js",
-            "wwwroot/lib/react/react-dom.js",
-            "../Bridge.NET.Test/Bridge/Build/bridge.nEt.Test.min.js"
-        ],
-        "minify": {
-            "enabled": false,
-            "renameLocals": true
+            "renameLocals": false
         }
     }
 ] 

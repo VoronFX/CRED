@@ -52,9 +52,9 @@ namespace CRED
 			// Add ResourcePacker
 			services.AddRuntimeResourcePacker(options =>
 			{
-				options.EnableCssMinification = true;
-				options.EnableJsMinification = true;
-				options.EnableHtmlMinification = true;
+				options.EnableCssMinification = !CurrentEnvironment.IsDevelopment();
+				options.EnableJsMinification = !CurrentEnvironment.IsDevelopment();
+				options.EnableHtmlMinification = !CurrentEnvironment.IsDevelopment();
 				options.WatchFilesForChanges = true;
 				options.PacksDirectory = "/js";
 			});

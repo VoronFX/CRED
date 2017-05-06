@@ -37,6 +37,7 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
 
   <ItemGroup>
     <Content Remove="wwwroot/js\site.min.j8s" />
+    <Content Remove="wwwroot/js\site.pack.rar" />
   </ItemGroup>
   
   <ItemGroup>
@@ -304,6 +305,11 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
     <Content Update="web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\azure\extracted\" />
+    <Folder Include="wwwroot\azure\overlay\" />
+    <Folder Include="wwwroot\azure\sources\" />
   </ItemGroup>
   
   <Target Name="CleanupTypescriptFromObjFolder" BeforeTargets="Build">
