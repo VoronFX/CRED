@@ -71,11 +71,11 @@ namespace CRED
 
 				var tasks = Regex
 					// Pre regex for perfrormace
-					.Matches(inputFile, "new.+?[\"\'].+?[\"\']", RegexOptions.Compiled)
+					.Matches(inputFile, "(?s)new(?i).+?[\"\'].+?[\"\']", RegexOptions.Compiled)
 					.Cast<Match>()
 					.Select(match => match.Value)
 					.SelectMany(x => Regex
-						.Matches(x, $"(?i)(?<=new\\s+?{typeof(RequireResourceAttribute).FullName}.*?[\"']).+?(?=[\"'])",
+						.Matches(x, $"(?s)(?<=new(?i)\\s+?{typeof(RequireResourceAttribute).FullName}.*?[\"']).+?(?=[\"'])",
 							RegexOptions.Compiled)
 						.Cast<Match>())
 					.Select(match => match.Value)

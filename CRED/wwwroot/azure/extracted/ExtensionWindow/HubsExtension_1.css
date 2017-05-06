@@ -1,0 +1,18 @@
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-container { display: flex; flex-direction: column; height: 100%; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-filters { display: flex; flex-wrap: wrap; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-infobox { flex: 0 0 auto; margin-top: 15px; padding-bottom: 10px; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-resourcefilter { flex: 1 1 auto; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-groupBy { flex: 0.4 0.4 auto; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-align { top: 26px; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-count { flex: 0 0 auto; margin-top: 5px; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-grid-parent { flex: 1 1 auto; position: relative; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-grid { position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-columns-grid { padding: 10px 25px 0px; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-emptytitle { font-size: 15px; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-emptytext { text-align: center; max-width: 680px; padding-bottom: 15px; font-size: 12px; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-links { max-width: 680px; padding-bottom: 17px; font-size: 12px; flex-wrap: wrap; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-link { padding-left: 10px; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-svg { width: 10px; height: 10px; display: inline-block; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-emptyicon { height: 100px; width: 100px; padding-top: 40px; padding-bottom: 20px; opacity: 0.4; }
+.css-scope-HubsExtension.css-scope-BladesHubsExtensionBrowseStylescss .ext-hubs-browse-hidegrid { flex: 0 0 auto; height: 40px; position: relative; }

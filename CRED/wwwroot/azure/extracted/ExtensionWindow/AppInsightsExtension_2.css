@@ -1,0 +1,17 @@
+.css-scope-AppInsightsExtension .ext-gantt-labels { position: relative; margin-bottom: 32px; float: left; width: 24%; }
+.css-scope-AppInsightsExtension .ext-gantt-area { border-bottom: 2px solid rgb(214, 214, 214); position: relative; margin-bottom: 30px; width: 71%; float: right; margin-left: 2%; margin-right: 2%; }
+.css-scope-AppInsightsExtension .ext-gantt-area a.ext-gantt-box { color: rgb(255, 255, 255); }
+.css-scope-AppInsightsExtension .ext-gantt-labels div.ext-gantt-label, .css-scope-AppInsightsExtension .ext-gantt-area div.ext-gantt-box { margin: 5px 0px; height: 30px; padding: 7px 0px; display: block; position: relative; text-align: left; border-style: none; }
+.css-scope-AppInsightsExtension .ext-gantt-label-image { height: 12px; width: 12px; display: inline-block; vertical-align: sub; margin-right: 4px; }
+.css-scope-AppInsightsExtension .ext-gantt-label-text { display: inline-block; width: calc(100% - 22px); vertical-align: bottom; }
+.css-scope-AppInsightsExtension .ext-gantt-area div.ext-gantt-box { background-color: rgb(127, 186, 0); color: rgb(255, 255, 255); overflow: hidden; min-width: 0px; }
+.css-scope-AppInsightsExtension .ext-gantt-area div.ext-gantt-box.ext-gantt-failed { background-color: rgb(236, 0, 140); }
+.css-scope-AppInsightsExtension .ext-gantt-area div.ext-gantt-box:hover { background-color: rgb(178, 212, 106); }
+.css-scope-AppInsightsExtension .ext-gantt-area div.ext-gantt-box.ext-gantt-failed:hover { background-color: rgb(244, 114, 208); }
+.css-scope-AppInsightsExtension .ext-gantt-axis-item { height: 100%; width: 1px; background-color: rgb(214, 214, 214); border-right: 1px solid rgb(226, 226, 226); position: absolute; top: 0px; }
+.css-scope-AppInsightsExtension .ext-gantt-axis { position: absolute; top: 0px; left: 0px; width: 100%; height: calc(100% + 6px); }
+.css-scope-AppInsightsExtension .ext-gantt-axis .ext-gantt-axis-item-requestbegin { left: 0px; }
+.css-scope-AppInsightsExtension .ext-gantt-axis .ext-gantt-axis-item-requestend { right: 0px; }
+.css-scope-AppInsightsExtension .ext-gantt-axis-label { position: absolute; color: rgb(204, 204, 204); bottom: -15px; margin-left: -75px; width: 150px; text-align: center; text-transform: uppercase; }
+.css-scope-AppInsightsExtension .ext-gantt-axis-item-requestbegin .ext-gantt-axis-label { margin-left: 0px; text-align: left; }
+.css-scope-AppInsightsExtension .ext-gantt-axis-item-requestend .ext-gantt-axis-label { margin-left: 0px; right: 0px; text-align: right; }

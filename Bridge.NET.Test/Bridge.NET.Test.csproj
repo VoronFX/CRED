@@ -37,6 +37,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedFontsDefinitions.cs">
+      <Link>Generated\GeneratedFontsDefinitions.cs</Link>
+    </Compile>
+    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedRequireAllStyles.cs">
+      <Link>Generated\GeneratedRequireAllStyles.cs</Link>
+    </Compile>
+    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedStyleClassesMap.cs">
+      <Link>Generated\GeneratedStyleClassesMap.cs</Link>
+    </Compile>
+    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedStylesDefinitions.cs">
+      <Link>Generated\GeneratedStylesDefinitions.cs</Link>
+    </Compile>
+    <Compile Include="..\CRED\wwwroot\azure\extracted\GeneratedSvgDefinitions.cs">
+      <Link>Generated\GeneratedSvgDefinitions.cs</Link>
+    </Compile>
     <Compile Include="..\RuntimeResourcePacker\RequireResourceAttribute.cs">
       <Link>Helpers\RequireResourceAttribute.cs</Link>
     </Compile>

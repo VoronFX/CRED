@@ -1,0 +1,27 @@
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-blademap { padding-bottom: 20px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-minititle { text-align: center; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-refresh { width: 14px; height: 14px; position: absolute; right: -10px; top: -35px; padding: 5px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-refreshing { position: absolute; right: -10px; top: -35px; padding: 5px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart:not(.ext-tilesize-mini) > .ext-content-overlay { position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart > .ext-content-overlay > .ext-icon { width: 30px; height: 30px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart.ext-tilesize-normal > .ext-content-overlay > .ext-icon { position: absolute; top: 48px; left: 47px; width: 50px; height: 50px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart.ext-tilesize-small > .ext-content-overlay > .ext-icon { position: absolute; bottom: 0px; right: 0px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart.ext-tilesize-small > .ext-content-overlay > .ext-subtitle { margin-right: 30px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart.ext-tilesize-mini > .ext-content-overlay > .ext-title { position: absolute; top: 41px; left: 2px; right: 2px; text-align: center; height: 20px; overflow: hidden; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart.ext-tilesize-mini > .ext-content-overlay > .ext-icon { position: absolute; left: 25px; top: 4px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-incidentspart .ext-incidenttime { margin: 18px 0px 4px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss td.ext-servicespart-statuscolumn { text-align: center; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-icon.ext-tilesize-mini { width: 30px; height: 33px; margin-left: 24px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-icon.ext-tilesize-small { width: 30px; height: 30px; margin-left: 100px; margin-top: -15px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-shorttitle { text-transform: uppercase; margin: 3px 5px; max-height: 22px; overflow: hidden; text-align: center; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-grid table tbody tr td { height: 27px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-grid-more-data { text-align: right; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-map.ext-tilesize-large { margin-left: -32px; margin-bottom: 10px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-map.ext-tilesize-herowide { margin-top: -18px; margin-bottom: -30px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-map.ext-tilesize-wide { margin-top: -18px; margin-left: 110px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-globalmessage { position: absolute; bottom: -30px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-messageIcon { width: 15px; height: 15px; display: inline-block; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-message.ext-tilesize-large { vertical-align: top; display: inline-block; width: 300px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-message.ext-tilesize-herowide { vertical-align: top; display: inline-block; width: 460px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-message.ext-tilesize-wide { vertical-align: top; display: inline-block; width: 250px; }
+.css-scope-HubsExtension.css-scope-BladesServicesHealthcss .ext-servicespart-message-link { text-decoration: underline; }

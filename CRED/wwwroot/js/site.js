@@ -11,7 +11,7 @@
 (function (globals) {
     "use strict";
 
-      // @source Core.js
+    // @source Core.js
 
     var core = {
         global: globals,

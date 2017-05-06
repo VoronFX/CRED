@@ -1,0 +1,47 @@
+.css-scope-AppInsightsExtension .ext-small-icon { width: 16px; height: 16px; padding: 10px; }
+.css-scope-AppInsightsExtension .ext-medium-icon { width: 24px; height: 24px; padding: 10px; }
+.css-scope-AppInsightsExtension .ext-large-icon { width: 24px; height: 24px; padding: 10px; }
+.css-scope-AppInsightsExtension .ext-button-small-icon { display: inline-block; width: 21px; height: 21px; }
+.css-scope-AppInsightsExtension .ext-button-medium-icon { display: block; margin: auto; width: 30px; height: 30px; }
+.css-scope-AppInsightsExtension .ext-button-large-icon { display: block; margin: auto; width: 50px; height: 50px; }
+.css-scope-AppInsightsExtension .ext-create-message { display: inline-block; float: left; }
+.css-scope-AppInsightsExtension .ext-wrapping-text { white-space: normal; word-wrap: break-word; }
+.css-scope-AppInsightsExtension .ext-center-column { text-align: center; }
+.css-scope-AppInsightsExtension .ext-details-content { margin-bottom: 40px; }
+.css-scope-AppInsightsExtension .ext-details-section-header { display: block; padding-bottom: 4px; }
+.css-scope-AppInsightsExtension .ext-wrap-and-break { white-space: normal; word-break: break-all; }
+.css-scope-AppInsightsExtension .ext-search-result { padding: 6px 0px; }
+.css-scope-AppInsightsExtension .ext-search-result-3-line-text { word-wrap: break-word; word-break: break-all; overflow: hidden; white-space: normal; }
+.css-scope-AppInsightsExtension .ext-pinParent-container:hover ~ .ext-pairedTimeline-container { outline: rgb(154, 216, 245) solid 2px; }
+.css-scope-AppInsightsExtension .ext-search-filter-facet-table { padding: 10px 5px; width: 100%; word-break: break-all; }
+.css-scope-AppInsightsExtension .ext-search-filter-facet-table th:not(:first-child), .css-scope-AppInsightsExtension .ext-search-filter-facet-table tr td:not(:first-child) { padding: 10px 0px 0px 5px; }
+.css-scope-AppInsightsExtension .ext-search-filter-facet-table tr td:first-child { padding-top: 10px; }
+.css-scope-AppInsightsExtension .ext-search-filter-facet-table tr td:last-child { padding: 10px 0px 0px; }
+.css-scope-AppInsightsExtension .ext-search-time-range-item { width: 90%; padding: 10px; }
+.css-scope-AppInsightsExtension .ext-search-time-range-item-smallPadding { width: 90%; padding: 3px; }
+.css-scope-AppInsightsExtension .ext-search-custom-time-range-container { padding-left: 3%; }
+.css-scope-AppInsightsExtension .ext-search-custom-time-range-form-element { width: 68%; }
+.css-scope-AppInsightsExtension .ext-search-metrics-bar { display: inline-block; width: 5px; float: left; margin-right: 5px; height: 100%; overflow: hidden; }
+.css-scope-AppInsightsExtension .ext-filter-tag { margin: 5px 2px; padding: 2px 3px; white-space: nowrap; min-height: 24px; }
+.css-scope-AppInsightsExtension .ext-filter-infoballoon { height: 19px; margin-right: -6px; margin-left: 1px; vertical-align: middle; }
+.css-scope-AppInsightsExtension .ext-filter-text { height: 20px; min-width: 5px; max-width: 200px; padding: 0px; border-style: none; vertical-align: middle; display: inline-block; }
+.css-scope-AppInsightsExtension .ext-filter-close { height: 18px; min-width: 12px; width: 12px; margin: 0px; padding: 0px; border-style: none; vertical-align: text-bottom; }
+.css-scope-AppInsightsExtension .ext-timerange-warning { display: flex; margin-top: 10px; margin-bottom: 10px; }
+.css-scope-AppInsightsExtension .ext-searchall-button { padding: 0px; border-style: none; vertical-align: middle; height: 21px; margin-right: -2px; }
+.css-scope-AppInsightsExtension .ext-add-chart-button:focus { outline-width: 0px; }
+.css-scope-AppInsightsExtension .ext-wi-editor-style { height: 350px; border-width: 1px; border-style: solid; border-color: rgb(221, 221, 221); width: auto; }
+.css-scope-AppInsightsExtension .ext-authorization-status-text-Error { color: red; }
+.css-scope-AppInsightsExtension .ext-features-learn-more { color: rgb(0, 120, 215); padding: 0px; }
+.css-scope-AppInsightsExtension .ext-edit-separator { height: 0px; border-width: 1px; border-style: solid; border-color: rgba(25, 80, 123, 0.498039); }
+.css-scope-AppInsightsExtension .ext-advanced-settings label { margin-left: 5px; }
+.css-scope-AppInsightsExtension .ext-enable-feature-check { display: inline-block; width: 22px; height: 22px; margin-top: 3px; }
+.css-scope-AppInsightsExtension .ext-header-column { white-space: normal; word-wrap: break-word; border-color: transparent; text-align: center; vertical-align: middle; padding-left: 0px; }
+.css-scope-AppInsightsExtension .ext-enterprise-plan-resource-header { padding-bottom: 15px; position: relative; line-height: 22px; text-align: left; }
+.css-scope-AppInsightsExtension .ext-header-rate-column { white-space: normal; word-wrap: break-word; border-color: transparent; text-align: center; vertical-align: middle; width: 22%; padding-left: 0px; }
+.css-scope-AppInsightsExtension .ext-header-first-column { white-space: normal; border-color: transparent; width: 55%; padding-left: 0px; }
+.css-scope-AppInsightsExtension .ext-feature-row-disabled { color: rgb(211, 211, 211); }
+.css-scope-AppInsightsExtension .ext-billing-horizontal-divider { padding: 4px; margin-left: 25px; margin-right: 25px; font-weight: bolder; color: rgb(45, 50, 57); background: rgb(211, 211, 211); }
+.css-scope-AppInsightsExtension .ext-billing-hotspot-links { margin-top: 7px; padding-left: 7px; }
+.css-scope-AppInsightsExtension .ext-remove-limits-button { background-color: green; color: rgb(255, 255, 255); text-align: center; cursor: pointer; display: block; width: 50%; margin: auto; height: 24px; }
+.css-scope-AppInsightsExtension .ext-remove-limits-button-disable { background-color: gray; }
+.css-scope-AppInsightsExtension .ext-metric-explorer-grid-title { display: inline-block; padding: 0px 0px 12px; font-size: 16px; }

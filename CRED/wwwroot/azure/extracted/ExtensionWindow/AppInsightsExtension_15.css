@@ -1,0 +1,11 @@
+.css-scope-AppInsightsExtension .ext-preview-container { padding-top: 10px; padding-bottom: 20px; }
+.css-scope-AppInsightsExtension .ext-preview-auto-enroll { border-bottom: 2px solid rgb(0, 188, 242); }
+.css-scope-AppInsightsExtension .ext-preview-list { border-top: 1px solid rgb(204, 204, 204); }
+.css-scope-AppInsightsExtension .ext-preview-list-item { border-bottom: 1px solid rgb(204, 204, 204); }
+.css-scope-AppInsightsExtension .ext-preview-available-previews-controls div { vertical-align: bottom; }
+.css-scope-AppInsightsExtension .ext-preview-title { font-size: 20px; }
+.css-scope-AppInsightsExtension .ext-preview-release-date { font-size: 12px; color: grey; }
+.css-scope-AppInsightsExtension .ext-preview-description { font-size: 12px; padding: 5px 0px; }
+.css-scope-AppInsightsExtension .ext-preview-sort-by-dropdown { margin-right: 15px; width: 120px; }
+.css-scope-AppInsightsExtension .ext-preview-sort-order-dropdown { margin-right: 30px; width: 100px; }
+.css-scope-AppInsightsExtension .ext-preview-enable-all-button { margin-right: 15px; }

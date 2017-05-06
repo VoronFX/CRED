@@ -1,0 +1,13 @@
+.css-scope-Microsoft_Azure_Compute .ext-tiles-container { display: flex; flex-flow: row wrap; width: 100%; }
+.css-scope-Microsoft_Azure_Compute .ext-timerange { margin: 10px; }
+.css-scope-Microsoft_Azure_Compute .ext-monitoring-link { margin: 10px; }
+.css-scope-Microsoft_Azure_Compute .ext-timeRangeAlignment { margin-left: 10px; padding-left: 10px; }
+.css-scope-Microsoft_Azure_Compute .ext-tile { margin: 10px; padding-left: 20px; padding-right: 20px; border-width: 1px; border-style: solid; border-color: rgb(206, 206, 206); }
+.css-scope-Microsoft_Azure_Compute .ext-tile-title { display: flex; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold; }
+.css-scope-Microsoft_Azure_Compute .ext-tile-legend { display: flex; margin-top: 10px; margin-bottom: 10px; font-size: 12px; }
+.css-scope-Microsoft_Azure_Compute .ext-tile:hover { box-shadow: rgba(128, 128, 128, 0.74902) 1px 2px 2px 0px; }
+.css-scope-Microsoft_Azure_Compute .ext-metricChartBox { display: flex; flex-flow: row wrap; cursor: pointer; }
+.css-scope-Microsoft_Azure_Compute .ext-tileIcon { height: 16px; width: 16px; margin-left: 5px; margin-bottom: 10px; padding: 5px; }
+.css-scope-Microsoft_Azure_Compute .ext-tileIcon:hover { background-color: rgb(206, 206, 206); }
+.css-scope-Microsoft_Azure_Compute .ext-chart { width: 275px; height: 150px; }
+.css-scope-Microsoft_Azure_Compute .ext-chart-line-1 { color: red; }

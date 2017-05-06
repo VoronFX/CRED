@@ -1,0 +1,12 @@
+.css-scope-WebsitesExtension .ext-button { border-style: none; cursor: pointer; }
+.ext-mode-dark .css-scope-WebsitesExtension .ext-button { color: rgb(255, 255, 255); background: rgb(34, 34, 34); }
+.ext-mode-light .css-scope-WebsitesExtension .ext-button { background: rgb(255, 255, 255); }
+.css-scope-WebsitesExtension .ext-postItNote:hover { box-shadow: rgba(0, 128, 255, 0.498039) 0px 5px 5px; }
+.css-scope-WebsitesExtension .ext-postItNote { position: relative; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px; }
+.css-scope-WebsitesExtension .ext-postItNote::before, .css-scope-WebsitesExtension .ext-postItNote::after { width: 40%; position: absolute; left: 12px; height: 10px; bottom: 12px; background: transparent; }
+.css-scope-WebsitesExtension .ext-postItNote::after { left: auto; right: 12px; transform: skew(5deg) rotate(5deg); }
+.css-scope-WebsitesExtension .ext-postItNote { cursor: pointer; width: 315px; height: 170px; float: left; margin: 50px 10px; }
+.css-scope-WebsitesExtension .ext-postItNote ul { margin-top: 50px; list-style-type: none; margin-left: -20px; }
+.css-scope-WebsitesExtension .ext-postItNoteText { position: absolute; right: 5px; font-size: 15px; }
+.css-scope-WebsitesExtension .ext-logo { position: absolute; top: -32px; left: 5%; }
+.css-scope-WebsitesExtension .ext-experimental { position: absolute; right: 0px; bottom: -4px; }
