@@ -52,7 +52,6 @@ namespace Bridge.NET.Test.Components.Azure
 							)
 						)
 					),
-					new List<string>().ToFuentList<ReactElement, List<ReactElement>>().Add()
 
 
 					props.Crumbs.Where(crumb => crumb.Visible).SelectMany((crumb, i) => new ReactElement[]
