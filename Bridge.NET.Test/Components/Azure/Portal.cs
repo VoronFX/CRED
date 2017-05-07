@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using AzurePortal;
 using Bridge.NET.Test.Components.Azure.Resources;
@@ -14,30 +15,60 @@ namespace Bridge.NET.Test.Components.Azure
 	public sealed class Portal : PureComponent<Portal.Props>
 	{
 		public Portal(Fxs fxs, PortalTheme theme, bool showStartboard)
-			: base(new Props(fxs, theme, showStartboard)) { }
+			: base(new Props(fxs, theme, showStartboard))
+		{
+		}
 
 		public override ReactElement Render()
 		{
+			//return React.DOM.div({
+			//	id: "web-container",
+			//	className: Bridge.NET.Test.Helpers.Fluent.FluentClassName.op_Implicit(Bridge.NET.Test.Helpers.Fluent.ClassName([this.Classes.FxsPortal, this.Classes.FxsDesktopNormal]).Add([this.unwrappedProps.ShowStartboard ? this.Classes.FxsShowStartboard : this.Classes.FxsShowJourney]))
+			//}, React.DOM.div({
+			//	title: "sdadasdasd"
+
+			//}), React.DOM.div({ }));
+
+			//Union<ReactElement, string>[] children
+
 			return DOM.Div(new Attributes
 			{
 				Id = "web-container",
 				ClassName = Fluent.ClassName(Classes.FxsPortal, Classes.FxsDesktopNormal)
-					.Add(props.ShowStartboard ? Classes.FxsShowStartboard : Classes.FxsShowJourney)
+						.Add(props.ShowStartboard ? Classes.FxsShowStartboard : Classes.FxsShowJourney)
 			},
-				//DOM.Div(Classes.FxsClassAttribute(Classes.FxsTopbar)),
-				//DOM.Div(Classes.FxsClassAttribute(Classes.FxsPortalTip)),
-				//DOM.Div(Classes.FxsClassAttribute(Classes.FxsPortalMain)),
-				////contextpane
-				//DOM.Div(Classes.FxsClassAttribute(Classes.FxsSidebar)),
-				//DOMEx.Svg(Classes.FxsClassAttribute(Classes.FxsSidebar)),
-				new Topbar(props.Fxs, true, true)
-				//new Sidebar(props.Fxs,
-				//NonNullList<Sidebar.SideBarButton>.Empty,
-				//NonNullList<Sidebar.SideBarButton>.Empty)
-			//new Svg(FxSymbols.Hamburger)
+			//DOM.Div(new Attributes(){Title = "sdadasdasd"}),
+			//DOM.Div(new Attributes())
+
+			Fluent.ChildrenBuilder()
+				.Add(DOM.Div(new Attributes()))
+				.Add(DOM.Div(new Attributes()
+				{
+
+				}))
+				//.Add(new Topbar(props.Fxs, true, true))
+				//.Add(new Sidebar(props.Fxs, NonNullList<Sidebar.SideBarButton>.Empty,
+				//	NonNullList<Sidebar.SideBarButton>.Empty))
+				.Build().Cast<Union<ReactElement, string>>().ToArray()
+
+			//DOM.Div(Classes.FxsClassAttribute(Classes.FxsTopbar)),
+			//DOM.Div(Classes.FxsClassAttribute(Classes.FxsPortalTip)),
+			//DOM.Div(Classes.FxsClassAttribute(Classes.FxsPortalMain)),
+			////contextpane
+			//DOM.Div(Classes.FxsClassAttribute(Classes.FxsSidebar)),
+			//DOMEx.Svg(Classes.FxsClassAttribute(Classes.FxsSidebar)),
+
 			//contextpane
 			);
 		}
+
+		public void Div(Action<Attributes> attrSetter, IEnumerable<ChildrenBuilder> builder = null)
+		{
+			var attr = new Attributes { Key = "sad" };
+
+
+		}
+
 		private StyleClassesMap Classes => props.Fxs.StyleClasses;
 		private DummyClassesMap DummyClasses => props.Fxs.DummyClasses;
 		private IFxsText Text => props.Fxs.Text;
@@ -50,6 +81,7 @@ namespace Bridge.NET.Test.Components.Azure
 				this.CtorSet(_ => _.ShowStartboard, showStartboard);
 				this.CtorSet(_ => _.Theme, theme);
 			}
+
 			public Fxs Fxs { get; }
 			public bool ShowStartboard { get; }
 			public PortalTheme Theme { get; }
@@ -57,7 +89,10 @@ namespace Bridge.NET.Test.Components.Azure
 
 		public enum PortalTheme
 		{
-			Azure, Blue, Light, Black
+			Azure,
+			Blue,
+			Light,
+			Black
 		}
 	}
 }

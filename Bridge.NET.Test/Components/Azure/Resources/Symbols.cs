@@ -30,6 +30,12 @@ namespace Bridge.NET.Test.Components.Azure.Resources
 	[RequireResource(Svg_FxSymbol0_013_svg)]
 	[RequireResource(Svg_FxSymbol0_011_svg)]
 	[RequireResource(Svg_FxSymbol0_00e_svg)]
+	[RequireResource(Svg_FxSymbol0_009_svg)]
+	[RequireResource(Svg_FxSymbol0_00a_svg)]
+	[RequireResource(Svg_FxSymbol0_00b_svg)]
+	[RequireResource(Svg_FxSymbol0_00c_svg)]
+	[RequireResource(Svg_FxSymbol0_00d_svg)]
+
 	public sealed partial class Fxs
 	{
 		public enum Symbols
@@ -38,7 +44,12 @@ namespace Bridge.NET.Test.Components.Azure.Resources
 			Plus = 0x010,
 			Ellipsis = 0x013,
 			CaretUp = 0x011,
-			Search = 0x00e
+			Search = 0x00e,
+			NotificationsIcon = 0x009,
+			ConsoleIcon = 0x00a,
+			SettingsIcon = 0x00b,
+			FeedbackIcon = 0x00c,
+			HelpIcon = 0x00d
 		}
 	}
 }

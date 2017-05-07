@@ -18,7 +18,22 @@ namespace Bridge.NET.Test
 		{
 			foreach (string key in Keys(Window.Get(RequireResourceAttribute.ResourcesVariableName)))
 			{
-				Window.Eval<object>((string)Window.Get(RequireResourceAttribute.ResourcesVariableName)[key]);
+				var res = (string)Window.Get(RequireResourceAttribute.ResourcesVariableName)[key];
+				if (key.EndsWith(".js"))
+					Window.Eval<object>(res);
+				else if (key.EndsWith(".css"))
+				{
+					var style = Document.CreateElement<HTMLStyleElement>("style");
+					style.Type = "text/css";
+					style.AppendChild(Document.CreateTextNode(res));
+					Document.Head.AppendChild(style);
+				}
+				else if (key.EndsWith(".svg"))
+				{
+					var svg = Document.CreateElement<HTMLDivElement>("svg");
+					svg.InnerHTML = res;
+					Document.Head.AppendChild(svg);
+				}
 			}
 			Window.Set(RequireResourceAttribute.ResourcesVariableName, null);
 

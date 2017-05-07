@@ -69,6 +69,7 @@
     <Compile Include="API\SavedMessageDetails.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Components\AppContainer.cs" />
+    <Compile Include="Components\Azure\AvatarMenu.cs" />
     <Compile Include="Components\Azure\Resources\Fxs.cs" />
     <Compile Include="Components\Azure\Resources\FxsText.cs" />
     <Compile Include="Components\Azure\Resources\Symbols.cs" />

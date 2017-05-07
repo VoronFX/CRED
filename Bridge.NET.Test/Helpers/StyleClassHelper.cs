@@ -8,51 +8,43 @@ using ProductiveRage.Immutable;
 
 namespace Bridge.NET.Test.Helpers
 {
-	public static class StyleClassExtensionMethods
+	public static class Fluent
 	{
-		public static string ToClassesString<T>(this IEnumerable<T> clasessList) where T : IStyleClass
-			=> string.Join(" ", clasessList.Select(x => x.ToString()));
-
-		public static string ToCssClassName(this string name)
-			=> ToCssClassName(name, StyleClassSeparator.Hyphen);
-
-		public static string ToCssClassName(this string name, StyleClassSeparator separator)
+		public sealed class ChildrenCollection
 		{
-			name = String.Join(GetSeparatorChar(separator),
-				Regex.Replace(Regex.Replace(name, "[^a-zA-Z_-]", ""), "([a-zA-Z])(?=[A-Z])", "$1-"))
-				.ToLower();
-			if (name.Length < 2)
-				throw new ArgumentException($"Resulting class name is less than 2 symbols: \"{name}\"");
-			return name;
-		}
+			private readonly List<object> list = new List<object>();
 
-		private static string GetSeparatorChar(StyleClassSeparator separator)
-		{
-			switch (separator)
+			public ChildrenCollection Add(ReactElement item)
 			{
-				case StyleClassSeparator.Underscope:
-					return "_";
-				case StyleClassSeparator.Hyphen:
-					return "-";
-				case StyleClassSeparator.None:
-					return "";
-				default:
-					throw new ArgumentOutOfRangeException(nameof(separator), separator, null);
+				list.Add(item);
+				return this;
+			}
+
+			public ChildrenCollection AddRange(IEnumerable<ReactElement> items)
+			{
+				list.AddRange(items);
+				return this;
+			}
+
+			public IEnumerable<ReactElement> Build()
+			{
+				for (int i = 0; i < list.Count; i++)
+				{
+					//var x = list[i];
+				//	Script.Write("x.key = i");
+					//Script.Set(list[i], "key", i);
+					//((dummy)list[i]).key = i;
+				}
+				return list.Cast<ReactElement>().ToArray();
+			}
+
+			private class dummy
+			{
+				public object key;
 			}
 		}
 
-		//public static TAttr AddClass<TAttr>(this TAttr attributes, Func<bool> condition, params string[] classes) 
-		//	where TAttr : DomElementsAttributes
-		//{
-		//	attributes.ClassName.Join(" ", attributes.ClassName.Split(" ").Join(classes, s => s, s => s));
-		//	return attributes;
-		//}
-	}
-
-	public static class Fluent
-	{
-
-		public sealed class FluentList<T> : List<T>
+		public class FluentList<T> : List<T>
 		{
 			public new FluentList<T> Add(T item) => this.FluentAdd(item);
 			public new FluentList<T> AddRange(IEnumerable<T> item) => this.FluentAddRange(item);
@@ -62,8 +54,8 @@ namespace Bridge.NET.Test.Helpers
 
 		public sealed class FluentClassName : FluentList<string>
 		{
-			public FluentClassName AddIf(Func<bool> condition, params string[] classNames)
-				=> condition() ? AddRange(classNames) : this;
+			public FluentClassName AddIf(Func<FluentClassName, bool> condition, params string[] classNames)
+				=> this.FluentIf(condition, _ => AddRange(classNames));
 
 			public FluentClassName Add(params string[] classNames)
 			{
@@ -77,6 +69,9 @@ namespace Bridge.NET.Test.Helpers
 
 		public static FluentClassName ClassName(params string[] classNames)
 			=> new FluentClassName().Add(classNames);
+
+		public static ChildrenCollection ChildrenBuilder()
+			=> new ChildrenCollection();
 
 		public static T Append<T, T2>(this T list, T2 item) where T : IList<T2>
 		{
@@ -93,13 +88,12 @@ namespace Bridge.NET.Test.Helpers
 		public static FluentList<T> List<T>()
 			=> new FluentList<T>();
 
-		public static FluentList<T> ToFuentList<T>(this T list) where T : IList<T>
-			=> new FluentList<T>().AddRange(list);
+		public static FluentList<T> ToFuentList<T>(this IEnumerable<T> items)
+			=> new FluentList<T>().AddRange(items);
 
 		public static T FluentAdd<T, T2>(this T collection, T2 item) where T : ICollection<T2>
 		{
-			if (!collection.Contains(item))
-				collection.Add(item);
+			collection.Add(item);
 			return collection;
 		}
 
@@ -145,47 +139,5 @@ namespace Bridge.NET.Test.Helpers
 		Underscope,
 		Hyphen,
 		None
-	}
-
-	public struct StyleClass<T> : IStyleClass where T : struct, IConvertible
-	{
-		public StyleClass(T value)
-		{
-			if (!typeof(T).IsEnum)
-			{
-				throw new ArgumentException("T must be an enumerated type");
-			}
-			Value = value;
-		}
-
-		public T Value { get; }
-
-		public override string ToString() => ToString(StyleClassSeparator.Hyphen);
-
-		public string ToString(StyleClassSeparator separator)
-		{
-			var name = Regex.Replace(Enum.GetName(typeof(T), this), "^[A-Z_a-z]", "");
-			name = Regex.Split(name, "([A-Z_][a-z]+)")
-				.Join(GetSeparatorChar(separator))
-				.ToLower();
-			if (name.Length < 2)
-				throw new ArgumentException($"Resulting class name is less than 2 symbols: \"{name}\"");
-			return name;
-		}
-
-		private static string GetSeparatorChar(StyleClassSeparator separator)
-		{
-			switch (separator)
-			{
-				case StyleClassSeparator.Underscope:
-					return "_";
-				case StyleClassSeparator.Hyphen:
-					return "-";
-				case StyleClassSeparator.None:
-					return "";
-				default:
-					throw new ArgumentOutOfRangeException(nameof(separator), separator, null);
-			}
-		}
 	}
 }
