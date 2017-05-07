@@ -75,6 +75,7 @@
     <Compile Include="Components\Azure\Portal.cs" />
     <Compile Include="Components\Azure\Sidebar.cs" />
     <Compile Include="Components\Azure\Svg.cs" />
+    <Compile Include="Components\Azure\Breadcrumb.cs" />
     <Compile Include="Components\Azure\Topbar.cs" />
     <Compile Include="Components\Azure\TopbarSearch.cs" />
     <Compile Include="Helpers\DOMEx.cs" />

@@ -96,11 +96,11 @@ namespace Bridge.NET.Test.Components.Azure
 								DOM.UL(new Attributes
 								{
 									ClassName = Fluent.ClassName(Classes.FxsBreadcrumbOverflow)
-								}
-								)
+								})
 							)
 						)
 					)
+
 				)
 			);
 		}

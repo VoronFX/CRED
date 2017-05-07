@@ -125,6 +125,7 @@ namespace AzurePortalExtractor
 				Input.Text = string.Join(Environment.NewLine,
 					HtmlToReactConverter.CreateElement(HtmlNode.CreateNode(Input.Text)).Where(x =>
 						!Regex.IsMatch(x, @"\s*//\s\$1")));
+				Input.Text = Regex.Replace(Input.Text, "(?si)(?<=[})]),(?=\\s+[})])", "");
 
 				Input.SelectAll();
 				if (!string.IsNullOrWhiteSpace(Input.Text))

@@ -49,7 +49,7 @@ namespace AzurePortalExtractor
 					.Concat(CreateHead(node).Indent())
 					.Concat(new[]
 					{
-						"}),",
+						"},",
 					})
 					.Concat(node.ChildNodes.SelectMany(CreateElement).Indent())
 					.Concat(new[]
