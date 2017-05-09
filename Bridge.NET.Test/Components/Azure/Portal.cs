@@ -31,25 +31,27 @@ namespace Bridge.NET.Test.Components.Azure
 
 			//Union<ReactElement, string>[] children
 
-			return DOM.Div(new Attributes
+			var a = DOM.Div(new Attributes
 			{
 				Id = "web-container",
 				ClassName = Fluent.ClassName(Classes.FxsPortal, Classes.FxsDesktopNormal)
 						.Add(props.ShowStartboard ? Classes.FxsShowStartboard : Classes.FxsShowJourney)
 			},
-			//DOM.Div(new Attributes(){Title = "sdadasdasd"}),
-			//DOM.Div(new Attributes())
+			DOM.Div(new Attributes(){Title = "sdadasdasd"}),
+			DOM.Div(new Attributes(){Title = "ww"}),
+			DOM.Div(new Attributes(){Title = "sdadasdasd"}),
+			DOM.Div(new Attributes())
+			
+			//Fluent.ChildrenBuilder()
+			//	.Add(DOM.Div(new Attributes()))
+			//	.Add(DOM.Div(new Attributes()
+			//	{
 
-			Fluent.ChildrenBuilder()
-				.Add(DOM.Div(new Attributes()))
-				.Add(DOM.Div(new Attributes()
-				{
-
-				}))
-				//.Add(new Topbar(props.Fxs, true, true))
-				//.Add(new Sidebar(props.Fxs, NonNullList<Sidebar.SideBarButton>.Empty,
-				//	NonNullList<Sidebar.SideBarButton>.Empty))
-				.Build().Cast<Union<ReactElement, string>>().ToArray()
+			//	}))
+			//	//.Add(new Topbar(props.Fxs, true, true))
+			//	//.Add(new Sidebar(props.Fxs, NonNullList<Sidebar.SideBarButton>.Empty,
+			//	//	NonNullList<Sidebar.SideBarButton>.Empty))
+			//	.Build().Cast<Union<ReactElement, string>>().ToArray()
 
 			//DOM.Div(Classes.FxsClassAttribute(Classes.FxsTopbar)),
 			//DOM.Div(Classes.FxsClassAttribute(Classes.FxsPortalTip)),
@@ -60,13 +62,7 @@ namespace Bridge.NET.Test.Components.Azure
 
 			//contextpane
 			);
-		}
-
-		public void Div(Action<Attributes> attrSetter, IEnumerable<ChildrenBuilder> builder = null)
-		{
-			var attr = new Attributes { Key = "sad" };
-
-
+			return a;
 		}
 
 		private StyleClassesMap Classes => props.Fxs.StyleClasses;

@@ -77,7 +77,7 @@ namespace Bridge.NET.Test.Components.Azure
 									},
 										Text.CreateText
 									))
-									.Build()
+								.Build()
 						))
 					.Build()
 			);
@@ -112,33 +112,32 @@ namespace Bridge.NET.Test.Components.Azure
 					Title = fav.Label
 				},
 					Fluent.ChildrenBuilder()
-						.Add(
-							DOM.Div(new Attributes
+						.Div(_ =>
 							{
-								ClassName = Fluent.ClassName(Classes.FxsSidebarIcon, Classes.FxsTrimSvg)
+								_.ClassName = Fluent.ClassName(Classes.FxsSidebarIcon,
+									Classes.FxsTrimSvg);
 							},
-								fav.Icon
-							))
-						.Add(
-							DOM.Div(new Attributes
+							fav.Icon
+						)
+						.Div(_ =>
 							{
-								ClassName = Fluent.ClassName(Classes.FxsSidebarLabel, Classes.FxsSidebarShowIfExpanded)
+								_.ClassName = Fluent.ClassName(Classes.FxsSidebarLabel,
+									Classes.FxsSidebarShowIfExpanded);
 							},
-								fav.Label
-							))
-						.Add(
-							DOM.Div(new Attributes
+							fav.Label
+						)
+						.Div(_ =>
+						{
+							_.ClassName = Fluent.ClassName(Classes.FxsSidebarExternal,
+								Classes.FxsSidebarShowIfExpanded);
+						}, null)
+						.Div(_ =>
 							{
-								ClassName = Fluent.ClassName(Classes.FxsSidebarExternal, Classes.FxsSidebarShowIfExpanded)
-							}))
-						.Add(
-							DOM.Div(new Attributes
-							{
-								ClassName = Fluent.ClassName(Classes.FxsSidebarHandle, Classes.FxsTrimSvgSecondary)
+								_.ClassName = Fluent.ClassName(Classes.FxsSidebarHandle,
+									Classes.FxsTrimSvgSecondary);
 							},
-								new Svg(Fxs.Symbols.Ellipsis)
-							))
-						.Build()
+							new Svg(Fxs.Symbols.Ellipsis)
+						).Build()
 				)
 			);
 		}
