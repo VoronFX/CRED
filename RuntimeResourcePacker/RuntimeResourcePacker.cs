@@ -57,11 +57,14 @@ namespace CRED
 				.WebRootFileProvider
 				.GetDirectoryContents(directory)
 				.Where(x => !x.IsDirectory && x.Name.EndsWith(".js") && !x.Name.EndsWith(".pack.js"))
-				.Select(x => PackFile(x, directory, options.WatchFilesForChanges, CancellationToken.None))
+				.Select(x => options.WatchFilesForChanges
+					? RegisterWatch(x, directory, null)
+					: PackFile(x, directory, CancellationToken.None)
+				)
 				.ToArray());
 		}
 
-		private async Task PackFile(IFileInfo file, string directory, bool watch, CancellationToken cancellationToken)
+		private async Task PackFile(IFileInfo file, string directory, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -71,7 +74,7 @@ namespace CRED
 
 				var tasks = Regex
 					// Pre regex for perfrormace
-					.Matches(inputFile, "(?s)new(?i).+?[\"\'].+?[\"\']", RegexOptions.Compiled)
+					.Matches(inputFile, @"(?s)new(?i).+?[""'].+?[""']", RegexOptions.Compiled)
 					.Cast<Match>()
 					.Select(match => match.Value)
 					.SelectMany(x => Regex
@@ -107,6 +110,7 @@ var {RequireResourceAttribute.ResourcesVariableName} = {{
 
 {inputFile}
 ";
+				cancellationToken.ThrowIfCancellationRequested();
 
 				string minified;
 				if (options.EnableJsMinification &&
@@ -115,12 +119,15 @@ var {RequireResourceAttribute.ResourcesVariableName} = {{
 					packedFile = minified;
 				}
 
+				cancellationToken.ThrowIfCancellationRequested();
+
 				File.WriteAllText(file.PhysicalPath.Replace(".js", ".pack.js"), packedFile);
 
-				if (watch)
-					RegisterWatch(file, directory, null);
-
 				logger?.LogInformation($"File {file.PhysicalPath} packed", file);
+			}
+			catch (TaskCanceledException e)
+			{
+				logger?.LogInformation($"File {file.PhysicalPath} changed during packing, cancelling.", e);
 			}
 			catch (Exception e)
 			{
@@ -129,30 +136,35 @@ var {RequireResourceAttribute.ResourcesVariableName} = {{
 			}
 		}
 
-		private void RegisterWatch(IFileInfo file, string directory, string[] dependancies)
+		private Task RegisterWatch(IFileInfo file, string directory, string[] dependancies)
 		{
-			Tuple<Task, CancellationTokenSource> concurrentPacker = null;
+			return Repack(null);
 
-			void Repack(object o)
+			Task Repack(Tuple<Task, CancellationTokenSource> concurrentPacker)
 			{
 				var newToken = new CancellationTokenSource();
-				var newPacker = new Task(async () => await PackFile(file, directory, true, newToken.Token), newToken.Token);
+				var newPacker = new Task(async () => await PackFile(file, directory, newToken.Token));
 
-				var currentPacker = Interlocked.Exchange(ref concurrentPacker,
-					new Tuple<Task, CancellationTokenSource>(newPacker, newToken));
+				hostingEnvironment.WebRootFileProvider
+					.Watch(Path.Combine(directory, file.Name))
+					.RegisterChangeCallback(state => Repack(state as Tuple<Task, CancellationTokenSource>),
+						new Tuple<Task, CancellationTokenSource>(newPacker, newToken));
 
-				// ReSharper disable once MethodSupportsCancellation
-				if (currentPacker == null)
-					newPacker.Start();
+				if (concurrentPacker != null)
+				{
+					concurrentPacker.Item2.Cancel();
+					// ReSharper disable once MethodSupportsCancellation
+					concurrentPacker.Item1.ContinueWith(task => newPacker.Start());
+				}
 				else
-					currentPacker.Item1.ContinueWith(task => newPacker.Start());
+				{
+					newPacker.Start();
+				}
+
+				return newPacker;
 			}
 
-			hostingEnvironment.WebRootFileProvider
-				.Watch(Path.Combine(directory, file.Name))
-				.RegisterChangeCallback(Repack, null);
-
-			//TODO: watch cahanges in dependacies
+			//TODO: watch changes in dependacies
 
 			//IDisposable[] watches = null;
 			////Tuple<Task, CancellationTokenSource> concurrentPacker = null;

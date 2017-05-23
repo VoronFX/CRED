@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Bridge;
 using Bridge.Html5;
 using Bridge.React;
 
-namespace Bridge.NET.Test.Helpers
+namespace CRED.Client.Helpers
 {
 	[Name("React.DOMEx")]
 	[External]
@@ -102,10 +104,125 @@ namespace Bridge.NET.Test.Helpers
 	[External]
 	[Enum(Emit.StringNameLowerCase)]
 	[Name("String")]
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	public enum TagNames
 	{
+		A,
+		Abbr,
+		Address,
+		Area,
+		Article,
+		Aside,
+		Audio,
+		B,
+		Base,
+		BDI,
+		BDO,
+		Big,
+		BlockQuote,
+		Body,
+		Br,
+		Button,
+		Canvas,
+		Caption,
+		Cite,
+		Code,
+		Col,
+		ColGroup,
+		Data,
+		DataList,
+		DD,
+		Del,
+		Details,
+		Dfn,
+		Dialog,
+		Div,
+		DL,
+		DT,
+		Em,
+		Embed,
+		FieldSet,
+		FigCaption,
+		Figure,
+		Footer,
+		Form,
+		H1,
+		H2,
+		H3,
+		H4,
+		H5,
+		H6,
+		Head,
+		Header,
+		HGroup,
+		Hr,
+		Html,
+		I,
+		IFrame,
+		Img,
+		Input,
+		Ins,
+		Kbd,
+		Keygen,
+		Label,
+		Legend,
+		Li,
+		Link,
+		Main,
+		Map,
+		Mark,
+		Menu,
+		MenuItem,
+		Meta,
+		Meter,
+		Nav,
+		NoScript,
+		Object,
+		OL,
+		OptGroup,
+		Option,
+		Output,
+		P,
+		Param,
+		Picture,
+		Pre,
+		Progress,
+		Q,
+		RP,
+		RT,
+		Ruby,
+		S,
+		Samp,
+		Script,
+		Section,
+		Select,
+		Small,
+		Source,
+		Span,
+		Strong,
+		Style,
+		Sub,
+		Summary,
+		Sup,
+		Table,
+		TBody,
+		TD,
+		TextArea,
+		TFoot,
+		TH,
+		THead,
+		Time,
+		Title,
+		TR,
+		Track,
+		U,
+		UL,
+		Var,
+		Video,
+		WBR,
 		Svg,
-		Use
+		Use,
+		Slot
 	}
 
 	//[External]
@@ -126,6 +243,12 @@ namespace Bridge.NET.Test.Helpers
 	{
 		[Name("role")]
 		public RoleType Role { private get; set; }
+
+		[Name("width")]
+		public string Width { private get; set; }
+
+		[Name("height")]
+		public string Height { private get; set; }
 	}
 
 	[External]

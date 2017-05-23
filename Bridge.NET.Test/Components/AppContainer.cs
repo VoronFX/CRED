@@ -1,13 +1,12 @@
-﻿using Bridge.NET.Test.Actions;
-using Bridge.NET.Test.API;
-using Bridge.NET.Test.Components.Azure;
-using Bridge.NET.Test.Components.Azure.Resources;
-using Bridge.NET.Test.Stores;
-using Bridge.NET.Test.ViewModels;
-using Bridge.React;
+﻿using Bridge.React;
+using CRED.Client.API;
+using CRED.Client.Components.Azure;
+using CRED.Client.Components.Azure.Resources;
+using CRED.Client.Stores;
+using CRED.Client.ViewModels;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Components
+namespace CRED.Client.Components
 {
 	public class AppContainer : Component<AppContainer.Props, Optional<AppContainer.State>>
 	{
@@ -38,7 +37,11 @@ namespace Bridge.NET.Test.Components
 
 			// A good guideline to follow with stateful components is that the State reference should contain everything required to draw the components and
 			// props should only be used to access a Dispatcher reference to deal with callbacks from those components
-			return DOM.Div(null, new Portal(new Fxs(), Portal.PortalTheme.Azure, false));
+			return DOM.Div(new Attributes
+			{
+				Style = new ReactStyle { Height = "100%" }
+
+			}, new Portal(new Fxs(), Portal.PortalTheme.Black, false));
 			//return DOM.Div(null,
 			//	new MessageEditor(
 			//		className: new NonBlankTrimmedString("message"),

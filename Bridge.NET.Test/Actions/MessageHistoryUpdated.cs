@@ -1,9 +1,9 @@
-﻿using Bridge.NET.Test.API;
-using Bridge.React;
+﻿using Bridge.React;
+using CRED.Client.API;
 using ProductiveRage.Immutable;
 using RequestId = ProductiveRage.Immutable.RequestId;
 
-namespace Bridge.NET.Test.Actions
+namespace CRED.Client.Actions
 {
 	public class MessageHistoryUpdated : IDispatcherAction, IAmImmutable
 	{

@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePortalExtractor", "Utilities\AzurePortalExtractor\AzurePortalExtractor.csproj", "{0A9F899D-CBC0-40B8-AFDF-AAC032784173}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bridge.NET.Test", "Bridge.NET.Test\Bridge.NET.Test.csproj", "{4F39EFD6-404C-48BB-B4E7-9141C463F305}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED.Client", "Bridge.NET.Test\CRED.Client.csproj", "{4F39EFD6-404C-48BB-B4E7-9141C463F305}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeResourcePacker", "RuntimeResourcePacker\RuntimeResourcePacker.csproj", "{F4C1C7A1-E65B-4520-A36E-0C799F323331}"
 EndProject

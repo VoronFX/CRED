@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using Bridge.NET.Test.API;
 using Bridge.React;
+using CRED.Client.API;
 using ProductiveRage.Immutable;
 using NonBlankTrimmedString = ProductiveRage.Immutable.NonBlankTrimmedString;
 
-namespace Bridge.NET.Test.Components
+namespace CRED.Client.Components
 {
 	public class MessageHistory : PureComponent<MessageHistory.Props>
 	{

@@ -1058,17 +1058,11 @@ namespace AzurePortal
         
         public string AzcCheckBox { get; } = @"azc-checkBox";
         
-        public string AzcDockedballoonValidationdiv { get; } = @"azc-dockedballoon-validationdiv";
-        
         public string FxcBase { get; } = @"fxc-base";
-        
-        public string AzcValidatableControlInvaliddiv { get; } = @"azc-validatableControl-invaliddiv";
-        
-        public string AzcValidationBorderdiv { get; } = @"azc-validation-borderdiv";
         
         public string AzcValidationBorder { get; } = @"azc-validation-border";
         
-        public string AzcOptionPickerdiv { get; } = @"azc-optionPickerdiv";
+        public string AzcOptionPicker { get; } = @"azc-optionPicker";
         
         public string FxcGroupDropdown { get; } = @"fxc-group-dropdown";
         
@@ -1313,8 +1307,6 @@ namespace AzurePortal
     /// </summary>
     public sealed partial class StyleClassesMap
     {
-        public string AzcOptionPicker { get; } = @"azc-optionPicker";
-        
         public string AzcNoRadio { get; } = @"azc-noRadio";
         
         public string AzcRadio { get; } = @"azc-radio";
@@ -2197,7 +2189,7 @@ namespace AzurePortal
         
         public string AzcMetricsBarColor { get; } = @"azc-metrics-barColor";
         
-        public string AzcMetricsNonvisiblehtml { get; } = @"azc-metrics-nonvisiblehtml";
+        public string AzcMetricsNonvisible { get; } = @"azc-metrics-nonvisible";
         
     }
     
@@ -2226,158 +2218,6 @@ namespace AzurePortal
     /// </summary>
     public sealed partial class StyleClassesMap
     {
-        public string MsportalfxBgcolorK0t2div { get; } = @"msportalfx-bgcolor-k0t2div";
-        
-        public string MsportalfxBgcolorJ0t2div { get; } = @"msportalfx-bgcolor-j0t2div";
-        
-        public string MsportalfxBgcolorI0t2div { get; } = @"msportalfx-bgcolor-i0t2div";
-        
-        public string MsportalfxBgcolorH0t2div { get; } = @"msportalfx-bgcolor-h0t2div";
-        
-        public string MsportalfxBgcolorG0t2div { get; } = @"msportalfx-bgcolor-g0t2div";
-        
-        public string MsportalfxBgcolorF0t2div { get; } = @"msportalfx-bgcolor-f0t2div";
-        
-        public string MsportalfxBgcolorE0t2div { get; } = @"msportalfx-bgcolor-e0t2div";
-        
-        public string MsportalfxBgcolorD0t2div { get; } = @"msportalfx-bgcolor-d0t2div";
-        
-        public string MsportalfxBgcolorC0t2div { get; } = @"msportalfx-bgcolor-c0t2div";
-        
-        public string MsportalfxBgcolorB0t2div { get; } = @"msportalfx-bgcolor-b0t2div";
-        
-        public string MsportalfxBgcolorA0t2div { get; } = @"msportalfx-bgcolor-a0t2div";
-        
-        public string MsportalfxBgcolorK0t1div { get; } = @"msportalfx-bgcolor-k0t1div";
-        
-        public string MsportalfxBgcolorJ0t1div { get; } = @"msportalfx-bgcolor-j0t1div";
-        
-        public string MsportalfxBgcolorI0t1div { get; } = @"msportalfx-bgcolor-i0t1div";
-        
-        public string MsportalfxBgcolorH0t1div { get; } = @"msportalfx-bgcolor-h0t1div";
-        
-        public string MsportalfxBgcolorG0t1div { get; } = @"msportalfx-bgcolor-g0t1div";
-        
-        public string MsportalfxBgcolorF0t1div { get; } = @"msportalfx-bgcolor-f0t1div";
-        
-        public string MsportalfxBgcolorE0t1div { get; } = @"msportalfx-bgcolor-e0t1div";
-        
-        public string MsportalfxBgcolorD0t1div { get; } = @"msportalfx-bgcolor-d0t1div";
-        
-        public string MsportalfxBgcolorC0t1div { get; } = @"msportalfx-bgcolor-c0t1div";
-        
-        public string MsportalfxBgcolorB0t1div { get; } = @"msportalfx-bgcolor-b0t1div";
-        
-        public string MsportalfxBgcolorA0t1div { get; } = @"msportalfx-bgcolor-a0t1div";
-        
-        public string MsportalfxBgcolorK0s1div { get; } = @"msportalfx-bgcolor-k0s1div";
-        
-        public string MsportalfxBgcolorJ0s1div { get; } = @"msportalfx-bgcolor-j0s1div";
-        
-        public string MsportalfxBgcolorI0s1div { get; } = @"msportalfx-bgcolor-i0s1div";
-        
-        public string MsportalfxBgcolorH0s1div { get; } = @"msportalfx-bgcolor-h0s1div";
-        
-        public string MsportalfxBgcolorG0s1div { get; } = @"msportalfx-bgcolor-g0s1div";
-        
-        public string MsportalfxBgcolorF0s1div { get; } = @"msportalfx-bgcolor-f0s1div";
-        
-        public string MsportalfxBgcolorE0s1div { get; } = @"msportalfx-bgcolor-e0s1div";
-        
-        public string MsportalfxBgcolorD0s1div { get; } = @"msportalfx-bgcolor-d0s1div";
-        
-        public string MsportalfxBgcolorC0s1div { get; } = @"msportalfx-bgcolor-c0s1div";
-        
-        public string MsportalfxBgcolorB0s1div { get; } = @"msportalfx-bgcolor-b0s1div";
-        
-        public string MsportalfxBgcolorA0s1div { get; } = @"msportalfx-bgcolor-a0s1div";
-        
-        public string MsportalfxBgcolorK0s2div { get; } = @"msportalfx-bgcolor-k0s2div";
-        
-        public string MsportalfxBgcolorJ0s2div { get; } = @"msportalfx-bgcolor-j0s2div";
-        
-        public string MsportalfxBgcolorI0s2div { get; } = @"msportalfx-bgcolor-i0s2div";
-        
-        public string MsportalfxBgcolorH0s2div { get; } = @"msportalfx-bgcolor-h0s2div";
-        
-        public string MsportalfxBgcolorG0s2div { get; } = @"msportalfx-bgcolor-g0s2div";
-        
-        public string MsportalfxBgcolorF0s2div { get; } = @"msportalfx-bgcolor-f0s2div";
-        
-        public string MsportalfxBgcolorE0s2div { get; } = @"msportalfx-bgcolor-e0s2div";
-        
-        public string MsportalfxBgcolorD0s2div { get; } = @"msportalfx-bgcolor-d0s2div";
-        
-        public string MsportalfxBgcolorC0s2div { get; } = @"msportalfx-bgcolor-c0s2div";
-        
-        public string MsportalfxBgcolorB0s2div { get; } = @"msportalfx-bgcolor-b0s2div";
-        
-        public string MsportalfxBgcolorA0s2div { get; } = @"msportalfx-bgcolor-a0s2div";
-        
-        public string MsportalfxBgcolorK2div { get; } = @"msportalfx-bgcolor-k2div";
-        
-        public string MsportalfxBgcolorJ2div { get; } = @"msportalfx-bgcolor-j2div";
-        
-        public string MsportalfxBgcolorI2div { get; } = @"msportalfx-bgcolor-i2div";
-        
-        public string MsportalfxBgcolorH2div { get; } = @"msportalfx-bgcolor-h2div";
-        
-        public string MsportalfxBgcolorG2div { get; } = @"msportalfx-bgcolor-g2div";
-        
-        public string MsportalfxBgcolorF2div { get; } = @"msportalfx-bgcolor-f2div";
-        
-        public string MsportalfxBgcolorE2div { get; } = @"msportalfx-bgcolor-e2div";
-        
-        public string MsportalfxBgcolorD2div { get; } = @"msportalfx-bgcolor-d2div";
-        
-        public string MsportalfxBgcolorC2div { get; } = @"msportalfx-bgcolor-c2div";
-        
-        public string MsportalfxBgcolorB2div { get; } = @"msportalfx-bgcolor-b2div";
-        
-        public string MsportalfxBgcolorA2div { get; } = @"msportalfx-bgcolor-a2div";
-        
-        public string MsportalfxBgcolorK0div { get; } = @"msportalfx-bgcolor-k0div";
-        
-        public string MsportalfxBgcolorJ0div { get; } = @"msportalfx-bgcolor-j0div";
-        
-        public string MsportalfxBgcolorI0div { get; } = @"msportalfx-bgcolor-i0div";
-        
-        public string MsportalfxBgcolorH0div { get; } = @"msportalfx-bgcolor-h0div";
-        
-        public string MsportalfxBgcolorG0div { get; } = @"msportalfx-bgcolor-g0div";
-        
-        public string MsportalfxBgcolorF0div { get; } = @"msportalfx-bgcolor-f0div";
-        
-        public string MsportalfxBgcolorE0div { get; } = @"msportalfx-bgcolor-e0div";
-        
-        public string MsportalfxBgcolorD0div { get; } = @"msportalfx-bgcolor-d0div";
-        
-        public string MsportalfxBgcolorC0div { get; } = @"msportalfx-bgcolor-c0div";
-        
-        public string MsportalfxBgcolorB0div { get; } = @"msportalfx-bgcolor-b0div";
-        
-        public string MsportalfxBgcolorA0div { get; } = @"msportalfx-bgcolor-a0div";
-        
-        public string MsportalfxBgcolorK1div { get; } = @"msportalfx-bgcolor-k1div";
-        
-        public string MsportalfxBgcolorJ1div { get; } = @"msportalfx-bgcolor-j1div";
-        
-        public string MsportalfxBgcolorI1div { get; } = @"msportalfx-bgcolor-i1div";
-        
-        public string MsportalfxBgcolorH1div { get; } = @"msportalfx-bgcolor-h1div";
-        
-        public string MsportalfxBgcolorG1div { get; } = @"msportalfx-bgcolor-g1div";
-        
-        public string MsportalfxBgcolorF1div { get; } = @"msportalfx-bgcolor-f1div";
-        
-        public string MsportalfxBgcolorE1div { get; } = @"msportalfx-bgcolor-e1div";
-        
-        public string MsportalfxBgcolorD1div { get; } = @"msportalfx-bgcolor-d1div";
-        
-        public string MsportalfxBgcolorC1div { get; } = @"msportalfx-bgcolor-c1div";
-        
-        public string MsportalfxBgcolorB1div { get; } = @"msportalfx-bgcolor-b1div";
-        
     }
     
     /// <summary>
@@ -2436,8 +2276,6 @@ namespace AzurePortal
         public string FxsTilesizeSmall { get; } = @"fxs-tilesize-small";
         
         public string FxsPartCollectionpartNoRollupCount { get; } = @"fxs-part-collectionpart-no-rollup-count";
-        
-        public string FxsPartCollectionparthtml { get; } = @"fxs-part-collectionparthtml";
         
     }
     
@@ -2530,8 +2368,6 @@ namespace AzurePortal
         
         public string FxsPartButtonpartAdornment { get; } = @"fxs-part-buttonpart-adornment";
         
-        public string FxsPartButtonpartAdornmenthtml { get; } = @"fxs-part-buttonpart-adornmenthtml";
-        
     }
     
     /// <summary>
@@ -2558,8 +2394,6 @@ namespace AzurePortal
         public string FxsPartAssetpartIcon { get; } = @"fxs-part-assetpart-icon";
         
         public string FxsTilesizeNormal { get; } = @"fxs-tilesize-normal";
-        
-        public string FxsPartAssetpartStatushtml { get; } = @"fxs-part-assetpart-statushtml";
         
     }
     
@@ -3696,8 +3530,6 @@ namespace AzurePortal
         
         public string FxcPairedTimelineMetrics { get; } = @"fxc-paired-timeline-metrics";
         
-        public string AzcMetricsNonvisible { get; } = @"azc-metrics-nonvisible";
-        
         public string FxcPairedTimelineNometrics { get; } = @"fxc-paired-timeline-nometrics";
         
         public string FxcPairedTimelineLastMetrics { get; } = @"fxc-paired-timeline-last-metrics";
@@ -3872,8 +3704,6 @@ namespace AzurePortal
         
         public string MsportalfxVerticalCompact { get; } = @"msportalfx-vertical-compact";
         
-        public string AzcFormElementSubLabelContainerdiv { get; } = @"azc-formElementSubLabelContainerdiv";
-        
         public string FxcSectionDependent { get; } = @"fxc-section-dependent";
         
         public string FxcRightSublabel { get; } = @"fxc-right-sublabel";
@@ -4031,8 +3861,6 @@ namespace AzurePortal
         
         public string FxsJourneyLayout { get; } = @"fxs-journey-layout";
         
-        public string FxsBladeStacklayouthtml { get; } = @"fxs-blade-stacklayouthtml";
-        
         public string FxsBladeStatusbarText { get; } = @"fxs-blade-statusbar-text";
         
     }
@@ -4046,7 +3874,7 @@ namespace AzurePortal
     {
         public string FxsDisplayNone { get; } = @"fxs-display-none";
         
-        public string FxsHideAccessibleLabela { get; } = @"fxs-hide-accessible-labela";
+        public string FxsHideAccessibleLabel { get; } = @"fxs-hide-accessible-label";
         
     }
     
@@ -4087,6 +3915,8 @@ namespace AzurePortal
     /// </summary>
     public sealed partial class StyleClassesMap
     {
+        public string FxsThemeLight { get; } = @"fxs-theme-light";
+        
     }
     
     /// <summary>
@@ -4096,6 +3926,24 @@ namespace AzurePortal
     /// </summary>
     public sealed partial class StyleClassesMap
     {
+        public string FxsThemeAzure { get; } = @"fxs-theme-azure";
+        
+        public string FxsTopbar { get; } = @"fxs-topbar";
+        
+        public string FxsTopbarSearch { get; } = @"fxs-topbar-search";
+        
+        public string FxsSearchbox { get; } = @"fxs-searchbox";
+        
+        public string FxsTrim { get; } = @"fxs-trim";
+        
+        public string FxsTrimSelected { get; } = @"fxs-trim-selected";
+        
+        public string FxsTrimHover { get; } = @"fxs-trim-hover";
+        
+        public string FxsTrimBorder { get; } = @"fxs-trim-border";
+        
+        public string FxsTrimTextPrimary { get; } = @"fxs-trim-text-primary";
+        
     }
     
     /// <summary>
@@ -4281,15 +4129,7 @@ namespace AzurePortal
     /// </summary>
     public sealed partial class StyleClassesMap
     {
-        public string FxsTopbar { get; } = @"fxs-topbar";
-        
         public string FxsBgWarning { get; } = @"fxs-bg-warning";
-        
-        public string FxsTopbarSearch { get; } = @"fxs-topbar-search";
-        
-        public string FxsSearchbox { get; } = @"fxs-searchbox";
-        
-        public string FxsTrim { get; } = @"fxs-trim";
         
         public string FxsTrimText { get; } = @"fxs-trim-text";
         
@@ -4301,17 +4141,9 @@ namespace AzurePortal
         
         public string FxsTrimTitle { get; } = @"fxs-trim-title";
         
-        public string FxsTrimSelected { get; } = @"fxs-trim-selected";
-        
-        public string FxsTrimHover { get; } = @"fxs-trim-hover";
-        
-        public string FxsTrimBorder { get; } = @"fxs-trim-border";
-        
         public string FxsTrimSvg { get; } = @"fxs-trim-svg";
         
         public string FxsTrimSvgSecondary { get; } = @"fxs-trim-svg-secondary";
-        
-        public string FxsTrimTextPrimary { get; } = @"fxs-trim-text-primary";
         
         public string FxsSidebarStar { get; } = @"fxs-sidebar-star";
         
@@ -4709,7 +4541,7 @@ namespace AzurePortal
         
         public string FxsAvatarmenuListSystem { get; } = @"fxs-avatarmenu-list-system";
         
-        public string FxsAvatarmenuScrollviewerhtml { get; } = @"fxs-avatarmenu-scrollviewerhtml";
+        public string FxsAvatarmenuScrollviewer { get; } = @"fxs-avatarmenu-scrollviewer";
         
     }
     
@@ -4830,8 +4662,6 @@ namespace AzurePortal
         public string FxsJourneyTarget { get; } = @"fxs-journey-target";
         
         public string FxsStartboardTarget { get; } = @"fxs-startboard-target";
-        
-        public string AzcControlbody { get; } = @"azc-controlbody";
         
         public string FxsPanningCursor { get; } = @"fxs-panning-cursor";
         
@@ -5328,8 +5158,6 @@ namespace AzurePortal
         
         public string FxsPartErrorText { get; } = @"fxs-part-error-text";
         
-        public string FxsPartErrorReasonhtml { get; } = @"fxs-part-error-reasonhtml";
-        
     }
     
     /// <summary>
@@ -5372,10 +5200,6 @@ namespace AzurePortal
         public string FxsPartNoaccessmessageTextsmall { get; } = @"fxs-part-noaccessmessage-textsmall";
         
         public string FxsPartNoaccessmessageWithtitle { get; } = @"fxs-part-noaccessmessage-withtitle";
-        
-        public string FxsParthtml { get; } = @"fxs-parthtml";
-        
-        public string FxsPartTitlehtml { get; } = @"fxs-part-titlehtml";
         
     }
     
@@ -5448,8 +5272,6 @@ namespace AzurePortal
         
         public string MsportalfxTextSubheader { get; } = @"msportalfx-text-subheader";
         
-        public string MsportalfxTextHeadera { get; } = @"msportalfx-text-headera";
-        
         public string MsportalfxTextHeader { get; } = @"msportalfx-text-header";
         
         public string MsportalfxTextHeaderSmall { get; } = @"msportalfx-text-header-small";
@@ -5457,8 +5279,6 @@ namespace AzurePortal
         public string MsportalfxTextLabel { get; } = @"msportalfx-text-label";
         
         public string MsportalfxTextSmall { get; } = @"msportalfx-text-small";
-        
-        public string MsportalfxTextSubheaderhtml { get; } = @"msportalfx-text-subheaderhtml";
         
         public string MsportalfxTextHeaderRegular { get; } = @"msportalfx-text-header-regular";
         

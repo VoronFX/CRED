@@ -1,24 +1,24 @@
 ﻿[
-    {
-        "outputFileName": "wwwroot/css/site.min.css",
-        "inputFiles": [
-            "wwwroot/css/site.css",
-            "wwwroot/app/bladeui/azure/EmbeddedStyle.css",
-            "wwwroot/app/bladeui/azure/ExternalPacked.css",
-            "wwwroot/app/bladeui/azure/EmbeddedStyle2.css"
-        ],
-        "minify": {
-            "enabled": false
-        }
-    },
-    {
-        "outputFileName": "wwwroot/js/site.js",
-        "inputFiles": [
-            "../Bridge.NET.Test/Bridge/Build/bridge.nEt.Test.js"
-        ],
-        "minify": {
-            "enabled": false,
-            "renameLocals": false
-        }
-    }
+    //{
+    //    "outputFileName": "wwwroot/css/site.min.css",
+    //    "inputFiles": [
+    //        "wwwroot/css/site.css",
+    //        "wwwroot/app/bladeui/azure/EmbeddedStyle.css",
+    //        "wwwroot/app/bladeui/azure/ExternalPacked.css",
+    //        "wwwroot/app/bladeui/azure/EmbeddedStyle2.css"
+    //    ],
+    //    "minify": {
+    //        "enabled": false
+    //    }
+    //}
+    //{
+    //    "outputFileName": "wwwroot/js/site.js",
+    //    "inputFiles": [
+    //        "../Bridge.NET.Test/Bridge/Build/bridge.nEt.Test.js"
+    //    ],
+    //    "minify": {
+    //        "enabled": false,
+    //        "renameLocals": false
+    //    }
+    //}
 ] 

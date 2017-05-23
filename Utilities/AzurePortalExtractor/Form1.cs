@@ -165,6 +165,11 @@ namespace AzurePortalExtractor
 		{
 			string name = "DomBuilder";
 
+			var s = string.Join(Environment.NewLine, Regex.Matches(ReactBindingsText, "(?si)(?<=extern ReactElement )(?<el>\\w+)\\((?<prop>\\w+)(?=\\s+properties)")
+				.Cast<Match>()
+				.Select(x => x.Groups["el"].Value + ",")
+				.Distinct());
+
 			File.WriteAllLines(textBox4.Text,
 			DefinitionGenerator.GenerateNamespace(
 				name: "FluentReact",

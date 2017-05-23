@@ -126,6 +126,8 @@ namespace AzurePortalExtractor
 					return resources;
 				}).ToArray();
 
+			
+
 			var resourcesBase = parsedResources.First().ToArray();
 
 			// Fill empty styles with other files
@@ -141,6 +143,14 @@ namespace AzurePortalExtractor
 				if (overlayRes != null)
 					resource.Content = overlayRes.Content;
 			}
+
+			// Encapsulate some styles
+			//foreach (var resource in resourcesBase
+			//	.Where(r =>r.Type == Resource.ResType.Style))
+			//{
+			//	resource.Content = Regex.Replace(resource.Content, 
+			//		"(?<=[^a-zA-Z0-9-_])(body|html)(?=[^a-zA-Z0-9-_])", "div.azure-$1");
+			//}
 
 			Parallel.ForEach(resourcesBase,
 				resource => resource.Save(outputDirectory));
@@ -233,7 +243,7 @@ namespace AzurePortalExtractor
 				.Select(r => new
 				{
 					resource = r,
-					classes = Regex.Matches(Regex.Replace(r.Content, @"(?is)\{.*?\}", ""), @"(?is)\.[A-Z_a-z0-9-]+")
+					classes = Regex.Matches(Regex.Replace(r.Content, @"(?is)\{.*?\}", " "), @"(?is)\.[A-Z_a-z0-9-]+")
 						.Cast<Match>()
 						.Select(rgx => new
 						{

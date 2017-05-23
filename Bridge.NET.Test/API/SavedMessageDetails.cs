@@ -1,6 +1,6 @@
 ﻿using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.API
+namespace CRED.Client.API
 {
 	public class SavedMessageDetails : IAmImmutable
 	{

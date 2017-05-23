@@ -1,9 +1,9 @@
-﻿using Bridge.NET.Test.Components.Azure.Resources;
-using Bridge.NET.Test.Helpers;
-using Bridge.React;
+﻿using Bridge.React;
+using CRED.Client.Components.Azure.Resources;
+using CRED.Client.Helpers;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Components.Azure
+namespace CRED.Client.Components.Azure
 {
 	public class Svg : PureComponent<Svg.Props>
 	{
@@ -15,8 +15,9 @@ namespace Bridge.NET.Test.Components.Azure
 		public override ReactElement Render()
 		{
 			return DOMEx.Create(TagNames.Svg, new SvgAttributes
-			{
-				Style = new ReactStyle { Width = "100%", Height = "100%" }
+			{			
+				Width = "100%",
+				Height = "100%"
 			},
 				DOMEx.Create(TagNames.Use, new UseAttributes
 				{

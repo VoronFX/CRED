@@ -1,0 +1,40 @@
+{
+  "name": "yui3-contextual-reset",
+  "version": "1.0.5",
+  "authors": [
+    "Joel Hernandez <bengaldevelop@gmail.com>"
+  ],
+  "description": "YUI3 Framework CSS contextual reset",
+  "main": "cssreset-context.min.css",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "css",
+    "reset",
+    "cssreset",
+    "yui3",
+    "YUI3",
+    "CSS",
+    "reset",
+    "YUI3",
+    "contextual",
+    "css",
+    "reset",
+    "css",
+    "reset",
+    "yahoo"
+  ],
+  "ignore": [],
+  "homepage": "https://github.com/thefabulousdev/yui3-contextual-reset",
+  "_release": "1.0.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.5",
+    "commit": "84deca2ca9cf809e1c13b4166c45ebe239d787e0"
+  },
+  "_source": "https://github.com/thefabulousdev/yui3-contextual-reset.git",
+  "_target": "v1.0.5",
+  "_originalSource": "yui3-contextual-reset",
+  "_direct": true
+}

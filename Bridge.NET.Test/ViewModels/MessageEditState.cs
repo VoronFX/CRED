@@ -1,6 +1,6 @@
 ﻿using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.ViewModels
+namespace CRED.Client.ViewModels
 {
 	public class MessageEditState : IAmImmutable
 	{

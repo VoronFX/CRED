@@ -1,8 +1,8 @@
-﻿using Bridge.NET.Test.API;
-using Bridge.React;
+﻿using Bridge.React;
+using CRED.Client.API;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Actions
+namespace CRED.Client.Actions
 {
 	public class MessageSaveRequested : IDispatcherAction, IAmImmutable
 	{

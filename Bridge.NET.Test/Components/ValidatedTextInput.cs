@@ -2,7 +2,7 @@
 using Bridge.React;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Components
+namespace CRED.Client.Components
 {
 	public class ValidatedTextInput : PureComponent<ValidatedTextInput.Props>
 	{

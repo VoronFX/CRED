@@ -1,49 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using Bridge.React;
-using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Helpers
+namespace CRED.Client.Helpers
 {
 	public static class Fluent
 	{
-		public sealed class ChildrenCollection
-		{
-			private readonly List<object> list = new List<object>();
-
-			public ChildrenCollection Add(ReactElement item)
-			{
-				list.Add(item);
-				return this;
-			}
-
-			public ChildrenCollection AddRange(IEnumerable<ReactElement> items)
-			{
-				list.AddRange(items);
-				return this;
-			}
-
-			public IEnumerable<ReactElement> Build()
-			{
-				for (int i = 0; i < list.Count; i++)
-				{
-					//var x = list[i];
-				//	Script.Write("x.key = i");
-					//Script.Set(list[i], "key", i);
-					//((dummy)list[i]).key = i;
-				}
-				return list.Cast<ReactElement>().ToArray();
-			}
-
-			private class dummy
-			{
-				public object key;
-			}
-		}
-
 		public class FluentList<T> : List<T>
 		{
 			public new FluentList<T> Add(T item) => this.FluentAdd(item);
@@ -69,9 +31,6 @@ namespace Bridge.NET.Test.Helpers
 
 		public static FluentClassName ClassName(params string[] classNames)
 			=> new FluentClassName().Add(classNames);
-
-		public static ChildrenCollection ChildrenBuilder()
-			=> new ChildrenCollection();
 
 		public static T Append<T, T2>(this T list, T2 item) where T : IList<T2>
 		{
@@ -125,19 +84,5 @@ namespace Bridge.NET.Test.Helpers
 				action(obj);
 			return obj;
 		}
-	}
-
-
-	public interface IStyleClass
-	{
-		string ToString();
-		string ToString(StyleClassSeparator separator);
-	}
-
-	public enum StyleClassSeparator
-	{
-		Underscope,
-		Hyphen,
-		None
 	}
 }

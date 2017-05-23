@@ -1,10 +1,11 @@
 ﻿using System;
+using Bridge;
 using Bridge.Html5;
-using Bridge.NET.Test.Actions;
 using Bridge.React;
+using CRED.Client.Actions;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.API
+namespace CRED.Client.API
 {
 	/// <summary>
 	/// In a real application, this would talk to the server to send and retrieve data - to keep this example simple, it handles all of the data internally

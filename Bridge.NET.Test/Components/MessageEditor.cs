@@ -1,9 +1,9 @@
 ﻿using System;
-using Bridge.NET.Test.ViewModels;
 using Bridge.React;
+using CRED.Client.ViewModels;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Components
+namespace CRED.Client.Components
 {
 	public class MessageEditor : PureComponent<MessageEditor.Props>
 	{

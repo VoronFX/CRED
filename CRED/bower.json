@@ -6,6 +6,7 @@
     "jquery": "2.2.0",
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "react": "v15.5.4"
+    "react": "v15.5.4",
+    "yui3-contextual-reset": "v1.0.5"
   }
 }

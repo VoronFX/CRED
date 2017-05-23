@@ -1,6 +1,6 @@
 ﻿using AzurePortal;
 
-namespace Bridge.NET.Test.Components.Azure.Resources
+namespace CRED.Client.Components.Azure.Resources
 {
 	public sealed partial class Fxs
 	{

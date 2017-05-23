@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using AzurePortal;
-using Bridge.NET.Test.Components.Azure.Resources;
-using Bridge.NET.Test.Helpers;
 using Bridge.React;
+using CRED.Client.Components.Azure.Resources;
+using CRED.Client.Helpers;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Components.Azure
+namespace CRED.Client.Components.Azure
 {
 	public sealed class Breadcrumb : PureComponent<Breadcrumb.Props>
 	{
@@ -25,12 +25,9 @@ namespace Bridge.NET.Test.Components.Azure
 				{
 					ClassName = Fluent.ClassName(Classes.FxsBreadcrumbWrapper)
 				},
-					Fluent.ChildrenBuilder()
-						.Add(
-							RenderDropmenu())
-						.AddRange(
-							RenderCrumbs())
-						.Build()
+					ReactElementList.Empty
+					.Add(RenderDropmenu())
+					.Add(RenderCrumbs())
 				)
 			);
 		}
@@ -39,32 +36,35 @@ namespace Bridge.NET.Test.Components.Azure
 		{
 			return DOM.Div(new Attributes
 			{
-				ClassName = Fluent.ClassName(Classes.FxsBreadcrumbDropmenu)
+				ClassName = Fluent.ClassName(Classes.FxsBreadcrumbDropmenu),
+				Key = nameof(Classes.FxsBreadcrumbDropmenu)
 			},
 				DOM.Div(new Attributes
 				{
 					ClassName = Fluent.ClassName(Classes.FxsDropmenu)
 				},
-					Fluent.ChildrenBuilder()
-						.Button(_=>
+					DOM.Div(new Attributes
+					{
+						ClassName = Fluent.ClassName(Classes.FxsDropmenu)
+					},
+						DOM.Button(new ButtonAttributes
+						{
+							ClassName = Fluent.ClassName(Classes.FxsDropmenuButton, DummyClasses.FxsPopupButton)
+						},
+							"«"
+						),
+						DOM.Div(new Attributes
+						{
+							ClassName = Fluent.ClassName(Classes.FxsDropmenuContent, DummyClasses.FxsTextLink, Classes.FxsPopup,
+									Classes.FxsPortalBgTxtBr,
+									Classes.FxsDropmenuDefaultWidth, Classes.FxsDropmenuRight, Classes.FxsDropmenuInvisible)
+						},
+							DOM.UL(new Attributes
 							{
-								_.ClassName = Fluent.ClassName(Classes.FxsDropmenuButton, DummyClasses.FxsPopupButton)
-							},
-								"«"
-							))
-						.Div(
-							DOM.Div(new Attributes
-							{
-								ClassName = Fluent.ClassName(Classes.FxsDropmenuContent, DummyClasses.FxsTextLink, Classes.FxsPopup,
-										Classes.FxsPortalBgTxtBr,
-										Classes.FxsDropmenuDefaultWidth, Classes.FxsDropmenuRight, Classes.FxsDropmenuInvisible)
-							},
-								DOM.UL(new Attributes
-								{
-									ClassName = Fluent.ClassName(Classes.FxsBreadcrumbOverflow)
-								})
-							))
-						.Build()
+								ClassName = Fluent.ClassName(Classes.FxsBreadcrumbOverflow)
+							})
+						)
+					)
 				)
 			);
 		}
@@ -73,29 +73,28 @@ namespace Bridge.NET.Test.Components.Azure
 		{
 			return props.Crumbs
 				.Where(crumb => crumb.Visible)
-				.SelectMany((crumb, i) => Fluent.ChildrenBuilder()
-					.Add(
-						DOM.A(new AnchorAttributes
+				.SelectMany((crumb, i) => new[]
+				{
+					DOM.A(new AnchorAttributes
+					{
+						ClassName = Fluent.ClassName(Classes.FxsBreadcrumbCrumb, Classes.FxsTrimText, Classes.FxsTrimHover),
+						Key = i*2
+						// Href = ,
+						// DataBind = attr: { 'data-blade-id': $data.bladeId }, text: $data.bladeTitle, visible: $data.visible,
+						// Style = display: none;,
+					}),
+					DOM.Div(new Attributes
 						{
-							ClassName = Fluent.ClassName(Classes.FxsBreadcrumbCrumb, Classes.FxsTrimText, Classes.FxsTrimHover),
-							// Href = ,
-							// DataBind = attr: { 'data-blade-id': $data.bladeId }, text: $data.bladeTitle, visible: $data.visible,
+							ClassName = Fluent.ClassName(Classes.FxsBreadcrumbDivider, Classes.FxsTrimSvgSecondary),
+							Key = i*2+1
+							// DataBind = image: $data.caretUp, visible: $data.visible,
 							// Style = display: none;,
-						}))
-					.FluentIf(_ => i < props.Crumbs.Count, _ =>
-						_.Add(
-							DOM.Div(new Attributes
-							{
-								ClassName = Fluent.ClassName(Classes.FxsBreadcrumbDivider, Classes.FxsTrimSvgSecondary),
-								// DataBind = image: $data.caretUp, visible: $data.visible,
-								// Style = display: none;,
-								// <div class="fxs-breadcrumb-divider fxs-trim-svg-secondary" data-bind="image: $data.caretUp, visible: $data.visible" style="display: none;">
-							},
-								new Svg(Fxs.Symbols.CaretUp)
-							))
+							// <div class="fxs-breadcrumb-divider fxs-trim-svg-secondary" data-bind="image: $data.caretUp, visible: $data.visible" style="display: none;">
+						},
+						new Svg(Fxs.Symbols.CaretUp)
 					)
-					.Build()
-				);
+				})
+				.TakeExceptLast();
 		}
 
 		private StyleClassesMap Classes => props.Fxs.StyleClasses;

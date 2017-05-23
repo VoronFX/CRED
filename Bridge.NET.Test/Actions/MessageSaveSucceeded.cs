@@ -1,7 +1,7 @@
 ﻿using Bridge.React;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Actions
+namespace CRED.Client.Actions
 {
 	public class MessageSaveSucceeded : IDispatcherAction, IAmImmutable
 	{

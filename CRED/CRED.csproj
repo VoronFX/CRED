@@ -9,12 +9,13 @@
     <PackageId>CRED</PackageId>
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
-    <PreBuildEvent>@echo "---------- Cleaning up .ts files from obj folder (start) ---------"
+    <!--<PreBuildEvent>@echo "- - - - - - - - - - Cleaning up .ts files from obj folder (start) - - - - - - - - - -"
 if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
   del $(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)*.ts /s /q
 )
-@echo "---------- Cleaning up .ts files from obj folder (end) ---------"</PreBuildEvent>
+@echo "- - - - - - - - - - Cleaning up .ts files from obj folder (end) - - - - - - - - - -"</PreBuildEvent>-->
     <!--<PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>-->
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <ItemGroup>
@@ -252,8 +253,6 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
     <Content Include="wwwroot\app\register.component.js" />
     <Content Include="wwwroot\app\register.component.js.map" />
     <Content Include="wwwroot\app\register.component.ts" />
-    <Content Include="wwwroot\app\rxjs-operators.js" />
-    <Content Include="wwwroot\app\rxjs-operators.js.map" />
     <Content Include="wwwroot\app\rxjs-operators.ts" />
     <Content Include="wwwroot\app\security\auth-guard.service.js" />
     <Content Include="wwwroot\app\security\auth-guard.service.js.map" />
@@ -267,6 +266,7 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
     <Content Include="wwwroot\app\services\sampleData.service.js" />
     <Content Include="wwwroot\app\services\sampleData.service.js.map" />
     <Content Include="wwwroot\app\services\SampleData.service.ts" />
+    <Content Include="wwwroot\azure\overlay\app-container.css" />
     <Content Include="wwwroot\favicon.ico" />
     <Content Include="wwwroot\systemjs.config.extras.js" />
     <Content Include="wwwroot\systemjs.config.js" />
@@ -300,7 +300,7 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bridge.NET.Test\Bridge.NET.Test.csproj" />
+    <ProjectReference Include="..\Bridge.NET.Test\CRED.Client.csproj" />
     <ProjectReference Include="..\RuntimeResourcePacker\RuntimeResourcePacker.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -310,13 +310,12 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\azure\extracted\" />
-    <Folder Include="wwwroot\azure\overlay\" />
     <Folder Include="wwwroot\azure\sources\" />
   </ItemGroup>
   
-  <Target Name="CleanupTypescriptFromObjFolder" BeforeTargets="Build">
+  <!--<Target Name="CleanupTypescriptFromObjFolder" BeforeTargets="Build">
     <RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" />
-  </Target>
+  </Target>-->
 
   <Target Name="AfterBuild">
     <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />

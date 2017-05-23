@@ -1,9 +1,9 @@
 using AzurePortal;
-using Bridge.NET.Test.Components.Azure.Resources;
 using Bridge.React;
+using CRED.Client.Components.Azure.Resources;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Components.Azure
+namespace CRED.Client.Components.Azure
 {
 	public class AvatarMenu : PureComponent<AvatarMenu.Props>
 	{
@@ -13,6 +13,7 @@ namespace Bridge.NET.Test.Components.Azure
 
 		public override ReactElement Render()
 		{
+			return null;
 			throw new System.NotImplementedException();
 		}
 

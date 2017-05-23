@@ -1,11 +1,11 @@
 ﻿using System;
-using Bridge.NET.Test.Actions;
-using Bridge.NET.Test.API;
-using Bridge.NET.Test.ViewModels;
 using Bridge.React;
+using CRED.Client.Actions;
+using CRED.Client.API;
+using CRED.Client.ViewModels;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Stores
+namespace CRED.Client.Stores
 {
 	public class AppUIStore
 	{

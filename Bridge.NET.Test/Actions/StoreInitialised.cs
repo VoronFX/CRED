@@ -1,7 +1,7 @@
 ﻿using Bridge.React;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Actions
+namespace CRED.Client.Actions
 {
 	/// <summary>
 	/// This action is raised when the app is ready, when the Dispatcher has been created and the initial Store is ready to be fired up (in a more

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Reflection;
+using Bridge;
 using Bridge.Html5;
-using Bridge.NET.Test.Actions;
-using Bridge.NET.Test.API;
-using Bridge.NET.Test.Components;
-using Bridge.NET.Test.Stores;
 using Bridge.React;
-using CRED;
+using CRED.Client.Actions;
+using CRED.Client.API;
+using CRED.Client.Components;
+using CRED.Client.Helpers;
+using CRED.Client.Stores;
 
-namespace Bridge.NET.Test
+namespace CRED.Client
 {
 	[RequireResource("/lib/react/react.js")]
 	[RequireResource("/lib/react/react-dom.js")]
@@ -16,6 +16,10 @@ namespace Bridge.NET.Test
 	{
 		public static void Main()
 		{
+			var resNode = Document.CreateElement<HTMLDivElement>(TagNames.Div.ToString());
+			resNode.Style.Display = Display.None;
+			resNode.Id = nameof(resNode);
+
 			foreach (string key in Keys(Window.Get(RequireResourceAttribute.ResourcesVariableName)))
 			{
 				var res = (string)Window.Get(RequireResourceAttribute.ResourcesVariableName)[key];
@@ -23,18 +27,19 @@ namespace Bridge.NET.Test
 					Window.Eval<object>(res);
 				else if (key.EndsWith(".css"))
 				{
-					var style = Document.CreateElement<HTMLStyleElement>("style");
+					var style = Document.CreateElement<HTMLStyleElement>(TagNames.Style.ToString());
 					style.Type = "text/css";
 					style.AppendChild(Document.CreateTextNode(res));
-					Document.Head.AppendChild(style);
+					resNode.AppendChild(style);
 				}
 				else if (key.EndsWith(".svg"))
 				{
-					var svg = Document.CreateElement<HTMLDivElement>("svg");
+					var svg = Document.CreateElement<HTMLDivElement>(TagNames.Svg.ToString());
 					svg.InnerHTML = res;
-					Document.Head.AppendChild(svg);
+					resNode.AppendChild(svg);
 				}
 			}
+			Document.Head.AppendChild(resNode);
 			Window.Set(RequireResourceAttribute.ResourcesVariableName, null);
 
 			// Create a new Button
@@ -75,8 +80,16 @@ namespace Bridge.NET.Test
 			var dispatcher = new AppDispatcher();
 			var store = new AppUIStore(dispatcher, new MessageApi(dispatcher));
 
-			var container = Document.GetElementById("main");
-			React.React.Render(
+			var container = Document.GetElementById("app-container");
+			//var shadow = Script.Eval<HTMLElement>($"{nameof(container)}.attachShadow({{mode: 'open'}});");
+			////var shadow = Script.Get<HTMLElement>(container, "attachShadow()");
+			////resNode.AppendChild(Document.CreateElement(TagNames.Slot.ToString()));
+			//shadow.AppendChild(resNode);
+			//container = Document.CreateElement(TagNames.Div.ToString());
+			//shadow.AppendChild(container);
+
+
+			Bridge.React.React.Render(
 				new AppContainer(store, dispatcher),
 				container
 			);

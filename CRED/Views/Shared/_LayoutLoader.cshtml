@@ -10,20 +10,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CRED</title>
     <base href="~/">
+    <style>
+        #app-container {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            animation: fadein 0.2s;  
+            animation-delay: 0.5s;
+        }
+    </style>
 </head>
 <body>
-    <div id="main"></div>
-    @{
-        Html.RenderPartial("SplashScreen");
-        IgnoreBody();
-    }
-    <script type="text/javascript">
-            window.resources = [
-            { url: "@Context.AppendVersion("/js/site.pack.js")" },
-        ];
-    </script>
-    @{
-        Html.RenderPartial("LoaderScript");
-    }
+<div id="app-container"></div>
+@{
+    Html.RenderPartial("SplashScreen");
+    IgnoreBody();
+}
+<script type="text/javascript">
+    window.resources = [
+        { url: "@Context.AppendVersion("/js/CRED.Client.pack.js")" },
+    ];
+</script>
+@{
+    Html.RenderPartial("LoaderScript");
+}
 </body>
 </html>

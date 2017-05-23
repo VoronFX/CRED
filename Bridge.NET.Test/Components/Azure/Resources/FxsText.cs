@@ -1,7 +1,4 @@
-using System;
-using Bridge.React;
-
-namespace Bridge.NET.Test.Components.Azure.Resources
+п»їnamespace CRED.Client.Components.Azure.Resources
 {
 	public interface IFxsText
 	{
@@ -27,26 +24,26 @@ namespace Bridge.NET.Test.Components.Azure.Resources
 
 	public sealed class FxsTextRu : IFxsText
 	{
-		public string SearchTooltip { get; } = "Поиск ресурсов (глобальный)";
+		public string SearchTooltip { get; } = "РџРѕРёСЃРє СЂРµСЃСѓСЂСЃРѕРІ (РіР»РѕР±Р°Р»СЊРЅС‹Р№)";
 		public string ProductName { get; } = "Microsoft Azure";
-		public string DashboardTooltip { get; } = "Перейти к панели мониторинга";
-		public string InternalText { get; } = "Предварительная версия";
+		public string DashboardTooltip { get; } = "РџРµСЂРµР№С‚Рё Рє РїР°РЅРµР»Рё РјРѕРЅРёС‚РѕСЂРёРЅРіР°";
+		public string InternalText { get; } = "РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅР°СЏ РІРµСЂСЃРёСЏ";
 		public string BrowseText { get; } = "More services";
-		public string CreateText { get; } = "Создать";
-		public string ShowMenu { get; } = "Показать меню";
+		public string CreateText { get; } = "РЎРѕР·РґР°С‚СЊ";
+		public string ShowMenu { get; } = "РџРѕРєР°Р·Р°С‚СЊ РјРµРЅСЋ";
 
 		public string ExitCustomizeText { get; } =
-			"Добавляйте, передвигайте и закрепляйте плитки, а также меняйте их размер.";
+			"Р”РѕР±Р°РІР»СЏР№С‚Рµ, РїРµСЂРµРґРІРёРіР°Р№С‚Рµ Рё Р·Р°РєСЂРµРїР»СЏР№С‚Рµ РїР»РёС‚РєРё, Р° С‚Р°РєР¶Рµ РјРµРЅСЏР№С‚Рµ РёС… СЂР°Р·РјРµСЂ.";
 
-		public string Notifications { get; } = "Уведомления";
-		public string Console { get; } = "Консоль";
-		public string Settings { get; } = "Параметры";
-		public string Feedback { get; } = "Отзывы и предложения";
+		public string Notifications { get; } = "РЈРІРµРґРѕРјР»РµРЅРёСЏ";
+		public string Console { get; } = "РљРѕРЅСЃРѕР»СЊ";
+		public string Settings { get; } = "РџР°СЂР°РјРµС‚СЂС‹";
+		public string Feedback { get; } = "РћС‚Р·С‹РІС‹ Рё РїСЂРµРґР»РѕР¶РµРЅРёСЏ";
 		public string HelpTooltip { get; } = string.Empty;
-		public string DashboardMessage { get; } = "В этой панели мониторинга есть неопубликованные изменения.";
-		public string ExitCustomizeButton { get; } = "Настройка завершена";
-		public string ViewDashboardButton { get; } = "Просмотреть панель мониторинга";
-		public string DashboardSaveButtonText { get; } = "Опубликовать изменения";
-		public string DiscardDashboardButton { get; } = "Отменить";
+		public string DashboardMessage { get; } = "Р’ СЌС‚РѕР№ РїР°РЅРµР»Рё РјРѕРЅРёС‚РѕСЂРёРЅРіР° РµСЃС‚СЊ РЅРµРѕРїСѓР±Р»РёРєРѕРІР°РЅРЅС‹Рµ РёР·РјРµРЅРµРЅРёСЏ.";
+		public string ExitCustomizeButton { get; } = "РќР°СЃС‚СЂРѕР№РєР° Р·Р°РІРµСЂС€РµРЅР°";
+		public string ViewDashboardButton { get; } = "РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РїР°РЅРµР»СЊ РјРѕРЅРёС‚РѕСЂРёРЅРіР°";
+		public string DashboardSaveButtonText { get; } = "РћРїСѓР±Р»РёРєРѕРІР°С‚СЊ РёР·РјРµРЅРµРЅРёСЏ";
+		public string DiscardDashboardButton { get; } = "РћС‚РјРµРЅРёС‚СЊ";
 	}
 }

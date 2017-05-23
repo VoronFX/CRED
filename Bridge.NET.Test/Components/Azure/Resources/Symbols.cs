@@ -1,21 +1,20 @@
 using System;
 using Bridge.Html5;
-using CRED;
 using static AzurePortal.Definitions.Svg;
 
-namespace Bridge.NET.Test.Components.Azure.Resources
+namespace CRED.Client.Components.Azure.Resources
 {
 	public static class FxSymbolExtension
 	{
 		static FxSymbolExtension()
 		{
-			foreach (Fxs.Symbols value in Enum.GetValues(typeof(Fxs.Symbols)))
-			{
-				if (Document.GetElementById(value.ToElementId()) == null)
-				{
-					throw new ArgumentException($"Resource {value.ToHref()} was not found.");
-				}
-			}
+			//foreach (Fxs.Symbols value in Enum.GetValues(typeof(Fxs.Symbols)))
+			//{
+			//	if (Document.GetElementById(value.ToElementId()) == null)
+			//	{
+			//		throw new ArgumentException($"Resource {value.ToHref()} was not found.");
+			//	}
+			//}
 		}
 
 		public static string ToElementId(this Fxs.Symbols symbol)

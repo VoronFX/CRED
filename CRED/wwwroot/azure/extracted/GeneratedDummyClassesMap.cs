@@ -44,8 +44,6 @@ namespace AzurePortal
         
         public string FxsAvatarmenuSignout { get; } = @"fxs-avatarmenu-signout";
         
-        public string FxsAvatarmenuScrollviewer { get; } = @"fxs-avatarmenu-scrollviewer";
-        
         public string FxsAvatarmenuChangepassword { get; } = @"fxs-avatarmenu-changepassword";
         
         public string FxsAvatarmenuMyaccess { get; } = @"fxs-avatarmenu-myaccess";
@@ -285,6 +283,40 @@ namespace AzurePortal
         public string ExtGotoLinkDisabled { get; } = @"ext-goto-link-disabled";
         
         public string ExtBottomContainer { get; } = @"ext-bottom-container";
+        
+        public string FxsTopbarDashboardVisible { get; } = @"fxs-topbar-dashboard-visible";
+        
+        public string AzcChartAxisSliderLine { get; } = @"azc-chart-axis-slider-line";
+        
+        public string FxsSettingspaneSubfilter { get; } = @"fxs-settingspane-subfilter";
+        
+        public string FxcResourcefilter { get; } = @"fxc-resourcefilter";
+        
+        public string FxcSubscriptionSummary { get; } = @"fxc-subscription-summary";
+        
+        public string FxcResourcefilterFilter { get; } = @"fxc-resourcefilter-filter";
+        
+        public string FxcResourcefilterSubscriptions { get; } = @"fxc-resourcefilter-subscriptions";
+        
+        public string FxcResourcefilterResourcetypes { get; } = @"fxc-resourcefilter-resourcetypes";
+        
+        public string FxcResourcefilterLocations { get; } = @"fxc-resourcefilter-locations";
+        
+        public string FxsSettingspaneTheme { get; } = @"fxs-settingspane-theme";
+        
+        public string FxcOptionsGroupField { get; } = @"fxc-OptionsGroupField";
+        
+        public string AzcItemList { get; } = @"azc-itemList";
+        
+        public string AzcItemlistSelected { get; } = @"azc-itemlist-selected";
+        
+        public string AzcDropdownField { get; } = @"azc-dropdownField";
+        
+        public string FxcDropDownField { get; } = @"fxc-DropDownField";
+        
+        public string AzcGroupDropDown { get; } = @"azc-groupDropDown";
+        
+        public string FxsSettingspaneCancel { get; } = @"fxs-settingspane-cancel";
         
     }
     

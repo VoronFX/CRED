@@ -1,12 +1,9 @@
-﻿using System;
-using AzurePortal;
-using Bridge.Html5;
-using Bridge.NET.Test.Components.Azure.Resources;
-using Bridge.NET.Test.Helpers;
+﻿using AzurePortal;
 using Bridge.React;
+using CRED.Client.Components.Azure.Resources;
 using ProductiveRage.Immutable;
 
-namespace Bridge.NET.Test.Components.Azure
+namespace CRED.Client.Components.Azure
 {
 	public sealed class TopbarSearch : Component<TopbarSearch.Props, TopbarSearch.State>
 	{
