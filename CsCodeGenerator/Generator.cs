@@ -3,28 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml.Linq;
-using CsCodeGenerator.Types;
 
 namespace CsCodeGenerator
 {
-
-
-	[SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass")]
-	public static partial class Generator
+	public static class Generator
 	{
-
-
-
-
-
-		public static IEnumerable<string> Namespace(string name, string[] comment, IEnumerable<string> imports,
-			IEnumerable<string> content)
+		public static IEnumerable<string> Namespace(string name, string[] comment, IEnumerable<string> imports, IEnumerable<string> content)
 			=> imports.Select(i => $"using {i};")
 				.Concat(new[] { string.Empty })
 				.Concat(comment.Select(x => $@"// {x}"))
 				.Concat(new[]
 				{
-					"namespace " + name,
+					"namespace "+name,
 					"{",
 				})
 				.Concat(content.Indent())
@@ -53,29 +43,6 @@ namespace CsCodeGenerator
 				});
 
 		public static IEnumerable<string> Property(string name, string value, string[] comment,
-			bool @static, bool @public = true, bool @readonly = true, string type = "string")
-			=> Comment(comment)
-				.Concat(new[]
-				{
-					JoinNonEmpty(" ",
-						@public ? nameof(@public) : string.Empty,
-						@static ? nameof(@static) : string.Empty,
-						@const ? nameof(@const) : string.Empty,
-						@readonly && field ? nameof(@readonly) : string.Empty,
-						type, name,
-						field ? "=" : (@readonly ? "{ get; } =" : "{ get; set; } ="), value + ";"),
-					string.Empty
-				});
-
-		public static IEnumerable<string> Field(string name, string value, string[] comment,
-			bool @const, bool @static, bool @public = true, bool @readonly = true, string type = "string")
-			=> PropertyField(name, value, comment, @const,);
-
-		public static IEnumerable<string> Const(string name, string value, string[] comment,
-			bool @const, bool @static, bool @public = true, bool @readonly = true, string type = "string")
-			=> PropertyField(name, value, comment, @const,);
-
-		private static IEnumerable<string> PropertyField(string name, string value, string[] comment,
 			bool @const, bool @static, bool field, bool @public = true, bool @readonly = true, string type = "string")
 			=> Comment(comment)
 				.Concat(new[]
@@ -86,26 +53,16 @@ namespace CsCodeGenerator
 						@const ? nameof(@const) : string.Empty,
 						@readonly && field ? nameof(@readonly) : string.Empty,
 						type, name,
-						field ? "=" : (@readonly ? "{ get; } =" : "{ get; set; } ="), value + ";"),
+						field ? "=" : (@readonly? "{ get; } =" :"{ get; set; } ="), value+";"),
 					string.Empty
 				});
 
-		[Flags]
-		public enum Modifiers
-		{
-			Const,
-			Public,
-			Private,
+		public static IEnumerable<string> Comment(string[] comment) =>
+			comment.Any() ?
+				new[] { "/// <summary>" }
 
-		}
-
-		//public static IEnumerable<string> Comment(string[] comment) =>
-		//	comment.Any()
-		//		? new[] { "/// <summary>" }
-
-		//			.Concat(comment.Select(c => "/// " + new XElement("dummy", c).Value))
-		//			.Concat(new[] { "/// </summary>" })
-		//		: new string[] { };
+					.Concat(comment.Select(c => "/// " + new XElement("dummy", c).Value))
+					.Concat(new[] { "/// </summary>" }) : new string[] { };
 
 		public static IEnumerable<string> Indent(this IEnumerable<string> input)
 			=> input.Select(x => "    " + x);
