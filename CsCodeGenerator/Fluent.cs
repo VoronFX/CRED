@@ -18,8 +18,13 @@ namespace CsCodeGenerator
 		public static IProtectedInternal ProtectedInternal() => new Member().ProtectedInternal();
 
 		public static IDocument Document(
-			IEnumerable<IDocumentHeadElement> headContent, 
+			IEnumerable<IDocumentHeadElement> headContent, IDocumentBodyElement bodyContent)
+			=> new Document(headContent, new[] { bodyContent });
+
+		public static IDocument Document(
+			IEnumerable<IDocumentHeadElement> headContent,
 			IEnumerable<IDocumentBodyElement> bodyContent) => new Document(headContent, bodyContent);
+
 		public static INamespace Namespace(string name, INamespaceElement element) => Namespace(name, new[] { element });
 		public static INamespace Namespace(string name, IEnumerable<INamespaceElement> elements) => new Namespace(name, elements);
 		public static IUsing Using(IEnumerable<string> content) => new Using(content);
