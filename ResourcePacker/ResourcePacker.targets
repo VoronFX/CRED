@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="ResourcePacker.ResourcePackerTaskWrapper" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll"  >
+    <ParameterGroup>
+      <MSBuildThisFileDirectory ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="Microsoft.Build.Framework" />
+      <Reference Include="Microsoft.CSharp" />
+      <Code Type="Class" Language="cs" Source="$(MSBuildThisFileDirectory)\ResourcePackerTaskWrapper.cs"/>
+    </Task>
+  </UsingTask>
+  <PropertyGroup>
+    <CompileDependsOn>
+      $(CompileDependsOn);
+      ResourcePacker
+    </CompileDependsOn>
+  </PropertyGroup>
+
+  <!--<Target Name="BridgeGenerateScript">
+    <Message Text=" BridgeGenerateScript task started: Project: $(MSBuildProjectName), Configuration: $(Configuration) $(Platform) OutputPath: $(OutputPath) " Importance="high" />
+
+    <GenerateScript
+      Assembly="@(IntermediateAssembly)"
+      AssemblyName="$(AssemblyName)"
+      AssembliesPath="$(OutDir)"
+      CheckForOverflowUnderflow="$(CheckForOverflowUnderflow)"
+      Configuration="$(Configuration)"
+      DefineConstants="$(DefineConstants)"
+      OutDir="$(OutDir)"
+      OutputPath="$(OutputPath)"
+      OutputType="$(OutputType)"
+      Platform="$(Platform)"
+      ProjectPath="$(MSBuildProjectFullPath)"
+      RootNamespace="$(RootNamespace)"
+      Sources="@(Compile)" />
+
+    <Message Text=" BridgeGenerateScript task done: Project: $(MSBuildProjectName), Configuration: $(Configuration) $(Platform) OutputPath: $(OutputPath) " Importance="high" />
+    <Message Text="- BridgeGenerateScript task done: Project: $(MSBuildProjectName), Configuration: $(Configuration) $(Platform) OutputPath: $(OutputPath) " Importance="high" />
+    <Message Text=" @(IntermediateAssembly) :: $(OutDir) :: $(MSBuildThisFileDirectory) :: @(Compile)  " Importance="high" />
+  </Target>-->
+
+  <!--<Target Name="ResourcePacker" AfterTargets="AfterCompile">
+    <UsingTask AssemblyFile="..\ResourcePacker\bin\$(Configuration)\ResourcePacker.dll" TaskName="ResourcePacker.ResourcePackerTask" />
+    <Message Text="aaaaaaaaaaaaaaaaaaaaa" Importance="high" />
+    <ResourcePackerTask IntermediateAssembly="@(IntermediateAssembly)" />
+  </Target>-->
+
+
+  <Target Name="ResourcePacker">
+    <ResourcePacker.ResourcePackerTaskWrapper MSBuildThisFileDirectory="$(MSBuildThisFileDirectory)" />
+  </Target>
+  
+ <!--<Target Name="ResourcePacker" AfterTargets="AfterCompile">
+    <Message Text="фывфывфывфывфы $(MSBuildToolsPath)" Importance="high" />
+   <ResourcePackerTask2  />
+  </Target>-->
+
+
+
+</Project>
