@@ -6,7 +6,7 @@ namespace CsCodeGenerator.Interfaces
 	namespace Member
 	{
 		//Class
-		//Struc,
+		//Struct,
 		//Interface,
 		//Enum,
 

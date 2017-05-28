@@ -1,8 +1,10 @@
 {
     // The folder to output JavaScript (.js) files
     "output": "../CRED/wwwroot/js/",
-    "combineScripts": true,
-    "outputFormatting": "Formatted"
+    //"combineScripts": true,
+    "outputFormatting": "Formatted",
+    "outputBy": "ClassPath"
+
 
     // Uncomment to add TypeScript Definition file (.d.ts) generation to your project.
     // , "generateTypeScript": true

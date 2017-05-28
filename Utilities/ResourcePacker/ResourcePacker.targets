@@ -1,8 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--<ItemGroup Condition="'$(BuildingInsideVisualStudio)'=='true'">
+    <AvailableItemName Include="ResourcePackerResource" />
+  </ItemGroup>-->
   <UsingTask TaskName="ResourcePacker.ResourcePackerTaskWrapper" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll"  >
     <ParameterGroup>
       <MSBuildThisFileDirectory ParameterType="System.String" Required="true" />
+      <ProjectDir ParameterType="System.String" Required="true" />
+      <InputFiles ParameterType="System.String[]" Required="true" />
+      <IntermediateAssembly ParameterType="System.String" Required="true" />
+      <GenerationOutputDir ParameterType="System.String" Required="true" />
     </ParameterGroup>
     <Task>
       <Reference Include="Microsoft.Build.Framework" />
@@ -48,7 +55,7 @@
 
 
   <Target Name="ResourcePacker">
-    <ResourcePacker.ResourcePackerTaskWrapper MSBuildThisFileDirectory="$(MSBuildThisFileDirectory)" />
+    <ResourcePacker.ResourcePackerTaskWrapper MSBuildThisFileDirectory="$(MSBuildThisFileDirectory)" InputFiles="@(Compile)" ProjectDir="$(ProjectDir)" IntermediateAssembly="" GenerationOutputDir="$(ProjectDir)/Generated"/>
   </Target>
   
  <!--<Target Name="ResourcePacker" AfterTargets="AfterCompile">

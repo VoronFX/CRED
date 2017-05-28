@@ -16,14 +16,16 @@ namespace ResourcePacker
     using System.Xml.Linq;
     using System.Collections;
     using System.Collections.Generic;
+    using System.CodeDom;
+    using System.CodeDom.Compiler;
     
     /// <summary>
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
+    #line 1 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class Template1 : Template1Base
+    public partial class MapFileTemplate : MapFileTemplateBase
     {
 #line hidden
         /// <summary>
@@ -32,114 +34,185 @@ namespace ResourcePacker
         public virtual string TransformText()
         {
             this.Write(" \r\n");
+            this.Write(" \r\n");
+            this.Write(" \r\n");
+            this.Write("namespace ");
             
-            #line 14 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
-   
-   //template code - you get IntelliSense here
-   string Greeting = "Hello";
-   string SampleInputFileContent 
-    =  @"<Model>
-	    <Table name=""Rain""><Column name=""Night""/><Column name=""Day""/></Table>
-	    <Table name=""Temperatur""><Column name=""Night""/><Column name=""Day""/></Table>
-	    </Model>";	 
-    // Certainly you would normally load the model data from a file using 
-	// the relative path of the template as shown below:
-	// string SampleInputFileContent = System.IO.File.ReadAllText( 
-    // System.IO.Path.GetDirectoryName(this.Host.TemplateFile) + "\\datafile.xml");  	
+            #line 17 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
+            
+            #line default
+            #line hidden
+            this.Write(" \r\n{\r\n");
+            
+            #line 19 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+
+	var indent = "    ";
+	PushIndent(indent);
+	Action<IEnumerator<string>> GenerateClass = null; 
+	GenerateClass = pathEnumerator =>
+	{
+		var lastItem = pathEnumerator.MoveNext();
+		
+            
+            #line default
+            #line hidden
+            this.Write("public static partial class ");
+            
+            #line 26 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(pathEnumerator.Current.ToPascalCaseIdentifier()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 27 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+		
+            
+            #line default
+            #line hidden
+            this.Write("{\r\n");
+            
+            #line 28 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+
+		PushIndent(indent); 
+		if (lastItem)
+		{
+			
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 34 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+			foreach (var item in Items)
+			{ 
+				if (item.Comment.Any())
+				{
+					
+            
+            #line default
+            #line hidden
+            this.Write("/// <summary>\r\n");
+            
+            #line 39 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+					foreach (var line in item.Comment)
+					{						
+						
+            
+            #line default
+            #line hidden
+            this.Write("/// ");
+            
+            #line 41 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(new XElement("dummy", line).Value));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 42 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+					}
+					
+            
+            #line default
+            #line hidden
+            this.Write("/// </summary>\r\n");
+            
+            #line 44 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+				}	
+
+				var itemValue = item.Value.ToLiteral();
+				if (("public string const " + item.Name +" = " + itemValue + ";").Length > 100) 
+				{
+					
+            
+            #line default
+            #line hidden
+            this.Write("public const string ");
+            
+            #line 49 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name.ToPascalCaseIdentifier()));
+            
+            #line default
+            #line hidden
+            this.Write(" \r\n");
+            
+            #line 50 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+					PushIndent(indent); 
+					
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 51 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(itemValue));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n");
+            
+            #line 52 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+					PopIndent();
+				}
+				else {
+					
+            
+            #line default
+            #line hidden
+            this.Write("public const string ");
+            
+            #line 55 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name.ToPascalCaseIdentifier()));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 55 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(itemValue));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n");
+            
+            #line 56 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+				}
+				
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 59 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+			}
+		}
+		else
+		{
+			GenerateClass(pathEnumerator);
+		} 
+		PopIndent();    
+		
+		
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n");
+            
+            #line 68 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+    
+		};
+	
+	GenerateClass(Path.GetEnumerator());
+	PopIndent();
 
             
             #line default
             #line hidden
-            this.Write("// This is the output code from your template\r\n// you only get syntax-highlightin" +
-                    "g here - not intellisense\r\nnamespace MyNameSpace{\r\n  class MyFirstGeneratedClass" +
-                    "{\r\n     public static void main (string[] args ){\r\n       System.Console.WriteLi" +
-                    "ne(\"");
-            
-            #line 32 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Greeting));
-            
-            #line default
-            #line hidden
-            this.Write(", the time is now: ");
-            
-            #line 32 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(System.DateTime.Now.ToString()));
-            
-            #line default
-            #line hidden
-            this.Write("\");\r\n\t   ");
-            
-            #line 33 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
- getWeatherDataCodeGen(SampleInputFileContent); 
-            
-            #line default
-            #line hidden
-            this.Write("     \r\n     }\r\n  static string GetDataForTable(string table){\r\n     // TODO - wil" +
-                    "l be implemented later...\r\n     return \"\";\r\n    }\r\n  }\r\n}\r\n \r\n");
+            this.Write("}\r\n");
             return this.GenerationEnvironment.ToString();
         }
-        private global::Microsoft.VisualStudio.TextTemplating.ITextTemplatingEngineHost hostValue;
-        /// <summary>
-        /// The current host for the text templating engine
-        /// </summary>
-        public virtual global::Microsoft.VisualStudio.TextTemplating.ITextTemplatingEngineHost Host
-        {
-            get
-            {
-                return this.hostValue;
-            }
-            set
-            {
-                this.hostValue = value;
-            }
-        }
-        
-        #line 42 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
-  
-  // Insert any template procedures here
-  void getWeatherDataCodeGen(string Input) {
-	System.Xml.Linq.XDocument XmlDoc = System.Xml.Linq.XDocument.Parse(Input);
-	
-	
-	var Tables = from c in XmlDoc.Descendants("Table") 
-	   			 select new {Name = c.Attribute("name").Value, Table = c};
-
-    foreach (var aTable in Tables) {
-	
-        
-        #line default
-        #line hidden
-        
-        #line 52 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
-this.Write("\r\n\t System.Console.Write(GetDataForTable(\"");
-
-        
-        #line default
-        #line hidden
-        
-        #line 54 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture(aTable.Name));
-
-        
-        #line default
-        #line hidden
-        
-        #line 54 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
-this.Write("\"));\r\n\r\n\r\n\t");
-
-        
-        #line default
-        #line hidden
-        
-        #line 57 "C:\Users\Voron\Source\Repos\CRED\ResourcePacker\Template1.tt"
-
-	}
-	
-  }
-
-        
-        #line default
-        #line hidden
     }
     
     #line default
@@ -149,7 +222,7 @@ this.Write("\"));\r\n\r\n\r\n\t");
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class Template1Base
+    public class MapFileTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

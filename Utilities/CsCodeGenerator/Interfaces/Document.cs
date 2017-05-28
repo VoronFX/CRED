@@ -8,10 +8,6 @@ namespace CsCodeGenerator.Interfaces
 {
     namespace Document
     {
-		public interface IGenerateUsing
-		{
-			IUsing Using();
-		}
 
 		public interface IDocumentBodyElement : IElement
 	    {

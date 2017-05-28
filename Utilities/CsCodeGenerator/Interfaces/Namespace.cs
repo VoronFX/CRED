@@ -10,7 +10,7 @@ namespace CsCodeGenerator.Interfaces
     namespace Namespace
     {
 	    //Class
-	    //Struc,
+	    //Struct,
 	    //Interface,
 	    //Enum,
 
@@ -18,31 +18,6 @@ namespace CsCodeGenerator.Interfaces
 	    //Field,
 	    //Method,
 	    //Constant
-
-	    public interface IGenerateClass
-	    {
-		    IClass Class(string name, IEnumerable<IMember> content);
-		    IClass Class(string name, IMember content);
-	    }
-
-	    public interface IGenerateStruct
-	    {
-		    IStruct Struct(string name, IEnumerable<IMember> content);
-		    IStruct Struct(string name, IMember content);
-		}
-
-	    public interface IGenerateInterface
-	    {
-		    IInterface Interface(string name, IEnumerable<IMember> content);
-		    IInterface Interface(string name, IMember content);
-		}
-
-	    public interface IGenerateEnum
-	    {
-		    IEnum Enum(string name, IEnumerable<IMember> content);
-		    IEnum Enum(string name, IMember content);
-		}
-
 
 	    public interface IClass : INamespaceElement
 	    {

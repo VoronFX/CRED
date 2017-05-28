@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TidyManaged;
+using CsCodeGenerator;
 
 namespace AzurePortalExtractor
 {
@@ -126,8 +127,6 @@ namespace AzurePortalExtractor
 					return resources;
 				}).ToArray();
 
-			
-
 			var resourcesBase = parsedResources.First().ToArray();
 
 			// Fill empty styles with other files
@@ -178,25 +177,25 @@ namespace AzurePortalExtractor
 			void GenDef(string name, IEnumerable<Resource> resources)
 			{
 				File.WriteAllLines(outputDirectory + $"Generated{name}Definitions.cs",
-					DefinitionGenerator.GenerateNamespace(
+					Generator.Namespace(
 						name: GeneratedXmlNamespace,
 						comment: GeneratedXmlComment,
 						imports: new string[] { },
-						content: DefinitionGenerator.GenerateClass(
+						content: Generator.Class(
 							name: "Definitions",
 							comment: new string[] { },
 							@static: true,
 							partial: true,
 							@public: true,
 							@sealed: false,
-							content: DefinitionGenerator.GenerateClass(
+							content: Generator.Class(
 								name: $"{name}",
 								comment: new string[] { },
 								@static: true,
 								partial: false,
 								@public: true,
 								@sealed: false,
-								content: DefinitionGenerator.GenerateProperty(
+								content: Generator.Property(
 										name: $"{name}Directory",
 										value: $"@\"{relativeOutputDirectory.Replace(@"\", "/")}\"",
 										comment: new[] { $"Path to {name} folder" },
@@ -208,7 +207,7 @@ namespace AzurePortalExtractor
 										type: "string")
 									.Concat(resources
 										.SelectMany(r =>
-											DefinitionGenerator.GenerateProperty(
+											Generator.Property(
 												name: r.IdentifierFull,
 												value: $"{name}Directory + @\"{r.TargetPathFull.Replace(@"\", "/")}\"",
 												comment: new[] { r.Comment },
@@ -267,12 +266,12 @@ namespace AzurePortalExtractor
 			}
 
 			File.WriteAllLines(outputDirectory + $"GeneratedStyleClassesMap.cs",
-				DefinitionGenerator.GenerateNamespace(
+				Generator.Namespace(
 					name: GeneratedXmlNamespace,
 					comment: GeneratedXmlComment,
 					imports: new string[] { },
 					content: classesPacks.SelectMany(cp =>
-						DefinitionGenerator.GenerateClass(
+						Generator.Class(
 							name: "StyleClassesMap",
 							comment: new[]
 							{
@@ -285,7 +284,7 @@ namespace AzurePortalExtractor
 							@public: true,
 							@sealed: true,
 							content: cp.classes.SelectMany(r =>
-								DefinitionGenerator.GenerateProperty(
+								Generator.Property(
 									name: r.identifier,
 									value: $"@\"{r.className}\"",
 									comment: new string[] { },
@@ -311,12 +310,12 @@ namespace AzurePortalExtractor
 				.Where(x => classesPacks.SelectMany(c => c.classes).All(c => c.identifier != x.identifier));
 
 			File.WriteAllLines(outputDirectory + $"GeneratedDummyClassesMap.cs",
-				DefinitionGenerator.GenerateNamespace(
+				Generator.Namespace(
 					name: GeneratedXmlNamespace,
 					comment: GeneratedXmlComment,
 					imports: new string[] { },
 					content: 
-					DefinitionGenerator.GenerateClass(
+					Generator.Class(
 							name: "DummyClassesMap",
 							comment: new[]{ "Classes that has no associated style" },
 							@static: false,
@@ -324,7 +323,7 @@ namespace AzurePortalExtractor
 							@public: true,
 							@sealed: true,
 							content: dummyStyleClasses.SelectMany(r =>
-								DefinitionGenerator.GenerateProperty(
+								Generator.Property(
 									name: r.identifier,
 									value: $"@\"{r.className}\"",
 									comment: new string[] { },
@@ -344,7 +343,7 @@ namespace AzurePortalExtractor
 			Resource[] parsedResources)
 		{
 			File.WriteAllLines(outputDirectory + $"GeneratedRequireAllStyles.cs",
-				DefinitionGenerator.GenerateNamespace(
+				Generator.Namespace(
 					name: GeneratedXmlNamespace,
 					comment: GeneratedXmlComment,
 					imports: new[] { "CRED", $"static {GeneratedXmlNamespace}.Definitions.Styles" },

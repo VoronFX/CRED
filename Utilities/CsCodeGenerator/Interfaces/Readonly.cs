@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CsCodeGenerator.Interfaces.Member.Nested;
 
 namespace CsCodeGenerator.Interfaces
 {
 	namespace Readonly
 	{
 
-		public interface IReadonlyMember : Member.IGenerateProperty, Member.IGenerateField { }
+		public interface IReadonlyMember : IClassModifiers, IPropertyModifiers { }
 
 		public interface IPublic : IReadonlyMember { }
 
