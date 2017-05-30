@@ -23,7 +23,7 @@ namespace ResourcePacker
 				GenerationOutputDir = @"sources",
 				ProjectDir = @"C:\Users\Voron\Source\Repos\CRED\CRED\wwwroot\azure"
 			}.Execute();
-
+			return;
 			Console.ReadKey();
 
 			new ResourcePackerTaskWrapper()
