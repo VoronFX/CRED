@@ -1,7 +1,9 @@
 ﻿using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -31,6 +33,15 @@ namespace ResourcePacker
 
 		public string GenerationOutputDir { get; set; }
 
+		public enum OutputMode
+		{
+			Structured,
+			Flat,
+			OneFile
+		}
+
+		public OutputMode Mode { get; set; }
+
 		public override bool Execute()
 		{
 			var projectDir = Path.GetFullPath(ProjectDir);
@@ -38,117 +49,101 @@ namespace ResourcePacker
 			if (Directory.Exists(outputDir))
 				Directory.Delete(outputDir, true);
 
-			foreach (var fileGroup in InputFiles
-				//.Where(x => !Path.IsPathRooted(x))
-				.Select(x => Path.Combine(projectDir, x))
-				.Where(x => x.StartsWith(projectDir) && !x.StartsWith(outputDir))
-				.GroupBy(x => Path.GetDirectoryName(x.Substring(ProjectDir.Length + 1))))
-			{
-				var directories = fileGroup.Key.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-				var path = Path.Combine(outputDir,
-					string.Join(Path.DirectorySeparatorChar.ToString(), directories.Take(directories.Length - 1)),
-					directories.Last().ToPascalCaseIdentifier() + ".cs");
+			var classesHeirarchy = new Dictionary<string[], CodeTypeDeclaration[]>(StringArrayValueEqualityComparer.Instance);
 
-				Directory.CreateDirectory(Path.GetDirectoryName(path));
-				//File.WriteAllText(path,
-				//	new MapFileTemplate("Namespace", directories, fileGroup
-				//			.Select(x => new MapFileTemplate.Item(Path.GetFileName(x).ToPascalCaseIdentifier(), x, new[] { x })))
-				//		.TransformText());
-
-
-				var classes = directories.Select(x =>
-					new CodeTypeDeclaration(x.ToPascalCaseIdentifier())
-					{
-						
-						TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.Abstract,
-						//StartDirectives = { new CodeDirective(){ "static" } }
-						IsPartial = true,
-						IsClass = true,
-					}
-				).ToArray();
-
-				CodeCommentStatement SummaryComment(params string[] commentLines) =>
-					new CodeCommentStatement(
-						new XDocument(
-							new XElement("summary",
-								new object[] { Environment.NewLine }
-									.Concat(commentLines.Select(x => new XText(x)))
-									.Concat(new[] { Environment.NewLine })
-									.ToArray())
-						).ToString(), true);
-
-				var pathConst = new CodeMemberField(typeof(string), "Path")
+			CodeTypeDeclaration NewClass(string name)
+				=> new CodeTypeDeclaration(name)
 				{
-					// ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
-					Attributes = MemberAttributes.Const | MemberAttributes.Public,
-					Comments = { SummaryComment("Path to this directory", fileGroup.Key) },
-					InitExpression = new CodePrimitiveExpression(fileGroup.Key)
+					TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.Abstract,
+					IsPartial = true,
+					IsClass = true,
 				};
 
-				var fileConsts = fileGroup
-					.Select(x => x.Substring(projectDir.Length + 1 + fileGroup.Key.Length))
-					.Select(x => new CodeMemberField(typeof(string), Path.GetFileName(x).ToPascalCaseIdentifier())
-					{
-						// ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
-						Attributes = MemberAttributes.Const | MemberAttributes.Public,
-						Comments = { SummaryComment(x) },
-						InitExpression = new CodeBinaryOperatorExpression(
-							new CodeArgumentReferenceExpression(pathConst.Name),
-							CodeBinaryOperatorType.Add,
-							new CodePrimitiveExpression(x))
-					})
-					.Cast<CodeTypeMember>()
-					.ToArray();
-
-				var allFilesArray = new CodeMemberProperty()
-				{
-					Type = new CodeTypeReference(typeof(string[])),
-					Name = "All",
-					// ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
-					Attributes = MemberAttributes.Static | MemberAttributes.Public,
-					Comments = { SummaryComment("Collection of all files in this directory") },
-					GetStatements = { new CodeMethodReturnStatement(new CodeArrayCreateExpression(typeof(string),
-						fileConsts.Select(x => new CodeArgumentReferenceExpression(x.Name))
-							.Cast<CodeExpression>()
-							.ToArray())) }
-				};
-
-				classes.Last().Members.Add(pathConst);
-				classes.Last().Members.AddRange(fileConsts);
-				classes.Last().Members.Add(allFilesArray);
-
-				var unit = new CodeCompileUnit()
+			CodeCompileUnit NewUnit(CodeTypeDeclaration contentMember)
+				=> new CodeCompileUnit()
 				{
 					Namespaces =
 					{
 						new CodeNamespace("Resources")
 						{
-							Types =
-							{
-								classes.Reverse().Aggregate((seed, parent) =>
-								{
-									parent.Members.Add(seed);
-									return parent;
-								})
-							}
+							Types = { contentMember }
 						}
 					}
-				};
+				};			
 
-				using (var writer = new StringWriter())
-				using (var provider = CodeDomProvider.CreateProvider("CSharp"))
+			var filesInDirectories = InputFiles
+				.Select(x => Path.Combine(projectDir, x))
+				.Where(x => x.StartsWith(projectDir) && !x.StartsWith(outputDir))
+				.GroupBy(x => Path.GetDirectoryName(x.Substring(ProjectDir.Length + 1)),
+					(directory, files) =>
 				{
-					provider.GenerateCodeFromCompileUnit(unit, writer, new CodeGeneratorOptions
+					var pathDirectories = directory.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+					var pathIdentifiers = pathDirectories.Select(d => d.ToPascalCaseIdentifier()).ToArray();
+
+					CodeTypeDeclaration[] GetOrCreateClasses(string[] names, bool sharedHeirarchy)
 					{
-						//Keep the braces on the line following the statement or 
-						//declaration that they are associated with);
-						BracingStyle = "C"
-					});
+						if (!sharedHeirarchy || !classesHeirarchy.TryGetValue(names, out CodeTypeDeclaration[] classes))
+						{
+							var newClass = NewClass(names.Last());
 
-					File.WriteAllText(path, writer.ToString());
-				}
+							if (names.Length > 1)
+							{
+								var parents =
+									GetOrCreateClasses(names.Take(names.Length - 1).ToArray(), sharedHeirarchy);
+								parents.Last().Members.Add(newClass);
+								classes = parents.Concat(new[] { newClass }).ToArray();
+							}
+							else
+							{
+								classes = new[] { newClass };
+							}
+
+							if (sharedHeirarchy)
+								classesHeirarchy.Add(names, classes);
+						}
+						return classes;
+					}
+
+					var pathClasses = GetOrCreateClasses(new []{ "ResourceMap" }.Concat(pathIdentifiers).ToArray(), Mode == OutputMode.OneFile);
+					FillResourceClass(directory, files, projectDir, pathClasses.Last());
+					
+					return new
+					{
+						PathDirectories = pathDirectories,
+						PathIdentifiers = pathDirectories.Select(d => d.ToPascalCaseIdentifier()).ToArray(),
+						Classes = pathClasses
+					};
+				}).ToArray();
+
+			switch (Mode)
+			{
+				case OutputMode.Structured:
+				case OutputMode.Flat:
+
+					foreach (var file in filesInDirectories)
+					{
+						var path = Path.Combine(outputDir, string.Join(
+							Mode == OutputMode.Flat ? "." : Path.DirectorySeparatorChar.ToString(),
+							file.PathIdentifiers.Take(file.PathDirectories.Length - 1)),
+							file.PathIdentifiers.Last().ToPascalCaseIdentifier() + ".ResMap.cs");
+
+						Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+						WriteCode(NewUnit(file.Classes.First()), path);
+					}
+
+					break;
+				case OutputMode.OneFile:
+
+					var oneFilePath = Path.Combine(outputDir,"ResourceMap.cs");
+					Directory.CreateDirectory(Path.GetDirectoryName(oneFilePath));
+
+					WriteCode(NewUnit(filesInDirectories.First().Classes.First()), oneFilePath);
+
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
-
 
 
 			//var module = ModuleDefinition.ReadModule(IntermediateAssembly);
@@ -184,6 +179,100 @@ namespace ResourcePacker
 			//File.Delete(IntermediateAssembly);
 			//var assembly = Assembly.ReflectionOnlyLoadFrom(IntermediateAssembly);
 			return false;
+		}
+
+		private static void WriteCode(CodeCompileUnit unit, string path)
+		{
+			using (var writer = new StringWriter())
+			using (var provider = CodeDomProvider.CreateProvider("CSharp"))
+			{
+				provider.GenerateCodeFromCompileUnit(unit, writer, new CodeGeneratorOptions
+				{
+					//Keep the braces on the line following the statement or 
+					//declaration that they are associated with);
+					BracingStyle = "C"
+				});
+
+				var code = writer.ToString();
+
+				code = Regex.Replace(code, @"(?m)(?<=^[\sa-z]*?)sealed\s+?abstract(?=[\sa-z]+?class)", "static");
+
+				File.WriteAllText(path, code);
+			}
+		}
+
+		private class StringArrayValueEqualityComparer : IEqualityComparer<string[]>
+		{
+			public static StringArrayValueEqualityComparer Instance { get; }
+				= new StringArrayValueEqualityComparer();
+
+			public bool Equals(string[] a, string[] b)
+			{
+				if (a == null && b == null)
+					return true;
+				if (a == null || b == null)
+					return false;
+				return a.Length == b.Length &&
+					   a.Select((aValue, index) => aValue == b[index])
+						   .All(x => x);
+			}
+
+			public int GetHashCode(string[] obj) => obj.GetHashCode();
+		}
+
+		private static CodeCommentStatement SummaryComment(params string[] commentLines)
+			=> new CodeCommentStatement(
+				new XDocument(
+					new XElement("summary",
+						new object[] { Environment.NewLine }
+							.Concat(commentLines.Select(x => new XText(x)))
+							.Concat(new[] { Environment.NewLine })
+							.ToArray())).ToString(), true);
+
+		private static void FillResourceClass(string directoryPath, IEnumerable<string> files, string projectDir, CodeTypeDeclaration targetClass)
+		{
+			var pathConst = new CodeMemberField(typeof(string), "Path")
+			{
+				// ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
+				Attributes = MemberAttributes.Const | MemberAttributes.Public,
+				Comments = { SummaryComment("Path to this directory ", directoryPath) },
+				InitExpression = new CodePrimitiveExpression(directoryPath)
+			};
+
+			var fileConsts = files
+				.Select(x => x.Substring(projectDir.Length + 1 + directoryPath.Length))
+				.Select(x => new CodeMemberField(typeof(string), Path.GetFileName(x).ToPascalCaseIdentifier())
+				{
+					// ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
+					Attributes = MemberAttributes.Const | MemberAttributes.Public,
+					Comments = { SummaryComment(directoryPath + x) },
+					InitExpression = new CodeBinaryOperatorExpression(
+						new CodeArgumentReferenceExpression(pathConst.Name),
+						CodeBinaryOperatorType.Add,
+						new CodePrimitiveExpression(x))
+				})
+				.Cast<CodeTypeMember>()
+				.ToArray();
+
+			var allFilesArray = new CodeMemberProperty()
+			{
+				Type = new CodeTypeReference(typeof(string[])),
+				Name = "All",
+				// ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
+				Attributes = MemberAttributes.Static | MemberAttributes.Public,
+				Comments = { SummaryComment("Collection of all files in this directory") },
+				GetStatements =
+				{
+					new CodeMethodReturnStatement(new CodeArrayCreateExpression(typeof(string),
+						fileConsts.Select(x => new CodeArgumentReferenceExpression(x.Name))
+							.Cast<CodeExpression>()
+							.ToArray()))
+				}
+			};
+
+			targetClass.Members.Add(pathConst);
+			targetClass.Members.AddRange(fileConsts);
+			targetClass.Members.Add(allFilesArray);
 		}
 	}
 }
