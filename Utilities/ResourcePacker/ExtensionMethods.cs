@@ -12,11 +12,18 @@ namespace ResourcePacker
 {
     internal static class ExtensionMethods
     {
+	    public static string Flatten(this IEnumerable<string> strings)
+		    => string.Join(Environment.NewLine, strings);
+
 	    public static string ToPascalCaseIdentifier(this string name)
 		    => Regex.Replace(Regex.Replace("-" + name, "(?si)[^A-Za-z0-9]+", "-"), "(?si)-+([A-Za-z0-9]?)",
 			    x => x.Groups[1].Value.ToUpperInvariant());
 
-	    public static string ToLiteral(this string input)
+	    public static string ToVerbatimLiteral(this string input)
+		    => $@"@""{input.Replace("\"", "\"\"")}""";
+
+
+		public static string ToLiteral(this string input)
 	    {
 		    using (var writer = new StringWriter())
 		    using (var provider = CodeDomProvider.CreateProvider("CSharp"))

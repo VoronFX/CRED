@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -13,13 +14,24 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
+using CsCodeGenerator;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Mono.Cecil;
+using ResourcePacker.Prototypes;
+using MethodAttributes = System.Reflection.MethodAttributes;
 using TypeAttributes = System.Reflection.TypeAttributes;
+using static CsCodeGenerator.Generator;
 
 namespace ResourcePacker
 {
+
+	public static class ResourceExtensionMethods
+	{
+		public static string GetPath(this IResourceDirectory directory) =>
+			directory.ParentDirectory?.GetPath() + Path.DirectorySeparatorChar + directory.Name;
+	}
+
 	public class ResourcePackerTask : Task
 	{
 		[Required]
@@ -66,85 +78,163 @@ namespace ResourcePacker
 					{
 						new CodeNamespace("Resources")
 						{
-							Types = { contentMember }
+							Imports = { new CodeNamespaceImport(typeof(IReadOnlyCollection<KeyValuePair<string, string>>).Namespace)}
 						}
 					}
-				};			
+				};
+
+			var s = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>()
+				{
+					{ "dfsdf", "fdsfsd" }
+
+				});
+
+			IReadOnlyDictionary<string, string> Files;
 
 			var filesInDirectories = InputFiles
 				.Select(x => Path.Combine(projectDir, x))
 				.Where(x => x.StartsWith(projectDir) && !x.StartsWith(outputDir))
-				.GroupBy(x => Path.GetDirectoryName(x.Substring(ProjectDir.Length + 1)),
-					(directory, files) =>
-				{
-					var pathDirectories = directory.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-					var pathIdentifiers = pathDirectories.Select(d => d.ToPascalCaseIdentifier()).ToArray();
+				.Select(x => x.Substring(projectDir.Length + 1).Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
 
-					CodeTypeDeclaration[] GetOrCreateClasses(string[] names, bool sharedHeirarchy)
-					{
-						if (!sharedHeirarchy || !classesHeirarchy.TryGetValue(names, out CodeTypeDeclaration[] classes))
-						{
-							var newClass = NewClass(names.Last());
-
-							if (names.Length > 1)
-							{
-								var parents =
-									GetOrCreateClasses(names.Take(names.Length - 1).ToArray(), sharedHeirarchy);
-								parents.Last().Members.Add(newClass);
-								classes = parents.Concat(new[] { newClass }).ToArray();
-							}
-							else
-							{
-								classes = new[] { newClass };
-							}
-
-							if (sharedHeirarchy)
-								classesHeirarchy.Add(names, classes);
-						}
-						return classes;
-					}
-
-					var pathClasses = GetOrCreateClasses(new []{ "ResourceMap" }.Concat(pathIdentifiers).ToArray(), Mode == OutputMode.OneFile);
-					FillResourceClass(directory, files, projectDir, pathClasses.Last());
-					
-					return new
-					{
-						PathDirectories = pathDirectories,
-						PathIdentifiers = pathDirectories.Select(d => d.ToPascalCaseIdentifier()).ToArray(),
-						Classes = pathClasses
-					};
-				}).ToArray();
-
-			switch (Mode)
+			IEnumerable<string> Generate(string name, IList<string[]> items)
 			{
-				case OutputMode.Structured:
-				case OutputMode.Flat:
+				//public IResourceFile DummyFile => files[nameof(DummyFile)];
+				//public IResourceDirectory DummyDirectory => directories[nameof(DummyDirectory)];
 
-					foreach (var file in filesInDirectories)
-					{
-						var path = Path.Combine(outputDir, string.Join(
-							Mode == OutputMode.Flat ? "." : Path.DirectorySeparatorChar.ToString(),
-							file.PathIdentifiers.Take(file.PathDirectories.Length - 1)),
-							file.PathIdentifiers.Last().ToPascalCaseIdentifier() + ".ResMap.cs");
+				//public ResourceDirectory(string name, IResourceDirectory parentDirectory)
+				//	: base(name, parentDirectory)
+				//{
+				//	//files.Add("Dummy", new ResourceFile(nameof(DummyFile), "dummy", this));
+				//	//directories.Add("Dummy", new ResourceDirectory(nameof(DummyDirectory), this));
+				//}
+				//public ResourceDirectory(string name, IResourceDirectory parentDirectory) : base(name, parentDirectory)
 
-						Directory.CreateDirectory(Path.GetDirectoryName(path));
+				var files = items.Where(x => x.Length == 1).ToArray();
+				var directories = items.Where(x => x.Length > 1).ToArray();
 
-						WriteCode(NewUnit(file.Classes.First()), path);
-					}
+				items.Select(x => new Member()
+				{
+					Name = x.First().ToPascalCaseIdentifier(),
+					ReturnType = (x.Length > 1 ? nameof(IResourceDirectory) : nameof(IResourceFile)),
+					Type = MemberType.Property,
+					AccessModifiers = AccessModifiers.Public,
+					SameLine = true,
+					ExpressionBody = true,
+					Content = new[] { (x.Length > 1 ? "directories" : "files") + $"[nameof({x.First().ToPascalCaseIdentifier()})];" },
+					Comment = Comment(new[] { x.First() })
+				});
 
-					break;
-				case OutputMode.OneFile:
+				items.Select(x => new Member()
+				{
+					Name = x.First().ToPascalCaseIdentifier(),
+					Type = MemberType.Field,
+					SameLine = true,
+					Content = new[] { (x.Length > 1 ? "directories" : "files") + $".Add(nameof({x.First().ToPascalCaseIdentifier()}), {x.First().ToVerbatimLiteral()});" },
+				});
 
-					var oneFilePath = Path.Combine(outputDir,"ResourceMap.cs");
-					Directory.CreateDirectory(Path.GetDirectoryName(oneFilePath));
 
-					WriteCode(NewUnit(filesInDirectories.First().Classes.First()), oneFilePath);
+				var constructor = 
+				items.Where(x => x.Length > 1)
+					.Select(x => x.Skip(1).ToArray())
+					.GroupBy(x => x.First())
+					.Select(x => Generate(x.Key, x.ToList()));
 
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
 
+				return new Member(ResourceDirectory)
+				{
+					Name =  name.ToPascalCaseIdentifier(),
+					Content = 
+				}
+
+
+			public ResourceDirectory(IResourceDirectory parentDirectory)
+			: base(nameof(ResourceDirectory), parentDirectory)
+				//var content = items.Where(x => x.Length == 1)
+				//	.Select(x =>
+				//		{
+				//			 =
+				//		}
+				//	)
+
+
+
+			//	Generate(files.Where(x => x.Length > 1).Select(x => x.Skip(1).ToArray()));
+
+
+
+		}
+
+			//.GroupBy(x => Path.GetDirectoryName(x.Substring(ProjectDir.Length + 1)),
+			//	(directory, files) =>
+			//{
+			//	var pathDirectories = directory.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+			//	var pathIdentifiers = pathDirectories.Select(d => d.ToPascalCaseIdentifier()).ToArray();
+
+			//	CodeTypeDeclaration[] GetOrCreateClasses(string[] names, bool sharedHeirarchy)
+			//	{
+			//		if (!sharedHeirarchy || !classesHeirarchy.TryGetValue(names, out CodeTypeDeclaration[] classes))
+			//		{
+			//			var newClass = NewClass(names.Last());
+
+			//			if (names.Length > 1)
+			//			{
+			//				var parents =
+			//					GetOrCreateClasses(names.Take(names.Length - 1).ToArray(), sharedHeirarchy);
+			//				parents.Last().Members.Add(newClass);
+			//				classes = parents.Concat(new[] { newClass }).ToArray();
+			//			}
+			//			else
+			//			{
+			//				classes = new[] { newClass };
+			//			}
+
+			//			if (sharedHeirarchy)
+			//				classesHeirarchy.Add(names, classes);
+			//		}
+			//		return classes;
+			//	}
+
+			//	var pathClasses = GetOrCreateClasses(new[] { "ResourceMap" }.Concat(pathIdentifiers).ToArray(), Mode == OutputMode.OneFile);
+			//	FillResourceClass(directory, files, projectDir, pathClasses.Last());
+
+			//	return new
+			//	{
+			//		PathDirectories = pathDirectories,
+			//		PathIdentifiers = pathDirectories.Select(d => d.ToPascalCaseIdentifier()).ToArray(),
+			//		Files = files,
+			//		Classes = pathClasses
+			//	};
+			//}).ToArray();
+
+			//switch (Mode)
+			//{
+			//	case OutputMode.Structured:
+			//	case OutputMode.Flat:
+
+			//		foreach (var file in filesInDirectories)
+			//		{
+			//			var path = Path.Combine(outputDir, string.Join(
+			//				Mode == OutputMode.Flat ? "." : Path.DirectorySeparatorChar.ToString(),
+			//				file.PathIdentifiers.Take(file.PathDirectories.Length - 1)),
+			//				file.PathIdentifiers.Last().ToPascalCaseIdentifier() + ".ResMap.cs");
+
+			//			Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+			//			WriteCode(NewUnit(file.Classes.First()), path);
+			//		}
+
+			//		break;
+			//	case OutputMode.OneFile:
+
+			//		var oneFilePath = Path.Combine(outputDir, "ResourceMap.cs");
+			//		Directory.CreateDirectory(Path.GetDirectoryName(oneFilePath));
+
+			//		WriteCode(NewUnit(filesInDirectories.First().Classes.First()), oneFilePath);
+
+			//		break;
+			//	default:
+			//		throw new ArgumentOutOfRangeException();
+			//}
 
 			//var module = ModuleDefinition.ReadModule(IntermediateAssembly);
 			//foreach (var attribute in module.Types
@@ -179,6 +269,42 @@ namespace ResourcePacker
 			//File.Delete(IntermediateAssembly);
 			//var assembly = Assembly.ReflectionOnlyLoadFrom(IntermediateAssembly);
 			return false;
+		}
+
+		private CodeTypeDeclaration GenerateFromType(Type prototype)
+		{
+			var generatedDeclaration = new CodeTypeDeclaration(prototype.Name)
+			{
+				TypeAttributes =
+					(prototype.IsClass ? TypeAttributes.Class : 0) |
+					(prototype.IsInterface ? TypeAttributes.Interface : 0) |
+					(prototype.IsPublic ? TypeAttributes.Public : 0),
+			};
+			if (prototype.BaseType != null)
+				generatedDeclaration.BaseTypes.Add(new CodeTypeReference(prototype.BaseType));
+			generatedDeclaration.BaseTypes.AddRange(prototype.GetInterfaces().Select(x => new CodeTypeReference(x)).ToArray());
+			generatedDeclaration.Members.AddRange(prototype.GetRuntimeProperties()
+				.Select(x => new CodeMemberProperty()
+				{
+					Name = x.Name,
+					Type = new CodeTypeReference(x.PropertyType)
+				})
+				.Cast<CodeTypeMember>()
+				.ToArray());
+			return generatedDeclaration;
+		}
+
+		private CodeConstructor GenerateConstructor(ConstructorInfo prototype)
+		{
+			var constructor = new CodeConstructor()
+			{
+				Name = prototype.Name,
+				Attributes = (prototype.IsPublic ? MemberAttributes.Public : 0)
+			};
+			constructor.Parameters.AddRange(prototype.GetParameters()
+				.Select(x => new CodeParameterDeclarationExpression(x.ParameterType, x.Name)).ToArray());
+
+			return constructor;
 		}
 
 		private static void WriteCode(CodeCompileUnit unit, string path)

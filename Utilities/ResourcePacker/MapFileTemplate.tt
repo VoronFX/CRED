@@ -25,6 +25,8 @@
 
 namespace <#= Namespace #> 
 {
+
+
 <#
 	var indent = "    ";
 	PushIndent(indent);

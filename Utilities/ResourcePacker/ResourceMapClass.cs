@@ -23,9 +23,9 @@ namespace ResourcePacker
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+    #line 1 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class MapFileTemplate : MapFileTemplateBase
+    public partial class ResourceMapClass : ResourceMapClassBase
     {
 #line hidden
         /// <summary>
@@ -47,141 +47,17 @@ namespace ResourcePacker
 
 namespace ");
             
-            #line 26 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+            #line 26 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
-            this.Write(" \r\n{\r\n\r\n\r\n");
+            this.Write(" \r\n{\r\n");
             
-            #line 30 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+            #line 28 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
 
-	var indent = "    ";
-	PushIndent(indent);
-	Action<IEnumerator<string>> GenerateClass = null; 
-	GenerateClass = pathEnumerator =>
-	{
-		var lastItem = pathEnumerator.MoveNext();
-		
-            
-            #line default
-            #line hidden
-            this.Write("public static partial class ");
-            
-            #line 37 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(pathEnumerator.Current.ToPascalCaseIdentifier()));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 38 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-		
-            
-            #line default
-            #line hidden
-            this.Write("{\r\n");
-            
-            #line 39 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+	PushIndent(Indent);
 
-		PushIndent(indent); 
-		if (lastItem)
-		{
-			
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 45 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-			foreach (var item in Items)
-			{ 
-				Comment(item.Comment);
-				var itemValue = item.Value.ToLiteral();
-
-				if ((CurrentIndent + "public string const " + item.Name +" = " + itemValue + ";").Length > 100) 
-				{
-					
-            
-            #line default
-            #line hidden
-            this.Write("public const string ");
-            
-            #line 52 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name.ToPascalCaseIdentifier()));
-            
-            #line default
-            #line hidden
-            this.Write(" \r\n");
-            
-            #line 53 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-					PushIndent(indent); 
-					
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 54 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(itemValue));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n");
-            
-            #line 55 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-					PopIndent();
-				}
-				else 
-				{
-					
-            
-            #line default
-            #line hidden
-            this.Write("public const string ");
-            
-            #line 59 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name.ToPascalCaseIdentifier()));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 59 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(itemValue));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n");
-            
-            #line 60 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-				}
-				
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 63 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-			}
-		}
-		else
-		{
-			GenerateClass(pathEnumerator);
-		} 
-		PopIndent();    
-		
-		
-            
-            #line default
-            #line hidden
-            this.Write("}\r\n");
-            
-            #line 72 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-    
-		};
-	
-	GenerateClass(Path.GetEnumerator());
 	PopIndent();
 
             
@@ -191,7 +67,7 @@ namespace ");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 79 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+        #line 34 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
  
 	private void Comment(IEnumerable<string> lines)
 	{
@@ -202,14 +78,14 @@ namespace ");
         #line default
         #line hidden
         
-        #line 84 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-this.Write("/// <summary>");
+        #line 39 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("/// <summary>\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 84 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+        #line 40 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
 	
 			foreach (var line in lines)
 			{						
@@ -218,21 +94,28 @@ this.Write("/// <summary>");
         #line default
         #line hidden
         
-        #line 87 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+        #line 43 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
 this.Write("/// ");
 
         
         #line default
         #line hidden
         
-        #line 87 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+        #line 43 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(new XElement("dummy", line).Value));
 
         
         #line default
         #line hidden
         
-        #line 87 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
+        #line 43 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("\r\n\t\t\t\t");
+
+        
+        #line default
+        #line hidden
+        
+        #line 44 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
 
 			}
 			
@@ -240,16 +123,392 @@ this.Write(this.ToStringHelper.ToStringWithCulture(new XElement("dummy", line).V
         #line default
         #line hidden
         
-        #line 89 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-this.Write("/// </summary>");
+        #line 46 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("/// </summary>\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 89 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\MapFileTemplate.tt"
-
+        #line 47 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+		
 		}
+	}
+
+	public string Indent = "    ";
+
+	private void Class(string name,
+		IEnumerable<KeyValuePair<string, string>> files, 
+		IEnumerable<KeyValuePair<string, string>> directories)
+	{
+        
+        
+        #line default
+        #line hidden
+        
+        #line 57 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("public sealed class ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 57 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(name));
+
+        
+        #line default
+        #line hidden
+        
+        #line 57 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(" : ResourceDirectoryBase\r\n");
+
+        
+        #line default
+        #line hidden
+        
+        #line 58 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+		
+        
+        #line default
+        #line hidden
+        
+        #line 58 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("{\r\n\t\t");
+
+        
+        #line default
+        #line hidden
+        
+        #line 59 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+
+			PushIndent(Indent);
+			
+        
+        #line default
+        #line hidden
+        
+        #line 61 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("public ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 61 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(name));
+
+        
+        #line default
+        #line hidden
+        
+        #line 61 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("(IResourceDirectory parentDirectory)\r\n");
+
+        
+        #line default
+        #line hidden
+        
+        #line 62 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+		    
+        
+        #line default
+        #line hidden
+        
+        #line 62 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("\t: base(nameof(");
+
+        
+        #line default
+        #line hidden
+        
+        #line 62 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(name));
+
+        
+        #line default
+        #line hidden
+        
+        #line 62 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("), parentDirectory)\r\n");
+
+        
+        #line default
+        #line hidden
+        
+        #line 63 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+		    
+        
+        #line default
+        #line hidden
+        
+        #line 63 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("{\r\n\t\t    ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 64 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+
+				PushIndent(Indent);
+				foreach (var file in files)
+				{
+					
+        
+        #line default
+        #line hidden
+        
+        #line 68 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("files.Add((");
+
+        
+        #line default
+        #line hidden
+        
+        #line 68 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(file.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 68 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(", new ResourceFile(nameof(");
+
+        
+        #line default
+        #line hidden
+        
+        #line 68 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(file.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 68 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("), ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 68 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(file.Value));
+
+        
+        #line default
+        #line hidden
+        
+        #line 68 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(", this));\r\n\t\t\t\t\t");
+
+        
+        #line default
+        #line hidden
+        
+        #line 69 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+
+				}
+				foreach (var directory in files)
+				{
+					
+        
+        #line default
+        #line hidden
+        
+        #line 73 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("directories.Add((");
+
+        
+        #line default
+        #line hidden
+        
+        #line 73 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(directory.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 73 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(", new ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 73 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(directory.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 73 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("(nameof(");
+
+        
+        #line default
+        #line hidden
+        
+        #line 73 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(directory.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 73 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("), ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 73 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(directory.Value));
+
+        
+        #line default
+        #line hidden
+        
+        #line 73 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(", this));\r\n\t\t\t\t\t");
+
+        
+        #line default
+        #line hidden
+        
+        #line 74 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+
+				}
+			
+        
+        #line default
+        #line hidden
+        
+        #line 76 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("}\r\n\r\n\t\t\t");
+
+        
+        #line default
+        #line hidden
+        
+        #line 78 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+
+			foreach (var file in files)
+			{
+				
+        
+        #line default
+        #line hidden
+        
+        #line 81 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("IResourceFile ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 81 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(file.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 81 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(" => files[nameof(");
+
+        
+        #line default
+        #line hidden
+        
+        #line 81 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(file.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 81 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(")];\r\n\t\t\t\t");
+
+        
+        #line default
+        #line hidden
+        
+        #line 82 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+		
+			}
+			foreach (var directory in files)
+			{
+				
+        
+        #line default
+        #line hidden
+        
+        #line 86 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(directory.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 86 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(" ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 86 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(directory.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 86 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(" => directories[nameof(");
+
+        
+        #line default
+        #line hidden
+        
+        #line 86 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(directory.Key));
+
+        
+        #line default
+        #line hidden
+        
+        #line 86 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write(")];\r\n\t\t\t\t");
+
+        
+        #line default
+        #line hidden
+        
+        #line 87 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+		
+			}
+		
+        
+        #line default
+        #line hidden
+        
+        #line 89 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+this.Write("}\r\n\t\t");
+
+        
+        #line default
+        #line hidden
+        
+        #line 90 "C:\Users\Voron\Source\Repos\CRED\Utilities\ResourcePacker\ResourceMapClass.tt"
+
 	}
 
         
@@ -264,7 +523,7 @@ this.Write("/// </summary>");
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class MapFileTemplateBase
+    public class ResourceMapClassBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

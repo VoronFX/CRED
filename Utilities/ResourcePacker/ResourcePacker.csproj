@@ -12,6 +12,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="MapFileTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MapFileTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceMapClass.cs">
+      <DependentUpon>ResourceMapClass.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.1012" />
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.TextTemplating.15.0" Version="15.0.26201" />
@@ -19,11 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="MapFileTemplate.cs">
-      <DependentUpon>MapFileTemplate.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
+    <ProjectReference Include="..\CsCodeGenerator\CsCodeGenerator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Template1.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -32,6 +44,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ResourceMapClass.tt">
+      <LastGenOutput>ResourceMapClass.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
     <None Update="MapFileTemplate.tt">
       <LastGenOutput>MapFileTemplate.cs</LastGenOutput>
       <Generator>TextTemplatingFilePreprocessor</Generator>
