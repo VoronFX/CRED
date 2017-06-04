@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pso2Reparser", "Utilities\Pso2Reparser\Pso2Reparser.csproj", "{F21F3518-21AA-4160-81A0-51369944193C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}"
+	ProjectSection(SolutionItems) = preProject
+		SharedTaskWrapper.ttinclude = SharedTaskWrapper.ttinclude
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePortalExtractor", "Utilities\AzurePortalExtractor\AzurePortalExtractor.csproj", "{0A9F899D-CBC0-40B8-AFDF-AAC032784173}"
 EndProject
@@ -22,9 +25,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED.Client.AzureResources", "CRED.Client.AzureResources\CRED.Client.AzureResources.csproj", "{682FE47D-AEA0-4CC8-9ABB-A161B2B4A01C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DBA78F30-6586-400A-9829-61FE3B63BFF3} = {DBA78F30-6586-400A-9829-61FE3B63BFF3}
+		{0F2E5F4C-C813-4EE4-8422-A874B05AEFA8} = {0F2E5F4C-C813-4EE4-8422-A874B05AEFA8}
+		{3C1467EF-3CA4-4B41-BDFB-A20EDCA45349} = {3C1467EF-3CA4-4B41-BDFB-A20EDCA45349}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureResourcesExtractor", "Utilities\AzureResourcesExtractor\AzureResourcesExtractor.csproj", "{DBA78F30-6586-400A-9829-61FE3B63BFF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BundlerAndMinifier", "Utilities\BundlerAndMinifier\BundlerAndMinifier.csproj", "{3C1467EF-3CA4-4B41-BDFB-A20EDCA45349}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,6 +95,12 @@ Global
 		{DBA78F30-6586-400A-9829-61FE3B63BFF3}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
 		{DBA78F30-6586-400A-9829-61FE3B63BFF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBA78F30-6586-400A-9829-61FE3B63BFF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C1467EF-3CA4-4B41-BDFB-A20EDCA45349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C1467EF-3CA4-4B41-BDFB-A20EDCA45349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C1467EF-3CA4-4B41-BDFB-A20EDCA45349}.PublishRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{3C1467EF-3CA4-4B41-BDFB-A20EDCA45349}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
+		{3C1467EF-3CA4-4B41-BDFB-A20EDCA45349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C1467EF-3CA4-4B41-BDFB-A20EDCA45349}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,5 +111,6 @@ Global
 		{9BD92D0F-B4E4-4517-801E-4122D9745803} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
 		{0F2E5F4C-C813-4EE4-8422-A874B05AEFA8} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
 		{DBA78F30-6586-400A-9829-61FE3B63BFF3} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
+		{3C1467EF-3CA4-4B41-BDFB-A20EDCA45349} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
 	EndGlobalSection
 EndGlobal

@@ -12,25 +12,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Net.Http" Version="4.3.2" />
-    <PackageReference Include="System.ValueTuple" Version="4.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.1012" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
+    <PackageReference Include="WebMarkupMin.Core" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ResourceMapper\ResourceMapper.csproj" />
   </ItemGroup>
 
+
   <ItemGroup>
-    <Compile Update="AzureResourcesExtractorTask.cs">
-      <DependentUpon>AzureResourcesExtractorTask.tt</DependentUpon>
+    <Compile Update="BundlerAndMinifierTask.cs">
+      <DependentUpon>BundlerAndMinifierTask.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="AzureResourcesExtractorTask.tt">
-      <LastGenOutput>AzureResourcesExtractorTask.cs</LastGenOutput>
+    <None Update="BundlerAndMinifierTask.tt">
+      <LastGenOutput>BundlerAndMinifierTask.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
   </ItemGroup>
@@ -38,5 +41,5 @@
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-
+  
 </Project>

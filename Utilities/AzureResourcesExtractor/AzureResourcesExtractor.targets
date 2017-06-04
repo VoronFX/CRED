@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <!--<ItemGroup Condition="'$(BuildingInsideVisualStudio)'=='true'">
-    <AvailableItemName Include="ResourcePackerResource" />
-  </ItemGroup>-->
   <UsingTask TaskName="AzureResourcesExtractor.AzureResourcesExtractorTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll"  >
     <ParameterGroup>
       <TaskAssemblyPath ParameterType="System.String" Required="true" />
@@ -20,20 +17,17 @@
     </Task>
   </UsingTask>
   <PropertyGroup>
-    <!--<CompileDependsOn>
-      ResourceMapper;
-      $(CompileDependsOn)
-    </CompileDependsOn>-->
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      AzureResourcesExtractor
+    </BuildDependsOn>
     <AzureResourcesExtractorSourcesDirectory Condition="'$(SourcesDirectory)' == ''">$(MSBuildThisFileDirectory)\Sources</AzureResourcesExtractorSourcesDirectory>
     <AzureResourcesExtractorOutputDirectory Condition="'$(AzureResourcesExtractorOutputDirectory)' == ''">$(MSBuildProjectDirectory)\Resources</AzureResourcesExtractorOutputDirectory>
     <AzureResourcesExtractorOutputMapsDirectory Condition="'$(AzureResourcesExtractorOutputMapsDirectory)' == ''">$(MSBuildProjectDirectory)\Generated</AzureResourcesExtractorOutputMapsDirectory>
     <AzureResourcesExtractorRootDirectory Condition="'$(AzureResourcesExtractorRootDirectory)' == ''">$(AzureResourcesExtractorOutputDirectory)</AzureResourcesExtractorRootDirectory>
     <AzureResourcesExtractorNamespace Condition="'$(AzureResourcesExtractorNamespace)' == ''">$(MSBuildProjectName)</AzureResourcesExtractorNamespace>
   </PropertyGroup>
-  <!--<PropertyGroup>
-    <Compile>ResourceMapper</Compile>
-  </PropertyGroup>-->
-  <Target Name="AzureResourcesExtractor" BeforeTargets="BeforeBuild">
+  <Target Name="AzureResourcesExtractor">
     <Message Text=" AzureResourcesExtractor task started" Importance="high" />
     <AzureResourcesExtractor.AzureResourcesExtractorTask
       TaskAssemblyPath="$(MSBuildThisFileDirectory)\bin\$(Configuration)\net46\"
@@ -42,15 +36,6 @@
       OutputMapsDirectory="$(AzureResourcesExtractorOutputMapsDirectory)"
       RootDirectory="$(AzureResourcesExtractorRootDirectory)"
       Namespace="$(AzureResourcesExtractorNamespace)"/>
-    <ItemGroup>
-      <MapFiles Include="$(AzureResourcesExtractorOutputDirectory)/**/*" />
-    </ItemGroup>
-
-    <PropertyGroup>
-      <ResourceMapperInputFiles>@(MapFiles)</ResourceMapperInputFiles>
-      <ResourceMapperRootDirectory>$(AzureResourcesExtractorRootDirectory)</ResourceMapperRootDirectory>
-    </PropertyGroup>
   </Target>
-  <Import Project="$(SolutionDir)\Utilities\ResourceMapper\ResourceMapper.targets" />
 
 </Project>

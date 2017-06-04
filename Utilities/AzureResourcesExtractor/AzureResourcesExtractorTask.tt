@@ -1,0 +1,4 @@
+﻿<#
+	Namespace = "AzureResourcesExtractor";
+#>
+<#@ include file="$(SolutionDir)\SharedTaskWrapper.ttinclude"#> 

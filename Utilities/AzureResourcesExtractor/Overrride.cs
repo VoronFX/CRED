@@ -4,7 +4,7 @@ using System.Net.Http;
 
 namespace AzureResourcesExtractor
 {
-	public partial class Extractor
+	public partial class AzureResourcesExtractor
 	{
 		private class Overrride
 		{

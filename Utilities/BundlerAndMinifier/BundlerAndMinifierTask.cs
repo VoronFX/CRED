@@ -10,11 +10,11 @@ using System.Xml.Serialization;
 using Microsoft.Build.Utilities;
 using Microsoft.Build.Framework;
 
-namespace AzureResourcesExtractor
+namespace BundlerAndMinifier
 {
-	public partial class AzureResourcesExtractor
+	public partial class BundlerAndMinifier
 	{
-		private static Action<AzureResourcesExtractorTask> Execute { get; set; }
+		private static Action<BundlerAndMinifierTask> Execute { get; set; }
 
 		private static void Main(string[] args)
 		{
@@ -26,7 +26,7 @@ namespace AzureResourcesExtractor
 				{
 					using (var stream = Console.In)
 					{
-						Execute((AzureResourcesExtractorTask)AzureResourcesExtractorTask.Serializer().Deserialize(stream));
+						Execute((BundlerAndMinifierTask)BundlerAndMinifierTask.Serializer().Deserialize(stream));
 					}
 				}
 				catch (Exception e)
@@ -109,7 +109,7 @@ namespace AzureResourcesExtractor
 	}
 
 	[Serializable]
-	public class AzureResourcesExtractorTask : Task
+	public class BundlerAndMinifierTask : Task
 	{
 		[Required]
 		[XmlElement]
@@ -117,35 +117,24 @@ namespace AzureResourcesExtractor
 	
 		[Required]
 		[XmlElement]
-		public System.String SourcesDirectory { get; set; }
+		public System.String[] InputFiles { get; set; }
 	
 		[Required]
 		[XmlElement]
-		public System.String OutputDirectory { get; set; }
-	
-		[Required]
-		[XmlElement]
-		public System.String OutputMapsDirectory { get; set; }
-	
-		[Required]
-		[XmlElement]
-		public System.String RootDirectory { get; set; }
-	
-		[XmlElement]
-		public System.String Namespace { get; set; }
+		public System.String OutputFile { get; set; }
 	
         public static XmlSerializer Serializer()
 		{
 			var overrides = new XmlAttributeOverrides();
 			var attributes = new XmlAttributes { XmlIgnore = true };
-			foreach (var prop in typeof(AzureResourcesExtractorTask)
+			foreach (var prop in typeof(BundlerAndMinifierTask)
 				.GetProperties()
 				.Where(x => !x.GetCustomAttributes(typeof(XmlElementAttribute))
 				.Any()))
 			{
 				overrides.Add(prop.DeclaringType, prop.Name, attributes);
 			}
-			return new XmlSerializer(typeof(AzureResourcesExtractorTask), overrides);
+			return new XmlSerializer(typeof(BundlerAndMinifierTask), overrides);
 		}
 
 		public override bool Execute()
@@ -160,7 +149,7 @@ namespace AzureResourcesExtractor
 						UseShellExecute = false,
 						RedirectStandardOutput = true,
 						RedirectStandardInput = true,
-						FileName = Path.Combine(TaskAssemblyPath, "AzureResourcesExtractor.exe"),
+						FileName = Path.Combine(TaskAssemblyPath, "BundlerAndMinifier.exe"),
 					}
 				};
 				process.Start();

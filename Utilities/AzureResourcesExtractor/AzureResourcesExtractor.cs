@@ -9,7 +9,7 @@ using ResourceMapper;
 
 namespace AzureResourcesExtractor
 {
-	public partial class Extractor
+	public partial class AzureResourcesExtractor
 	{
 		private static Uri CurrentUri { get; } = new Uri("http://portal.azure.com/");
 
@@ -46,14 +46,19 @@ namespace AzureResourcesExtractor
 					sourceFileUrl: CurrentUri +
 								   "/Content/Dynamic/UxFxStableCssCyrillic_C7498CEC16966F59B995A5ED9691B131213D24B7.css?c1=ru&amp;c2=ru",
 					sourceFilePath: "Overrides/UxFxStableCssCyrillic_C7498CEC16966F59B995A5ED9691B131213D24B7.css",
-					targetPath: "LinkHrefStylesheet"),
+					targetPath: "Styles/LinkHrefStylesheet"),
 			}
 			.Concat(FontOverrrides)
 			.ToArray();
 
 		public AzureResourcesExtractorTask Task { get; }
 
-		private Extractor(AzureResourcesExtractorTask task)
+		static AzureResourcesExtractor()
+		{
+			Execute = (task) => new AzureResourcesExtractor(task).ExtractAzureResources();
+		}
+
+		private AzureResourcesExtractor(AzureResourcesExtractorTask task)
 		{
 			Task = task;
 			Task.SourcesDirectory = IOExtension.NormalizeExpandDirectoryPath(Task.SourcesDirectory);
@@ -61,9 +66,6 @@ namespace AzureResourcesExtractor
 			Task.OutputMapsDirectory = IOExtension.NormalizeExpandDirectoryPath(Task.OutputMapsDirectory);
 			Task.RootDirectory = IOExtension.NormalizeExpandDirectoryPath(Task.RootDirectory);
 		}
-
-		public static void ExtractAzureResources(AzureResourcesExtractorTask task)
-			=> new Extractor(task).ExtractAzureResources();
 
 		private void ExtractAzureResources()
 		{
@@ -313,6 +315,7 @@ namespace AzureResourcesExtractor
 						res.Comment = "Style hadn't any identifier";
 					}
 
+					res.TargetPath = "Styles/" + res.TargetPath;
 					res.Type = Resource.ResType.Style;
 
 					break;

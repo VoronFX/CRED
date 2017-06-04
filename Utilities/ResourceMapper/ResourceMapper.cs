@@ -11,8 +11,15 @@ using ResourceMapper.Prototypes;
 
 namespace ResourceMapper
 {
-	public class ResourceMapper
+	public partial class ResourceMapper
 	{
+		private ResourceMapperTask Task { get; }
+
+		static ResourceMapper()
+		{
+			Execute = (task) => new ResourceMapper(task).GenerateMap();
+		}
+
 		private ResourceMapper(ResourceMapperTask task)
 		{
 			Task = task;
@@ -25,11 +32,6 @@ namespace ResourceMapper
 			Task.InputFiles = Task.InputFiles ?? Array.Empty<string>();
 			Task.RootDirectory = IOExtension.NormalizeExpandDirectoryPath(Task.RootDirectory);
 		}
-
-		private ResourceMapperTask Task { get; }
-
-		public static void GenerateMap(ResourceMapperTask task)
-			=> new ResourceMapper(task).GenerateMap();
 
 		private void GenerateMap()
 		{

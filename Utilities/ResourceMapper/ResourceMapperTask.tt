@@ -1,0 +1,4 @@
+﻿<#
+	Namespace = "ResourceMapper";
+#>
+<#@ include file="$(SolutionDir)\SharedTaskWrapper.ttinclude"#> 

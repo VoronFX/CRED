@@ -6,7 +6,7 @@ using ResourceMapper;
 
 namespace AzureResourcesExtractor
 {
-	public partial class Extractor
+	public partial class AzureResourcesExtractor
 	{
 		private class Resource
 		{

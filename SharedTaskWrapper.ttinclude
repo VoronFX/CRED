@@ -1,5 +1,59 @@
-﻿  
-  
+<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ IntelliSenseLanguage processor="tangibleT4Editor" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml"#>  
+<#@ assembly name="System.Xml.Linq"#>  
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ output extension=".cs" #>
+<#
+
+	RenderHeader();
+
+	var targets = new XmlDocument();  
+
+	targets.Load(this.Host.ResolvePath(Namespace+".targets"));
+
+	foreach (XmlNode node in targets
+		.SelectNodes("//*")
+		.Cast<XmlNode>()
+		.First(x =>
+			x.Name == "ParameterGroup" &&
+			x.ParentNode.Name == "UsingTask" &&
+			x.ParentNode.ParentNode.Name == "Project")
+		.ChildNodes)
+	{
+		var required = node.Attributes["Required"];
+		if (required != null && bool.Parse(required.Value))
+		{
+			#>
+		[Required]
+<#					
+		}
+		#>
+		[XmlElement]
+		public <#= node.Attributes["ParameterType"].Value #> <#= node.Name #> { get; set; }
+	
+<#
+
+	}
+
+	RenderFooter();
+
+#>
+<#+
+	private string Namespace = "";
+	
+	private void RenderHeader()
+	{
+
+#>
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -10,11 +64,11 @@ using System.Xml.Serialization;
 using Microsoft.Build.Utilities;
 using Microsoft.Build.Framework;
 
-namespace AzureResourcesExtractor
+namespace <#= Namespace #>
 {
-	public partial class AzureResourcesExtractor
+	public partial class <#= Namespace #>
 	{
-		private static Action<AzureResourcesExtractorTask> Execute { get; set; }
+		private static Action<<#= Namespace #>Task> Execute { get; set; }
 
 		private static void Main(string[] args)
 		{
@@ -26,7 +80,7 @@ namespace AzureResourcesExtractor
 				{
 					using (var stream = Console.In)
 					{
-						Execute((AzureResourcesExtractorTask)AzureResourcesExtractorTask.Serializer().Deserialize(stream));
+						Execute((<#= Namespace #>Task)<#= Namespace #>Task.Serializer().Deserialize(stream));
 					}
 				}
 				catch (Exception e)
@@ -109,43 +163,26 @@ namespace AzureResourcesExtractor
 	}
 
 	[Serializable]
-	public class AzureResourcesExtractorTask : Task
+	public class <#= Namespace #>Task : Task
 	{
-		[Required]
-		[XmlElement]
-		public System.String TaskAssemblyPath { get; set; }
-	
-		[Required]
-		[XmlElement]
-		public System.String SourcesDirectory { get; set; }
-	
-		[Required]
-		[XmlElement]
-		public System.String OutputDirectory { get; set; }
-	
-		[Required]
-		[XmlElement]
-		public System.String OutputMapsDirectory { get; set; }
-	
-		[Required]
-		[XmlElement]
-		public System.String RootDirectory { get; set; }
-	
-		[XmlElement]
-		public System.String Namespace { get; set; }
-	
+<#+
+	}
+
+	private void RenderFooter()
+	{
+#>
         public static XmlSerializer Serializer()
 		{
 			var overrides = new XmlAttributeOverrides();
 			var attributes = new XmlAttributes { XmlIgnore = true };
-			foreach (var prop in typeof(AzureResourcesExtractorTask)
+			foreach (var prop in typeof(<#= Namespace #>Task)
 				.GetProperties()
 				.Where(x => !x.GetCustomAttributes(typeof(XmlElementAttribute))
 				.Any()))
 			{
 				overrides.Add(prop.DeclaringType, prop.Name, attributes);
 			}
-			return new XmlSerializer(typeof(AzureResourcesExtractorTask), overrides);
+			return new XmlSerializer(typeof(<#= Namespace #>Task), overrides);
 		}
 
 		public override bool Execute()
@@ -160,7 +197,7 @@ namespace AzureResourcesExtractor
 						UseShellExecute = false,
 						RedirectStandardOutput = true,
 						RedirectStandardInput = true,
-						FileName = Path.Combine(TaskAssemblyPath, "AzureResourcesExtractor.exe"),
+						FileName = Path.Combine(TaskAssemblyPath, "<#= Namespace #>.exe"),
 					}
 				};
 				process.Start();
@@ -211,4 +248,6 @@ namespace AzureResourcesExtractor
 		}
 	}
 }
- 
+<#+
+	}
+#>
