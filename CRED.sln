@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED", "CRED\CRED.csproj", "{652117CF-7954-4981-B243-74EF58572927}"
 EndProject
@@ -17,7 +17,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeResourcePacker", "Ru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsCodeGenerator", "Utilities\CsCodeGenerator\CsCodeGenerator.csproj", "{9BD92D0F-B4E4-4517-801E-4122D9745803}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourcePacker", "Utilities\ResourcePacker\ResourcePacker.csproj", "{0F2E5F4C-C813-4EE4-8422-A874B05AEFA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceMapper", "Utilities\ResourceMapper\ResourceMapper.csproj", "{0F2E5F4C-C813-4EE4-8422-A874B05AEFA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED.Client.AzureResources", "CRED.Client.AzureResources\CRED.Client.AzureResources.csproj", "{682FE47D-AEA0-4CC8-9ABB-A161B2B4A01C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DBA78F30-6586-400A-9829-61FE3B63BFF3} = {DBA78F30-6586-400A-9829-61FE3B63BFF3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureResourcesExtractor", "Utilities\AzureResourcesExtractor\AzureResourcesExtractor.csproj", "{DBA78F30-6586-400A-9829-61FE3B63BFF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +76,18 @@ Global
 		{0F2E5F4C-C813-4EE4-8422-A874B05AEFA8}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
 		{0F2E5F4C-C813-4EE4-8422-A874B05AEFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F2E5F4C-C813-4EE4-8422-A874B05AEFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{682FE47D-AEA0-4CC8-9ABB-A161B2B4A01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{682FE47D-AEA0-4CC8-9ABB-A161B2B4A01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{682FE47D-AEA0-4CC8-9ABB-A161B2B4A01C}.PublishRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{682FE47D-AEA0-4CC8-9ABB-A161B2B4A01C}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
+		{682FE47D-AEA0-4CC8-9ABB-A161B2B4A01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{682FE47D-AEA0-4CC8-9ABB-A161B2B4A01C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBA78F30-6586-400A-9829-61FE3B63BFF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBA78F30-6586-400A-9829-61FE3B63BFF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBA78F30-6586-400A-9829-61FE3B63BFF3}.PublishRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA78F30-6586-400A-9829-61FE3B63BFF3}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
+		{DBA78F30-6586-400A-9829-61FE3B63BFF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA78F30-6586-400A-9829-61FE3B63BFF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,5 +97,6 @@ Global
 		{0A9F899D-CBC0-40B8-AFDF-AAC032784173} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
 		{9BD92D0F-B4E4-4517-801E-4122D9745803} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
 		{0F2E5F4C-C813-4EE4-8422-A874B05AEFA8} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
+		{DBA78F30-6586-400A-9829-61FE3B63BFF3} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
 	EndGlobalSection
 EndGlobal

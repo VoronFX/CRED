@@ -1,0 +1,1 @@
+@keyframes azc-resize-enter{0%{top:0}}@-webkit-keyframes azc-resize-enter{0%{top:0}}.azc-resize{animation:azc-resize-enter 1ms;-webkit-animation:azc-resize-enter 1ms;position:absolute;left:-10000px;top:-10000px;width:100%;height:100%;overflow:scroll;visibility:hidden}

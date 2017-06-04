@@ -1,0 +1,167 @@
+.css-scope-AppInsightsExtension .ext-topology-map-container { height: calc(100% - 45px); display: flex; }
+.css-scope-AppInsightsExtension .ext-topology-map-container.ext-topology-map-pinned { height: calc(100% - 12px); }
+.css-scope-AppInsightsExtension .ext-topology-map-with-errorPane { width: calc(100% - 340px); }
+.css-scope-AppInsightsExtension .ext-topology-errorPane { height: 100%; width: 340px; overflow-y: auto; border-left: 1px solid rgb(204, 204, 204); }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-header { padding: 18px 0px 18px 20px; border-bottom: 1px solid rgb(204, 204, 204); display: flex; align-items: center; }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-header-text { color: rgb(104, 33, 122); white-space: nowrap; max-width: 250px; text-align: center; font-size: 18px; }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-statusMessage { margin: 20px 20px 0px; }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-gridsTitle { margin: 20px 20px 0px; text-transform: uppercase; }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-link { margin: 0px 20px; line-height: 30px; }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-grid-container { margin: 0px 0px 20px 20px; width: 300px; }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-grid-header { height: 48px; display: flex; align-items: center; }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-grid-expanded-icon { border-style: solid; border-width: 5px 5px 0px; border-left-color: transparent; border-right-color: transparent; border-bottom-color: transparent; margin: 8px; }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-grid-collapsed-icon { border-style: solid; border-width: 5px 0px 5px 5px; border-top-color: transparent; border-right-color: transparent; border-bottom-color: transparent; margin: 8px; width: 5px; }
+.css-scope-AppInsightsExtension .ext-topology-errorPane-grid-column.ext-topology-errorPane-grid-column-d1.ext-topology-errorPane-grid-column-d2 { height: 22px; border-bottom-width: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-map-header { padding: 5px 20px; overflow-y: hidden; }
+.css-scope-AppInsightsExtension .ext-topology-map-title { display: inline-block; vertical-align: middle; float: left; margin-top: 3px; margin-right: 10px; }
+.css-scope-AppInsightsExtension .ext-topology-map-loading { position: absolute; text-align: center; width: 100%; top: 80px; }
+.css-scope-AppInsightsExtension .ext-topology-map-loading-icon { width: 30px; height: 30px; display: inline-block; }
+.css-scope-AppInsightsExtension .ext-topology-overlay-message { width: 90%; top: -60%; text-align: center; position: relative; padding: 10px; left: 5%; color: rgb(255, 255, 255); clear: both; background: rgba(0, 0, 0, 0.701961); }
+.css-scope-AppInsightsExtension .ext-topology-map-threshold-icon { float: left; width: 16px; height: 16px; padding-right: 5px; position: relative; }
+.css-scope-AppInsightsExtension .ext-topology-analytics-icon svg > g > * { fill: rgb(83, 167, 217); }
+.css-scope-AppInsightsExtension .ext-topology-map-threshold-pinned-icon { float: left; width: 12px; height: 12px; padding-right: 2px; top: 2px; position: relative; }
+.css-scope-AppInsightsExtension .ext-topology-node-content-description { word-wrap: break-word; }
+.css-scope-AppInsightsExtension .ext-topology-map-threshold-facets { position: relative; top: 5px; float: right; }
+.css-scope-AppInsightsExtension .ext-topology-map-threshold-pinned-facets { position: relative; top: 6px; float: right; }
+.css-scope-AppInsightsExtension .ext-topology-map-threshold-facet { position: relative; padding-right: 10px; float: left; }
+.css-scope-AppInsightsExtension .ext-topology-map-threshold-pinned-facet { position: relative; float: left; }
+.css-scope-AppInsightsExtension .ext-topology-actions { display: inline-block; }
+.css-scope-AppInsightsExtension .ext-topology-toggle { display: inline-block; margin: 5px 0px 10px; }
+.css-scope-AppInsightsExtension .ext-topology-option-item { display: inline; padding: 5px 10px; }
+.css-scope-AppInsightsExtension .ext-topology-option-item-selected { background-color: rgb(74, 187, 240); }
+.css-scope-AppInsightsExtension .ext-topology-option-item-disabled { color: rgb(150, 153, 156); background-color: rgb(230, 230, 230); }
+.css-scope-AppInsightsExtension .ext-topology-toggle .ext-topology-option-item { border-width: 1px; border-style: solid; border-color: rgb(143, 143, 143); padding: 4px 10px; }
+.css-scope-AppInsightsExtension .ext-topology-toggle .ext-toggle-left { border-right-width: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-options { top: -5px; float: right; }
+.css-scope-AppInsightsExtension .ext-quickstart-help-linkImage { position: relative; top: 2px; }
+.css-scope-AppInsightsExtension .ext-topology-doc-link { margin-right: 10px; color: rgb(0, 188, 242); position: relative; top: 5px; }
+.css-scope-AppInsightsExtension .ext-topology-doc-link-hotspot { padding: 0px 2px; }
+.css-scope-AppInsightsExtension .ext-topology-pinned-filters { position: relative; top: -5px; }
+.css-scope-AppInsightsExtension .ext-topology-filter-facets { position: relative; top: -5px; float: left; }
+.css-scope-AppInsightsExtension .ext-topology-option-threshold-icon { float: left; width: 16px; height: 16px; padding-right: 10px; position: relative; }
+.css-scope-AppInsightsExtension .ext-topology-option-threshold-textbox { float: right; width: 50px; padding-right: 10px; position: relative; top: -3px; }
+.css-scope-AppInsightsExtension .ext-topology-option-threshold-compare { float: right; font-style: italic; padding-right: 10px; }
+.css-scope-AppInsightsExtension .ext-topology-option-threshold-unit { float: right; }
+.css-scope-AppInsightsExtension .ext-topology-option-save { font-style: italic; }
+.css-scope-AppInsightsExtension .ext-expand-group { float: right; width: 35px; height: 100%; color: rgb(45, 50, 57); }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-expand-group { width: 29px; }
+.css-scope-AppInsightsExtension .ext-expand-group .ext-arrow { border-bottom: 2px solid rgb(45, 50, 57); width: 5px; position: absolute; top: 50%; }
+.css-scope-AppInsightsExtension .ext-left-expand-group .ext-arrow { left: 27px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-left-expand-group .ext-arrow { left: 21px; }
+.css-scope-AppInsightsExtension .ext-expand-group .ext-button { height: 26px; width: 26px; top: calc(50% - 12px); margin-left: 4px; padding: 0px; text-align: center; background-color: rgb(248, 248, 248); border-width: 1px; border-style: solid; border-color: rgb(209, 211, 212); position: absolute; }
+.css-scope-AppInsightsExtension .ext-left-expand-group .ext-button { margin-left: 2px; }
+.css-scope-AppInsightsExtension .ext-expand-group .ext-button-shadow { height: 26px; width: 26px; top: calc(50% - 9px); margin-left: 7px; background-color: rgb(248, 248, 248); border-width: 1px; border-style: solid; border-color: rgb(209, 211, 212); position: absolute; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-expand-group .ext-button-shadow, .css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-expand-group .ext-button { height: 20px; width: 20px; }
+.css-scope-AppInsightsExtension .ext-left-expand-group .ext-button-shadow { margin-left: 0px; }
+.css-scope-AppInsightsExtension .ext-expand-group .ext-text { position: relative; left: 15px; top: calc(50% - 30px); }
+.css-scope-AppInsightsExtension .ext-left-expand-group .ext-text { position: relative; left: 12px; top: calc(50% - 30px); }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-expand-group .ext-text { left: 11px; top: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-left-expand-group .ext-text { left: 9px; top: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-menu { border-width: 2px; border-style: solid; border-color: rgb(209, 211, 212); }
+.css-scope-AppInsightsExtension .ext-topology-menu-item { padding: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-menu-item > div { padding: 10px 0px; margin: 0px 10px; border-bottom: 1px solid rgb(248, 248, 248); }
+.css-scope-AppInsightsExtension .ext-topology-menu-item:last-child > div { padding: 10px 0px; margin: 0px 10px; border-bottom-width: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-node { height: 100%; width: 100%; }
+.css-scope-AppInsightsExtension .ext-topology-node-inactive { }
+.css-scope-AppInsightsExtension .ext-topology-node-info-ballon-container { float: right; }
+.css-scope-AppInsightsExtension .ext-topology-node-can-expand-left.ext-topology-node-hasLeftExpandGroup .ext-topology-node-header-parent, .css-scope-AppInsightsExtension .ext-topology-node-can-expand-left.ext-topology-node-hasLeftExpandGroup .ext-topology-node-body, .css-scope-AppInsightsExtension .ext-topology-root-node .ext-topology-node-header-parent, .css-scope-AppInsightsExtension .ext-topology-root-node .ext-topology-node-body { margin-left: 35px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized.ext-topology-node-can-expand-left.ext-topology-node-hasLeftExpandGroup .ext-topology-node-header-parent, .css-scope-AppInsightsExtension .ext-topology-node-minimized.ext-topology-node-can-expand-left.ext-topology-node-hasLeftExpandGroup .ext-topology-node-body, .css-scope-AppInsightsExtension .ext-topology-node-minimized.ext-topology-root-node .ext-topology-node-header-parent, .css-scope-AppInsightsExtension .ext-topology-node-minimized.ext-topology-root-node .ext-topology-node-body { margin-left: 29px; }
+.css-scope-AppInsightsExtension .ext-left-expand-group { float: left; }
+.css-scope-AppInsightsExtension .ext-topology-node-header { width: 200px; height: 22px; display: block; position: absolute; top: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-icon { width: 20px; height: 20px; float: left; margin-right: 3px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-icon { width: 16px; height: 16px; position: relative; bottom: -3px; }
+.css-scope-AppInsightsExtension .ext-topology-dependency-icon { width: 14px; height: 14px; margin-left: 6px; margin-top: 6px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-dependency-icon { width: 12px; height: 12px; margin-left: 4px; margin-top: 3px; }
+.css-scope-AppInsightsExtension .ext-topology-node-title { color: rgb(104, 33, 122); white-space: nowrap; padding-top: 3px; max-width: 163px; margin-left: 23px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-title { margin-left: 19px; max-width: 79px; }
+.css-scope-AppInsightsExtension .ext-topology-node-no-icon .ext-topology-node-title { margin-left: 0px; max-width: 186px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized.ext-topology-node-no-icon .ext-topology-node-title { max-width: 98px; }
+.css-scope-AppInsightsExtension .ext-topology-node-info-icon { height: 14px; width: 14px; float: right; margin-top: 5px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-title { font-size: 13px; }
+.css-scope-AppInsightsExtension .ext-topology-node-body { position: absolute; top: 22px; bottom: 0px; width: 100%; max-width: 200px; color: rgb(50, 56, 63); }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-body { max-width: 112px; }
+.css-scope-AppInsightsExtension .ext-topology-node-header-parent { width: 200px; }
+.css-scope-AppInsightsExtension .ext-topology-root-node .ext-topology-header-parent { margin-left: 35px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-header-parent { width: 112px; }
+.css-scope-AppInsightsExtension .ext-topology-root-node.ext-topology-node-minimized .ext-topology-header-parent { margin-left: 29px; }
+.css-scope-AppInsightsExtension ext-topology-node-can-expand-left.ext-topology-node-hasLeftExpandGroup .ext-topology-node-header-parent { margin-left: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-node-inbound.ext-topology-node-minimized .ext-topology-node-header-parent { width: 101px; }
+.css-scope-AppInsightsExtension .ext-topology-node-inbound .ext-topology-node-header-parent { width: 189px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-success { color: rgb(96, 143, 62); }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-error { color: rgb(237, 28, 36); }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-warn { color: rgb(255, 140, 0); }
+.css-scope-AppInsightsExtension .ext-topology-node-client.ext-topology-root-node .ext-topology-node-error, .css-scope-AppInsightsExtension .ext-topology-node-client.ext-topology-root-node .ext-topology-node-warn, .css-scope-AppInsightsExtension .ext-topology-node-client.ext-topology-root-node .ext-topology-node-success { color: inherit; }
+.css-scope-AppInsightsExtension .ext-topology-node-rate { font-size: 14px; line-height: 14px; font-weight: 600; }
+.css-scope-AppInsightsExtension .ext-topology-node-client.ext-topology-root-node .ext-topology-node-rate { font-size: inherit; line-height: inherit; font-weight: inherit; }
+.css-scope-AppInsightsExtension .ext-topology-node-inactive .ext-topology-node-body { background-color: rgb(214, 215, 216); }
+.ext-mode-dark .css-scope-AppInsightsExtension .ext-topology-node-inactive .ext-topology-node-body { background-color: rgb(70, 69, 71); color: rgb(255, 255, 255); }
+.css-scope-AppInsightsExtension .ext-topology-node-border { border-width: 1px; border-style: solid; border-color: rgb(209, 211, 212); height: calc(100% - 2px); position: relative; overflow: hidden; padding: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-node .ext-topology-node-border .ext-topology-node-selection { position: absolute; background-color: inherit; height: 100%; width: 100%; left: 0px; top: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-node .ext-topology-node-body .ext-topology-pinned-contextMenu { position: absolute; top: 0px; width: 90px; height: 100%; }
+.css-scope-AppInsightsExtension .ext-topology-node .ext-topology-node-body .ext-topology-pinned-contextMenu a { height: 35px; width: 90px; padding: 0px; background-color: inherit; }
+.css-scope-AppInsightsExtension .ext-topology-node .ext-topology-node-body .ext-topology-pinned-contextMenu a:hover { background-color: inherit; }
+.css-scope-AppInsightsExtension .ext-topology-node-rightArrow { float: right; width: 0px; height: 0px; right: 0px; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-left-width: 11px; border-left-style: solid; }
+.css-scope-AppInsightsExtension .ext-topology-node-leftArrow { float: left; width: 0px; height: 0px; left: 0px; border-top: 26px solid transparent; border-bottom: 26px solid transparent; border-left-width: 11px; border-left-style: solid; margin-right: 6px; }
+.css-scope-AppInsightsExtension .ext-topology-node-client .ext-topology-node-rightArrow, .css-scope-AppInsightsExtension .ext-topology-node-client .ext-topology-node-leftArrow, .css-scope-AppInsightsExtension .ext-topology-node-server .ext-topology-node-aggregate .ext-topology-node-rightArrow, .css-scope-AppInsightsExtension .ext-topology-node-server .ext-topology-node-aggregate .ext-topology-node-leftArrow { border-left-color: rgb(83, 167, 217); }
+.css-scope-AppInsightsExtension .ext-topology-node-server .ext-topology-node-rightArrow, .css-scope-AppInsightsExtension .ext-topology-node-server .ext-topology-node-leftArrow, .css-scope-AppInsightsExtension .ext-topology-node-client .ext-topology-node-aggregate .ext-topology-node-rightArrow, .css-scope-AppInsightsExtension .ext-topology-node-client .ext-topology-node-aggregate .ext-topology-node-leftArrow { border-left-color: rgb(142, 106, 174); }
+.css-scope-AppInsightsExtension .ext-topology-node-client .ext-topology-node-title, .css-scope-AppInsightsExtension .ext-topology-node-server .ext-topology-node-aggregate .ext-topology-node-title { color: rgb(83, 167, 217); }
+.css-scope-AppInsightsExtension .ext-topology-node-server .ext-topology-node-title, .css-scope-AppInsightsExtension .ext-topology-node-client .ext-topology-node-aggregate .ext-topology-node-title { color: rgb(142, 106, 174); }
+.css-scope-AppInsightsExtension .ext-topology-client-color-swatch, .css-scope-AppInsightsExtension .ext-topology-node-server .ext-topology-node-switch-button { background-color: rgb(83, 167, 217); }
+.css-scope-AppInsightsExtension .ext-topology-server-color-swatch, .css-scope-AppInsightsExtension .ext-topology-node-client .ext-topology-node-switch-button { background-color: rgb(142, 106, 174); }
+.css-scope-AppInsightsExtension .ext-topology-node-error-vertical { float: left; height: 50%; width: 100%; margin-bottom: -10px; }
+.css-scope-AppInsightsExtension .ext-topology-node-error-banner { color: rgb(255, 255, 255); padding: 3px 10px; background-color: rgb(128, 130, 133); text-align: center; clear: both; }
+.css-scope-AppInsightsExtension .ext-topology-node-aggregate .ext-topology-node-error-banner, .css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-error-banner { padding: 1px; }
+.css-scope-AppInsightsExtension .ext-topology-node-aggregate .ext-topology-node-error-vertical, .css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-error-vertical { margin-bottom: -7px; }
+.css-scope-AppInsightsExtension .ext-topology-node-aggregate .ext-topology-application-aggregate-node.ext-topology-node-error-banner, .css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-aggregate .ext-topology-application-aggregate-node.ext-topology-node-error-banner { height: 18px; }
+.ext-mode-dark .css-scope-AppInsightsExtension .ext-topology-node-title, .ext-mode-dark .css-scope-AppInsightsExtension .ext-text { color: rgb(255, 255, 255); }
+.css-scope-AppInsightsExtension .ext-topology-toolbar-item { float: right; }
+.css-scope-AppInsightsExtension .ext-topology-part-full .ext-topology-toolbar-item { float: left; }
+.css-scope-AppInsightsExtension .ext-topology-color-swatch-toolbar { margin-top: 5px; margin-right: 3px; }
+.css-scope-AppInsightsExtension .ext-topology-color-swatch-label { margin-right: 5px; float: left; }
+.css-scope-AppInsightsExtension .ext-topology-color-swatch { height: 14px; width: 14px; display: inline-block; margin-right: 5px; float: left; }
+.css-scope-AppInsightsExtension .ext-topology-node-expandable .ext-topology-node-leftArrow { border-top: 33px solid transparent; border-bottom: 33px solid transparent; }
+.css-scope-AppInsightsExtension .ext-topology-node-expandable .ext-topology-node-rightArrow { border-top: 35px solid transparent; border-bottom: 35px solid transparent; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-leftArrow, .css-scope-AppInsightsExtension .ext-topology-node-aggregate .ext-topology-node-leftArrow { border-top: 17px solid transparent; border-bottom: 17px solid transparent; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-rightArrow, .css-scope-AppInsightsExtension .ext-topology-node-aggregate .ext-topology-node-rightArrow { border-top: 18px solid transparent; border-bottom: 18px solid transparent; }
+.css-scope-AppInsightsExtension .ext-topology-node-content { background-color: rgb(248, 248, 248); padding-top: 1px; padding-bottom: 1px; padding-left: 3px; height: calc(100% - 2px); }
+.css-scope-AppInsightsExtension .ext-topology-node-content-expanded { margin-top: 5px; }
+.css-scope-AppInsightsExtension .ext-topology-node-content-expanded .ext-expanded-header { margin: 8px 0px 4px; border-top: 1px solid rgb(215, 215, 214); }
+.css-scope-AppInsightsExtension .ext-topology-node-attrib { height: 50px; width: 26px; position: absolute; right: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-embedded-node-attrib { padding-top: 10px; margin-left: -3px; }
+.css-scope-AppInsightsExtension .ext-topology-node-contextMenu { position: absolute; width: 21px; height: 19px; top: 3px; right: 3px; padding: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-node-contextMenu a { padding: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-node-contextMenu a svg > g { fill: rgb(45, 50, 57); }
+.css-scope-AppInsightsExtension .ext-topology-node-attrib-bottom { position: absolute; bottom: 0px; width: 70px; right: 6px; }
+.css-scope-AppInsightsExtension .ext-topology-node-attrib-icon { float: right; width: 16px; height: 16px; bottom: 6px; margin: 0px 2px; padding: 0px; position: relative; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-attrib, .css-scope-AppInsightsExtension .ext-topology-node-aggregate .ext-topology-node-attrib { height: 35px; }
+.css-scope-AppInsightsExtension .ext-topology-node-alert-text { position: absolute; right: -4px; top: -2px; }
+.css-scope-AppInsightsExtension .ext-topology-node-expand { background-color: rgba(248, 248, 248, 0); text-align: center; position: absolute; bottom: 0px; width: 100%; padding: 0px; }
+.css-scope-AppInsightsExtension .ext-topology-node-expand img { height: 9px; }
+.css-scope-AppInsightsExtension .ext-topology-node-configure, .css-scope-AppInsightsExtension ext-topology-node-root { height: 100%; width: 100%; padding: 0px; background-color: inherit; }
+.css-scope-AppInsightsExtension .ext-topology-node-configure-text { overflow: hidden; text-align: center; position: absolute; bottom: 0px; vertical-align: bottom; width: calc(100% - 6px); padding: 0px 3px 3px; }
+.css-scope-AppInsightsExtension .ext-topology-node-configure-text .ext-topology-configure-arrow { position: relative; bottom: 10px; height: 30px; }
+.css-scope-AppInsightsExtension .ext-topology-node-root-text, .css-scope-AppInsightsExtension .ext-topology-node-root-text-aggregate { overflow: hidden; height: 100%; text-align: center; top: 3px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-root-text { padding-top: 1px; }
+.css-scope-AppInsightsExtension .ext-topology-node-root-text-aggregate { padding-top: 9px; }
+.css-scope-AppInsightsExtension .ext-topology-node-minimized .ext-topology-node-root-text-aggregate { padding-top: 2px; }
+.css-scope-AppInsightsExtension .ext-topology-error-node .ext-topology-node-border { border-width: 0px; }
+.css-scope-AppInsightsExtension .ext-availability { width: 100%; }
+.css-scope-AppInsightsExtension .ext-availability .ext-name { width: 130px; display: inline-block; }
+.css-scope-AppInsightsExtension .ext-availability .ext-passRate { float: right; display: inline-block; }
+.css-scope-AppInsightsExtension .ext-topology-install-button, .css-scope-AppInsightsExtension .ext-topology-install-button-disabled { padding: 16px 0px; width: 290px; margin: 20px 0px 10px 122px; color: rgb(255, 255, 255); }
+.css-scope-AppInsightsExtension .ext-topology-install-button-disabled { background-color: rgba(104, 33, 122, 0.4); }
+.css-scope-AppInsightsExtension .ext-topology-install-footnote { margin-top: 40px; }
+.css-scope-AppInsightsExtension .ext-topology-configure-header { margin: 0px 0px 40px; }
+.css-scope-AppInsightsExtension .ext-topology-installation-icon { height: 75px; width: 75px; margin: 15px 0px 15px 230px; }
+.css-scope-AppInsightsExtension .ext-topology-configuration-loading { margin-top: 30px; margin-bottom: 10px; }
+.css-scope-AppInsightsExtension .ext-topology-availability-test-button { padding: 0px 10px; }
+.css-scope-AppInsightsExtension .ext-topology-availability-test-button h1 { margin: 0px; padding: 15px 0px; }
+.css-scope-AppInsightsExtension .ext-topology-availability-test-button div { padding-bottom: 15px; }
+.css-scope-AppInsightsExtension .ext-topology-meanwhile-header { position: relative; top: 35px; }
+.css-scope-AppInsightsExtension .ext-topology-icon-spacer { height: 16px; float: left; margin-right: 3px; }
+.css-scope-AppInsightsExtension .ext-topology-toggle-node { padding: 3px 0px 0px 5px; height: 100%; width: 100%; text-align: center; background-color: rgb(214, 215, 216); }
+.css-scope-AppInsightsExtension .ext-topology-node-switch-button { height: 18px; color: rgb(255, 255, 255); text-align: center; }
+.css-scope-AppInsightsExtension .ext-topology-application-aggregate-node { height: calc(100% - 20px); }
+.css-scope-AppInsightsExtension .ext-topology-node-inactive .ext-topology-application-aggregate-node { height: calc(100% - 18px); }
+.css-scope-AppInsightsExtension .ext-topology-filtersummary-prefix { clear: both; float: left; padding-top: 10px; }
+.css-scope-AppInsightsExtension .ext-topology-filtersummary-suffix { float: left; padding-top: 10px; }

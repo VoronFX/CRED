@@ -1,0 +1,5 @@
+.css-scope-WebsitesExtension .ext-propertyRowControl { position: relative; }
+.css-scope-WebsitesExtension .ext-propertyRowControl::before, .css-scope-WebsitesExtension .ext-propertyRowControl::after { width: 35%; position: absolute; left: 12px; height: 5px; bottom: 12px; background: transparent; }
+.css-scope-WebsitesExtension .ext-propertyRowControl::after { left: auto; right: 12px; }
+.css-scope-WebsitesExtension .ext-propertyRowControl { height: 50px; margin: 1.5%; }
+.css-scope-WebsitesExtension .ext-propertyRowControlText { }

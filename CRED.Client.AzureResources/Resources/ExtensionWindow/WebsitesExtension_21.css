@@ -1,0 +1,6 @@
+.css-scope-WebsitesExtension .ext-buttonControl { position: relative; border: 2px solid rgb(179, 179, 179); color: rgb(255, 255, 255); background: rgb(0, 188, 242); }
+.css-scope-WebsitesExtension .ext-buttonControl:active { position: relative; border-color: rgb(0, 188, 242); transition-duration: 0.1s; transition-timing-function: ease-in; transition-property: all; }
+.css-scope-WebsitesExtension .ext-buttonControl::before, .css-scope-WebsitesExtension .ext-buttonControl::after { width: 35%; position: absolute; left: 12px; height: 5px; bottom: 12px; background: transparent; }
+.css-scope-WebsitesExtension .ext-buttonControl::after { left: auto; right: 12px; }
+.css-scope-WebsitesExtension .ext-buttonControl { cursor: pointer; height: 30px; margin: 15px 0px; }
+.css-scope-WebsitesExtension .ext-buttonControl:hover { border: 2px solid rgb(0, 188, 242); background: rgb(3, 199, 255); }
