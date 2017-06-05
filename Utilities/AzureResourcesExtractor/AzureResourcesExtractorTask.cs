@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Build.Utilities;
 using Microsoft.Build.Framework;
+using AzureResourcesExtractor;
 
 namespace AzureResourcesExtractor
 {
@@ -107,6 +108,7 @@ namespace AzureResourcesExtractor
 			return string.Format("{0} {1}", Category, Message);
 		}
 	}
+}
 
 	[Serializable]
 	public class AzureResourcesExtractorTask : Task
@@ -210,5 +212,4 @@ namespace AzureResourcesExtractor
 			return false;
 		}
 	}
-}
  

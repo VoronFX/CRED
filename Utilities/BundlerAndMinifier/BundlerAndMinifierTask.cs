@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Build.Utilities;
 using Microsoft.Build.Framework;
+using BundlerAndMinifier;
 
 namespace BundlerAndMinifier
 {
@@ -107,6 +108,7 @@ namespace BundlerAndMinifier
 			return string.Format("{0} {1}", Category, Message);
 		}
 	}
+}
 
 	[Serializable]
 	public class BundlerAndMinifierTask : Task
@@ -199,5 +201,4 @@ namespace BundlerAndMinifier
 			return false;
 		}
 	}
-}
  

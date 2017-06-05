@@ -1,12 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputType>exe</OutputType>
-  </PropertyGroup>
-
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <ApplicationIcon />
+    <OutputType>exe</OutputType>
     <OutputTypeEx>exe</OutputTypeEx>
     <StartupObject />
   </PropertyGroup>
@@ -26,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ResourceMapper.Base.cs" />
+    <EmbeddedResource Include="ResourceMapper.Base.cs" />
     <Compile Update="ResourceMapperTask.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

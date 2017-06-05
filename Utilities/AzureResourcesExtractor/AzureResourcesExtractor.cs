@@ -69,8 +69,9 @@ namespace AzureResourcesExtractor
 
 		private void ExtractAzureResources()
 		{
-
 			var parsedResources = Directory.GetFiles(Task.SourcesDirectory, "*.html")
+				.AsParallel()
+				.AsOrdered()
 				.Select(File.ReadAllText)
 				.Select(x =>
 				{
@@ -143,7 +144,7 @@ namespace AzureResourcesExtractor
 					return resources;
 				}).ToArray();
 
-			var resourcesBase = parsedResources.First().ToArray();
+			var resourcesBase = parsedResources.First();
 
 			// Fill empty styles with other files
 			foreach (var resource in resourcesBase.Where(r =>
@@ -151,7 +152,7 @@ namespace AzureResourcesExtractor
 				&& string.IsNullOrWhiteSpace(r.Content)))
 			{
 				var overlayRes = parsedResources
-					.Skip(1)
+					.Where(x => x != resourcesBase)
 					.SelectMany(x => x)
 					.FirstOrDefault(ro => ro.IdentifierFull == resource.IdentifierFull
 										  && !string.IsNullOrWhiteSpace(ro.Content));
@@ -226,7 +227,7 @@ namespace AzureResourcesExtractor
 				});
 		}
 
-		private void GenerateStyleClassesMap(Resource[] parsedResources)
+		private void GenerateStyleClassesMap(IEnumerable<Resource> parsedResources)
 		{
 			var classesPacks = parsedResources.Where(resource => resource.Type == Resource.ResType.Style)
 				.Select(r => new
@@ -250,6 +251,8 @@ namespace AzureResourcesExtractor
 						.Select(x => new KeyValuePair<string, IEnumerable<string>>(x.Key, x.Select(x2 => x2.File)))));
 
 			var dummyClasses = Directory.GetFiles(Task.SourcesDirectory, "*.html")
+				.AsParallel()
+				.AsOrdered()
 				.Select(File.ReadAllText)
 				.SelectMany(x => Regex.Matches(x, "(?si)(?<=class=\")[-_A-Za-z0-9\\s]+?(?=\")").Cast<Match>())
 				.SelectMany(x => x.Value.Split(' '))

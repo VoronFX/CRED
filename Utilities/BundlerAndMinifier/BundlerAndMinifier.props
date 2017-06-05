@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <UsingTask TaskName="BundlerAndMinifier.BundlerAndMinifierTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll"  >
+  <UsingTask TaskName="BundlerAndMinifierTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll"  >
     <ParameterGroup>
       <TaskAssemblyPath ParameterType="System.String" Required="true" />
       <InputFiles ParameterType="System.String[]" Required="true" />
@@ -15,12 +15,6 @@
     </Task>
   </UsingTask>
   <PropertyGroup>
-    <BundlerAndMinifierAssembly Condition="'$(BundlerAndMinifierAssembly)' == ''">$(MSBuildThisFileDirectory)\bin\$(Configuration)\net46\</BundlerAndMinifierAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <BuildDependsOn>
-      $(BuildDependsOn);
-      BundlerAndMinifier
-    </BuildDependsOn>
+    <BundlerAndMinifierTaskAssemblyPath Condition="'$(BundlerAndMinifierTaskAssemblyPath)' == ''">$(MSBuildThisFileDirectory)\bin\$(Configuration)\net46\</BundlerAndMinifierTaskAssemblyPath>
   </PropertyGroup>
 </Project>

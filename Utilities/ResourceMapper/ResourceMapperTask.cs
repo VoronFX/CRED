@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Build.Utilities;
 using Microsoft.Build.Framework;
+using ResourceMapper;
 
 namespace ResourceMapper
 {
@@ -107,6 +108,7 @@ namespace ResourceMapper
 			return string.Format("{0} {1}", Category, Message);
 		}
 	}
+}
 
 	[Serializable]
 	public class ResourceMapperTask : Task
@@ -132,6 +134,9 @@ namespace ResourceMapper
 	
 		[XmlElement]
 		public System.String TopClassName { get; set; }
+	
+		[XmlElement]
+		public System.String BaseTypesOutputFile { get; set; }
 	
         public static XmlSerializer Serializer()
 		{
@@ -209,5 +214,4 @@ namespace ResourceMapper
 			return false;
 		}
 	}
-}
  

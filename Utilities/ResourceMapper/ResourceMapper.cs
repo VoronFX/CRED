@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using CsCodeGenerator;
 using Microsoft.AspNetCore.WebUtilities;
+using ResourceMapper.Base;
 using ResourceMapper.Prototypes;
 
 namespace ResourceMapper
@@ -41,94 +44,64 @@ namespace ResourceMapper
 
 			var outputFile = Path.Combine(Task.RootDirectory, Task.OutputFile);
 			IOExtension.EnsureFileDirectoryCreated(outputFile);
+
 			File.WriteAllLines(outputFile, GenerateUnit(filesInDirectories));
+			if (!string.IsNullOrWhiteSpace(Task.BaseTypesOutputFile))
+			{
+				var baseTypesOutputFile = Path.GetFullPath(Path.Combine(Task.RootDirectory, Task.BaseTypesOutputFile));
+				IOExtension.EnsureFileDirectoryCreated(baseTypesOutputFile);
+
+				// ReSharper disable once AssignNullToNotNullAttribute
+
+				using (var stream = new StreamReader(Assembly
+					.GetExecutingAssembly().GetManifestResourceStream(
+					string.Join(".", Assembly.GetExecutingAssembly().GetName().Name, typeof(ResourceDirectoryBase).Namespace, "cs"))))
+				{
+					var baseTypes = Generator.GeneratedHeader().Concat(stream.ReadToEnd()
+						.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None));
+
+					if (baseTypesOutputFile == outputFile)
+					{
+						File.AppendAllLines(baseTypesOutputFile, baseTypes);
+					}
+					else
+					{
+						File.WriteAllLines(baseTypesOutputFile, baseTypes);
+					}
+				}
+			}
 		}
 
 		private IEnumerable<string> GenerateUnit(IEnumerable<string> items)
 		{
-			var additionalContent = @"
-				public interface IResourceDirectory
-				{
-					IReadOnlyDictionary<string, IResourceFile> Files { get; }
-					IReadOnlyDictionary<string, IResourceDirectory> Directories { get; }
-					string Name { get; }
-					IResourceDirectory ParentDirectory { get; }
-				}
-
-				public interface IResourceFile
-				{
-					string Name { get; }
-					string Hash { get; }
-					IResourceDirectory ContainingDirectory { get; }
-				}
-
-				internal sealed class ResourceFile : IResourceFile
-				{
-					internal ResourceFile(string name, string hash, IResourceDirectory containingDirectory)
-					{
-						Name = name;
-						Hash = hash;
-						ContainingDirectory = containingDirectory;
-					}
-
-					public string Name { get; }
-					public string Hash { get; }
-					public IResourceDirectory ContainingDirectory { get; }
-				}
-
-				public abstract class ResourceDirectoryBase : IResourceDirectory
-				{
-					protected internal readonly Dictionary<string, IResourceFile> files
-						= new Dictionary<string, IResourceFile>();
-					protected internal readonly Dictionary<string, IResourceDirectory> directories
-						= new Dictionary<string, IResourceDirectory>();
-					protected internal readonly IResourceDirectory parentDirectory;
-					protected internal readonly string name;
-
-					protected internal ResourceDirectoryBase(string name, IResourceDirectory parentDirectory)
-					{
-						this.parentDirectory = parentDirectory;
-						this.name = name;
-					}
-
-					string IResourceDirectory.Name => name;
-
-					IResourceDirectory IResourceDirectory.ParentDirectory => parentDirectory;
-
-					IReadOnlyDictionary<string, IResourceFile> IResourceDirectory.Files => files;
-
-					IReadOnlyDictionary<string, IResourceDirectory> IResourceDirectory.Directories => directories;
-
-				}
-			".UnindentVerbatim();
-
-			var hashedItems = new ConcurrentBag<KeyValuePair<string[], string>>();
-
-			Parallel.ForEach(items, item =>
-				hashedItems.Add(new KeyValuePair<string[], string>(
+			var hashedItems = items.AsParallel().AsOrdered()
+				.Select(item => new KeyValuePair<string[], string>(
 					item.Substring(Task.RootDirectory.Length)
 						.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
 						.ToArray(),
-					GetHashForFile(item)
-				))
-			);
+					GetHashForFile(item)));
 
-			return Generator.GeneratedHeader()
-				.Concat(new[] { typeof(IReadOnlyDictionary<string, string>).Namespace }.Select(x => $"using {x};"))
-				.Concat(new[]
-				{
-					"// ReSharper disable InconsistentNaming",
-					string.Empty,
-					$"namespace {Task.Namespace}",
-					"{",
-				})
-				.Concat(GenerateDirectoryClass(Task.TopClassName, null, hashedItems.ToArray(), 0).Indent())
-				.Concat(additionalContent.Indent())
-				.Concat(new[]
-				{
-					"}"
-				});
+			return Flatten(
+					Generator.GeneratedHeader(),
+					new[] { typeof(IReadOnlyDictionary<string, string>).Namespace, typeof(ResourceDirectoryBase).Namespace }
+						.Select(x => $"using {x};"),
+					new[]
+					{
+						"// ReSharper disable InconsistentNaming",
+						string.Empty,
+						$"namespace {Task.Namespace}",
+						"{",
+					},
+					GenerateDirectoryClass(Task.TopClassName, null, hashedItems.ToArray(), 0).Indent(),
+					new[]
+					{
+						"}"
+					}
+				);
 		}
+
+		private static IEnumerable<string> Flatten(params IEnumerable<string>[] lines) => lines
+			.SelectMany(x => x);
 
 		private IEnumerable<string> GenerateDirectoryClass(string className, string name, ICollection<KeyValuePair<string[], string>> items, int level)
 		{
@@ -156,81 +129,78 @@ namespace ResourceMapper
 				})
 				.ToArray();
 
-			var constructorContent =
-				files.SelectMany(file => new[]
-					{
+			var initializations = directories.Select(
+					dir =>
+						$"directories.Add(nameof({dir.Identifier}), new {scope + dir.ClassName}(this));"
+				)
+				.Concat(files.Select(
+					file =>
 						$"files.Add(nameof({file.Identifier}), new {nameof(ResourceFile)}({file.Name.ToVerbatimLiteral()}, {file.Hash.ToVerbatimLiteral()}, this));"
-					})
-					.Concat(directories.SelectMany(directory => new[]
-					{
-						$"directories.Add(nameof({directory.Identifier}), new {scope+directory.ClassName}(this));"
-					}));
+				));
 
-			var fileProperties = files
-				.SelectMany(file => new[]
+			IEnumerable<string> Comment(string comment, string content)
+				=> new[]
 				{
 					string.Empty,
 					"/// <summary>",
-					"/// " + file.Name.XmlEscape(),
+					"/// " + comment.XmlEscape(),
 					"/// </summary>",
-					$"public {nameof(IResourceFile)} {file.Identifier} => files[nameof({file.Identifier})];"
-				});
+					content
+				};
 
-			var dirProperties = directories
-				.SelectMany(dir => new[]
-				{
-					string.Empty,
-					"/// <summary>",
-					"/// " + dir.Name.XmlEscape(),
-					"/// </summary>",
-					$"public {scope+dir.ClassName} {dir.Identifier} => ({scope+dir.ClassName})directories[nameof({dir.Identifier})];",
-				});
+			var declarations = directories.SelectMany(
+					dir => Comment(dir.Name,
+						$"public {scope + dir.ClassName} {dir.Identifier} => ({scope + dir.ClassName})directories[nameof({dir.Identifier})];")
+				)
+				.Concat(files.SelectMany(
+					file => Comment(file.Name,
+						$"public {nameof(IResourceFile)} {file.Identifier} => files[nameof({file.Identifier})];")
+				));
 
-			var classContent = new[]
-				{
-					string.Empty,
-					$"public {className}({nameof(IResourceDirectory)} parentDirectory)",
-					$"	: base({name?.ToVerbatimLiteral() ?? "null"}, parentDirectory)",
-					"{"
-				}
-				.Concat(constructorContent.Indent())
-				.Concat(new[]
-				{
-					"}",
-				})
-				.Concat(fileProperties)
-				.Concat(dirProperties);
-
-			var subDirs = directories.SelectMany(x =>
-				GenerateDirectoryClass(x.ClassName, x.Name, x.Files, level + 1));
+			var subDirs = directories
+				.SelectMany(dir => GenerateDirectoryClass(dir.ClassName, dir.Name, dir.Files, level + 1));
 
 			if (level == 0)
 			{
-				subDirs = new[]
+				subDirs = Flatten(new[]
 					{
 						string.Empty,
 						$"namespace Directories",
 						"{",
-					}
-					.Concat(subDirs.Indent())
-					.Concat(new[]
+					},
+					subDirs.Indent(),
+					new[]
 					{
 						"}"
 					});
 			}
 
-			return new[]
+			return Flatten(new[]
 				{
 					string.Empty,
 					$"public sealed class {className} : {nameof(ResourceDirectoryBase)}",
 					"{",
-				}
-				.Concat(classContent.Indent())
-				.Concat(new[]
+				},
+				Flatten(new[]
+					{
+						string.Empty,
+						$"public {className}({nameof(IResourceDirectory)} parentDirectory)",
+						$"	: base({name?.ToVerbatimLiteral() ?? "null"}, parentDirectory)",
+						"{"
+					},
+					initializations,
+					new[]
+					{
+						"}",
+					},
+					declarations
+				).Indent(),
+				new[]
 				{
 					"}"
-				})
-				.Concat(subDirs);
+				},
+				subDirs
+			);
 		}
 
 		private static string GetHashForFile(string path)

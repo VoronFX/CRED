@@ -43,13 +43,11 @@ namespace BundlerAndMinifier
 
 		private void BundlerAndMinify()
 		{
-			var combined = new StringBuilder();
-			Parallel.ForEach(Task.InputFiles, file =>
-			{
-				var content = Minify(File.ReadAllText(file), file);
-				lock (combined)
-					combined.AppendLine(content);
-			});
+			var combined = Task.InputFiles
+				.AsParallel()
+				.AsOrdered()
+				.Select(file => Minify(File.ReadAllText(file), file))
+				.Aggregate(new StringBuilder(), (builder, s) => builder.AppendLine(s));
 
 			IOExtension.EnsureFileDirectoryCreated(Task.OutputFile);
 			File.WriteAllText(Task.OutputFile, Minify(combined.ToString(), Task.OutputFile));
