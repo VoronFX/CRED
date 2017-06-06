@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using CsCodeGenerator;
+using static CsCodeGenerator.Generator;
 using Microsoft.AspNetCore.WebUtilities;
 using ResourceMapper.Base;
 using ResourceMapper.Prototypes;
@@ -57,7 +58,7 @@ namespace ResourceMapper
 					.GetExecutingAssembly().GetManifestResourceStream(
 					string.Join(".", Assembly.GetExecutingAssembly().GetName().Name, typeof(ResourceDirectoryBase).Namespace, "cs"))))
 				{
-					var baseTypes = Generator.GeneratedHeader().Concat(stream.ReadToEnd()
+					var baseTypes = GeneratedHeader.Concat(stream.ReadToEnd()
 						.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None));
 
 					if (baseTypesOutputFile == outputFile)
@@ -82,7 +83,7 @@ namespace ResourceMapper
 					GetHashForFile(item)));
 
 			return Flatten(
-					Generator.GeneratedHeader(),
+					GeneratedHeader,
 					new[] { typeof(IReadOnlyDictionary<string, string>).Namespace, typeof(ResourceDirectoryBase).Namespace }
 						.Select(x => $"using {x};"),
 					new[]
@@ -100,8 +101,7 @@ namespace ResourceMapper
 				);
 		}
 
-		private static IEnumerable<string> Flatten(params IEnumerable<string>[] lines) => lines
-			.SelectMany(x => x);
+
 
 		private IEnumerable<string> GenerateDirectoryClass(string className, string name, ICollection<KeyValuePair<string[], string>> items, int level)
 		{

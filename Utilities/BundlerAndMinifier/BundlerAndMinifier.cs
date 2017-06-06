@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ResourceMapper;
 using WebMarkupMin.Core;
+using CsCodeGenerator;
 
 namespace BundlerAndMinifier
 {

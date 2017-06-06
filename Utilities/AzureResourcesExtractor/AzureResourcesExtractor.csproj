@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CssClassesMapper\CssClassesMapper.csproj" />
     <ProjectReference Include="..\ResourceMapper\ResourceMapper.csproj" />
   </ItemGroup>
 

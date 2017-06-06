@@ -15,10 +15,10 @@ using ResourceMapper.Base;
 namespace CRED.Client.AzureResources
 {
     
-    public sealed class ResourceMap : ResourceDirectoryBase
+    public sealed class AzureResourceMap : ResourceDirectoryBase
     {
         
-        public ResourceMap(IResourceDirectory parentDirectory)
+        public AzureResourceMap(IResourceDirectory parentDirectory)
         	: base(null, parentDirectory)
         {
         directories.Add(nameof(Fonts), new Directories.Fonts(this));

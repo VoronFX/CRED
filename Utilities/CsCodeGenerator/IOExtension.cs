@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ResourceMapper
+namespace CsCodeGenerator
 {
 	// ReSharper disable once InconsistentNaming
     public static class IOExtension

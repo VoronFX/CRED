@@ -1,8 +1,8 @@
 ﻿<Project>
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.Web" />
-  <Import Project="$(SolutionDir)\Utilities\AzureResourcesExtractor\AzureResourcesExtractor.props" />
   <Import Project="$(SolutionDir)\Utilities\BundlerAndMinifier\BundlerAndMinifier.props" />
   <Import Project="$(SolutionDir)\Utilities\ResourceMapper\ResourceMapper.props" />
+  <Import Project="$(SolutionDir)\Utilities\CssClassesMapper\CssClassesMapper.props" />
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
     <ApplicationIcon />
@@ -10,26 +10,23 @@
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
   </PropertyGroup>
-  <!--<ItemGroup>
-    <PackageReference Include="BuildBundlerMinifier" Version="2.4.337" />
-  </ItemGroup>-->
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.Web" />
 
+  <ItemGroup>
+    <Folder Include="Generated\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  
   <PropertyGroup>
     <BuildDependsOn>
-      AzureResourcesExtractor;
       BundlerAndMinifier;
       ResourceMapper;
+      CssClassesMapper;
       $(BuildDependsOn)
     </BuildDependsOn>
     <ResourceDirectory>$(MSBuildProjectDirectory)\Resources</ResourceDirectory>
     <GeneratedDirectory>$(MSBuildProjectDirectory)\Generated</GeneratedDirectory>
   </PropertyGroup>
-
-  <Target Name="AzureResourcesExtractor">
-    <Message Text=" AzureResourcesExtractor task started" Importance="high" />
-    <AzureResourcesExtractorTask TaskAssemblyPath="$(AzureResourcesExtractorTaskAssemblyPath)" SourcesDirectory="$(SolutionDir)\Utilities\AzureResourcesExtractor\Sources" RootDirectory="$(ResourceDirectory)" OutputDirectory="$(ResourceDirectory)" OutputMapsDirectory="$(GeneratedDirectory)" Namespace="$(MSBuildProjectName)" />
-  </Target>
 
   <Target Name="BundlerAndMinifier">
     <Message Text=" BundlerAndMinifier task started" Importance="high" />
@@ -38,9 +35,9 @@
     </ItemGroup>
     <BundlerAndMinifierTask InputFiles="@(CssBundleFiles)" OutputFile="$(ResourceDirectory)\Bundle.css" TaskAssemblyPath="$(BundlerAndMinifierTaskAssemblyPath)" />
     <ItemGroup>
-      <SvgBundleFiles Include="$(ResourceDirectory)\Svg\*.svg"/>
+      <JsBundleFiles Include="$(ResourceDirectory)\Lib\**\*.js" />
     </ItemGroup>
-    <BundlerAndMinifierTask InputFiles="@(SvgBundleFiles)" OutputFile="$(ResourceDirectory)\Bundle.svg" TaskAssemblyPath="$(BundlerAndMinifierTaskAssemblyPath)" />
+    <BundlerAndMinifierTask InputFiles="@(JsBundleFiles)" OutputFile="$(ResourceDirectory)\Bundle.js" TaskAssemblyPath="$(BundlerAndMinifierTaskAssemblyPath)" />
   </Target>
 
   <Target Name="ResourceMapper">
@@ -48,11 +45,19 @@
     <ItemGroup>
       <MapResourceFiles Include="$(ResourceDirectory)\**\*" Exclude="$(ResourceDirectory)\Bundle.*" />
     </ItemGroup>
-    <ResourceMapperTask TaskAssemblyPath="$(ResourceMapperTaskAssemblyPath)" InputFiles="@(MapResourceFiles)" RootDirectory="$(ResourceDirectory)" Namespace="$(MSBuildProjectName)" OutputFile="$(GeneratedDirectory)\AzureResourceMap.cs" TopClassName="AzureResourceMap" BaseTypesOutputFile="$(GeneratedDirectory)\ResourceMap.Base.cs" />
+    <ResourceMapperTask TaskAssemblyPath="$(ResourceMapperTaskAssemblyPath)" InputFiles="@(MapResourceFiles)" RootDirectory="$(ResourceDirectory)" Namespace="$(MSBuildProjectName)" OutputFile="$(GeneratedDirectory)\ClientResourceMap.cs" TopClassName="ClientResourceMap" BaseTypesOutputFile="$(GeneratedDirectory)\ResourceMap.Base.cs" />
     <ItemGroup>
       <MapBundleFiles Include="$(ResourceDirectory)\Bundle.*" />
     </ItemGroup>
-    <ResourceMapperTask TaskAssemblyPath="$(ResourceMapperTaskAssemblyPath)" InputFiles="@(MapBundleFiles)" RootDirectory="$(ResourceDirectory)" Namespace="$(MSBuildProjectName)" OutputFile="$(GeneratedDirectory)\AzureBundleMap.cs" TopClassName="AzureBundleMap" />
+    <ResourceMapperTask TaskAssemblyPath="$(ResourceMapperTaskAssemblyPath)" InputFiles="@(MapBundleFiles)" RootDirectory="$(ResourceDirectory)" Namespace="$(MSBuildProjectName)" OutputFile="$(GeneratedDirectory)\ClientBundleMap.cs" TopClassName="ClientBundleMap" />
+  </Target>
+
+  <Target Name="CssClassesMapper">
+    <Message Text=" CssClassesMapper task started" Importance="high" />
+    <ItemGroup>
+      <CssFiles Include="$(ResourceDirectory)\Styles\**\*.css" />
+    </ItemGroup>
+    <CssClassesMapperTask InputFiles="@(CssFiles)" OutputFile="$(GeneratedDirectory)\ClientCssClassesMap.cs" ClassName="CssClassesMap" Namespace="$(MSBuildProjectName)" TaskAssemblyPath="$(CssClassesMapperTaskAssemblyPath)" />
   </Target>
 
 </Project>

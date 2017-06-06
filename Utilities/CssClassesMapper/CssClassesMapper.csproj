@@ -3,28 +3,18 @@
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <ApplicationIcon />
-    <OutputType>exe</OutputType>
-    <OutputTypeEx>exe</OutputTypeEx>
+    <OutputType>Exe</OutputType>
+    <OutputTypeEx>Exe</OutputTypeEx>
     <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="1.1.2" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.1012" />
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
-    <PackageReference Include="WebMarkupMin.Core" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CsCodeGenerator\CsCodeGenerator.csproj" />
-    <ProjectReference Include="..\ResourceMapper\ResourceMapper.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="BundlerAndMinifierTask.tt">
-      <LastGenOutput>BundlerAndMinifierTask.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -32,11 +22,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="BundlerAndMinifierTask.cs">
+    <Compile Update="CssClassesMapperTask.cs">
+      <DependentUpon>CssClassesMapperTask.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>BundlerAndMinifierTask.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CssClassesMapperTask.tt">
+      <LastGenOutput>CssClassesMapperTask.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
   </ItemGroup>
   
 </Project>

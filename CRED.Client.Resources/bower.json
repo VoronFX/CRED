@@ -1,0 +1,7 @@
+{
+  "name": "cred.client.resources",
+  "private": true,
+  "dependencies": {
+    "react": "v15.5.4"
+  }
+}

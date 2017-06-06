@@ -12,28 +12,22 @@ using System.Collections.Generic;
 using ResourceMapper.Base;
 // ReSharper disable InconsistentNaming
 
-namespace CRED.Client.AzureResources
+namespace CRED.Client.Resources
 {
     
-    public sealed class AzureBundleMap : ResourceDirectoryBase
+    public sealed class ClientBundleMap : ResourceDirectoryBase
     {
         
-        public AzureBundleMap(IResourceDirectory parentDirectory)
+        public ClientBundleMap(IResourceDirectory parentDirectory)
         	: base(null, parentDirectory)
         {
-        files.Add(nameof(BundleCss), new ResourceFile(@"Bundle.css", @"sZasuuvpP4b-d9TbF59fIpJuf5cAykbi0bUBfu6FC14", this));
-        files.Add(nameof(BundleSvg), new ResourceFile(@"Bundle.svg", @"dHaCuZBcpXVJgm7h-OAYdxyFV6YMedo7x-rgq3UPHOk", this));
+        files.Add(nameof(BundleCss), new ResourceFile(@"Bundle.css", @"47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU", this));
         }
         
         /// <summary>
         /// Bundle.css
         /// </summary>
         public IResourceFile BundleCss => files[nameof(BundleCss)];
-        
-        /// <summary>
-        /// Bundle.svg
-        /// </summary>
-        public IResourceFile BundleSvg => files[nameof(BundleSvg)];
     }
     
     namespace Directories

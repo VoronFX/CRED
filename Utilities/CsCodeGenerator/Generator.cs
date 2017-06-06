@@ -12,7 +12,7 @@ namespace CsCodeGenerator
 	{
 		public static IEnumerable<string> Namespace(string name, string[] comment, IEnumerable<string> imports, IEnumerable<string> content)
 			=> imports.Select(i => $"using {i};")
-				.Concat(new[] { string.Empty })
+				.Concat(new[] { String.Empty })
 				.Concat(comment.Select(x => $@"// {x}"))
 				.Concat(new[]
 				{
@@ -31,17 +31,17 @@ namespace CsCodeGenerator
 				.Concat(new[]
 				{
 					JoinNonEmpty(" ",
-						@public ? nameof(@public) : string.Empty,
-						@sealed ? nameof(@sealed) : string.Empty,
-						@static ? nameof(@static) : string.Empty,
-						partial ? nameof(partial) : string.Empty, "class", name),
+						@public ? nameof(@public) : String.Empty,
+						@sealed ? nameof(@sealed) : String.Empty,
+						@static ? nameof(@static) : String.Empty,
+						partial ? nameof(partial) : String.Empty, "class", name),
 					"{"
 				})
 				.Concat(content.Indent())
 				.Concat(new[]
 				{
 					"}",
-					string.Empty
+					String.Empty
 				});
 
 		public static IEnumerable<string> Property(string name, string value, string[] comment,
@@ -50,13 +50,13 @@ namespace CsCodeGenerator
 				.Concat(new[]
 				{
 					JoinNonEmpty(" ",
-						@public ? nameof(@public) : string.Empty,
-						@static ? nameof(@static) : string.Empty,
-						@const ? nameof(@const) : string.Empty,
-						@readonly && field ? nameof(@readonly) : string.Empty,
+						@public ? nameof(@public) : String.Empty,
+						@static ? nameof(@static) : String.Empty,
+						@const ? nameof(@const) : String.Empty,
+						@readonly && field ? nameof(@readonly) : String.Empty,
 						type, name,
 						field ? "=" : (@readonly? "{ get; } =" :"{ get; set; } ="), value+";"),
-					string.Empty
+					String.Empty
 				});
 
 		[Flags]
@@ -110,29 +110,29 @@ namespace CsCodeGenerator
 				var result = new List<string>();
 				result.AddRange(Comment);
 				result.Add(JoinNonEmpty(" ",
-					AccessModifiers.HasFlag(AccessModifiers.Public) ? "public" : string.Empty,
-					AccessModifiers.HasFlag(AccessModifiers.Private) ? "private" : string.Empty,
-					AccessModifiers.HasFlag(AccessModifiers.Internal) ? "internal" : string.Empty,
-					AccessModifiers.HasFlag(AccessModifiers.Protected) ? "protected" : string.Empty,
+					AccessModifiers.HasFlag(AccessModifiers.Public) ? "public" : String.Empty,
+					AccessModifiers.HasFlag(AccessModifiers.Private) ? "private" : String.Empty,
+					AccessModifiers.HasFlag(AccessModifiers.Internal) ? "internal" : String.Empty,
+					AccessModifiers.HasFlag(AccessModifiers.Protected) ? "protected" : String.Empty,
 
-					Static || (Abstract && Sealed) ? "static" : string.Empty,
-					Sealed && !(Abstract && Sealed) ? "sealed" : string.Empty,
-					Abstract && !(Abstract && Sealed) ? "abstract" : string.Empty,
-					Virtual ? "virtual" : string.Empty,
-					Readonly ? "readonly" : string.Empty,
-					New ? "new" : string.Empty,
-					Override ? "override" : string.Empty,
+					Static || (Abstract && Sealed) ? "static" : String.Empty,
+					Sealed && !(Abstract && Sealed) ? "sealed" : String.Empty,
+					Abstract && !(Abstract && Sealed) ? "abstract" : String.Empty,
+					Virtual ? "virtual" : String.Empty,
+					Readonly ? "readonly" : String.Empty,
+					New ? "new" : String.Empty,
+					Override ? "override" : String.Empty,
 
-					Type == MemberType.Class ? "class" : string.Empty,
-					Type == MemberType.Struct ? "struct" : string.Empty,
-					Type == MemberType.Interface ? "interface" : string.Empty,
-					Type == MemberType.Enum ? "enum" : string.Empty,
+					Type == MemberType.Class ? "class" : String.Empty,
+					Type == MemberType.Struct ? "struct" : String.Empty,
+					Type == MemberType.Interface ? "interface" : String.Empty,
+					Type == MemberType.Enum ? "enum" : String.Empty,
 					ReturnType,
-					Name + (GenericParameters != null ? $"<{string.Join(", ", GenericParameters)}>" : string.Empty),
-					Type == MemberType.Class ? $"({string.Join(", ", Parameters)})" : string.Empty,
-					InheritedTypes != null ? $": {string.Join(", ", InheritedTypes)}" : string.Empty,
-					ExpressionBody ? "=>" : string.Empty,
-					Assignment ? "=" : string.Empty));
+					Name + (GenericParameters != null ? $"<{String.Join(", ", GenericParameters)}>" : String.Empty),
+					Type == MemberType.Class ? $"({String.Join(", ", Parameters)})" : String.Empty,
+					InheritedTypes != null ? $": {String.Join(", ", InheritedTypes)}" : String.Empty,
+					ExpressionBody ? "=>" : String.Empty,
+					Assignment ? "=" : String.Empty));
 
 				var brackets = !ExpressionBody && (Type == MemberType.Class || Type == MemberType.Struct ||
 												   Type == MemberType.Interface || Type == MemberType.Enum ||
@@ -198,20 +198,20 @@ namespace CsCodeGenerator
 				{
 					JoinNonEmpty(" ",
 						typeInfo.IsPublic ? "public" : "internal",
-						typeInfo.IsSealed && !typeInfo.IsAbstract ? "sealed" : string.Empty,
-						typeInfo.IsSealed && typeInfo.IsAbstract ? "static": string.Empty,
-						typeInfo.IsAbstract && !typeInfo.IsSealed ? "abstract": string.Empty,
-						typeInfo.IsClass ? "class" : string.Empty,
-						typeInfo.IsInterface ? "interface" : string.Empty,
-						typeInfo.IsEnum ? "enum" : string.Empty,
-						!typeInfo.IsClass && !typeInfo.IsInterface && !typeInfo.IsEnum ? "struct" : string.Empty),
+						typeInfo.IsSealed && !typeInfo.IsAbstract ? "sealed" : String.Empty,
+						typeInfo.IsSealed && typeInfo.IsAbstract ? "static": String.Empty,
+						typeInfo.IsAbstract && !typeInfo.IsSealed ? "abstract": String.Empty,
+						typeInfo.IsClass ? "class" : String.Empty,
+						typeInfo.IsInterface ? "interface" : String.Empty,
+						typeInfo.IsEnum ? "enum" : String.Empty,
+						!typeInfo.IsClass && !typeInfo.IsInterface && !typeInfo.IsEnum ? "struct" : String.Empty),
 					"{"
 				}
 				.Concat(content.Indent())
 				.Concat(new[]
 				{
 					"}",
-					string.Empty
+					String.Empty
 				});
 
 		public static IEnumerable<string> Comment(string[] comment) =>
@@ -225,10 +225,13 @@ namespace CsCodeGenerator
 			=> input.Select(x => "    " + x);
 
 		private static string JoinNonEmpty(string separator, params string[] strings)
-			=> string.Join(separator, strings.Where(s => !string.IsNullOrWhiteSpace(s)));
+			=> String.Join(separator, strings.Where(s => !String.IsNullOrWhiteSpace(s)));
 
 		public static string Flatten(this IEnumerable<string> strings)
-			=> string.Join(Environment.NewLine, strings);
+			=> String.Join(Environment.NewLine, strings);
+
+		public static IEnumerable<string> Flatten(params IEnumerable<string>[] lines) 
+			=> lines.SelectMany(x => x);
 
 		public static string ToPascalCaseIdentifier(this string name)
 			=> Regex.Replace(Regex.Replace("-" + name, "(?si)[^A-Za-z0-9]+", "-"), "(?si)-+([A-Za-z0-9]?)",
@@ -241,11 +244,11 @@ namespace CsCodeGenerator
 		{
 			var splitted = input.Replace("\r\n", "\n").Split('\n');
 			var indent = splitted
-				.Where(x => !string.IsNullOrWhiteSpace(x))
+				.Where(x => !String.IsNullOrWhiteSpace(x))
 				.Select(x => x.Length - x.TrimStart().Length)
 				.Min();
 
-			return splitted.Select(x => string.IsNullOrWhiteSpace(x) ? x : x.Substring(indent));
+			return splitted.Select(x => String.IsNullOrWhiteSpace(x) ? x : x.Substring(indent));
 		}
 
 		public static string XmlEscape(this string input)
@@ -268,7 +271,7 @@ namespace CsCodeGenerator
 		//	}
 		//}
 
-		public static IEnumerable<string> GeneratedHeader() =>  @"
+		public static IEnumerable<string> GeneratedHeader { get; } = @"
 				//------------------------------------------------------------------------------
 				// <auto-generated>
 				//     This code was generated by a tool.
@@ -278,6 +281,5 @@ namespace CsCodeGenerator
 				// </auto-generated>
 				//------------------------------------------------------------------------------
 			".UnindentVerbatim();
-
 	}
 }

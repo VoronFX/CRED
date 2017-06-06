@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CsCodeGenerator;
 using ResourceMapper;
+using static CssClassesMapper.CssClassesMapper;
 
 namespace AzureResourcesExtractor
 {
@@ -181,51 +182,7 @@ namespace AzureResourcesExtractor
 			//}
 		}
 
-		private IEnumerable<string> GenerateCssClassesMap(string className, IEnumerable<KeyValuePair<string, IEnumerable<string>>> classes)
-		{
-			var classesConsts = classes
-				.SelectMany(cssClass => new[]
-				{
-					string.Empty,
-					"/// <summary>",
-					"/// "+ cssClass.Key.XmlEscape(),
-					"/// Referenced in next css files:"
-				}
-				.Concat(cssClass.Value.Select(x =>
-						"/// " + x.XmlEscape()
-				))
-				.Concat(new[]{
 
-					"/// </summary>",
-					$"public const string {cssClass.Key.ToPascalCaseIdentifier()} = {cssClass.Key.ToVerbatimLiteral()};"
-				}));
-
-			var mapClass = new[]
-				{
-					string.Empty,
-					$"public static class {className}",
-					"{",
-				}
-				.Concat(classesConsts.Indent())
-				.Concat(new[]
-				{
-					"}"
-				});
-
-			return Generator.GeneratedHeader()
-				.Concat(new[]
-				{
-					"// ReSharper disable InconsistentNaming",
-					string.Empty,
-					$"namespace {Task.Namespace}",
-					"{",
-				})
-				.Concat(mapClass.Indent())
-				.Concat(new[]
-				{
-					"}"
-				});
-		}
 
 		private void GenerateStyleClassesMap(IEnumerable<Resource> parsedResources)
 		{
@@ -243,8 +200,10 @@ namespace AzureResourcesExtractor
 			Directory.CreateDirectory(Task.OutputMapsDirectory);
 
 			File.WriteAllLines(Path.Combine(Task.OutputMapsDirectory, "AzureCssClassesMap.cs"),
-				GenerateCssClassesMap("AzureCssClassesMap",
+				GenerateCssClassesMap(Task.Namespace, "AzureCssClassesMap",
 					classesPacks
+						.AsParallel()
+						.AsOrdered()
 						.SelectMany(x => x.classes
 							.Select(c => new { Class = c, File = x.resource.TargetPathFull }))
 						.GroupBy(x => x.Class)
@@ -262,7 +221,7 @@ namespace AzureResourcesExtractor
 				.Where(x => classesPacks.SelectMany(c => c.classes).All(c => c != x));
 
 			File.WriteAllLines(Path.Combine(Task.OutputMapsDirectory, "AzureCssMissingClassesMap.cs"),
-				GenerateCssClassesMap("AzureCssMissingClassesMap",
+				GenerateCssClassesMap(Task.Namespace, "AzureCssMissingClassesMap",
 					dummyClasses.Select(x => new KeyValuePair<string, IEnumerable<string>>(x, Enumerable.Empty<string>()))));
 		}
 

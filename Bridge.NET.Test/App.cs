@@ -4,9 +4,11 @@ using Bridge.Html5;
 using Bridge.React;
 using CRED.Client.Actions;
 using CRED.Client.API;
+using CRED.Client.AzureResources;
 using CRED.Client.Components;
 using CRED.Client.Helpers;
 using CRED.Client.Stores;
+using ResourceMapper.Base;
 
 namespace CRED.Client
 {
@@ -19,7 +21,7 @@ namespace CRED.Client
 			var resNode = Document.CreateElement<HTMLDivElement>(TagNames.Div.ToString());
 			resNode.Style.Display = Display.None;
 			resNode.Id = nameof(resNode);
-
+		
 			foreach (string key in Keys(Window.Get(RequireResourceAttribute.ResourcesVariableName)))
 			{
 				var res = (string)Window.Get(RequireResourceAttribute.ResourcesVariableName)[key];
