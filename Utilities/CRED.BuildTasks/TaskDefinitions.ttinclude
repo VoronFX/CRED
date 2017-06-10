@@ -1,0 +1,67 @@
+﻿<#@ IntelliSenseLanguage processor="tangibleT4Editor" language="C#" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#
+	var tasks = new []
+	{		
+		new Task("CssClassesMapper")
+		{
+			{ typeof(string[]), "InputFiles", true},
+			{ typeof(string), "OutputFile", true},
+			{ typeof(string), "Namespace", true},
+			{ typeof(string), "ClassName"}
+		},
+		new Task("BundlerAndMinifier")
+		{
+			{ typeof(string[]), "InputFiles", true},
+			{ typeof(string), "OutputFile", true}
+		},
+		new Task("ResourceMapper")
+		{
+			{ typeof(string), "RootDirectory", true},
+			{ typeof(string[]), "InputFiles", true},
+			{ typeof(string), "OutputFile", true},
+			{ typeof(string), "Namespace"},
+			{ typeof(string), "TopClassName"},
+			{ typeof(string), "BaseTypesOutputFile"},
+		},
+		new Task("AzureResourcesExtractor")
+		{
+			{ typeof(string[]), "Sources", true},
+			{ typeof(string), "OverridesDirectory", true},
+			{ typeof(string), "OutputDirectory", true},
+			{ typeof(string), "OutputMapsDirectory", true},
+			{ typeof(string), "RootDirectory", true},
+			{ typeof(string), "Namespace"},
+		}
+	};
+#><#+
+	private sealed class Task : List<Task.Parameter>
+	{
+		public sealed class Parameter
+		{
+			public Parameter(Type type, string name, bool required)
+			{
+				Type = type;
+				Name = name;
+				Required = required;
+			}
+
+			public Type Type { get; private set; }
+			public string Name { get; private set; }
+			public bool Required { get; private set; }
+
+		}
+
+		public Task(string name)
+		{
+			Name = name;
+		}
+
+		public string Name { get; private set; }
+
+		public void Add(Type type, string name, bool required = false)
+		{
+			Add(new Parameter(type, name, required));
+		}
+	}
+#>

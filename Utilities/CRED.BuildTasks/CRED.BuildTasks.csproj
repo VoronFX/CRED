@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>exe</OutputType>
+    <OutputTypeEx>exe</OutputTypeEx>
+    <StartupObject />
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.1012" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.3.1" />
+    <PackageReference Include="WebMarkupMin.Web" Version="1.1.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\CsCodeGenerator\CsCodeGenerator.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Tasks\ResourceMapper\ResourceMapper.Base.cs" />
+    <EmbeddedResource Include="Tasks\ResourceMapper\ResourceMapper.Base.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TaskDefinitions.ttinclude">
+      <DesignTime>True</DesignTime>
+    </None>
+    <Compile Update="MSBuildTaskWrapper.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MSBuildTaskWrapper.tt</DependentUpon>
+    </Compile>
+    <None Update="BuildTasks.props">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BuildTasks.tt</DependentUpon>
+    </None>
+    <None Update="BuildTasks.tt">
+      <LastGenOutput>BuildTasks.props</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TaskDefinitions.ttinclude</DependentUpon>
+    </None>
+    <None Update="MSBuildTaskWrapper.tt">
+      <LastGenOutput>MSBuildTaskWrapper.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TaskDefinitions.ttinclude</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>
