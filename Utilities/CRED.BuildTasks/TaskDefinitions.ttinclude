@@ -5,51 +5,61 @@
 	{		
 		new Task("CssClassesMapper")
 		{
-			{ typeof(string[]), "InputFiles", true},
-			{ typeof(string), "OutputFile", true},
-			{ typeof(string), "Namespace", true},
+			{ typeof(string[]), "InputFiles", Attributes.ExpandPath | Attributes.Required },
+			{ typeof(string), "OutputFile", Attributes.ExpandPath | Attributes.EnsureDirectoryCreated | Attributes.Required },
+			{ typeof(string), "Namespace"},
 			{ typeof(string), "ClassName"}
 		},
 		new Task("BundlerAndMinifier")
 		{
-			{ typeof(string[]), "InputFiles", true},
-			{ typeof(string), "OutputFile", true}
+			{ typeof(string[]), "InputFiles", Attributes.ExpandPath | Attributes.Required },
+			{ typeof(string), "OutputFile", Attributes.ExpandPath | Attributes.EnsureDirectoryCreated | Attributes.Required }
 		},
 		new Task("ResourceMapper")
 		{
-			{ typeof(string), "RootDirectory", true},
-			{ typeof(string[]), "InputFiles", true},
-			{ typeof(string), "OutputFile", true},
+			{ typeof(string), "RootDirectory", Attributes.NormalizeDirectoryPath | Attributes.Required },
+			{ typeof(string[]), "InputFiles", Attributes.ExpandPath | Attributes.Required },
+			{ typeof(string), "OutputFile", Attributes.ExpandPath | Attributes.EnsureDirectoryCreated | Attributes.Required },
 			{ typeof(string), "Namespace"},
 			{ typeof(string), "TopClassName"},
-			{ typeof(string), "BaseTypesOutputFile"},
+			{ typeof(string), "BaseTypesOutputFile" , Attributes.ExpandPath | Attributes.EnsureDirectoryCreated }
 		},
 		new Task("AzureResourcesExtractor")
 		{
-			{ typeof(string[]), "Sources", true},
-			{ typeof(string), "OverridesDirectory", true},
-			{ typeof(string), "OutputDirectory", true},
-			{ typeof(string), "OutputMapsDirectory", true},
-			{ typeof(string), "RootDirectory", true},
-			{ typeof(string), "Namespace"},
+			{ typeof(string), "RootDirectory" , Attributes.NormalizeDirectoryPath | Attributes.Required },
+			{ typeof(string[]), "Sources", Attributes.ExpandPath | Attributes.Required },
+			{ typeof(string), "OverridesDirectory", Attributes.NormalizeDirectoryPath | Attributes.EnsureDirectoryCreated | Attributes.Required },
+			{ typeof(string), "OutputExtractedDirectory", Attributes.NormalizeDirectoryPath | Attributes.EnsureDirectoryCreated | Attributes.Required },
+			{ typeof(string), "OutputCssClassesMapFile", Attributes.ExpandPath | Attributes.EnsureDirectoryCreated | Attributes.Required },
+			{ typeof(string), "OutputMissingCssClassesMapFile", Attributes.ExpandPath | Attributes.EnsureDirectoryCreated | Attributes.Required },
+			{ typeof(string), "Namespace"}
 		}
 	};
 #><#+
+	[Flags]
+	public enum Attributes
+	{
+		XmlElement = 1,
+		Required = 2,
+		ExpandPath = 4,
+		NormalizeDirectoryPath = 8,
+		EnsureDirectoryCreated = 16
+	}
+
 	private sealed class Task : List<Task.Parameter>
 	{
 		public sealed class Parameter
 		{
-			public Parameter(Type type, string name, bool required)
+			public Parameter(Type type, string name, Attributes attributes)
 			{
 				Type = type;
 				Name = name;
-				Required = required;
+				Attributes = attributes;
 			}
 
 			public Type Type { get; private set; }
 			public string Name { get; private set; }
-			public bool Required { get; private set; }
-
+			public Attributes Attributes { get; private set; }
 		}
 
 		public Task(string name)
@@ -59,9 +69,9 @@
 
 		public string Name { get; private set; }
 
-		public void Add(Type type, string name, bool required = false)
+		public void Add(Type type, string name, Attributes attributes = default(Attributes))
 		{
-			Add(new Parameter(type, name, required));
+			Add(new Parameter(type, name, attributes | Attributes.XmlElement));
 		}
 	}
 #>

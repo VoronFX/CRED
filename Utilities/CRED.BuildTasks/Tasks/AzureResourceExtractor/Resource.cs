@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using CsCodeGenerator;
 
@@ -81,29 +82,48 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 				FontSvg
 			}
 
+			public bool IsEmpty
+			{
+				get
+				{
+					switch (Type)
+					{
+						case ResType.Svg:
+						case ResType.Style:
+							return string.IsNullOrWhiteSpace(Content);
+						case ResType.FontEot:
+						case ResType.FontWoff:
+						case ResType.FontTtf:
+						case ResType.FontSvg:
+							return BinaryContent == null || BinaryContent.Length == 0;
+						default:
+							throw new ArgumentOutOfRangeException();
+					}
+				}
+			}
+
 			public void Save(string outputDirectory)
 			{
+				if (IsEmpty) return;
+
 				var filePath = Path.Combine(outputDirectory, TargetPathFull);
 				IOExtension.EnsureFileDirectoryCreated(filePath);
 
 				switch (Type)
 				{
-					case Resource.ResType.Svg:
-					case Resource.ResType.Style:
-						if (!string.IsNullOrWhiteSpace(Content))
-							File.WriteAllText(filePath, Content);
+					case ResType.Svg:
+					case ResType.Style:
+						File.WriteAllText(filePath, Content);
 						break;
-					case Resource.ResType.FontEot:
-					case Resource.ResType.FontWoff:
-					case Resource.ResType.FontTtf:
-					case Resource.ResType.FontSvg:
-						if (BinaryContent != null && BinaryContent.Length > 0)
-							File.WriteAllBytes(filePath, BinaryContent);
+					case ResType.FontEot:
+					case ResType.FontWoff:
+					case ResType.FontTtf:
+					case ResType.FontSvg:
+						File.WriteAllBytes(filePath, BinaryContent);
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();
 				}
-
 			}
 
 		}

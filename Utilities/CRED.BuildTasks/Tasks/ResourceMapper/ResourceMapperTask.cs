@@ -20,48 +20,45 @@ namespace CRED.BuildTasks.Tasks.ResourceMapper
 			Task = task;
 			if (string.IsNullOrWhiteSpace(Task.Namespace))
 				Task.Namespace = nameof(ResourceMapper);
-			if (string.IsNullOrWhiteSpace(Task.OutputFile))
-				Task.OutputFile = "ResourceMap.cs";
 			if (string.IsNullOrWhiteSpace(Task.TopClassName))
 				Task.TopClassName = "ResourceMap";
 			Task.InputFiles = Task.InputFiles ?? Array.Empty<string>();
-			Task.RootDirectory = IOExtension.NormalizeExpandDirectoryPath(Task.RootDirectory);
 		}
 
 		public override void Execute()
 		{
-			var filesInDirectories = Task.InputFiles
-				.Select(x => Path.GetFullPath(Path.Combine(Task.RootDirectory, x)))
-				.Where(x => x.StartsWith(Task.RootDirectory));
-
-			var outputFile = Path.Combine(Task.RootDirectory, Task.OutputFile);
-			IOExtension.EnsureFileDirectoryCreated(outputFile);
-
-			File.WriteAllLines(outputFile, GenerateUnit(filesInDirectories));
-			if (!string.IsNullOrWhiteSpace(Task.BaseTypesOutputFile))
+			Task.BuildIncrementally(Task.InputFiles, inputFiles =>
 			{
-				var baseTypesOutputFile = Path.GetFullPath(Path.Combine(Task.RootDirectory, Task.BaseTypesOutputFile));
-				IOExtension.EnsureFileDirectoryCreated(baseTypesOutputFile);
+				var filesInDirectories = Task.InputFiles
+					.Where(x => x.StartsWith(Task.RootDirectory));
 
-				// ReSharper disable once AssignNullToNotNullAttribute
-				using (var stream = new StreamReader(Assembly
-					.GetExecutingAssembly().GetManifestResourceStream(
-					string.Join(".", typeof(ResourceMapperTask).Namespace, typeof(ResourceDirectoryBase).Namespace, "cs"))))
+				File.WriteAllLines(Task.OutputFile, GenerateUnit(filesInDirectories));
+				if (!string.IsNullOrWhiteSpace(Task.BaseTypesOutputFile))
 				{
-					var baseTypes = Generator.GeneratedHeader.Concat(stream.ReadToEnd()
-						.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None));
+					// ReSharper disable once AssignNullToNotNullAttribute
+					using (var stream = new StreamReader(typeof(ResourceMapperTask).GetTypeInfo()
+						.Assembly.GetManifestResourceStream(
+							string.Join(".", typeof(ResourceMapperTask).Namespace, typeof(ResourceDirectoryBase).Namespace, "cs"))))
+					{
+						var baseTypes = Generator.GeneratedHeader.Concat(stream.ReadToEnd()
+							.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None));
 
-					if (baseTypesOutputFile == outputFile)
-					{
-						File.AppendAllLines(baseTypesOutputFile, baseTypes);
-					}
-					else
-					{
-						File.WriteAllLines(baseTypesOutputFile, baseTypes);
+						if (Task.BaseTypesOutputFile == Task.OutputFile)
+						{
+							File.AppendAllLines(Task.BaseTypesOutputFile, baseTypes);
+						}
+						else
+						{
+							File.WriteAllLines(Task.BaseTypesOutputFile, baseTypes);
+						}
 					}
 				}
-			}
+
+				return new[] { Task.OutputFile, Task.BaseTypesOutputFile };
+			});
 		}
+
+		private string DirNamespace => Task.TopClassName + "Directories";
 
 		private IEnumerable<string> GenerateUnit(IEnumerable<string> items)
 		{
@@ -73,30 +70,33 @@ namespace CRED.BuildTasks.Tasks.ResourceMapper
 					GetHashForFile(item)));
 
 			return Generator.Flatten(
-					Generator.GeneratedHeader,
-					new[] { typeof(IReadOnlyDictionary<string, string>).Namespace, typeof(ResourceDirectoryBase).Namespace }
-						.Select(x => $"using {x};"),
-					new[]
+				Generator.GeneratedHeader,
+				new[]
 					{
-						"// ReSharper disable InconsistentNaming",
-						string.Empty,
-						$"namespace {Task.Namespace}",
-						"{",
-					},
-					GenerateDirectoryClass(Task.TopClassName, null, hashedItems.ToArray(), 0).Indent(),
-					new[]
-					{
-						"}"
+						typeof(IReadOnlyDictionary<string, string>).Namespace,
+						typeof(ResourceDirectoryBase).Namespace,
+						string.Join(".", Task.Namespace, DirNamespace)
 					}
-				);
+					.Select(x => $"using {x};"),
+				new[]
+				{
+					"// ReSharper disable InconsistentNaming",
+					string.Empty,
+					$"namespace {Task.Namespace}",
+					"{",
+				},
+				GenerateDirectoryClass(Task.TopClassName, null, hashedItems.ToArray(), 0).Indent(),
+				new[]
+				{
+					"}"
+				}
+			);
 		}
 
 
-
-		private IEnumerable<string> GenerateDirectoryClass(string className, string name, ICollection<KeyValuePair<string[], string>> items, int level)
+		private IEnumerable<string> GenerateDirectoryClass(string className, string name,
+			ICollection<KeyValuePair<string[], string>> items, int level)
 		{
-			var scope = level == 0 ? "Directories." : null;
-
 			var directories = items
 				.Where(x => x.Key.Length > level + 1)
 				.GroupBy(x => x.Key[level].ToPascalCaseIdentifier())
@@ -121,7 +121,7 @@ namespace CRED.BuildTasks.Tasks.ResourceMapper
 
 			var initializations = directories.Select(
 					dir =>
-						$"directories.Add(nameof({dir.Identifier}), new {scope + dir.ClassName}(this));"
+						$"directories.Add(nameof({dir.Identifier}), new {dir.ClassName}(this));"
 				)
 				.Concat(files.Select(
 					file =>
@@ -140,7 +140,7 @@ namespace CRED.BuildTasks.Tasks.ResourceMapper
 
 			var declarations = directories.SelectMany(
 					dir => Comment(dir.Name,
-						$"public {scope + dir.ClassName} {dir.Identifier} => ({scope + dir.ClassName})directories[nameof({dir.Identifier})];")
+						$"public {dir.ClassName} {dir.Identifier} => ({dir.ClassName})directories[nameof({dir.Identifier})];")
 				)
 				.Concat(files.SelectMany(
 					file => Comment(file.Name,
@@ -155,7 +155,7 @@ namespace CRED.BuildTasks.Tasks.ResourceMapper
 				subDirs = Generator.Flatten(new[]
 					{
 						string.Empty,
-						$"namespace Directories",
+						$"namespace {DirNamespace}",
 						"{",
 					},
 					subDirs.Indent(),

@@ -40,21 +40,22 @@ namespace CRED.BuildTasks
 	{
 #>
 
-		[Serializable]
 		public class <#= task.Name #> : TaskWrapperBase
 		{
 <#+
 			foreach (var parameter in task)
 			{
-				if (parameter.Required)
+				foreach (var value in Enum.GetValues(typeof(Attributes)))
 				{
+					if (parameter.Attributes.HasFlag((Attributes) value))
+					{
 				#>
-				[Required]
+				[<#= Enum.GetName(typeof(Attributes), value) #>]
 <#+
+					}
 				}
 
 				#>
-				[XmlElement]
 				public <#= parameter.Type.FullName #> <#= parameter.Name #> { get; set; }
 	
 <#+

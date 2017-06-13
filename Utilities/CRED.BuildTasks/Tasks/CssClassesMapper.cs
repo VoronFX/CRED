@@ -14,25 +14,30 @@ namespace CRED.BuildTasks.Tasks
 		public CssClassesMapperTask(CssClassesMapper classesMapper)
 		{
 			Task = classesMapper;
+			if (string.IsNullOrWhiteSpace(Task.ClassName))
+				Task.ClassName = "CssClassesMap";
 			Task.InputFiles = Task.InputFiles ?? Array.Empty<string>();
 		}
 
 		public override void Execute()
 		{
-			var classes = Task.InputFiles
-					.AsParallel()
-					.AsOrdered()
-					.SelectMany(file =>
-						Regex.Matches(
-								Regex.Replace(File.ReadAllText(file), @"(?is)\{.*?\}", " "),
-								@"(?is)\.[A-Z_a-z0-9-]+")
-							.Cast<Match>()
-							.Select(x => new { Class = x.Value.Substring(1), File = file }))
-					.GroupBy(x => x.Class, x => x.File, (key, files) =>
-						new KeyValuePair<string, IEnumerable<string>>(key, files.Distinct()));
+			Task.BuildIncrementally(Task.InputFiles, inputFiles =>
+			{
+				var classes = Task.InputFiles
+						.AsParallel()
+						.AsOrdered()
+						.SelectMany(file =>
+							Regex.Matches(
+									Regex.Replace(File.ReadAllText(file), @"(?is)\{.*?\}", " "),
+									@"(?is)\.[A-Z_a-z0-9-]+")
+								.Cast<Match>()
+								.Select(x => new { Class = x.Value.Substring(1), File = file }))
+						.GroupBy(x => x.Class, x => x.File, (key, files) =>
+							new KeyValuePair<string, IEnumerable<string>>(key, files.Distinct()));
 
-			IOExtension.EnsureFileDirectoryCreated(Task.OutputFile);
-			File.WriteAllLines(Task.OutputFile, GenerateCssClassesMap(Task.Namespace, Task.ClassName, classes));
+				File.WriteAllLines(Task.OutputFile, GenerateCssClassesMap(Task.Namespace, Task.ClassName, classes));
+				return new[] { Task.OutputFile };
+			});
 		}
 
 		public static IEnumerable<string> GenerateCssClassesMap(string @namespace, string className, IEnumerable<KeyValuePair<string, IEnumerable<string>>> classes)

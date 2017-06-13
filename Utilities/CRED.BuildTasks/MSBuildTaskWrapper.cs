@@ -10,8 +10,10 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Build.Utilities;
@@ -22,15 +24,24 @@ namespace CRED.BuildTasks
 {
 	namespace Wrapper
 	{
-		[Serializable]
 		public partial class TaskWrapperBase : Task
 		{
 			public const string TasksNodeName = "TaskRunner";
 			public const string LogNodeName = "Log";
 
 			[Required]
+			[ExpandPath]
 			[XmlElement]
 			public string TaskAssemblyPath { get; set; }
+
+			[ExpandPath]
+			[EnsureDirectoryCreated]
+			[XmlElement]
+			public string IncrementalBuildCacheFile { get; set; }
+
+			[XmlElement]
+			[NormalizeDirectoryPath]
+			public string RelativeRoot { get; set; }
 
 			public static XmlSerializer ExplicitOnlySerializer(Type type)
 			{
@@ -45,10 +56,76 @@ namespace CRED.BuildTasks
 				return new XmlSerializer(type, overrides);
 			}
 
+			[AttributeUsage(AttributeTargets.Property)]
+			public sealed class EnsureDirectoryCreatedAttribute : Attribute
+			{
+			}
+
+			[AttributeUsage(AttributeTargets.Property)]
+			public sealed class ExpandPathAttribute : Attribute
+			{
+			}
+
+			[AttributeUsage(AttributeTargets.Property)]
+			public sealed class NormalizeDirectoryPathAttribute : Attribute
+			{
+			}
+
+			private void ProcessPathProperties(Type attributeSelector, Func<string, string> process)
+			{
+				foreach (var property in GetType().GetRuntimeProperties()
+					.Where(x => x.CustomAttributes
+						.Any(a => a.AttributeType == attributeSelector)))
+				{
+					if (property.PropertyType == typeof(string))
+					{
+						var path = (string)property.GetValue(this);
+						if (!string.IsNullOrWhiteSpace(path))
+							property.SetValue(this, process(path));
+					}
+					else if (property.PropertyType == typeof(string[]))
+					{
+						var array = (string[])property.GetValue(this);
+						for (var i = 0; i < array.Length; i++)
+						{
+							if (!string.IsNullOrWhiteSpace(array[i]))
+								array[i] = process(array[i]);
+						}
+					}
+				}
+			}
+
+			public string Serialize()
+			{
+				var parameters = new StringBuilder();
+				using (var xmlWriter = XmlWriter.Create(parameters, new XmlWriterSettings()
+				{
+					Indent = true,
+				}))
+				{
+					ExplicitOnlySerializer(GetType()).Serialize(xmlWriter, this);
+					return parameters.ToString();
+				}
+			}
+
 			public override bool Execute()
 			{
+				var success = true;
 				try
 				{
+					ProcessPathProperties(typeof(ExpandPathAttribute),
+						path => Path.GetFullPath(Path.Combine(RelativeRoot, path)));
+
+					ProcessPathProperties(typeof(NormalizeDirectoryPathAttribute),
+						path => Path.GetFullPath(path + Path.DirectorySeparatorChar));
+
+					ProcessPathProperties(typeof(EnsureDirectoryCreatedAttribute),
+						path =>
+						{
+							Directory.CreateDirectory(Path.GetDirectoryName(path));
+							return path;
+						});
+
 					var process = new Process
 					{
 						StartInfo =
@@ -57,11 +134,11 @@ namespace CRED.BuildTasks
 							UseShellExecute = false,
 							RedirectStandardOutput = true,
 							RedirectStandardInput = true,
-							FileName = TaskAssemblyPath,
+							FileName = "dotnet",
+							Arguments = TaskAssemblyPath
 						}
 					};
 					process.Start();
-					var success = true;
 					using (var stream = process.StandardInput)
 					using (var xmlWriter = XmlWriter.Create(stream))
 					{
@@ -103,13 +180,18 @@ namespace CRED.BuildTasks
 						Log.LogError("Process exit with code: " + process.ExitCode);
 						success = false;
 					}
-					return success;
 				}
 				catch (Exception e)
 				{
 					Log.LogError(new LogEvent(e).ToString());
+					success = false;
 				}
-				return false;
+
+				if (!success)
+				{
+					Log.LogError("XmlTask:" + Environment.NewLine + Serialize());
+				}
+				return success;
 			}
 		}
 
@@ -120,7 +202,6 @@ namespace CRED.BuildTasks
 			Message,
 		}
 
-		[Serializable]
 		public class LogEvent
 		{
 			public LogEvent()
@@ -163,18 +244,19 @@ namespace CRED.BuildTasks
 namespace CRED.BuildTasks
 {
 
-		[Serializable]
 		public class CssClassesMapper : TaskWrapperBase
 		{
-				[Required]
 				[XmlElement]
+				[Required]
+				[ExpandPath]
 				public System.String[] InputFiles { get; set; }
 	
-				[Required]
 				[XmlElement]
+				[Required]
+				[ExpandPath]
+				[EnsureDirectoryCreated]
 				public System.String OutputFile { get; set; }
 	
-				[Required]
 				[XmlElement]
 				public System.String Namespace { get; set; }
 	
@@ -183,32 +265,37 @@ namespace CRED.BuildTasks
 	
 		}
 
-		[Serializable]
 		public class BundlerAndMinifier : TaskWrapperBase
 		{
-				[Required]
 				[XmlElement]
+				[Required]
+				[ExpandPath]
 				public System.String[] InputFiles { get; set; }
 	
-				[Required]
 				[XmlElement]
+				[Required]
+				[ExpandPath]
+				[EnsureDirectoryCreated]
 				public System.String OutputFile { get; set; }
 	
 		}
 
-		[Serializable]
 		public class ResourceMapper : TaskWrapperBase
 		{
-				[Required]
 				[XmlElement]
+				[Required]
+				[NormalizeDirectoryPath]
 				public System.String RootDirectory { get; set; }
 	
-				[Required]
 				[XmlElement]
+				[Required]
+				[ExpandPath]
 				public System.String[] InputFiles { get; set; }
 	
-				[Required]
 				[XmlElement]
+				[Required]
+				[ExpandPath]
+				[EnsureDirectoryCreated]
 				public System.String OutputFile { get; set; }
 	
 				[XmlElement]
@@ -218,32 +305,47 @@ namespace CRED.BuildTasks
 				public System.String TopClassName { get; set; }
 	
 				[XmlElement]
+				[ExpandPath]
+				[EnsureDirectoryCreated]
 				public System.String BaseTypesOutputFile { get; set; }
 	
 		}
 
-		[Serializable]
 		public class AzureResourcesExtractor : TaskWrapperBase
 		{
-				[Required]
 				[XmlElement]
+				[Required]
+				[NormalizeDirectoryPath]
+				public System.String RootDirectory { get; set; }
+	
+				[XmlElement]
+				[Required]
+				[ExpandPath]
 				public System.String[] Sources { get; set; }
 	
-				[Required]
 				[XmlElement]
+				[Required]
+				[NormalizeDirectoryPath]
+				[EnsureDirectoryCreated]
 				public System.String OverridesDirectory { get; set; }
 	
-				[Required]
 				[XmlElement]
-				public System.String OutputDirectory { get; set; }
+				[Required]
+				[NormalizeDirectoryPath]
+				[EnsureDirectoryCreated]
+				public System.String OutputExtractedDirectory { get; set; }
 	
-				[Required]
 				[XmlElement]
-				public System.String OutputMapsDirectory { get; set; }
+				[Required]
+				[ExpandPath]
+				[EnsureDirectoryCreated]
+				public System.String OutputCssClassesMapFile { get; set; }
 	
-				[Required]
 				[XmlElement]
-				public System.String RootDirectory { get; set; }
+				[Required]
+				[ExpandPath]
+				[EnsureDirectoryCreated]
+				public System.String OutputMissingCssClassesMapFile { get; set; }
 	
 				[XmlElement]
 				public System.String Namespace { get; set; }

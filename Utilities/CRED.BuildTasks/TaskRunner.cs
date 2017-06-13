@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -19,17 +20,16 @@ namespace CRED.BuildTasks
 			{
 				try
 				{
-					var tasks = Assembly.GetExecutingAssembly()
+					var tasks = typeof(TaskRunner).GetTypeInfo().Assembly
 						.GetTypes()
-						.Where(x => x.BaseType == typeof(TaskWrapperBase))
+						.Where(x => x.GetTypeInfo().BaseType == typeof(TaskWrapperBase))
 						.Select(x => new
 						{
 							Serializer = TaskWrapperBase.ExplicitOnlySerializer(x),
 							TaskWrapperType = x,
-							TaskType = Assembly
-								.GetExecutingAssembly()
+							TaskType = typeof(TaskRunner).GetTypeInfo().Assembly
 								.GetTypes()
-								.First(x2 => x2.BaseType == typeof(Task)
+								.First(x2 => x2.GetTypeInfo().BaseType == typeof(Task)
 											 && x2.GetConstructors().Any(c =>
 												 c.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { x })
 											 )

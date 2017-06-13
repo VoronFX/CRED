@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 using CRED.BuildTasks.Wrapper;
 using WebMarkupMin.Core;
 using CsCodeGenerator;
-using WebMarkupMin.Core.Minifiers;
 
 namespace CRED.BuildTasks.Tasks
 {
@@ -40,14 +38,18 @@ namespace CRED.BuildTasks.Tasks
 
 		public override void Execute()
 		{
-			var combined = Task.InputFiles
-				.AsParallel()
-				.AsOrdered()
-				.Select(file => Minify(File.ReadAllText(file), file))
-				.Aggregate(new StringBuilder(), (builder, s) => builder.AppendLine(s));
+			Task.BuildIncrementally(Task.InputFiles, inputFiles =>
+			{
+				var combined = Task.InputFiles
+					.AsParallel()
+					.AsOrdered()
+					.Select(file => Minify(File.ReadAllText(file), file))
+					.Aggregate(new StringBuilder(), (builder, s) => builder.AppendLine(s));
 
-			IOExtension.EnsureFileDirectoryCreated(Task.OutputFile);
-			File.WriteAllText(Task.OutputFile, Minify(combined.ToString(), Task.OutputFile));
+				File.WriteAllText(Task.OutputFile, Minify(combined.ToString(), Task.OutputFile));
+
+				return new[] { Task.OutputFile };
+			});
 		}
 
 		private string Minify(string content, string filename)

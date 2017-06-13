@@ -16,9 +16,6 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 		public AzureResourcesExtractorTask(AzureResourcesExtractor task)
 		{
 			Task = task;
-			Task.OutputDirectory = IOExtension.NormalizeExpandDirectoryPath(Task.OutputDirectory);
-			Task.OutputMapsDirectory = IOExtension.NormalizeExpandDirectoryPath(Task.OutputMapsDirectory);
-			Task.RootDirectory = IOExtension.NormalizeExpandDirectoryPath(Task.RootDirectory);
 		}
 
 		private static Uri CurrentUri { get; } = new Uri("http://portal.azure.com/");
@@ -64,113 +61,124 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 
 		public override void Execute()
 		{
-			var parsedResources = Task.Sources
-				.AsParallel()
-				.AsOrdered()
-				.Select(File.ReadAllText)
-				.Select(x =>
-				{
-					var head = Regex.Match(x, "(?is)(?<=<head>).*?(?=</head>)").Value;
-					var resources = new List<Resource>();
-					var uniqIdentifiers = new HashSet<string>();
-					var tags = Regex.Matches(head,
-						"<(?is)(?:style|svg)[^<>]*?>.*?</(?:style|svg)>|<link[^<>]*?type=\"text/css\"[^<>]*?>");
-
-					// Extract styles and svgs
-					foreach (var tag in tags.Cast<Match>().Select(t => t.Value))
-					{
-						var resource = ParseAzurePage(tag);
-						resource.Index = resources.Count;
-						resource.EnsureUniq(uniqIdentifiers);
-						resources.Add(resource);
-					}
-
-					var missing = new List<string>();
-
-					// Replace missing resources with overrides
-					foreach (var resource in resources
-						.Where(r => r.Type == Resource.ResType.Style)
-						.ToArray())
-						resource.Content = Regex.Replace(resource.Content, @"(?is)(?<=url\(').+?(?='\))", match =>
-						{
-							var newResource = new Resource();
-							var resOver = Overrrides.FirstOrDefault(ov => ov.UrlToOverride == match.Value);
-							if (resOver == null)
-							{
-								missing.Add(match.Value);
-								return resource.Content;
-							}
-							resOver.LoadInto(newResource, Task.OverridesDirectory);
-							newResource.Index = resources.Count;
-							newResource.EnsureUniq(uniqIdentifiers);
-							resources.Add(newResource);
-							return Path.Combine(Task.OutputDirectory, newResource.TargetPathFull)
-										.Substring(Task.RootDirectory.Length)
-										.Replace(Path.DirectorySeparatorChar, '/');
-						});
-
-					// Throw all missing resources in one exception
-					if (missing.Any())
-						throw new Exception("Missing overrides for such resources: "
-											+ Environment.NewLine + string.Join(Environment.NewLine, missing));
-
-					//TODO: Prettify extracted files some day?
-
-					// Format
-					//Parallel.ForEach(resources, resource =>
-					//{
-					//	switch (resource.Type)
-					//	{
-					//		case Resource.ResType.Svg:
-					//			using (Document doc = Document.FromString($"<html><head></head><body>{resource.Content}</body><html>"))
-					//			{
-					//				doc.OutputBodyOnly = AutoBool.Yes;
-					//				//doc.Quiet = true;
-					//				doc.CleanAndRepair();
-					//				resource.Content = doc.Save();
-					//			}
-					//			break;
-					//		case Resource.ResType.Style:
-					//			resource.Content = FormatCss(resource.Content);
-					//			break;
-					//	}
-					//});
-
-					return resources;
-				}).ToArray();
-
-			var resourcesBase = parsedResources.First();
-
-			// Fill empty styles with other files
-			foreach (var resource in resourcesBase.Where(r =>
-				r.Type == Resource.ResType.Style
-				&& string.IsNullOrWhiteSpace(r.Content)))
+			Task.BuildIncrementally(Task.Sources.Concat(Overrrides.Select(x =>
+				Path.GetFullPath(Path.Combine(Task.OverridesDirectory, x.SourceFilePath)))).ToArray(), inputFiles =>
 			{
-				var overlayRes = parsedResources
-					.Where(x => x != resourcesBase)
-					.SelectMany(x => x)
-					.FirstOrDefault(ro => ro.IdentifierFull == resource.IdentifierFull
-										  && !string.IsNullOrWhiteSpace(ro.Content));
-				if (overlayRes != null)
-					resource.Content = overlayRes.Content;
-			}
 
-			// Encapsulate some styles
-			//foreach (var resource in resourcesBase
-			//	.Where(r =>r.Type == Resource.ResType.Style))
-			//{
-			//	resource.Content = Regex.Replace(resource.Content, 
-			//		"(?<=[^a-zA-Z0-9-_])(body|html)(?=[^a-zA-Z0-9-_])", "div.azure-$1");
-			//}
+				var parsedResources = Task.Sources
+					.AsParallel()
+					.AsOrdered()
+					.Select(File.ReadAllText)
+					.Select(x =>
+					{
+						var head = Regex.Match(x, "(?is)(?<=<head>).*?(?=</head>)").Value;
+						var resources = new List<Resource>();
+						var uniqIdentifiers = new HashSet<string>();
+						var tags = Regex.Matches(head,
+							"<(?is)(?:style|svg)[^<>]*?>.*?</(?:style|svg)>|<link[^<>]*?type=\"text/css\"[^<>]*?>");
 
-			Parallel.ForEach(resourcesBase,
-				resource => resource.Save(Task.OutputDirectory));
+						// Extract styles and svgs
+						foreach (var tag in tags.Cast<Match>().Select(t => t.Value))
+						{
+							var resource = ParseAzurePage(tag);
+							resource.Index = resources.Count;
+							resource.EnsureUniq(uniqIdentifiers);
+							resources.Add(resource);
+						}
 
-			GenerateStyleClassesMap(resourcesBase);
+						var missing = new List<string>();
 
-			//foreach (string file in Directory.GetFiles(textBox1.Text, "*.html").Select(File.ReadAllText))
-			//{
-			//}
+						// Replace missing resources with overrides
+						foreach (var resource in resources
+							.Where(r => r.Type == Resource.ResType.Style)
+							.ToArray())
+							// TODO url with bracers fix
+							resource.Content = Regex.Replace(resource.Content, @"(?is)(?<=url\(').+?(?='\))", match =>
+							{
+								var newResource = new Resource();
+								var resOver = Overrrides.FirstOrDefault(ov => ov.UrlToOverride == match.Value.Trim('\''));
+								if (resOver == null)
+								{
+									missing.Add(match.Value);
+									return resource.Content;
+								}
+								resOver.LoadInto(newResource, Task.OverridesDirectory);
+								newResource.Index = resources.Count;
+								newResource.EnsureUniq(uniqIdentifiers);
+								resources.Add(newResource);
+								var newUrl = Path.Combine(Task.OutputExtractedDirectory, newResource.TargetPathFull)
+									.Substring(Task.RootDirectory.Length)
+									.Replace(Path.DirectorySeparatorChar, '/');
+
+								return $"'{newUrl}'";
+							});
+
+						// Throw all missing resources in one exception
+						if (missing.Any())
+							throw new Exception("Missing overrides for such resources: "
+												+ Environment.NewLine + string.Join(Environment.NewLine, missing));
+
+						//TODO: Prettify extracted files some day?
+
+						// Format
+						//Parallel.ForEach(resources, resource =>
+						//{
+						//	switch (resource.Type)
+						//	{
+						//		case Resource.ResType.Svg:
+						//			using (Document doc = Document.FromString($"<html><head></head><body>{resource.Content}</body><html>"))
+						//			{
+						//				doc.OutputBodyOnly = AutoBool.Yes;
+						//				//doc.Quiet = true;
+						//				doc.CleanAndRepair();
+						//				resource.Content = doc.Save();
+						//			}
+						//			break;
+						//		case Resource.ResType.Style:
+						//			resource.Content = FormatCss(resource.Content);
+						//			break;
+						//	}
+						//});
+
+						return resources;
+					}).ToArray();
+
+				var resourcesBase = parsedResources.First();
+
+				// Fill empty styles with other files
+				foreach (var resource in resourcesBase.Where(r =>
+					r.Type == Resource.ResType.Style
+					&& string.IsNullOrWhiteSpace(r.Content)))
+				{
+					var overlayRes = parsedResources
+						.Where(x => x != resourcesBase)
+						.SelectMany(x => x)
+						.FirstOrDefault(ro => ro.IdentifierFull == resource.IdentifierFull
+											  && !string.IsNullOrWhiteSpace(ro.Content));
+					if (overlayRes != null)
+						resource.Content = overlayRes.Content;
+				}
+
+				// Encapsulate some styles
+				//foreach (var resource in resourcesBase
+				//	.Where(r =>r.Type == Resource.ResType.Style))
+				//{
+				//	resource.Content = Regex.Replace(resource.Content, 
+				//		"(?<=[^a-zA-Z0-9-_])(body|html)(?=[^a-zA-Z0-9-_])", "div.azure-$1");
+				//}
+
+				resourcesBase.AsParallel()
+					.ForAll(resource => resource.Save(Task.OutputExtractedDirectory));
+
+				GenerateStyleClassesMap(resourcesBase);
+
+				//foreach (string file in Directory.GetFiles(textBox1.Text, "*.html").Select(File.ReadAllText))
+				//{
+				//}
+
+				return resourcesBase.Where(x => !x.IsEmpty).Select(x => Path.Combine(Task.OutputExtractedDirectory, x.TargetPathFull))
+				.Concat(new[] { Task.OutputCssClassesMapFile, Task.OutputMissingCssClassesMapFile });
+			});
 		}
 
 
@@ -188,32 +196,40 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 						.ToList()
 				}).ToArray();
 
-			Directory.CreateDirectory(Task.OutputMapsDirectory);
+			System.Threading.Tasks.Task.WaitAll(
+				new Action[]
+				{
+					() =>
+					{
+						File.WriteAllLines(Task.OutputCssClassesMapFile,
+							GenerateCssClassesMap(Task.Namespace, "AzureCssClassesMap",
+								classesPacks
+									.AsParallel()
+									.AsOrdered()
+									.SelectMany(x => x.classes
+										.Select(c => new {Class = c, File = x.resource.TargetPathFull}))
+									.GroupBy(x => x.Class)
+									.Select(x => new KeyValuePair<string, IEnumerable<string>>(x.Key, x.Select(x2 => x2.File)))));
+					},
+					() =>
+					{
+						var dummyClasses = Task.Sources
+							.AsParallel()
+							.AsOrdered()
+							.Select(File.ReadAllText)
+							.SelectMany(x => Regex.Matches(x, "(?si)(?<=class=\")[-_A-Za-z0-9\\s]+?(?=\")").Cast<Match>())
+							.SelectMany(x => x.Value.Split(' '))
+							.Select(x => x.Trim())
+							.Where(x => !string.IsNullOrWhiteSpace(x))
+							.Distinct()
+							.Where(x => classesPacks.SelectMany(c => c.classes).All(c => c != x));
 
-			File.WriteAllLines(Path.Combine(Task.OutputMapsDirectory, "AzureCssClassesMap.cs"),
-				GenerateCssClassesMap(Task.Namespace, "AzureCssClassesMap",
-					classesPacks
-						.AsParallel()
-						.AsOrdered()
-						.SelectMany(x => x.classes
-							.Select(c => new { Class = c, File = x.resource.TargetPathFull }))
-						.GroupBy(x => x.Class)
-						.Select(x => new KeyValuePair<string, IEnumerable<string>>(x.Key, x.Select(x2 => x2.File)))));
+						File.WriteAllLines(Task.OutputMissingCssClassesMapFile,
+							GenerateCssClassesMap(Task.Namespace, "AzureCssMissingClassesMap",
+								dummyClasses.Select(x => new KeyValuePair<string, IEnumerable<string>>(x, Enumerable.Empty<string>()))));
 
-			var dummyClasses = Task.Sources
-				.AsParallel()
-				.AsOrdered()
-				.Select(File.ReadAllText)
-				.SelectMany(x => Regex.Matches(x, "(?si)(?<=class=\")[-_A-Za-z0-9\\s]+?(?=\")").Cast<Match>())
-				.SelectMany(x => x.Value.Split(' '))
-				.Select(x => x.Trim())
-				.Where(x => !string.IsNullOrWhiteSpace(x))
-				.Distinct()
-				.Where(x => classesPacks.SelectMany(c => c.classes).All(c => c != x));
-
-			File.WriteAllLines(Path.Combine(Task.OutputMapsDirectory, "AzureCssMissingClassesMap.cs"),
-				GenerateCssClassesMap(Task.Namespace, "AzureCssMissingClassesMap",
-					dummyClasses.Select(x => new KeyValuePair<string, IEnumerable<string>>(x, Enumerable.Empty<string>()))));
+					}
+				}.Select(System.Threading.Tasks.Task.Run).ToArray());
 		}
 
 		private static string FormatCss(string input)
