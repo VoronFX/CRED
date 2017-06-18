@@ -20,5 +20,15 @@
     //        "enabled": false,
     //        "renameLocals": false
     //    }
+    //},
+    //{
+    //    "outputFileName": "wwwroot/test.html",
+    //    "inputFiles": [
+    //        "../Utilities/AzurePortalExtractor/AzureSources/page1.html"
+    //    ],
+    //    "minify": {
+    //        "enabled": true,
+    //        "renameLocals": false
+    //    }
     //}
 ] 

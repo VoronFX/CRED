@@ -2,28 +2,37 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CRED.BuildTasks.Wrapper;
 using WebMarkupMin.Core;
 using CsCodeGenerator;
+using Microsoft.Build.Framework;
 
-namespace CRED.BuildTasks.Tasks
+namespace CRED.BuildTasks
 {
-	public sealed class BundlerAndMinifierTask : TaskRunner.Task
+	public sealed class BundlerAndMinifier : TaskBase
 	{
-		private BundlerAndMinifier Task { get; }
+		[Required]
+		[ExpandPath]
+		[DataMember]
+		public string[] InputFiles { get; set; }
+
+		[Required]
+		[ExpandPath]
+		[EnsureDirectoryCreated]
+		[DataMember]
+		public string OutputFile { get; set; }
 
 		private Lazy<ICssMinifier> CssMinifier { get; }
 		private Lazy<IJsMinifier> JsMinifier { get; }
 		private Lazy<IMarkupMinifier> MarkupMinifier { get; }
 		private Lazy<IMarkupMinifier> XmlMinifier { get; }
 
-		public BundlerAndMinifierTask(BundlerAndMinifier task)
+		public BundlerAndMinifier()
 		{
-			Task = task;
 			CssMinifier = new Lazy<ICssMinifier>(() =>
 				new KristensenCssMinifier(), LazyThreadSafetyMode.PublicationOnly);
 			JsMinifier = new Lazy<IJsMinifier>(() =>
@@ -32,29 +41,31 @@ namespace CRED.BuildTasks.Tasks
 				new XmlMinifier(), LazyThreadSafetyMode.PublicationOnly);
 			MarkupMinifier = new Lazy<IMarkupMinifier>(() =>
 				new HtmlMinifier(null, CssMinifier.Value, JsMinifier.Value), LazyThreadSafetyMode.PublicationOnly);
-
-			Task.InputFiles = Task.InputFiles ?? Array.Empty<string>();
 		}
 
-		public override void Execute()
+		protected override bool ExecuteWork()
 		{
-			Task.BuildIncrementally(Task.InputFiles, inputFiles =>
+			InputFiles = InputFiles ?? Array.Empty<string>();
+
+			BuildIncrementally(InputFiles, inputFiles =>
 			{
-				var combined = Task.InputFiles
+				var combined = InputFiles
 					.AsParallel()
 					.AsOrdered()
 					.Select(file => Minify(File.ReadAllText(file), file))
 					.Aggregate(new StringBuilder(), (builder, s) => builder.AppendLine(s));
 
-				File.WriteAllText(Task.OutputFile, Minify(combined.ToString(), Task.OutputFile));
+				File.WriteAllText(OutputFile, Minify(combined.ToString(), OutputFile));
 
-				return new[] { Task.OutputFile };
+				return new[] { OutputFile };
 			});
+
+			return true;
 		}
 
 		private string Minify(string content, string filename)
 		{
-			var ext = Path.GetExtension(Task.OutputFile);
+			var ext = Path.GetExtension(OutputFile);
 			bool EnxtensionMatch(params string[] extensions)
 				=> extensions.Any(x => string.Equals(ext, x, StringComparison.OrdinalIgnoreCase));
 
@@ -94,7 +105,7 @@ namespace CRED.BuildTasks.Tasks
 
 			foreach (var warning in result.Warnings)
 			{
-				Logger.Log(LogCategory.Warning, Format(warning));
+				Log.LogWarning(Format(warning));
 			}
 
 			return result.MinifiedContent;

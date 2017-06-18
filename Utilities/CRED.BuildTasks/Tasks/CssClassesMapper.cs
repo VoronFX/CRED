@@ -2,28 +2,41 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using CsCodeGenerator;
+using Microsoft.Build.Framework;
 
-namespace CRED.BuildTasks.Tasks
+namespace CRED.BuildTasks
 {
-	public sealed class CssClassesMapperTask : TaskRunner.Task
+	public sealed class CssClassesMapper : TaskBase
 	{
-		private CssClassesMapper Task { get; }
+		[Required]
+		[ExpandPathAttribute]
+		[DataMember]
+		public string[] InputFiles { get; set; }
 
-		public CssClassesMapperTask(CssClassesMapper classesMapper)
-		{
-			Task = classesMapper;
-			if (string.IsNullOrWhiteSpace(Task.ClassName))
-				Task.ClassName = "CssClassesMap";
-			Task.InputFiles = Task.InputFiles ?? Array.Empty<string>();
-		}
+		[Required]
+		[ExpandPath]
+		[EnsureDirectoryCreated]
+		[DataMember]
+		public string OutputFile { get; set; }
 
-		public override void Execute()
+		[DataMember]
+		public string Namespace { get; set; }
+
+		[DataMember]
+		public string ClassName { get; set; }
+
+		protected override bool ExecuteWork()
 		{
-			Task.BuildIncrementally(Task.InputFiles, inputFiles =>
+			if (string.IsNullOrWhiteSpace(ClassName))
+				ClassName = "CssClassesMap";
+			InputFiles = InputFiles ?? Array.Empty<string>();
+
+			BuildIncrementally(InputFiles, inputFiles =>
 			{
-				var classes = Task.InputFiles
+				var classes = InputFiles
 						.AsParallel()
 						.AsOrdered()
 						.SelectMany(file =>
@@ -35,9 +48,11 @@ namespace CRED.BuildTasks.Tasks
 						.GroupBy(x => x.Class, x => x.File, (key, files) =>
 							new KeyValuePair<string, IEnumerable<string>>(key, files.Distinct()));
 
-				File.WriteAllLines(Task.OutputFile, GenerateCssClassesMap(Task.Namespace, Task.ClassName, classes));
-				return new[] { Task.OutputFile };
+				File.WriteAllLines(OutputFile, GenerateCssClassesMap(Namespace, ClassName, classes));
+				return new[] { OutputFile };
 			});
+
+			return true;
 		}
 
 		public static IEnumerable<string> GenerateCssClassesMap(string @namespace, string className, IEnumerable<KeyValuePair<string, IEnumerable<string>>> classes)
@@ -75,7 +90,6 @@ namespace CRED.BuildTasks.Tasks
 				Generator.GeneratedHeader,
 				new[]
 				{
-					"// ReSharper disable InconsistentNaming",
 					string.Empty,
 					$"namespace {@namespace}",
 					"{",

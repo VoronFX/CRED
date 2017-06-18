@@ -1,4 +1,5 @@
-﻿using AspNet.Security.OpenIdConnect.Primitives;
+﻿using System;
+using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -12,11 +13,15 @@ using NSwag;
 using NSwag.AspNetCore;
 using NSwag.SwaggerGeneration.WebApi.Processors.Security;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using CRED.Controllers;
 using CRED.Data;
 using CRED.Models;
+using Dazinator.AspNet.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging.Console;
+using ResourceMapper.Base;
 using WebMarkupMin.AspNetCore1;
 
 namespace CRED
@@ -48,16 +53,6 @@ namespace CRED
 				.AddHtmlMinification()
 				.AddXmlMinification()
 				.AddHttpCompression();
-
-			// Add ResourcePacker
-			services.AddRuntimeResourcePacker(options =>
-			{
-				options.EnableCssMinification = !CurrentEnvironment.IsDevelopment();
-				options.EnableJsMinification = !CurrentEnvironment.IsDevelopment();
-				options.EnableHtmlMinification = !CurrentEnvironment.IsDevelopment();
-				options.WatchFilesForChanges = true;
-				options.PacksDirectory = "/js";
-			});
 
 			// Add framework services.
 			services.AddMvc();
@@ -120,10 +115,18 @@ namespace CRED
 					options.DisableHttpsRequirement();
 				}
 			});
+
+
+			// choose one provider to use for the app and register it
+			//services.AddSingleton<IFileProvider>(physicalProvider);
+			//services.AddSingleton<IFileProvider>(embeddedProvider);
+
+			services.AddClientLoader(CurrentEnvironment);
+			services.AddSingleton<IFileProvider>(CurrentEnvironment.WebRootFileProvider);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, CREDContext context)
+		public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, CREDContext dbcontext)
 		{
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
@@ -158,13 +161,48 @@ namespace CRED
 
 			app.UseOpenIddict();
 			app.UseWebMarkupMin();
-			app.UseRuntimeResourcePacker();
+			//app.UseRuntimeResourcePacker();
 			app.UseDefaultFiles();
-			app.UseStaticFiles();
+			//app.UseStaticFiles();
+			//app.UseStaticFiles(new StaticFileOptions
+			//{
+			//	FileProvider = new PhysicalFileProvider(Path.Combine(CurrentEnvironment.ContentRootPath, "node_modules")),
+			//	RequestPath = "/node_modules"
+			//});
+
+			//var appAssemblyName = typeof(Client.MainBundleFilesMap).Namespace;
+			//var staticSourcesDir = Path.GetFullPath($@"..\{appAssemblyName}\Resources\Static");
+			//var generatedSourcesDir = Path.GetFullPath($@"..\{appAssemblyName}\bin\Debug\net46\Generated\");
+
+			////if (CurrentEnvironment.IsDevelopment()
+			////	&& Directory.Exists(staticSourcesDir)
+			////	&& Directory.Exists(generatedSourcesDir))
+			////{
+
+			////	CurrentEnvironment.WebRootFileProvider = new CompositeFileProvider(CurrentEnvironment.WebRootFileProvider,
+			////		new RequestPathFileProvider("/Static/" + appAssemblyName, new PhysicalFileProvider(staticSourcesDir)),
+			////		new RequestPathFileProvider("/Generated/" + appAssemblyName, new PhysicalFileProvider(generatedSourcesDir)));
+			////}
+			////else
+			////{
+			//	CurrentEnvironment.WebRootFileProvider = new CompositeFileProvider(CurrentEnvironment.WebRootFileProvider,
+			//		new RequestPathFileProvider("/" + appAssemblyName, 
+			//		new EmbeddedFileProvider(typeof(Client.MainBundleFilesMap).GetTypeInfo().Assembly)));
+			////}
+
 			app.UseStaticFiles(new StaticFileOptions
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(CurrentEnvironment.ContentRootPath, "node_modules")),
-				RequestPath = "/node_modules"
+				FileProvider = CurrentEnvironment.WebRootFileProvider,
+				OnPrepareResponse = context =>
+				{
+					// Cache static file for 1 year
+					if (!string.IsNullOrEmpty(context.Context.Request.Query["v"]))
+					{
+						context.Context.Response.Headers.Add("cache-control", new[] { "public,max-age=31536000" });
+						context.Context.Response.Headers.Add("Expires",
+							new[] { DateTime.UtcNow.AddYears(1).ToString("R") }); // Format RFC1123
+					}
+				},
 			});
 
 			app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings()
@@ -185,17 +223,13 @@ namespace CRED
 				DefaultPropertyNameHandling = PropertyNameHandling.CamelCase
 			});
 
+
 			app.UseMvc(routes =>
 			{
-				routes.MapRoute(
-					name: "pack",
-					template: "pack/{path}",
-					defaults: new { controller = "Pack", action = "Index" });
-
-				routes.MapRoute(
-					name: "partial",
-					template: "component/{*component}",
-					defaults: new { controller = "Partial", action = "Component" });
+				//routes.MapRoute(
+				//	name: "partial",
+				//	template: "component/{*component}",
+				//	defaults: new { controller = "Partial", action = "Component" });
 
 				routes.MapRoute(
 					name: "default",
@@ -209,7 +243,7 @@ namespace CRED
 			// if you want to use automated deployments, keep the following line remarked out
 			// if (CurrentEnvironment.IsDevelopment())
 			{
-				DbInitializer.Initialize(context);
+				DbInitializer.Initialize(dbcontext);
 			}
 		}
 	}

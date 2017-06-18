@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using TidyManaged;
 using CsCodeGenerator;
 
 namespace AzurePortalExtractor
@@ -167,8 +165,7 @@ namespace AzurePortalExtractor
 
 		private static readonly string[] GeneratedXmlComment =
 		{
-			$"Content genereated by {nameof(AzurePortalExtractor)}",
-			"ReSharper disable InconsistentNaming"
+			$"Content genereated by {nameof(AzurePortalExtractor)}"
 		};
 
 		private static void GenerateDefinitions(string relativeOutputDirectory, string outputDirectory,
@@ -252,19 +249,24 @@ namespace AzurePortalExtractor
 						.Distinct()
 						.ToList()
 				}).ToArray();
-
+			int a = 0;
+			List<string> ss = new List<string>();
 			foreach (var classesPack in classesPacks)
 			{
-				foreach (var styleClass in classesPack.classes)
+				foreach (var otherPack in classesPacks.Where(x => x != classesPack))
 				{
-					foreach (var otherPack in classesPacks.Where(x => x != classesPack))
+					foreach (var styleClass in classesPack.classes)
 					{
 						if (otherPack.classes.Contains(styleClass))
+						{
 							otherPack.classes.Remove(styleClass);
+							ss.Add($" {styleClass.className.PadRight(40)} {classesPack.resource.TargetPath.PadRight(75)} {otherPack.resource.TargetPath.PadRight(75)}");
+							a++;
+						}
 					}
 				}
 			}
-
+			var sss = string.Join(Environment.NewLine, ss.OrderBy(x => x));
 			File.WriteAllLines(outputDirectory + $"GeneratedStyleClassesMap.cs",
 				Generator.Namespace(
 					name: GeneratedXmlNamespace,
@@ -314,10 +316,10 @@ namespace AzurePortalExtractor
 					name: GeneratedXmlNamespace,
 					comment: GeneratedXmlComment,
 					imports: new string[] { },
-					content: 
+					content:
 					Generator.Class(
 							name: "DummyClassesMap",
-							comment: new[]{ "Classes that has no associated style" },
+							comment: new[] { "Classes that has no associated style" },
 							@static: false,
 							partial: false,
 							@public: true,
@@ -334,7 +336,7 @@ namespace AzurePortalExtractor
 									@readonly: true,
 									type: "string"))
 						)
-					
+
 				)
 			);
 		}

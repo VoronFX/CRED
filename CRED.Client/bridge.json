@@ -1,0 +1,46 @@
+{
+    // The folder to output JavaScript (.js) files.
+    //    "output": "$(OutDir)/bridge/",
+    "output": "$(OutDir)/Generated/Bridge.NET/",
+
+
+    // Enable browser debugging of C# files.
+    // Default is false.
+    "sourceMap": {
+        "enabled": true
+    },
+
+    // Set to true to disable Reflection metadata generation.
+    // Default is false.
+    "reflection": {
+        "disabled": false
+    },
+
+    // Generate TypeScript Definition (.d.ts) files.
+    // Default is false.
+    "generateTypeScript": false,
+    "outputFormatting": "Formatted",
+    "combineScripts": false
+
+    // Delete everything from the output folder
+    // Default is false
+    //"cleanOutputFolderBeforeBuild": true
+
+    // More config options available at
+    // https://github.com/bridgedotnet/Bridge/wiki/global-configuration
+    //"resources": [
+    //    {
+    //        "inject": "true",
+    //        "remark": "// source @{name}\n"
+    //    },
+    //    {
+    //        "name": "CRED.Client.test.js",
+    //        "extract": "true",
+    //        "outputFormatting": "Minified",
+    //        "files": [
+    //            "$(OutDir)/bridge/bridge.min.js",
+    //            "$(OutDir)/bridge/*.min.js"
+    //        ]
+    //    }
+    //]
+}

@@ -2,9 +2,9 @@
 using System.IO;
 using System.Net.Http;
 
-namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
+namespace CRED.BuildTasks
 {
-	public partial class AzureResourcesExtractorTask
+	public sealed partial class AzureResourcesExtractor
 	{
 		private class Overrride
 		{

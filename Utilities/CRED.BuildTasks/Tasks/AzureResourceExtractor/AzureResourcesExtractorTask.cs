@@ -2,21 +2,54 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using CRED.BuildTasks;
 using CsCodeGenerator;
-using static CRED.BuildTasks.Tasks.CssClassesMapperTask;
+using System.Threading.Tasks;
+using Microsoft.Build.Framework;
+using static CRED.BuildTasks.CssClassesMapper;
 
-namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
+namespace CRED.BuildTasks
 {
-	public partial class AzureResourcesExtractorTask : TaskRunner.Task
+	public sealed partial class AzureResourcesExtractor : TaskBase
 	{
-		public AzureResourcesExtractor Task { get; }
+		[Required]
+		[NormalizeDirectoryPath]
+		[DataMember]
+		public string RootDirectory { get; set; }
 
-		public AzureResourcesExtractorTask(AzureResourcesExtractor task)
-		{
-			Task = task;
-		}
+		[Required]
+		[ExpandPath]
+		[DataMember]
+		public string[] Sources { get; set; }
+
+		[Required]
+		[NormalizeDirectoryPath]
+		[EnsureDirectoryCreated]
+		[DataMember]
+		public string OverridesDirectory { get; set; }
+
+		[Required]
+		[NormalizeDirectoryPath]
+		[EnsureDirectoryCreated]
+		[DataMember]
+		public string OutputExtractedDirectory { get; set; }
+
+		[Required]
+		[ExpandPath]
+		[EnsureDirectoryCreated]
+		[DataMember]
+		public string OutputCssClassesMapFile { get; set; }
+
+		[Required]
+		[ExpandPath]
+		[EnsureDirectoryCreated]
+		[DataMember]
+		public string OutputMissingCssClassesMapFile { get; set; }
+
+		[DataMember]
+		public string Namespace { get; set; }
 
 		private static Uri CurrentUri { get; } = new Uri("http://portal.azure.com/");
 
@@ -59,13 +92,13 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 			.ToArray();
 
 
-		public override void Execute()
+		protected override bool ExecuteWork()
 		{
-			Task.BuildIncrementally(Task.Sources.Concat(Overrrides.Select(x =>
-				Path.GetFullPath(Path.Combine(Task.OverridesDirectory, x.SourceFilePath)))).ToArray(), inputFiles =>
+			BuildIncrementally(Sources.Concat(Overrrides.Select(x =>
+				Path.GetFullPath(Path.Combine(OverridesDirectory, x.SourceFilePath)))).ToArray(), inputFiles =>
 			{
 
-				var parsedResources = Task.Sources
+				var parsedResources = Sources
 					.AsParallel()
 					.AsOrdered()
 					.Select(File.ReadAllText)
@@ -102,12 +135,12 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 									missing.Add(match.Value);
 									return resource.Content;
 								}
-								resOver.LoadInto(newResource, Task.OverridesDirectory);
+								resOver.LoadInto(newResource, OverridesDirectory);
 								newResource.Index = resources.Count;
 								newResource.EnsureUniq(uniqIdentifiers);
 								resources.Add(newResource);
-								var newUrl = Path.Combine(Task.OutputExtractedDirectory, newResource.TargetPathFull)
-									.Substring(Task.RootDirectory.Length)
+								var newUrl = Path.Combine(OutputExtractedDirectory, newResource.TargetPathFull)
+									.Substring(RootDirectory.Length)
 									.Replace(Path.DirectorySeparatorChar, '/');
 
 								return $"'{newUrl}'";
@@ -168,7 +201,7 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 				//}
 
 				resourcesBase.AsParallel()
-					.ForAll(resource => resource.Save(Task.OutputExtractedDirectory));
+					.ForAll(resource => resource.Save(OutputExtractedDirectory));
 
 				GenerateStyleClassesMap(resourcesBase);
 
@@ -176,9 +209,11 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 				//{
 				//}
 
-				return resourcesBase.Where(x => !x.IsEmpty).Select(x => Path.Combine(Task.OutputExtractedDirectory, x.TargetPathFull))
-				.Concat(new[] { Task.OutputCssClassesMapFile, Task.OutputMissingCssClassesMapFile });
+				return resourcesBase.Where(x => !x.IsEmpty).Select(x => Path.Combine(OutputExtractedDirectory, x.TargetPathFull))
+				.Concat(new[] { OutputCssClassesMapFile, OutputMissingCssClassesMapFile });
 			});
+
+			return true;
 		}
 
 
@@ -196,13 +231,13 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 						.ToList()
 				}).ToArray();
 
-			System.Threading.Tasks.Task.WaitAll(
+			Task.WaitAll(
 				new Action[]
 				{
 					() =>
 					{
-						File.WriteAllLines(Task.OutputCssClassesMapFile,
-							GenerateCssClassesMap(Task.Namespace, "AzureCssClassesMap",
+						File.WriteAllLines(OutputCssClassesMapFile,
+							GenerateCssClassesMap(Namespace, "AzureCssClassesMap",
 								classesPacks
 									.AsParallel()
 									.AsOrdered()
@@ -213,7 +248,7 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 					},
 					() =>
 					{
-						var dummyClasses = Task.Sources
+						var dummyClasses = Sources
 							.AsParallel()
 							.AsOrdered()
 							.Select(File.ReadAllText)
@@ -224,12 +259,12 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 							.Distinct()
 							.Where(x => classesPacks.SelectMany(c => c.classes).All(c => c != x));
 
-						File.WriteAllLines(Task.OutputMissingCssClassesMapFile,
-							GenerateCssClassesMap(Task.Namespace, "AzureCssMissingClassesMap",
+						File.WriteAllLines(OutputMissingCssClassesMapFile,
+							GenerateCssClassesMap(Namespace, "AzureCssMissingClassesMap",
 								dummyClasses.Select(x => new KeyValuePair<string, IEnumerable<string>>(x, Enumerable.Empty<string>()))));
 
 					}
-				}.Select(System.Threading.Tasks.Task.Run).ToArray());
+				}.Select(Task.Run).ToArray());
 		}
 
 		private static string FormatCss(string input)
@@ -260,7 +295,7 @@ namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
 
 					Overrrides
 						.First(ov => ov.UrlToOverride == href)
-						.LoadInto(res, Task.OverridesDirectory);
+						.LoadInto(res, OverridesDirectory);
 
 					break;
 				case "style":

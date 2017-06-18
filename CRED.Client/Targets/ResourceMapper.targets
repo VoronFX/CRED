@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- ResourceMapper -->
+  <Target Name="ResourceMapper" AfterTargets="PrepareForRun">
+    <ItemGroup>
+
+      <ResourceMap Include="PreloadFilesMap">
+        <InputFiles>@(JsPreloadBundleFiles)</InputFiles>
+        <RootDirectory>$(GenerationOutputDir)</RootDirectory>
+      </ResourceMap>
+      <ResourceMap Include="PreloadBundleFilesMap">
+        <InputFiles>$(BundlesDir)\$(JsPreloadBundle)</InputFiles>
+        <RootDirectory>$(GenerationOutputDir)</RootDirectory>
+      </ResourceMap>
+      <ResourceMap Include="MainStaticFilesMap">
+        <InputFiles>@(StaticCssFiles);@(JsMainBundleStaticFiles)</InputFiles>
+        <RootDirectory>$(ResourcesDir)</RootDirectory>
+      </ResourceMap>
+      <ResourceMap Include="MainGeneratedFilesMap">
+        <InputFiles>@(AzureCssFiles);@(SvgBundleFiles);@(JsMainBundleGeneratedFiles)</InputFiles>
+        <RootDirectory>$(GenerationOutputDir)</RootDirectory>
+      </ResourceMap>
+      <ResourceMap Include="MainBundleFilesMap">
+        <InputFiles>$(BundlesDir)\$(CssBundle);$(BundlesDir)\$(SvgBundle);$(BundlesDir)\$(JsMainBundle)</InputFiles>
+        <RootDirectory>$(GenerationOutputDir)</RootDirectory>
+      </ResourceMap>
+
+    </ItemGroup>
+
+    <ItemGroup>
+
+      <ParallelResourceMapperTask Include="$(MSBuildProjectFullPath)">
+        <Properties>
+          Name=%(ResourceMap.Identity);
+          IncrementalBuildCacheFile=$(IncrementalBuildCacheDir)\%(ResourceMap.Identity).ResourceMapper.cache.json;
+          InputFiles=%(ResourceMap.InputFiles);
+          OutputFile=$(LoaderFilesMapsDir)\%(ResourceMap.Identity).Generated.cs;
+          RootDirectory=%(ResourceMap.RootDirectory);
+          TopClassName=%(ResourceMap.Identity)
+        </Properties>
+      </ParallelResourceMapperTask>
+    </ItemGroup>
+    <MSBuild Projects="@(ParallelResourceMapperTask)" Targets="ResourceMapperProcess" BuildInParallel="True" />
+  </Target>
+
+  <!-- Process -->
+  <Target Name="ResourceMapperProcess">
+    <Message Text="------ ResourceMapper: $(Name) ------" Importance="high" />
+    <CRED.BuildTasks.ResourceMapper RelativeRoot="$(ProjectDir)"
+                                    IncrementalBuildCacheFile="$(IncrementalBuildCacheFile)"
+                                    InputFiles="$(InputFiles)"
+                                    OutputFile="$(OutputFile)"
+                                    RootDirectory="$(RootDirectory)"
+                                    Namespace="$(RootNamespace)"
+                                    TopClassName="$(TopClassName)" />
+  </Target>
+
+</Project>

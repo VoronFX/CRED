@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using CsCodeGenerator;
 
-namespace CRED.BuildTasks.Tasks.AzureResourceExtractor
+namespace CRED.BuildTasks
 {
-	public partial class AzureResourcesExtractorTask
+	public sealed partial class AzureResourcesExtractor
 	{
 		private class Resource
 		{

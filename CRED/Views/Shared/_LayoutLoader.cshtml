@@ -1,8 +1,17 @@
-﻿@using CRED.Helpers
+﻿@using System.IO
+@using System.Reflection
+@using System.Xml.Linq
+@using CRED.Helpers
+@using CRED.Client;
+@using CRED.Shared
+@using Microsoft.AspNetCore.Hosting
 @using Microsoft.AspNetCore.Hosting.Internal
+@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.Extensions.Caching.Memory
-
+@using ResourceMapper.Base
+@inject IHostingEnvironment HostingEnvironment
+@inject ClientLoaderResources ClientLoaderResources
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,24 +24,36 @@
             height: 100%;
             padding: 0;
             margin: 0;
-            animation: fadein 0.2s;  
+            animation: fadein 0.2s;
             animation-delay: 0.5s;
         }
     </style>
+    <environment names="Development">
+        @foreach (var file in ClientLoaderResources.PreloadFiles)
+        {
+            if (file.Type == AppLoaderResource.ResourceType.Script)
+            {
+                <script src="@file.Path" asp-append-version="true" defer></script>
+            }
+            else
+            {
+                throw new NotSupportedException($"Unknown resource format {file.Path}");
+            }
+        }
+        @foreach (var file in ClientLoaderResources.MainFiles)
+        {
+            <link rel="preload" href="@file.Path" data-resource-type="@file.Type" asp-append-version="true" >
+        }
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/CRED.Client/CRED.Client.js" asp-append-version="true" defer></script>
+    </environment>
 </head>
 <body>
-<div id="app-container"></div>
-@{
-    Html.RenderPartial("SplashScreen");
-    IgnoreBody();
-}
-<script type="text/javascript">
-    window.resources = [
-        { url: "@Context.AppendVersion("/js/CRED.Client.pack.js")" },
-    ];
-</script>
-@{
-    Html.RenderPartial("LoaderScript");
-}
+    <div id="app-container"></div>
+    @{
+        Html.RenderPartial("SplashScreen");
+        IgnoreBody();
+    }
 </body>
 </html>

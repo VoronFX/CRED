@@ -64,13 +64,11 @@ namespace ResourceMapper
 
 		public static class ResourceExtensionMethods
 		{
-			public static IEnumerable<string> GetPath(this IResourceDirectory directory) 
-				=> directory.ContainingDirectory?.GetPath().Concat(new []{ directory.Name });
+			public static IEnumerable<string> GetPath(this IResource resource)
+				=> resource.ContainingDirectory == null ? new[] { resource.Name } 
+				: resource.ContainingDirectory.GetPath().Concat(new[] { resource.Name });
 
-			public static IEnumerable<string> GetPath(this IResourceFile file) 
-				=> file.ContainingDirectory?.GetPath().Concat(new[] { file.Name });
-
-			public static IEnumerable<IResourceFile> GetFilesRecursive(this IResourceDirectory directory) 
+			public static IEnumerable<IResourceFile> GetFilesRecursive(this IResourceDirectory directory)
 				=> directory.Files.Values.Concat(directory.Directories.Values.SelectMany(dir => dir.GetFilesRecursive()));
 
 			public static IEnumerable<IResourceDirectory> GetDirectoriesRecursive(this IResourceDirectory directory)

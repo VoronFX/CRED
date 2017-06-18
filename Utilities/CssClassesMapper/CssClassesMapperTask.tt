@@ -1,4 +1,0 @@
-﻿<#
-	Namespace = "CssClassesMapper";
-#>
-<#@ include file="$(SolutionDir)\SharedTaskWrapper.ttinclude"#> 

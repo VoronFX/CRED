@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="AzureResourcesExtractor.targets" />
+  <Import Project="CssClassesMapper.targets" />
+
+  <!-- ParallelBeforeBuild -->
+  <Target Name="ParallelBeforeBuild" BeforeTargets="BeforeBuild">
+    <ItemGroup>
+      <BeforeBuildTask Include="AzureResourcesExtractor" />
+      <BeforeBuildTask Include="CssClassesMapper" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ParallelBeforeBuildTask Include="$(MSBuildProjectFullPath)" Properties="ParallelBeforeBuildTaskTarget=%(BeforeBuildTask.Identity)"/>
+    </ItemGroup>
+
+    <MSBuild Projects="@(ParallelBeforeBuildTask)" Targets="ParallelBeforeBuildProcess" BuildInParallel="True" />
+
+    <ItemGroup>
+      <Compile Remove="$(AzureResourcesExtractorOutputCssClassesMapFile)"/>
+      <Compile Include="$(AzureResourcesExtractorOutputCssClassesMapFile)"  AutoGen="True"/>
+      <Compile Remove="$(AzureResourcesExtractorOutputMissingCssClassesMapFile)"/>
+      <Compile Include="$(AzureResourcesExtractorOutputMissingCssClassesMapFile)"  AutoGen="True"/>
+      <Compile Remove="$(CssFilesMap)" />
+      <Compile Include="$(CssFilesMap)" AutoGen="True"/>
+    </ItemGroup>
+  </Target>
+
+  <!-- Process -->
+  <Target Name="ParallelBeforeBuildProcess">
+    <CallTarget Targets="$(ParallelBeforeBuildTaskTarget)"/>
+  </Target>
+
+</Project>

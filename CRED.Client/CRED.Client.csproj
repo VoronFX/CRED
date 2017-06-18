@@ -1,0 +1,79 @@
+﻿<Project>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.Web" />
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <OutputType>Library</OutputType>
+    <OutputTypeEx>library</OutputTypeEx>
+    <DisableImplicitFrameworkReferences>True</DisableImplicitFrameworkReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bridge" Version="16.0.0-beta2" />
+    <PackageReference Include="Bridge.Html5" Version="16.0.0-beta2" />
+    <PackageReference Include="Bridge.jQuery" Version="2.9.4-beta2" />
+    <PackageReference Include="Bridge.React" Version="2.6.2-beta" />
+    <PackageReference Include="Bridge.SignalR" Version="2.0.2-beta" />
+    <PackageReference Include="ProductiveRage.Immutable" Version="2.4.0-beta" />
+    <PackageReference Include="ProductiveRage.Immutable.Extensions" Version="2.2.0-beta" />
+  </ItemGroup>
+
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.Web" />
+  <Import Project="$(SolutionDir)\Utilities\CRED.BuildTasks\BuildTasks.targets" />
+  <Import Project="Targets\DirectoriesAndFiles.props" />
+
+  <PropertyGroup>
+    <IncrementalBuildCacheDir>$(IntermediateOutputPath)\IncrementalBuildCache\</IncrementalBuildCacheDir>
+  </PropertyGroup>
+
+  <Target Name="CleanGenerated" BeforeTargets="Clean">
+    <RemoveDir Directories="$(OutDir)" ContinueOnError="WarnAndContinue" />
+    <!--<RemoveDir Directories="$(MapsDir)" ContinueOnError="WarnAndContinue" />
+    <RemoveDir Directories="$(GeneratedDir)" ContinueOnError="WarnAndContinue" />-->
+    <RemoveDir Directories="$(IncrementalBuildCacheDir)" ContinueOnError="WarnAndContinue" />
+  </Target>
+  
+  <Target Name="GenerateDirectories" BeforeTargets="BeforeBuild">
+    <MakeDir Directories="$(StaticResourcesDir);$(GeneratedMapsDir);$(BundlesDir);$(BridgeOutputDir);$(LibDir);$(IncrementalBuildCacheDir)" />
+  </Target>
+
+  <Import Project="Targets\ParallelBeforeBuild.targets" />
+  <Import Project="Targets\BridgeNetIncrementalBuild.targets" />
+  <Import Project="Targets\BundleAndMinifier.targets" />
+  <Import Project="Targets\ResourceMapper.targets" />
+  
+  <ItemGroup>
+    <None Include="@(GeneratedFiles)" Link="$(GeneratedResourcesDir)\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    <None Include="@(LoaderFilesMapsFiles)" Link="$(ResourcesDir)\LoaderFilesMaps\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    <Compile Include="..\CRED.Shared\AppLoaderResource.cs" Link="AppLoaderResource.cs" />
+    <Compile Include="@(MapsFiles)" Link="$(ResourcesDir)\Maps\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <None Include="@(CssBundleFiles)">
+      <Link>$(GeneratedResourcesDir)\Bundles\CssBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
+      <InProject>True</InProject>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="@(JsPreloadBundleFiles)">
+      <Link>$(GeneratedResourcesDir)\Bundles\JsPreloadBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
+      <InProject>True</InProject>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="@(JsMainBundleFiles)">
+      <Link>$(GeneratedResourcesDir)\Bundles\JsMainBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
+      <InProject>True</InProject>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="@(SvgBundleFiles)">
+      <Link>$(GeneratedResourcesDir)\Bundles\SvgBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
+      <InProject>True</InProject>
+      <AutoGen>True</AutoGen>
+    </None>
+    
+  </ItemGroup>
+
+</Project>

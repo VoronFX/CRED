@@ -48,7 +48,7 @@
                 res.progress = 0;
                 res.xhr = new XMLHttpRequest();
 
-                res.xhr.upload.onprogress = function (event) {
+                res.xhr.onprogress = function (event) {
                     res.progress = event.loaded * 100 / event.total;
                     updateprogress();
                 }

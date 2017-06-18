@@ -1,4 +1,0 @@
-﻿<#
-	Namespace = "BundlerAndMinifier";
-#>
-<#@ include file="$(SolutionDir)\SharedTaskWrapper.ttinclude"#> 

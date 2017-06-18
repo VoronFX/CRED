@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <BuildTasksOutDir>$(MSBuildThisFileDirectory)\bin\Release\net46\</BuildTasksOutDir>
+    <BuildTasksLatestVersion Condition="Exists('$(BuildTasksOutDir)\VersionCopy\LatestVersion.txt')">$([System.IO.File]::ReadAllText($(BuildTasksOutDir)\VersionCopy\LatestVersion.txt))</BuildTasksLatestVersion>
+    <BuildTasksAssemblyPath Condition="'$(BuildTasksAssemblyPath)' == ''">$(BuildTasksOutDir)\VersionCopy\$(BuildTasksLatestVersion)\$(BuildTasksLatestVersion).dll</BuildTasksAssemblyPath>
+  </PropertyGroup>
+
+  <Target Name="BuildBuildTasks" BeforeTargets="BeforeBuild">
+    <MSBuild Projects="$(MSBuildThisFileDirectory)\CRED.BuildTasks.csproj" Targets="Build" Properties="Configuration=Release"/>
+  </Target>
+
+  <UsingTask TaskName="CRED.BuildTasks.CssClassesMapper" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
+  <UsingTask TaskName="CRED.BuildTasks.BundlerAndMinifier" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
+  <UsingTask TaskName="CRED.BuildTasks.ResourceMapper" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
+  <UsingTask TaskName="CRED.BuildTasks.AzureResourcesExtractor" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
+  <UsingTask TaskName="CRED.BuildTasks.IncrementalBuild.SaveCache" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
+  <UsingTask TaskName="CRED.BuildTasks.IncrementalBuild.CheckCache" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
+
+</Project>
+

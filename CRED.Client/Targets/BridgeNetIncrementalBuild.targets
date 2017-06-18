@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="BridgeNetGenerateScript" />
+
+  <Target Name="BridgeNetGenerateScriptOverride">
+    <Message
+      Text="------ BridgeNetGenerateScript task started: Project: $(MSBuildProjectName), Configuration: $(Configuration) $(Platform) OutputPath: $(OutputPath) ------"
+      Importance="high" />
+
+    <BridgeCompilerTask Assembly="@(IntermediateAssembly)"
+                        AssemblyName="$(AssemblyName)"
+                        AssembliesPath="$(OutDir)"
+                        CheckForOverflowUnderflow="$(CheckForOverflowUnderflow)"
+                        Configuration="$(Configuration)"
+                        DefineConstants="$(DefineConstants)"
+                        OutDir="$(OutDir)"
+                        OutputPath="$(OutputPath)"
+                        OutputType="$(OutputType)"
+                        Platform="$(Platform)"
+                        ProjectPath="$(MSBuildProjectFullPath)"
+                        RootNamespace="$(RootNamespace)"
+                        Sources="@(Compile)" />
+
+    <Message
+      Text="------ BridgeNetGenerateScript task done: Project: $(MSBuildProjectName), Configuration: $(Configuration) $(Platform) OutputPath: $(OutputPath) ------"
+      Importance="high" />
+  </Target>
+  
+  <Target Name="BridgeNetIncrementalBuild" AfterTargets="PrepareForRun">
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BridgeNetIncrementalBuildProcess" Properties="Configuration=$(Configuration)"/>
+  </Target>
+
+  <Target Name="BridgeNetIncrementalBuildProcess">
+
+    <CRED.BuildTasks.IncrementalBuild.CheckCache RelativeRoot="$(ProjectDir)"
+                                                 IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\BridgeNet.cache.json"
+                                                 InputFiles="@(Compile);$(MSBuildProjectFullPath)"
+                                                 Parameters="
+                                                 @(IntermediateAssembly);
+                                                 $(AssemblyName);
+                                                 $(OutDir);
+                                                 $(CheckForOverflowUnderflow);
+                                                 $(Configuration);
+                                                 $(DefineConstants);
+                                                 $(OutDir);
+                                                 $(OutputPath);
+                                                 $(OutputType);
+                                                 $(Platform);
+                                                 $(MSBuildProjectFullPath);
+                                                 $(RootNamespace)">
+
+      <Output PropertyName="BridgeNeedBuild" TaskParameter="NeedBuild" />
+      <Output PropertyName="BridgeIncrementalBuildCache" TaskParameter="Cache" />
+    </CRED.BuildTasks.IncrementalBuild.CheckCache>
+
+    <CallTarget Targets="BridgeNetGenerateScriptOverride" Condition="$(BridgeNeedBuild)" />
+
+    <CRED.BuildTasks.IncrementalBuild.SaveCache RelativeRoot="$(ProjectDir)"
+                                                IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\BridgeNet.cache.json"
+                                                Cache="$(BridgeIncrementalBuildCache)" OutputFiles="$(BridgeOutputDir)"
+                                                Condition="$(BridgeNeedBuild)" />
+  </Target>
+
+</Project>

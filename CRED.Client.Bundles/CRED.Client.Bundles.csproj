@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(SolutionDir)\Utilities\CRED.BuildTasks\BuildTasks.targets" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ClientProjectDir>..\CRED.Client\</ClientProjectDir>
+    <GenerationOutputDir>$(ClientProjectDir)\bin\$(Configuration)\net46\</GenerationOutputDir>
+    <ResourcesDir>$(ClientProjectDir)\Resources</ResourcesDir>
+  </PropertyGroup>
+  <Import Project="$(ClientProjectDir)\Targets\DirectoriesAndFiles.props" />
+
+  <Target Name="BuildClient" BeforeTargets="BeforeBuild">
+    <MSBuild Projects="..\CRED.Client\CRED.Client.csproj" Targets="Build" />
+  </Target>
+
+  <ItemGroup>
+    <EmbeddedResource Include="@(StaticFiles)" Link="Static\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    <EmbeddedResource Include="@(GeneratedFiles)" Link="Generated\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    <Compile Include="@(LoaderFilesMapsFiles)" Link="%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    <Compile Include="..\Utilities\CRED.BuildTasks\Tasks\ResourceMapper\ResourceMapper.Base.cs" Link="ResourceMapper.Base.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <None Include="@(CssBundleFiles)">
+      <Link>Generated\Bundles\CssBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="@(JsPreloadBundleFiles)">
+      <Link>Generated\Bundles\JsPreloadBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="@(JsMainBundleFiles)">
+      <Link>Generated\Bundles\JsMainBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="@(SvgBundleFiles)">
+      <Link>Generated\Bundles\SvgBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+    
+  </ItemGroup>
+  
+</Project>

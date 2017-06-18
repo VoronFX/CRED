@@ -1,56 +1,80 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net46</TargetFramework>
+    
+    <IntermediateOutputPath Condition="'$(CopyVersionIntermediateOutputPath)' != ''">$(CopyVersionIntermediateOutputPath)</IntermediateOutputPath>
+    <AssemblyName Condition="'$(CopyVersionName)' != ''">$(CopyVersionName)</AssemblyName>
+    <OutDir Condition="'$(CopyVersionOutDir)' != ''">$(CopyVersionOutDir)</OutDir>
   </PropertyGroup>
-  
+
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="10.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="1.1.2" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.1012" />
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.1" />
     <PackageReference Include="System.Linq.Parallel" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
     <PackageReference Include="System.ValueTuple" Version="4.3.1" />
-    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
     <PackageReference Include="WebMarkupMin.Core" Version="2.4.0" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\CsCodeGenerator\CsCodeGenerator.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Update="Tasks\ResourceMapper\ResourceMapper.Base.cs" />
-    <EmbeddedResource Include="Tasks\ResourceMapper\ResourceMapper.Base.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="TaskDefinitions.ttinclude">
-      <DesignTime>True</DesignTime>
-    </None>
-    <Compile Update="MSBuildTaskWrapper.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>MSBuildTaskWrapper.tt</DependentUpon>
-    </Compile>
-    <None Update="BuildTasks.props">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BuildTasks.tt</DependentUpon>
-    </None>
-    <None Update="BuildTasks.tt">
-      <LastGenOutput>BuildTasks.props</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TaskDefinitions.ttinclude</DependentUpon>
-    </None>
-    <None Update="MSBuildTaskWrapper.tt">
-      <LastGenOutput>MSBuildTaskWrapper.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TaskDefinitions.ttinclude</DependentUpon>
-    </None>
+    <ProjectReference Include="..\CsCodeGenerator\CsCodeGenerator.csproj" />
+  </ItemGroup>
+
+  <UsingTask TaskName="CRED.BuildTasks.PrepareVersionCopy" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll">
+    <ParameterGroup>
+      <SourceFiles ParameterType="System.String[]" Required="True" />
+      <VersionFile ParameterType="System.String" Required="True" />
+      <LatestVersion ParameterType="System.String" Output="True" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="Microsoft.Build.Framework" />
+      <Code Type="Class" Language="cs" Source="PrepareVersionCopy.cs" />
+    </Task>
+  </UsingTask>
+
+  <Target Name="SetVersionCopyProps" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <OutDir Condition="'$(CopyVersionName)' != ''">$(OutDir)\$(CopyVersionName)\</OutDir>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="SetVersionCopyProps">
+    <PropertyGroup>
+      <VersionCopyDir>$(OutDir)\VersionCopy\</VersionCopyDir>
+      <VersionFile>$(VersionCopyDir)\LatestVersion.txt</VersionFile>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="CleanVersionCopy" BeforeTargets="Clean" DependsOnTargets="SetVersionCopyProps">
+    <RemoveDir Directories="$(VersionCopyDir)" ContinueOnError="WarnAndContinue" />
+  </Target>
+
+  <Target Name="BuildVersionCopyTarget" AfterTargets="AfterBuild" Inputs="$(TargetPath)" Outputs="$(VersionFile)" Condition="$(CopyVersionName) == '' " DependsOnTargets="SetVersionCopyProps">
+
+    <MakeDir Directories="$(VersionCopyDir)" Condition=" !Exists('$(VersionCopyDir)') " />
+    <ItemGroup>
+      <Outputs Include="$(OutDir)\**\*" Exclude="$(VersionCopyDir)\**\*" />
+    </ItemGroup>
+    <CRED.BuildTasks.PrepareVersionCopy SourceFiles="@(Outputs)" VersionFile="$(VersionFile)">
+      <Output PropertyName="CopyVersionName" TaskParameter="LatestVersion" />
+    </CRED.BuildTasks.PrepareVersionCopy>
+    <ItemGroup>
+      <OldVersionCopies Include="$(VersionCopyDir)\**\" Exclude="$(VersionCopyDir)\$(CopyVersionName)\" />
+    </ItemGroup>
+    <RemoveDir Directories="@(OldVersionCopies)" ContinueOnError="WarnAndContinue" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Build" Properties="CopyVersionIntermediateOutputPath=$(IntermediateOutputPath)\VersionCopy\;CopyVersionOutDir=$(VersionCopyDir)\$(CopyVersionName)\;Configuration=$(Configuration);CopyVersionName=$(CopyVersionName)" Condition=" !Exists('$(VersionCopyDir)\$(CopyVersionName)\$(CopyVersionName)$(TargetExt)')" />
+
+  </Target>
+
+  <ItemGroup>
+    <Compile Update="Tasks\ResourceMapper\ResourceMapper.Base.cs" />
+    <EmbeddedResource Include="Tasks\ResourceMapper\ResourceMapper.Base.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- AzureResourcesExtractor -->
+  <Target Name="AzureResourcesExtractor">
+
+    <PropertyGroup>
+      <AzureResourcesExtractorOverridesDir>$(ResourcesDir)\Azure\Overrides</AzureResourcesExtractorOverridesDir>
+      <AzureResourcesExtractorOutputCssClassesMapFile>$(MapsDir)\AzureCssClassesMap.Generated.cs</AzureResourcesExtractorOutputCssClassesMapFile>
+      <AzureResourcesExtractorOutputMissingCssClassesMapFile>$(MapsDir)\AzureCssMissingClassesMap.Generated.cs</AzureResourcesExtractorOutputMissingCssClassesMapFile>
+    </PropertyGroup>
+
+    <Message Text="------ AzureResourcesExtractor started: ------" Importance="high" />
+    <ItemGroup>
+      <AzureResourcesExtractorSources Include="$(ResourcesDir)\Azure\Sources\*.html" />
+    </ItemGroup>
+    <CRED.BuildTasks.AzureResourcesExtractor RelativeRoot="$(ProjectDir)"
+                                             IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\AzureResourcesExtractor.cache.json"
+                                             Sources="@(AzureResourcesExtractorSources)"
+                                             OverridesDirectory="$(AzureResourcesExtractorOverridesDir)"
+                                             OutputExtractedDirectory="$(AzureExtractedDir)"
+                                             OutputCssClassesMapFile="$(AzureResourcesExtractorOutputCssClassesMapFile)"
+                                             OutputMissingCssClassesMapFile="$(AzureResourcesExtractorOutputMissingCssClassesMapFile)"
+                                             RootDirectory="$(GeneratedDir)"
+                                             Namespace="$(RootNamespace)"  />
+
+  </Target>
+
+</Project>

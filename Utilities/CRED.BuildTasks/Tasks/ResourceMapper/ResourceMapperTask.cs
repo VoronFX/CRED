@@ -3,68 +3,99 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
-using CRED.BuildTasks.Wrapper;
 using CsCodeGenerator;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Build.Framework;
 using ResourceMapper.Base;
 
-namespace CRED.BuildTasks.Tasks.ResourceMapper
+namespace CRED.BuildTasks
 {
-	public sealed class ResourceMapperTask : TaskRunner.Task
+	public sealed class ResourceMapper : TaskBase
 	{
-		private BuildTasks.ResourceMapper Task { get; }
+		[Required]
+		[NormalizeDirectoryPath]
+		[DataMember]
+		public string RootDirectory { get; set; }
 
-		public ResourceMapperTask(BuildTasks.ResourceMapper task)
-		{
-			Task = task;
-			if (string.IsNullOrWhiteSpace(Task.Namespace))
-				Task.Namespace = nameof(ResourceMapper);
-			if (string.IsNullOrWhiteSpace(Task.TopClassName))
-				Task.TopClassName = "ResourceMap";
-			Task.InputFiles = Task.InputFiles ?? Array.Empty<string>();
-		}
+		[Required]
+		[ExpandPath]
+		[DataMember]
+		public string[] InputFiles { get; set; }
 
-		public override void Execute()
+		[Required]
+		[ExpandPath]
+		[EnsureDirectoryCreated]
+		[DataMember]
+		public string OutputFile { get; set; }
+
+		[DataMember]
+		public string Namespace { get; set; }
+
+		[DataMember]
+		public string TopClassName { get; set; }
+
+		[ExpandPath]
+		[EnsureDirectoryCreated]
+		[DataMember]
+		public string BaseTypesOutputFile { get; set; }
+
+		protected override bool ExecuteWork()
 		{
-			Task.BuildIncrementally(Task.InputFiles, inputFiles =>
+			if (string.IsNullOrWhiteSpace(Namespace))
+				Namespace = nameof(ResourceMapper);
+			if (string.IsNullOrWhiteSpace(TopClassName))
+				TopClassName = "ResourceMap";
+			InputFiles = InputFiles ?? Array.Empty<string>();
+
+			BuildIncrementally(InputFiles, inputFiles =>
 			{
-				var filesInDirectories = Task.InputFiles
-					.Where(x => x.StartsWith(Task.RootDirectory));
+				var external = InputFiles
+					.Where(x => !x.StartsWith(RootDirectory))
+					.ToArray();
 
-				File.WriteAllLines(Task.OutputFile, GenerateUnit(filesInDirectories));
-				if (!string.IsNullOrWhiteSpace(Task.BaseTypesOutputFile))
+				if (external.Any())
+					throw new Exception(string.Join(Environment.NewLine, 
+						new[] { "Next files are outside of root directory:" }
+						.Concat(external)));
+
+				File.WriteAllLines(OutputFile, GenerateUnit(InputFiles));
+				if (!string.IsNullOrWhiteSpace(BaseTypesOutputFile))
 				{
 					// ReSharper disable once AssignNullToNotNullAttribute
-					using (var stream = new StreamReader(typeof(ResourceMapperTask).GetTypeInfo()
+					using (var stream = new StreamReader(typeof(ResourceMapper).GetTypeInfo()
 						.Assembly.GetManifestResourceStream(
-							string.Join(".", typeof(ResourceMapperTask).Namespace, typeof(ResourceDirectoryBase).Namespace, "cs"))))
+							string.Join(".", typeof(ResourceMapper).Namespace, typeof(ResourceDirectoryBase).Namespace, "cs"))))
 					{
 						var baseTypes = Generator.GeneratedHeader.Concat(stream.ReadToEnd()
 							.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None));
 
-						if (Task.BaseTypesOutputFile == Task.OutputFile)
+						if (BaseTypesOutputFile == OutputFile)
 						{
-							File.AppendAllLines(Task.BaseTypesOutputFile, baseTypes);
+							File.AppendAllLines(BaseTypesOutputFile, baseTypes);
 						}
 						else
 						{
-							File.WriteAllLines(Task.BaseTypesOutputFile, baseTypes);
+							File.WriteAllLines(BaseTypesOutputFile, baseTypes);
 						}
 					}
 				}
 
-				return new[] { Task.OutputFile, Task.BaseTypesOutputFile };
+				return new[] { OutputFile, BaseTypesOutputFile };
 			});
+
+			return true;
 		}
 
-		private string DirNamespace => Task.TopClassName + "Directories";
+		private string DirNamespace => TopClassName + "Directories";
 
 		private IEnumerable<string> GenerateUnit(IEnumerable<string> items)
 		{
 			var hashedItems = items.AsParallel().AsOrdered()
 				.Select(item => new KeyValuePair<string[], string>(
-					item.Substring(Task.RootDirectory.Length)
+					item.Substring(RootDirectory.Length)
 						.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
 						.ToArray(),
 					GetHashForFile(item)));
@@ -75,17 +106,16 @@ namespace CRED.BuildTasks.Tasks.ResourceMapper
 					{
 						typeof(IReadOnlyDictionary<string, string>).Namespace,
 						typeof(ResourceDirectoryBase).Namespace,
-						string.Join(".", Task.Namespace, DirNamespace)
+						string.Join(".", Namespace, DirNamespace)
 					}
 					.Select(x => $"using {x};"),
 				new[]
 				{
-					"// ReSharper disable InconsistentNaming",
 					string.Empty,
-					$"namespace {Task.Namespace}",
+					$"namespace {Namespace}",
 					"{",
 				},
-				GenerateDirectoryClass(Task.TopClassName, null, hashedItems.ToArray(), 0).Indent(),
+				GenerateDirectoryClass(TopClassName, null, hashedItems.ToArray(), 0).Indent(),
 				new[]
 				{
 					"}"
@@ -94,12 +124,12 @@ namespace CRED.BuildTasks.Tasks.ResourceMapper
 		}
 
 
-		private IEnumerable<string> GenerateDirectoryClass(string className, string name,
+		private IEnumerable<string> GenerateDirectoryClass(string className, [CanBeNull] string name,
 			ICollection<KeyValuePair<string[], string>> items, int level)
 		{
 			var directories = items
 				.Where(x => x.Key.Length > level + 1)
-				.GroupBy(x => x.Key[level].ToPascalCaseIdentifier())
+				.GroupBy(x => x.Key[level])
 				.Select(x => new
 				{
 					Name = x.Key,
