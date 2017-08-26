@@ -16,11 +16,12 @@
   <ItemGroup>
     <Compile Include="..\Utilities\CRED.BuildTasks\Tasks\ResourceMapper\ResourceMapper.Base.cs" Link="ResourceMapper.Base.cs" AutoGen="True" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <EmbeddedResource Include="$(InputDir)\**\*" Link="%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" InProject="False" />
+  </ItemGroup>
+  
   <Target Name="ResourceMapperProcess" BeforeTargets="BeforeBuild">
-    <ItemGroup>
-      <EmbeddedResource Include="$(InputDir)\**\*" AutoGen="True" />
-    </ItemGroup>
     <Message Text="------ ResourceMapper ------" Importance="high" />
     <CRED.BuildTasks.ResourceMapper RelativeRoot="$(ProjectDir)" IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\ResourceMapper.cache.json" InputFiles="@(EmbeddedResource)" OutputFile="$(BuildTasksGeneratedDir)\ResourceMap.Generated.cs" PathSubtractDirectory="$(InputDir)" Namespace="$(RootNamespace)" TopClassName="ClientPack" />
   </Target>

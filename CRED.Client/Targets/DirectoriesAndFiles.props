@@ -6,23 +6,26 @@
     <ResourceOutDir Condition="'$(GenerationOutputDir)' == ''">$(OutDir)\wwwroot</ResourceOutDir>
     <ResourcesDir Condition="'$(ResourcesDir)' == ''">Resources</ResourcesDir>
     
-    <StaticResourcesDir>$(ResourcesDir)\Static</StaticResourcesDir>
+    <!--<StaticResourcesDir>$(ResourcesDir)\Static</StaticResourcesDir>-->
 
     <LessDir>$(ResourcesDir)\Less</LessDir>
-    <LibDir>$(StaticResourcesDir)\Lib</LibDir>
+    <LibDir>$(ResourcesDir)\Lib</LibDir>
     
     <BridgeOutDir>$(ResourceOutDir)\Bridge.NET</BridgeOutDir>
     <BundlesOutDir>$(ResourceOutDir)\Bundles</BundlesOutDir>
     <StylesOutDir>$(ResourceOutDir)\Styles</StylesOutDir>
     <LibOutDir>$(ResourceOutDir)\Lib</LibOutDir>
     
+    <NodeModulesDir>node_modules</NodeModulesDir>
+    
   </PropertyGroup>
 
   <ItemGroup>   
-    <StaticFiles Include="$(StaticResourcesDir)\**\*" Exclude="$(StaticResourcesDir)\**\.*" />
+    <!--<StaticFiles Include="$(StaticResourcesDir)\**\*" />-->
     <ResourceOutFiles Include="$(ResourceOutDir)\**\*"/>
     
     <LessFiles Include="$(LessDir)\**\*.less" />
+    <LessFiles Include="$(LibDir)\font-awesome\less\**\*.less" />
     
     <StyleFiles Include="$(StylesOutDir)\**\*" />
     <BridgeFiles Include="$(BridgeOutDir)\**\*" />
@@ -37,8 +40,8 @@
     <JsBundleFiles Include="$(BridgeOutDir)\Loader.js" />
     <!--<JsBundleFiles Include="$(BridgeOutputDir)\App.js" />-->
 
-    <JsBundleFiles Include="$(LibOutDir)\react\react.js" />
-    <JsBundleFiles Include="$(LibOutDir)\react\react-dom.js" />
+    <JsBundleFiles Include="$(LibOutDir)\react\dist\react.js" />
+    <JsBundleFiles Include="$(LibOutDir)\react-dom\dist\react-dom.js" />
     <JsBundleFiles Include="$(BridgeOutDir)\ProductiveRage.Immutable.js" />
     <JsBundleFiles Include="$(BridgeOutDir)\ProductiveRage.Immutable.meta.js" />
     <JsBundleFiles Include="$(BridgeOutDir)\Bridge.React.js" />
@@ -59,6 +62,10 @@
       <InputFiles>@(JsBundleFiles)</InputFiles>
     </Bundle>
 
+    <CopyLibFiles Include="$(NodeModulesDir)\react\dist\react.js"/>    
+    <CopyLibFiles Include="$(NodeModulesDir)\react-dom\dist\react-dom.js"/>    
+    <CopyLibFiles Include="$(NodeModulesDir)\material-design-icons\iconfont\**\*"/>    
+    
   </ItemGroup>
   
 </Project>

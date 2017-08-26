@@ -37,16 +37,21 @@ namespace CRED.BuildTasks
 			BuildIncrementally(InputFiles, inputFiles =>
 			{
 				var classes = InputFiles
-						.AsParallel()
-						.AsOrdered()
-						.SelectMany(file =>
-							Regex.Matches(
-									Regex.Replace(File.ReadAllText(file), @"(?is)\{.*?\}", " "),
-									@"(?is)\.[A-Z_a-z0-9-]+")
+					.AsParallel()
+					.AsOrdered()
+					.SelectMany(file =>
+						{
+							var css = File.ReadAllText(file);
+							css = Regex.Replace(css, @"(?is)\{.*?\}", " ");
+							css = Regex.Replace(css, @"(?i)//.*?", " ");
+							css = Regex.Replace(css, @"(?is)/\*.*?\*/", " ");
+							return Regex.Matches(css, @"(?is)\.[A-Z_a-z0-9-]+")
 								.Cast<Match>()
-								.Select(x => new { Class = x.Value.Substring(1), File = file }))
-						.GroupBy(x => x.Class, x => x.File, (key, files) =>
-							new KeyValuePair<string, IEnumerable<string>>(key, files.Distinct()));
+								.Select(x => new {Class = x.Value.Substring(1), File = file});
+						}
+					)
+					.GroupBy(x => x.Class, x => x.File, (key, files) =>
+						new KeyValuePair<string, IEnumerable<string>>(key, files.Distinct()));
 
 				File.WriteAllLines(OutputFile, GenerateCssClassesMap(Namespace, ClassName, classes));
 				return new[] { OutputFile };

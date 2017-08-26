@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using dotless.Core;
 using dotless.Core.configuration;
+using dotless.Core.Loggers;
 using dotless.Core.Parser;
 using Microsoft.Build.Framework;
 
@@ -56,12 +57,15 @@ namespace CRED.BuildTasks
 			BuildIncrementally(InputFiles, inputFiles =>
 			{
 				return EntryFiles
-					.AsParallel()
-					.AsOrdered()
 					.Select(file =>
 					{
 						var outFile = Path.GetFullPath(Path.Combine(OutputDirectory, Path.GetFileNameWithoutExtension(file) + ".css"));
-						File.WriteAllText(outFile, LessEngine.Value.TransformToCss(File.ReadAllText(file), file));
+						var css = LessEngine.Value.TransformToCss(File.ReadAllText(file), file);
+						if (!LessEngine.Value.LastTransformationSuccessful)
+						{
+							throw LessEngine.Value.LastTransformationError;
+						}
+						File.WriteAllText(outFile, css);
 						return outFile;
 
 					}).ToArray();

@@ -13,7 +13,12 @@
       <Output PropertyName="CopyStaticIncrementalBuildCache" TaskParameter="Cache" />
     </CRED.BuildTasks.IncrementalBuild.CheckCache>-->
 
-    <Copy SourceFiles="@(StaticFiles)" DestinationFiles="$(ResourceOutDir)\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="True"></Copy>
+    <!--<Copy SourceFiles="@(StaticFiles)" DestinationFiles="$(ResourceOutDir)\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="True"></Copy>-->
+    <Copy SourceFiles="@(CopyLibFiles)" DestinationFiles="$(LibDir)\$([MSBuild]::MakeRelative($([System.IO.Path]::GetFullPath('$(NodeModulesDir)')), %(FullPath)))" SkipUnchangedFiles="True"></Copy>
+    <ItemGroup>
+      <LibFiles Include="$(LibDir)\**\*" Exclude="$(LibDir)\**\.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(LibFiles)" DestinationFiles="$(LibOutDir)\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="True"></Copy>
     <!--<CallTarget Targets="BridgeNetGenerateScriptOverride" Condition="$(BridgeNeedBuild)" />
 
     <CRED.BuildTasks.IncrementalBuild.SaveCache RelativeRoot="$(ProjectDir)"

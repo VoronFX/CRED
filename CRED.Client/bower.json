@@ -1,7 +1,0 @@
-{
-  "name": "cred.client",
-  "private": true,
-  "dependencies": {
-    "react": "v15.5.4"
-  }
-}

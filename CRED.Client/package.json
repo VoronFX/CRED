@@ -1,0 +1,18 @@
+{
+    "name": "cred",
+    "version": "1.0.0",
+    "description": "",
+    "private": true,
+    "keywords": [],
+    "author": "Voronin Igor <voron.exe@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "react": "15.6.1",
+        "react-dom": "15.6.1",
+        "material-design-icons" : "3.0.1" 
+    },
+    "devDependencies": { },
+    "repository": {
+        "origin": "https://github.com/VoronFX/CRED"
+    }
+}
