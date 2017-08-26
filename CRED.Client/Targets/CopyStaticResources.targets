@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="CopyStaticTarget" BeforeTargets="BeforeBuild">
+
+    <!--<CRED.BuildTasks.IncrementalBuild.CheckCache RelativeRoot="$(ProjectDir)"
+                                                 IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\CopyStaticTarget.cache.json"
+                                                 InputFiles="@(StaticFiles)"
+                                                 Parameters="$(ResourceOutDir)">
+
+      <Output PropertyName="CopyStaticNeedBuild" TaskParameter="NeedBuild" />
+      <Output PropertyName="CopyStaticIncrementalBuildCache" TaskParameter="Cache" />
+    </CRED.BuildTasks.IncrementalBuild.CheckCache>-->
+
+    <Copy SourceFiles="@(StaticFiles)" DestinationFiles="$(ResourceOutDir)\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="True"></Copy>
+    <!--<CallTarget Targets="BridgeNetGenerateScriptOverride" Condition="$(BridgeNeedBuild)" />
+
+    <CRED.BuildTasks.IncrementalBuild.SaveCache RelativeRoot="$(ProjectDir)"
+                                                IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\CopyStaticTarget.cache.json"
+                                                Cache="$(CopyStaticIncrementalBuildCache)" OutputFiles="$(BridgeOutDir)"
+                                                Condition="$(CopyStaticNeedBuild)" />-->
+  </Target>
+
+</Project>

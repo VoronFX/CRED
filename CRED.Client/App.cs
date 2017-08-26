@@ -14,7 +14,7 @@ using CRED.Client.Helpers;
 using CRED.Client.Stores;
 using CRED.Shared;
 
-namespace CRED.Client2
+namespace CRED.Client
 {
 	[FileName(nameof(Loader))]
 	public class App
@@ -33,6 +33,11 @@ namespace CRED.Client2
 
 		public static async Task Load()
 		{
+			var splashscreen2 = Document.GetElementsByClassName("splashscreen-container")
+				.First();
+			splashscreen2.ClassList.Add("splashscreen-container-out");
+			await Task.Delay(500).ContinueWith(t2 => splashscreen2.Remove());
+
 			await new Loader(Document.Head
 					.GetElementsByTagName(TagNames.Link.ToString())
 					.Cast<HTMLLinkElement>()
@@ -49,7 +54,7 @@ namespace CRED.Client2
 									//{
 									//	Src = x.Href,
 									//	Type = "text/javascript"
-									//};
+									//};                     
 									//Document.Head.AppendChild(script);
 									break;
 								case AppLoaderResource.ResourceType.Style:

@@ -21,59 +21,22 @@
   <Import Project="$(SolutionDir)\Utilities\CRED.BuildTasks\BuildTasks.targets" />
   <Import Project="Targets\DirectoriesAndFiles.props" />
 
-  <PropertyGroup>
-    <IncrementalBuildCacheDir>$(IntermediateOutputPath)\IncrementalBuildCache\</IncrementalBuildCacheDir>
-  </PropertyGroup>
-
-  <Target Name="CleanGenerated" BeforeTargets="Clean">
-    <RemoveDir Directories="$(OutDir)" ContinueOnError="WarnAndContinue" />
-    <!--<RemoveDir Directories="$(MapsDir)" ContinueOnError="WarnAndContinue" />
-    <RemoveDir Directories="$(GeneratedDir)" ContinueOnError="WarnAndContinue" />-->
-    <RemoveDir Directories="$(IncrementalBuildCacheDir)" ContinueOnError="WarnAndContinue" />
-  </Target>
-  
-  <Target Name="GenerateDirectories" BeforeTargets="BeforeBuild">
-    <MakeDir Directories="$(StaticResourcesDir);$(GeneratedMapsDir);$(BundlesDir);$(BridgeOutputDir);$(LibDir);$(IncrementalBuildCacheDir)" />
-  </Target>
-
+  <Import Project="Targets\CleanAndMakeDirectories.targets" />
+  <Import Project="Targets\CopyStaticResources.targets" />
   <Import Project="Targets\ParallelBeforeBuild.targets" />
   <Import Project="Targets\BridgeNetIncrementalBuild.targets" />
   <Import Project="Targets\BundleAndMinifier.targets" />
-  <Import Project="Targets\ResourceMapper.targets" />
+  <!--<Import Project="Targets\ResourceMapper.targets" />-->
   
   <ItemGroup>
-    <None Include="@(GeneratedFiles)" Link="$(GeneratedResourcesDir)\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
-    <None Include="@(LoaderFilesMapsFiles)" Link="$(ResourcesDir)\LoaderFilesMaps\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
-    <Compile Include="..\CRED.Shared\AppLoaderResource.cs" Link="AppLoaderResource.cs" />
-    <Compile Include="@(MapsFiles)" Link="$(ResourcesDir)\Maps\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
-  </ItemGroup>
-
-  <ItemGroup>
-
-    <None Include="@(CssBundleFiles)">
-      <Link>$(GeneratedResourcesDir)\Bundles\CssBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
-      <InProject>True</InProject>
-      <AutoGen>True</AutoGen>
-    </None>
-
-    <None Include="@(JsPreloadBundleFiles)">
-      <Link>$(GeneratedResourcesDir)\Bundles\JsPreloadBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
-      <InProject>True</InProject>
-      <AutoGen>True</AutoGen>
-    </None>
-
-    <None Include="@(JsMainBundleFiles)">
-      <Link>$(GeneratedResourcesDir)\Bundles\JsMainBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
-      <InProject>True</InProject>
-      <AutoGen>True</AutoGen>
-    </None>
-
-    <None Include="@(SvgBundleFiles)">
-      <Link>$(GeneratedResourcesDir)\Bundles\SvgBundleFiles\$([MSBuild]::ValueOrDefault('%(RecursiveDir)%(Filename)%(Extension)','').Replace('\', '.'))</Link>
-      <InProject>True</InProject>
-      <AutoGen>True</AutoGen>
-    </None>
     
+    <None Include="@(StyleFiles)" Link="$(GeneratedResourcesDir)\Styles\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    <None Include="@(BridgeFiles)" Link="$(GeneratedResourcesDir)\Bridge.NET\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    <None Include="@(BundleFiles)" Link="$(GeneratedResourcesDir)\Bundles\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    
+    <Compile Include="@(MapsOutDir)" Link="$(GeneratedResourcesDir)\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    <Compile Include="..\CRED.Shared\AppLoaderResource.cs" Link="AppLoaderResource.cs" />
+  
   </ItemGroup>
 
 </Project>

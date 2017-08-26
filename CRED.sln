@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED", "CRED\CRED.csproj", "{652117CF-7954-4981-B243-74EF58572927}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRED", "CRED\CRED.csproj", "{652117CF-7954-4981-B243-74EF58572927}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pso2Reparser", "Utilities\Pso2Reparser\Pso2Reparser.csproj", "{F21F3518-21AA-4160-81A0-51369944193C}"
 EndProject
@@ -11,15 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePortalExtractor", "Utilities\AzurePortalExtractor\AzurePortalExtractor.csproj", "{0A9F899D-CBC0-40B8-AFDF-AAC032784173}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED.Client", "CRED.Client\CRED.Client.csproj", "{4F39EFD6-404C-48BB-B4E7-9141C463F305}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRED.Client", "CRED.Client\CRED.Client.csproj", "{4F39EFD6-404C-48BB-B4E7-9141C463F305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsCodeGenerator", "Utilities\CsCodeGenerator\CsCodeGenerator.csproj", "{9BD92D0F-B4E4-4517-801E-4122D9745803}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsCodeGenerator", "Utilities\CsCodeGenerator\CsCodeGenerator.csproj", "{9BD92D0F-B4E4-4517-801E-4122D9745803}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED.BuildTasks", "Utilities\CRED.BuildTasks\CRED.BuildTasks.csproj", "{48DCDF05-1DBE-45F7-9625-CACA256583CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRED.BuildTasks", "Utilities\CRED.BuildTasks\CRED.BuildTasks.csproj", "{48DCDF05-1DBE-45F7-9625-CACA256583CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED.Client.Bundles", "CRED.Client.Bundles\CRED.Client.Bundles.csproj", "{C2EA4FFA-B085-4FBA-91BE-32EA49FAD1AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRED.Client.Pack", "CRED.Client.Bundles\CRED.Client.Pack.csproj", "{C2EA4FFA-B085-4FBA-91BE-32EA49FAD1AB}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CRED.Shared", "CRED.Shared\CRED.Shared.shproj", "{C9E7FF7E-99DF-4BD5-BD09-16D834BF740D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeSerwiceWorkerTest", "BridgeSerwiceWorkerTest\BridgeSerwiceWorkerTest.csproj", "{7D8B8CC0-6F0C-4413-A9F7-55720A5F9681}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -74,6 +76,12 @@ Global
 		{C2EA4FFA-B085-4FBA-91BE-32EA49FAD1AB}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
 		{C2EA4FFA-B085-4FBA-91BE-32EA49FAD1AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2EA4FFA-B085-4FBA-91BE-32EA49FAD1AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D8B8CC0-6F0C-4413-A9F7-55720A5F9681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D8B8CC0-6F0C-4413-A9F7-55720A5F9681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D8B8CC0-6F0C-4413-A9F7-55720A5F9681}.PublishRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{7D8B8CC0-6F0C-4413-A9F7-55720A5F9681}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
+		{7D8B8CC0-6F0C-4413-A9F7-55720A5F9681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D8B8CC0-6F0C-4413-A9F7-55720A5F9681}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,5 +91,8 @@ Global
 		{0A9F899D-CBC0-40B8-AFDF-AAC032784173} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
 		{9BD92D0F-B4E4-4517-801E-4122D9745803} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
 		{48DCDF05-1DBE-45F7-9625-CACA256583CE} = {132E1C50-7CC8-4BF5-B0A6-3B9F9A8AAAAD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9A4009E5-1012-48EE-AAC5-D926BFEBB74D}
 	EndGlobalSection
 EndGlobal

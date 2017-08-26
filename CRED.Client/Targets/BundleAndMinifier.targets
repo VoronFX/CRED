@@ -9,9 +9,10 @@
       <ParallelBundlerAndMinifierTask Include="$(MSBuildProjectFullPath)">
         <Properties>
           Name=%(Bundle.Identity);
-          IncrementalBuildCacheFile=$(IncrementalBuildCacheDir)\%(Bundle.Identity).BundlerAndMinifier.cache.json;
           InputFiles=%(Bundle.InputFiles);
-          OutputFile=%(Bundle.OutputFile)
+          OutputFile=%(Bundle.OutputFile);
+          ManifestFile=%(Bundle.ManifestFile);
+          PathSubtractDirectory=$(ResourceOutDir)
         </Properties>
       </ParallelBundlerAndMinifierTask>
     </ItemGroup>
@@ -23,9 +24,14 @@
   <Target Name="BundlerAndMinifierProcess">
     <Message Text="------ BundlerAndMinifier: $(Name) ------" Importance="high" />
     <CRED.BuildTasks.BundlerAndMinifier RelativeRoot="$(ProjectDir)"
-                                        IncrementalBuildCacheFile="$(IncrementalBuildCacheFile)"
+                                        IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\$(Name).BundlerAndMinifier.cache.json"
                                         InputFiles="$(InputFiles)"
                                         OutputFile="$(OutputFile)" />
+    <CRED.BuildTasks.ManifestGenerator RelativeRoot="$(ProjectDir)"
+                                        IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\$(Name).ManifestGenerator.cache.json"
+                                        PathSubtractDirectory="$(PathSubtractDirectory)"
+                                        InputFiles="$(InputFiles)"
+                                        OutputFile="$(ManifestFile)" />    
   </Target>
 
 </Project>

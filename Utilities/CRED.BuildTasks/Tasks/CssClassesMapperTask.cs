@@ -12,7 +12,8 @@ namespace CRED.BuildTasks
 	public sealed class CssClassesMapper : TaskBase
 	{
 		[Required]
-		[ExpandPathAttribute]
+		[ExpandPath]
+		[NonNullArray]
 		[DataMember]
 		public string[] InputFiles { get; set; }
 
@@ -32,7 +33,6 @@ namespace CRED.BuildTasks
 		{
 			if (string.IsNullOrWhiteSpace(ClassName))
 				ClassName = "CssClassesMap";
-			InputFiles = InputFiles ?? Array.Empty<string>();
 
 			BuildIncrementally(InputFiles, inputFiles =>
 			{

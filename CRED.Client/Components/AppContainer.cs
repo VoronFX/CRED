@@ -1,7 +1,5 @@
 ﻿using Bridge.React;
 using CRED.Client.API;
-using CRED.Client.Components.Azure;
-using CRED.Client.Components.Azure.Resources;
 using CRED.Client.Stores;
 using CRED.Client.ViewModels;
 using ProductiveRage.Immutable;
@@ -41,7 +39,7 @@ namespace CRED.Client.Components
 			{
 				Style = new ReactStyle { Height = "100%" }
 
-			}, new Portal(new Fxs(), Portal.PortalTheme.Black, false));
+			});
 			//return DOM.Div(null,
 			//	new MessageEditor(
 			//		className: new NonBlankTrimmedString("message"),

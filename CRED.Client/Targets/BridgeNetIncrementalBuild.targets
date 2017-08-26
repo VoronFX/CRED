@@ -59,7 +59,7 @@
 
     <CRED.BuildTasks.IncrementalBuild.SaveCache RelativeRoot="$(ProjectDir)"
                                                 IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\BridgeNet.cache.json"
-                                                Cache="$(BridgeIncrementalBuildCache)" OutputFiles="$(BridgeOutputDir)"
+                                                Cache="$(BridgeIncrementalBuildCache)" OutputFiles="$(BridgeOutDir)"
                                                 Condition="$(BridgeNeedBuild)" />
   </Target>
 

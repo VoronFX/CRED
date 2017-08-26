@@ -1,14 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Import Project="AzureResourcesExtractor.targets" />
+  <!--<Import Project="AzureResourcesExtractor.targets" />-->
+  <Import Project="LessCompiler.targets" />
   <Import Project="CssClassesMapper.targets" />
+
+  <Target Name="LessCompilerAndCssClassesMapper">
+    <CallTarget Targets="LessCompiler"/>
+    <CallTarget Targets="CssClassesMapper"/>
+  </Target>
 
   <!-- ParallelBeforeBuild -->
   <Target Name="ParallelBeforeBuild" BeforeTargets="BeforeBuild">
     <ItemGroup>
-      <BeforeBuildTask Include="AzureResourcesExtractor" />
-      <BeforeBuildTask Include="CssClassesMapper" />
+      <BeforeBuildTask Include="LessCompilerAndCssClassesMapper" />
     </ItemGroup>
 
     <ItemGroup>
@@ -18,10 +23,10 @@
     <MSBuild Projects="@(ParallelBeforeBuildTask)" Targets="ParallelBeforeBuildProcess" BuildInParallel="True" />
 
     <ItemGroup>
-      <Compile Remove="$(AzureResourcesExtractorOutputCssClassesMapFile)"/>
+      <!--<Compile Remove="$(AzureResourcesExtractorOutputCssClassesMapFile)"/>
       <Compile Include="$(AzureResourcesExtractorOutputCssClassesMapFile)"  AutoGen="True"/>
       <Compile Remove="$(AzureResourcesExtractorOutputMissingCssClassesMapFile)"/>
-      <Compile Include="$(AzureResourcesExtractorOutputMissingCssClassesMapFile)"  AutoGen="True"/>
+      <Compile Include="$(AzureResourcesExtractorOutputMissingCssClassesMapFile)"  AutoGen="True"/>-->
       <Compile Remove="$(CssFilesMap)" />
       <Compile Include="$(CssFilesMap)" AutoGen="True"/>
     </ItemGroup>

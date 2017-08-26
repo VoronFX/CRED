@@ -26,6 +26,14 @@ namespace CRED.BuildTasks
 		[NormalizeDirectoryPath]
 		public string RelativeRoot { get; set; }
 
+		[DataMember]
+		public bool DebugBreak { get; set; }
+
+		[AttributeUsage(AttributeTargets.Property)]
+		public sealed class NonNullArrayAttribute : Attribute
+		{
+		}
+
 		[AttributeUsage(AttributeTargets.Property)]
 		public sealed class EnsureDirectoryCreatedAttribute : Attribute
 		{
@@ -41,10 +49,10 @@ namespace CRED.BuildTasks
 		{
 		}
 
-
 		private static IEnumerable<PropertyInfo> PropertiesWithAttribute(Type targetType, Type attributeType)
 		{
-			return targetType.GetTypeInfo().DeclaredProperties
+			return targetType.GetTypeInfo().GetRuntimeProperties()
+				.Except(typeof(TaskBase).BaseType.GetRuntimeProperties())
 				.Where(x => x.CustomAttributes
 					.Any(a => a.AttributeType == attributeType));
 		}
@@ -75,6 +83,20 @@ namespace CRED.BuildTasks
 		{
 			try
 			{
+				if (DebugBreak)
+				{
+					LogError("DebugBreak before processing properties");
+				}
+
+				foreach (var property in PropertiesWithAttribute(GetType(), typeof(NonNullArrayAttribute)))
+				{
+					if (property.PropertyType.IsArray
+						&& property.GetValue(this) == null)
+					{
+						property.SetValue(this, Array.CreateInstance(property.PropertyType.GetElementType(), 0));
+					}
+				}
+
 				ProcessPathProperties(typeof(ExpandPathAttribute),
 					path => Path.GetFullPath(Path.Combine(RelativeRoot, path)));
 
@@ -88,17 +110,27 @@ namespace CRED.BuildTasks
 						return path;
 					});
 
+				if (DebugBreak)
+				{
+					LogError("DebugBreak after processing properties");
+					return false;
+				}
 				return ExecuteWork();
 			}
 			catch (Exception e)
 			{
-				Log.LogError(string.Join(Environment.NewLine,
-					e.ToString(),
-					$"{GetType().Name}:",
-					JsonConvert.SerializeObject(this, Formatting.Indented)
-				));
+				LogError(e.ToString());
 				return false;
 			}
+		}
+
+		private void LogError(string message)
+		{
+			Log.LogError(string.Join(Environment.NewLine,
+				message,
+				$"{GetType().Name}:",
+				JsonConvert.SerializeObject(this, Formatting.Indented)
+			));
 		}
 
 		protected abstract bool ExecuteWork();

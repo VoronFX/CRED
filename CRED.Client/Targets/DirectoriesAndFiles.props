@@ -2,90 +2,66 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <GenerationOutputDir Condition="'$(GenerationOutputDir)' == ''">$(OutDir)</GenerationOutputDir>
+    
+    <IncrementalBuildCacheDir>$(IntermediateOutputPath)\IncrementalBuildCache\</IncrementalBuildCacheDir>
+    
+    <ResourceOutDir Condition="'$(GenerationOutputDir)' == ''">$(OutDir)\wwwroot</ResourceOutDir>
     <ResourcesDir Condition="'$(ResourcesDir)' == ''">Resources</ResourcesDir>
     
     <StaticResourcesDir>$(ResourcesDir)\Static</StaticResourcesDir>
     <GeneratedResourcesDir>$(ResourcesDir)\Generated</GeneratedResourcesDir>
-    
-    <GeneratedDir>$(GenerationOutputDir)\Generated</GeneratedDir>
-    <AzureExtractedDir>$(GeneratedDir)\Azure</AzureExtractedDir>
-    <BridgeOutputDir>$(GeneratedDir)\Bridge.NET</BridgeOutputDir>
-    <BundlesDir>$(GeneratedDir)\Bundles</BundlesDir>
-    
-    <StylesDir>$(StaticResourcesDir)\Styles</StylesDir>
+
+    <LessDir>$(ResourcesDir)\Less</LessDir>
     <LibDir>$(StaticResourcesDir)\Lib</LibDir>
     
-    <MapsDir>$(GenerationOutputDir)\Maps</MapsDir>
-    <LoaderFilesMapsDir>$(GenerationOutputDir)\LoaderFilesMaps</LoaderFilesMapsDir>
+    <BridgeOutDir>$(ResourceOutDir)\Bridge.NET</BridgeOutDir>
+    <BundlesOutDir>$(ResourceOutDir)\Bundles</BundlesOutDir>
+    <StylesOutDir>$(ResourceOutDir)\Styles</StylesOutDir>
+    <LibOutDir>$(ResourceOutDir)\Lib</LibOutDir>
+    
+    <MapsOutDir>$(IntermediateOutputPath)\ResourceMaps</MapsOutDir>
+    
   </PropertyGroup>
 
-  <ItemGroup>
-    <StaticFiles Include="$(StaticResourcesDir)\**\*" />
-    <GeneratedFiles Include="$(GeneratedDir)\**\*" />
+  <ItemGroup>   
+    <StaticFiles Include="$(StaticResourcesDir)\**\*" Exclude="$(StaticResourcesDir)\**\.*" />
 
-    <AzureCssFiles Include="$(AzureExtractedDir)\Styles\**\*.css" />
+    <StyleFiles Include="$(StylesOutDir)\**\*" />
+    <BridgeFiles Include="$(BridgeOutDir)\**\*" />
+    <BundleFiles Include="$(BundlesOutDir)\**\*" />
 
-    <AzureFiles Include="$(AzureExtractedDir)\**\*" />
-    <BridgeFiles Include="$(BridgeOutputDir)\**\*" />
-    <Bundles Include="$(BundlesDir)\**\*" />
+    <CssBundleFiles Include="@(StyleFiles)" />
     
-    <MapsFiles Include="$(MapsDir)\**\*.Generated.cs" />
-    <LoaderFilesMapsFiles Include="$(LoaderFilesMapsDir)\**\*.Generated.cs" />
-  </ItemGroup>
+    <JsBundleFiles Include="$(BridgeOutDir)\bridge.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\bridge.console.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\bridge.meta.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\Loader.js" />
+    <!--<JsBundleFiles Include="$(BridgeOutputDir)\App.js" />-->
 
-  <!-- Bundles -->
-  <PropertyGroup>
-    <CssBundle>CssBundle.min.css</CssBundle>
-    <JsPreloadBundle>JsPreloadBundle.min.js</JsPreloadBundle>
-    <JsMainBundle>JsMainBundle.min.js</JsMainBundle>
-    <SvgBundle>SvgBundle.min.svg</SvgBundle>
-  </PropertyGroup>
-  
-  <ItemGroup>
+    <JsBundleFiles Include="$(LibOutDir)\react\react.js" />
+    <JsBundleFiles Include="$(LibOutDir)\react\react-dom.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\ProductiveRage.Immutable.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\ProductiveRage.Immutable.meta.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\Bridge.React.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\productiveRage.immutable.extensions.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\productiveRage.immutable.extensions.meta.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\CRED.Client.js" />
+    <JsBundleFiles Include="$(BridgeOutDir)\CRED.Client.meta.js" />
 
-    <StaticCssFiles Include="$(StylesDir)\**\*.css" />
-    <CssBundleFiles Include="@(StaticCssFiles);@(AzureCssFiles)" />
-    
-    <JsPreloadBundleFiles Include="$(BridgeOutputDir)\bridge.js" />
-    <JsPreloadBundleFiles Include="$(BridgeOutputDir)\bridge.console.js" />
-    <JsPreloadBundleFiles Include="$(BridgeOutputDir)\bridge.meta.js" />
-    <JsPreloadBundleFiles Include="$(BridgeOutputDir)\Loader.js" />
-    <!--<JsPreloadBundleFiles Include="$(BridgeOutputDir)\App.js" />-->
-
-    <JsMainBundleStaticFiles Include="$(LibDir)\react\react.js" />
-    <JsMainBundleStaticFiles Include="$(LibDir)\react\react-dom.js" />
-    <JsMainBundleGeneratedFiles Include="$(BridgeOutputDir)\ProductiveRage.Immutable.js" />
-    <JsMainBundleGeneratedFiles Include="$(BridgeOutputDir)\ProductiveRage.Immutable.meta.js" />
-    <JsMainBundleGeneratedFiles Include="$(BridgeOutputDir)\Bridge.React.js" />
-    <JsMainBundleGeneratedFiles Include="$(BridgeOutputDir)\productiveRage.immutable.extensions.js" />
-    <JsMainBundleGeneratedFiles Include="$(BridgeOutputDir)\productiveRage.immutable.extensions.meta.js" />
-    <JsMainBundleGeneratedFiles Include="$(BridgeOutputDir)\CRED.Client.js" />
-    <JsMainBundleGeneratedFiles Include="$(BridgeOutputDir)\CRED.Client.meta.js" />
-    
-    <JsMainBundleFiles Include="@(JsMainBundleStaticFiles);@(JsMainBundleGeneratedFiles)" />
-    
-
-    <SvgBundleFiles Include="$(AzureExtractedDir)\Svg\**\*.svg" />
-    
+    <!-- Bundles -->
     <Bundle Include="CssBundle">
-      <OutputFile>$(BundlesDir)\$(CssBundle)</OutputFile>
+      <OutputFile>$(BundlesOutDir)\CssBundle.min.css</OutputFile>
+      <ManifestFile>$(BundlesOutDir)\CssBundle.manifest.json</ManifestFile>
       <InputFiles>@(CssBundleFiles)</InputFiles>
     </Bundle>
-    <Bundle Include="JsPreloadBundle">
-      <OutputFile>$(BundlesDir)\$(JsPreloadBundle)</OutputFile>
-      <InputFiles>@(JsPreloadBundleFiles)</InputFiles>
+    <Bundle Include="JsBundle">
+      <OutputFile>$(BundlesOutDir)\JsBundle.min.js</OutputFile>
+      <ManifestFile>$(BundlesOutDir)\JsBundle.manifest.json</ManifestFile>
+      <InputFiles>@(JsBundleFiles)</InputFiles>
     </Bundle>
-    <Bundle Include="JsMainBundle">
-      <OutputFile>$(BundlesDir)\$(JsMainBundle)</OutputFile>
-      <InputFiles>@(JsMainBundleFiles)</InputFiles>
-    </Bundle>
-    <Bundle Include="SvgBundle">
-      <OutputFile>$(BundlesDir)\$(SvgBundle)</OutputFile>
-      <InputFiles>@(SvgBundleFiles)</InputFiles>
-    </Bundle>
-  
+
+
+
   </ItemGroup>
-  
   
 </Project>

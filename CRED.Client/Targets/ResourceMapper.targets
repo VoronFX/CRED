@@ -8,23 +8,23 @@
 
       <ResourceMap Include="PreloadFilesMap">
         <InputFiles>@(JsPreloadBundleFiles)</InputFiles>
-        <RootDirectory>$(GenerationOutputDir)</RootDirectory>
+        <PathSubtractDirectory>$(GenerationOutputDir)</PathSubtractDirectory>
       </ResourceMap>
       <ResourceMap Include="PreloadBundleFilesMap">
         <InputFiles>$(BundlesDir)\$(JsPreloadBundle)</InputFiles>
-        <RootDirectory>$(GenerationOutputDir)</RootDirectory>
+        <PathSubtractDirectory>$(GenerationOutputDir)</PathSubtractDirectory>
       </ResourceMap>
       <ResourceMap Include="MainStaticFilesMap">
         <InputFiles>@(StaticCssFiles);@(JsMainBundleStaticFiles)</InputFiles>
-        <RootDirectory>$(ResourcesDir)</RootDirectory>
+        <PathSubtractDirectory>$(ResourcesDir)</PathSubtractDirectory>
       </ResourceMap>
       <ResourceMap Include="MainGeneratedFilesMap">
         <InputFiles>@(AzureCssFiles);@(SvgBundleFiles);@(JsMainBundleGeneratedFiles)</InputFiles>
-        <RootDirectory>$(GenerationOutputDir)</RootDirectory>
+        <PathSubtractDirectory>$(GenerationOutputDir)</PathSubtractDirectory>
       </ResourceMap>
       <ResourceMap Include="MainBundleFilesMap">
         <InputFiles>$(BundlesDir)\$(CssBundle);$(BundlesDir)\$(SvgBundle);$(BundlesDir)\$(JsMainBundle)</InputFiles>
-        <RootDirectory>$(GenerationOutputDir)</RootDirectory>
+        <PathSubtractDirectory>$(GenerationOutputDir)</PathSubtractDirectory>
       </ResourceMap>
 
     </ItemGroup>
@@ -37,7 +37,7 @@
           IncrementalBuildCacheFile=$(IncrementalBuildCacheDir)\%(ResourceMap.Identity).ResourceMapper.cache.json;
           InputFiles=%(ResourceMap.InputFiles);
           OutputFile=$(LoaderFilesMapsDir)\%(ResourceMap.Identity).Generated.cs;
-          RootDirectory=%(ResourceMap.RootDirectory);
+          PathSubtractDirectory=%(ResourceMap.PathSubtractDirectory);
           TopClassName=%(ResourceMap.Identity)
         </Properties>
       </ParallelResourceMapperTask>
@@ -52,7 +52,7 @@
                                     IncrementalBuildCacheFile="$(IncrementalBuildCacheFile)"
                                     InputFiles="$(InputFiles)"
                                     OutputFile="$(OutputFile)"
-                                    RootDirectory="$(RootDirectory)"
+                                    PathSubtractDirectory="$(PathSubtractDirectory)"
                                     Namespace="$(RootNamespace)"
                                     TopClassName="$(TopClassName)" />
   </Target>

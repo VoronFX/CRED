@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(SolutionDir)\Utilities\CRED.BuildTasks\BuildTasks.targets" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <InputDir>..\CRED.Client\bin\$(Configuration)\net46\wwwroot\</InputDir>
+    <IncrementalBuildCacheDir>$(BaseIntermediateOutputPath)\IncrementalBuildCache\$(Configuration)\</IncrementalBuildCacheDir>
+    <ResourceMapFile>$(BaseIntermediateOutputPath)\ResourceMap.$(Configuration).Generated.cs</ResourceMapFile>
+  </PropertyGroup>
+
+  <Target Name="BuildClient" BeforeTargets="BeforeBuild">
+    <MSBuild Projects="..\CRED.Client\CRED.Client.csproj" Targets="Build" />
+  </Target>
+
+  <ItemGroup>
+    <EmbeddedResource Include="$(InputDir)\**\*" Link="%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    <Compile Include="..\Utilities\CRED.BuildTasks\Tasks\ResourceMapper\ResourceMapper.Base.cs" Link="ResourceMapper.Base.cs" AutoGen="True" />
+    <Compile Include="$(ResourceMapFile)" Link="ResourceMap.Generated.cs" AutoGen="True" />
+  </ItemGroup>
+
+  <Target Name="ResourceMapperProcess" BeforeTargets="BeforeBuild">
+    <Message Text="------ ResourceMapper ------" Importance="high" />
+    <ItemGroup>
+      <Compile Remove="$(ResourceMapFile)" Condition="Exists('$(ResourceMapFile)')" />
+    </ItemGroup>
+    <CRED.BuildTasks.ResourceMapper RelativeRoot="$(ProjectDir)" IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\ResourceMapper.cache.json" InputFiles="@(EmbeddedResource)" OutputFile="$(ResourceMapFile)" PathSubtractDirectory="$(InputDir)" Namespace="$(RootNamespace)" TopClassName="ClientPack" />
+    <ItemGroup>
+      <Compile Include="$(ResourceMapFile)" Link="ResourceMap.Generated.cs" AutoGen="True" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="Cleaning" BeforeTargets="Clean">
+    <Message Text="------ Cleaning ------" Importance="high" />
+    <RemoveDir Directories="$(IncrementalBuildCacheDir)" ContinueOnError="WarnAndContinue" />
+    <Delete Files="$(ResourceMapFile)" ContinueOnError="WarnAndContinue" />
+    <ItemGroup>
+      <Compile Remove="$(ResourceMapFile)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

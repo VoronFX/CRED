@@ -1,7 +1,7 @@
 {
     // The folder to output JavaScript (.js) files.
     //    "output": "$(OutDir)/bridge/",
-    "output": "$(OutDir)/Generated/Bridge.NET/",
+    "output": "$(OutDir)/wwwroot/Bridge.NET/",
 
 
     // Enable browser debugging of C# files.
@@ -14,6 +14,10 @@
     // Default is false.
     "reflection": {
         "disabled": false
+    },
+
+    "console": {
+        "enabled": true
     },
 
     // Generate TypeScript Definition (.d.ts) files.

@@ -12,9 +12,9 @@ namespace CsCodeGenerator
     {
 	    public static void EnsureFileDirectoryCreated(string filePath)
 	    {
-			var outDileDir = Path.GetDirectoryName(filePath);
-		    if (!string.IsNullOrWhiteSpace(outDileDir))
-			    Directory.CreateDirectory(outDileDir);
+			var outFileDir = Path.GetDirectoryName(filePath);
+		    if (!string.IsNullOrWhiteSpace(outFileDir))
+			    Directory.CreateDirectory(outFileDir);
 		}
 
 	    public static string NormalizeExpandDirectoryPath(string directoryPath) 

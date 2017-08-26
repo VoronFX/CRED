@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using CsCodeGenerator;
 using JetBrains.Annotations;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Build.Framework;
 using ResourceMapper.Base;
@@ -18,10 +19,11 @@ namespace CRED.BuildTasks
 		[Required]
 		[NormalizeDirectoryPath]
 		[DataMember]
-		public string RootDirectory { get; set; }
+		public string PathSubtractDirectory { get; set; }
 
 		[Required]
 		[ExpandPath]
+		[NonNullArray]
 		[DataMember]
 		public string[] InputFiles { get; set; }
 
@@ -42,24 +44,17 @@ namespace CRED.BuildTasks
 		[DataMember]
 		public string BaseTypesOutputFile { get; set; }
 
+
 		protected override bool ExecuteWork()
 		{
 			if (string.IsNullOrWhiteSpace(Namespace))
 				Namespace = nameof(ResourceMapper);
 			if (string.IsNullOrWhiteSpace(TopClassName))
 				TopClassName = "ResourceMap";
-			InputFiles = InputFiles ?? Array.Empty<string>();
 
 			BuildIncrementally(InputFiles, inputFiles =>
 			{
-				var external = InputFiles
-					.Where(x => !x.StartsWith(RootDirectory))
-					.ToArray();
-
-				if (external.Any())
-					throw new Exception(string.Join(Environment.NewLine, 
-						new[] { "Next files are outside of root directory:" }
-						.Concat(external)));
+				FileUtilities.ThrowIfOutsideOfDirectoryTree(PathSubtractDirectory, InputFiles);
 
 				File.WriteAllLines(OutputFile, GenerateUnit(InputFiles));
 				if (!string.IsNullOrWhiteSpace(BaseTypesOutputFile))
@@ -95,10 +90,10 @@ namespace CRED.BuildTasks
 		{
 			var hashedItems = items.AsParallel().AsOrdered()
 				.Select(item => new KeyValuePair<string[], string>(
-					item.Substring(RootDirectory.Length)
+					item.Substring(PathSubtractDirectory.Length)
 						.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
 						.ToArray(),
-					GetHashForFile(item)));
+					FileUtilities.GetHashForFile(item)));
 
 			return Generator.Flatten(
 				Generator.GeneratedHeader,
@@ -221,18 +216,6 @@ namespace CRED.BuildTasks
 				},
 				subDirs
 			);
-		}
-
-		private static string GetHashForFile(string path)
-		{
-			using (var sha256 = SHA256.Create())
-			{
-				using (var readStream = new FileStream(path, FileMode.Open))
-				{
-					var hash = sha256.ComputeHash(readStream);
-					return WebEncoders.Base64UrlEncode(hash);
-				}
-			}
 		}
 	}
 }

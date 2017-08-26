@@ -8,7 +8,7 @@ namespace CRED.Data
     {
         public static void Initialize(CREDContext context)
         {
-            // performsny outstanding migrations.
+            // performs outstanding migrations.
             context.Database.Migrate();
 
             // Look for any test data.

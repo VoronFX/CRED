@@ -6,17 +6,17 @@
   <Target Name="CssClassesMapper">
     
     <PropertyGroup>
-      <CssFilesMap>$(MapsDir)\CssClassesMap.Generated.cs</CssFilesMap>
+      <CssFilesMap>$(MapsOutDir)\CssClassesMap.Generated.cs</CssFilesMap>
     </PropertyGroup>
     <ItemGroup>
-      <CssFiles Include="$(StylesDir)\**\*.css" />
+      <CssFiles Include="$(StylesOutDir)\**\*.css" />
     </ItemGroup>
 
     <Message Text="------ CssClassesMapper started: ------" Importance="high" />
 
     <CRED.BuildTasks.CssClassesMapper RelativeRoot="$(ProjectDir)"
                                       IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\CssClassesMapper.cache.json"
-                                      InputFiles="@(CssFiles)"
+                                      InputFiles="@(CssBundleFiles)"
                                       OutputFile="$(CssFilesMap)"
                                       ClassName="CssClassesMap"
                                       Namespace="$(RootNamespace)" />

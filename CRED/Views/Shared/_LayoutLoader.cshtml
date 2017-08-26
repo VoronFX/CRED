@@ -2,7 +2,6 @@
 @using System.Reflection
 @using System.Xml.Linq
 @using CRED.Helpers
-@using CRED.Client;
 @using CRED.Shared
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.AspNetCore.Hosting.Internal
@@ -11,12 +10,15 @@
 @using Microsoft.Extensions.Caching.Memory
 @using ResourceMapper.Base
 @inject IHostingEnvironment HostingEnvironment
-@inject ClientLoaderResources ClientLoaderResources
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta>
+        
+    </meta>
     <title>@ViewData["Title"] - CRED</title>
     <base href="~/">
     <style>
@@ -28,28 +30,21 @@
             animation-delay: 0.5s;
         }
     </style>
-    <environment names="Development">
-        @foreach (var file in ClientLoaderResources.PreloadFiles)
-        {
-            if (file.Type == AppLoaderResource.ResourceType.Script)
-            {
-                <script src="@file.Path" asp-append-version="true" defer></script>
-            }
-            else
-            {
-                throw new NotSupportedException($"Unknown resource format {file.Path}");
-            }
-        }
-        @foreach (var file in ClientLoaderResources.MainFiles)
-        {
-            <link rel="preload" href="@file.Path" data-resource-type="@file.Type" asp-append-version="true" >
-        }
-    </environment>
     <environment names="Staging,Production">
-        <script src="~/CRED.Client/CRED.Client.js" asp-append-version="true" defer></script>
+        <link rel="preload" href="@ClientApp.Resources.Bundles.CssBundleMinCss.GetClientAppFileUrl()" asp-append-version="true">
+        <script src="@ClientApp.Resources.Bundles.JsBundleMinJs.GetClientAppFileUrl()" asp-append-version="true" defer></script>
     </environment>
 </head>
 <body>
+    <environment names="Development">
+        <div data-hotswap="true" data-manifest-src="@ClientApp.Resources.Bundles.CssBundleManifestJson.GetClientAppFileUrl(true)" data-resource-type="css" data-hmt-resource>
+        </div>
+        <div data-manifest-src="@ClientApp.Resources.Bundles.JsBundleManifestJson.GetClientAppFileUrl(true)" data-resource-type="js" data-hmt-resource>
+        </div>
+        @{
+            Html.RenderPartial("HotModuleReplacementScript");
+        }
+    </environment>
     <div id="app-container"></div>
     @{
         Html.RenderPartial("SplashScreen");

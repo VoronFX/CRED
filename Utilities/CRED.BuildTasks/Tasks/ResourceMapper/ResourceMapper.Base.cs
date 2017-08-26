@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Linq;
 
 namespace ResourceMapper
@@ -65,8 +66,13 @@ namespace ResourceMapper
 		public static class ResourceExtensionMethods
 		{
 			public static IEnumerable<string> GetPath(this IResource resource)
-				=> resource.ContainingDirectory == null ? new[] { resource.Name } 
-				: resource.ContainingDirectory.GetPath().Concat(new[] { resource.Name });
+			{
+				if (resource.ContainingDirectory == null)
+				{
+					return resource.Name == null ? Enumerable.Empty<string>() : new[] { resource.Name };
+				}
+				return resource.ContainingDirectory.GetPath().Concat(new[] { resource.Name });
+			}
 
 			public static IEnumerable<IResourceFile> GetFilesRecursive(this IResourceDirectory directory)
 				=> directory.Files.Values.Concat(directory.Directories.Values.SelectMany(dir => dir.GetFilesRecursive()));

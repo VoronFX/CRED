@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using WebMarkupMin.Core;
-using CsCodeGenerator;
 using Microsoft.Build.Framework;
 
 namespace CRED.BuildTasks
@@ -17,6 +13,7 @@ namespace CRED.BuildTasks
 	{
 		[Required]
 		[ExpandPath]
+		[NonNullArray]
 		[DataMember]
 		public string[] InputFiles { get; set; }
 
@@ -45,8 +42,6 @@ namespace CRED.BuildTasks
 
 		protected override bool ExecuteWork()
 		{
-			InputFiles = InputFiles ?? Array.Empty<string>();
-
 			BuildIncrementally(InputFiles, inputFiles =>
 			{
 				var combined = InputFiles

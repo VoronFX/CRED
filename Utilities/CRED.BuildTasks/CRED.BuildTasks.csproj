@@ -10,15 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="10.4.0" />
+    <PackageReference Include="BundleTransformer.Less" Version="1.9.160" />
+    <PackageReference Include="dotless" Version="1.5.2" />
+    <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.1012" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.3.409" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.3" />
     <PackageReference Include="System.Linq.Parallel" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.3.1" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <PackageReference Include="WebMarkupMin.Core" Version="2.4.0" />
   </ItemGroup>
 

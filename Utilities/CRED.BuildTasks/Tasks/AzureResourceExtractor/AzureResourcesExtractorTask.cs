@@ -21,6 +21,7 @@ namespace CRED.BuildTasks
 
 		[Required]
 		[ExpandPath]
+		[NonNullArray]
 		[DataMember]
 		public string[] Sources { get; set; }
 

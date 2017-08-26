@@ -20,6 +20,7 @@ using CRED.Data;
 using CRED.Models;
 using Dazinator.AspNet.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging.Console;
 using ResourceMapper.Base;
 using WebMarkupMin.AspNetCore1;
@@ -121,8 +122,8 @@ namespace CRED
 			//services.AddSingleton<IFileProvider>(physicalProvider);
 			//services.AddSingleton<IFileProvider>(embeddedProvider);
 
-			services.AddClientLoader(CurrentEnvironment);
-			services.AddSingleton<IFileProvider>(CurrentEnvironment.WebRootFileProvider);
+			services.AddClientApp(CurrentEnvironment);
+			services.AddSingleton(CurrentEnvironment.WebRootFileProvider);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -189,6 +190,7 @@ namespace CRED
 			//		new RequestPathFileProvider("/" + appAssemblyName, 
 			//		new EmbeddedFileProvider(typeof(Client.MainBundleFilesMap).GetTypeInfo().Assembly)));
 			////}
+			/// 
 
 			app.UseStaticFiles(new StaticFileOptions
 			{
@@ -233,7 +235,19 @@ namespace CRED
 
 				routes.MapRoute(
 					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
+					template: $"{{controller={nameof(HomeController)}}}/{{action={nameof(HomeController.Index)}}}/{{id?}}");
+
+				if (CurrentEnvironment.IsDevelopment())
+				{
+					routes.MapRoute(
+						name: nameof(LongPollingFileWatcher),
+						template: $"{nameof(LongPollingFileWatcher)}/{{*path}}",
+						defaults: new
+						{
+							controller = nameof(LongPollingFileWatcher),
+							action = nameof(LongPollingFileWatcher.Watch)
+						});
+				}
 
 				// in case multiple SPAs required.
 				routes.MapSpaFallbackRoute("spa-fallback", new { controller = "home", action = "index" });
