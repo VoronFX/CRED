@@ -2,19 +2,15 @@
 
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Target Name="CleanGenerated" BeforeTargets="Clean">
-    <RemoveDir Directories="$(OutDir)" ContinueOnError="WarnAndContinue" />
-    <RemoveDir Directories="$(MapsOutDir)" ContinueOnError="WarnAndContinue" />
-    <RemoveDir Directories="$(IncrementalBuildCacheDir)" ContinueOnError="WarnAndContinue" />
+  <Target Name="CleanResourceOutDir" BeforeTargets="Clean"> 
+    <RemoveDir Directories="$(ResourceOutDir)" ContinueOnError="WarnAndContinue" />
   </Target>
 
   <Target Name="GenerateDirectories" BeforeTargets="BeforeBuild">
-    <MakeDir Directories="$(StaticResourcesDir)" />
-    <MakeDir Directories="$(MapsOutDir)" />
-    <MakeDir Directories="$(BundlesOutDir)" />
-    <MakeDir Directories="$(BridgeOutDir)" />
-    <MakeDir Directories="$(LibOutDir)" />
-    <MakeDir Directories="$(IncrementalBuildCacheDir)" />
+    <MakeDir Directories="$(StaticResourcesDir)" Condition = "!Exists('$(StaticResourcesDir)')"  />
+    <MakeDir Directories="$(BundlesOutDir)" Condition = "!Exists('$(BundlesOutDir)')"  />
+    <MakeDir Directories="$(BridgeOutDir)" Condition = "!Exists('$(BridgeOutDir)')"  />
+    <MakeDir Directories="$(LibOutDir)" Condition = "!Exists('$(LibOutDir)')"  />
   </Target>
   
 </Project>

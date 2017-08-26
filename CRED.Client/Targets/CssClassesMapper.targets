@@ -6,7 +6,7 @@
   <Target Name="CssClassesMapper">
     
     <PropertyGroup>
-      <CssFilesMap>$(MapsOutDir)\CssClassesMap.Generated.cs</CssFilesMap>
+      <CssFilesMap>$(BuildTasksGeneratedDir)\CssClassesMap.Generated.cs</CssFilesMap>
     </PropertyGroup>
     <ItemGroup>
       <CssFiles Include="$(StylesOutDir)\**\*.css" />

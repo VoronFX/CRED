@@ -3,13 +3,10 @@
 
   <PropertyGroup>
     
-    <IncrementalBuildCacheDir>$(IntermediateOutputPath)\IncrementalBuildCache\</IncrementalBuildCacheDir>
-    
     <ResourceOutDir Condition="'$(GenerationOutputDir)' == ''">$(OutDir)\wwwroot</ResourceOutDir>
     <ResourcesDir Condition="'$(ResourcesDir)' == ''">Resources</ResourcesDir>
     
     <StaticResourcesDir>$(ResourcesDir)\Static</StaticResourcesDir>
-    <GeneratedResourcesDir>$(ResourcesDir)\Generated</GeneratedResourcesDir>
 
     <LessDir>$(ResourcesDir)\Less</LessDir>
     <LibDir>$(StaticResourcesDir)\Lib</LibDir>
@@ -19,16 +16,18 @@
     <StylesOutDir>$(ResourceOutDir)\Styles</StylesOutDir>
     <LibOutDir>$(ResourceOutDir)\Lib</LibOutDir>
     
-    <MapsOutDir>$(IntermediateOutputPath)\ResourceMaps</MapsOutDir>
-    
   </PropertyGroup>
 
   <ItemGroup>   
     <StaticFiles Include="$(StaticResourcesDir)\**\*" Exclude="$(StaticResourcesDir)\**\.*" />
-
+    <ResourceOutFiles Include="$(ResourceOutDir)\**\*"/>
+    
+    <LessFiles Include="$(LessDir)\**\*.less" />
+    
     <StyleFiles Include="$(StylesOutDir)\**\*" />
     <BridgeFiles Include="$(BridgeOutDir)\**\*" />
     <BundleFiles Include="$(BundlesOutDir)\**\*" />
+
 
     <CssBundleFiles Include="@(StyleFiles)" />
     
@@ -59,8 +58,6 @@
       <ManifestFile>$(BundlesOutDir)\JsBundle.manifest.json</ManifestFile>
       <InputFiles>@(JsBundleFiles)</InputFiles>
     </Bundle>
-
-
 
   </ItemGroup>
   

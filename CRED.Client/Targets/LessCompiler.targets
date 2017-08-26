@@ -5,15 +5,13 @@
   <!-- LessCompiler -->
   <Target Name="LessCompiler">
     
-    <ItemGroup>
-      <LessFiles Include="$(LessDir)\**\*.less" />
-    </ItemGroup>
-
     <Message Text="------ LessCompiler started: ------" Importance="high" />
 
     <CRED.BuildTasks.LessCompiler RelativeRoot="$(ProjectDir)"
                                       IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\LessCompiler.cache.json"
                                       InputFiles="@(LessFiles)"
+                                      EntryFiles="$(LessDir)\main.less"
+                                      RootPath="$(LessDir)"
                                       OutputDirectory="$(StylesOutDir)"
                                       Debug="True" />
 

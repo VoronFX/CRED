@@ -5,6 +5,7 @@
     <OutputType>Library</OutputType>
     <OutputTypeEx>library</OutputTypeEx>
     <DisableImplicitFrameworkReferences>True</DisableImplicitFrameworkReferences>
+    <DisableFastUpToDateCheck>True</DisableFastUpToDateCheck>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,16 +28,201 @@
   <Import Project="Targets\BridgeNetIncrementalBuild.targets" />
   <Import Project="Targets\BundleAndMinifier.targets" />
   <!--<Import Project="Targets\ResourceMapper.targets" />-->
-  
+
   <ItemGroup>
-    
-    <None Include="@(StyleFiles)" Link="$(GeneratedResourcesDir)\Styles\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
-    <None Include="@(BridgeFiles)" Link="$(GeneratedResourcesDir)\Bridge.NET\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
-    <None Include="@(BundleFiles)" Link="$(GeneratedResourcesDir)\Bundles\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
-    
-    <Compile Include="@(MapsOutDir)" Link="$(GeneratedResourcesDir)\%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\bridge.console.js">
+      <Link>Output\Bridge.NET\bridge.console.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\bridge.console.min.js">
+      <Link>Output\Bridge.NET\bridge.console.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\bridge.js">
+      <Link>Output\Bridge.NET\bridge.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\bridge.meta.js">
+      <Link>Output\Bridge.NET\bridge.meta.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\bridge.meta.min.js">
+      <Link>Output\Bridge.NET\bridge.meta.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\bridge.min.js">
+      <Link>Output\Bridge.NET\bridge.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\Bridge.React.js">
+      <Link>Output\Bridge.NET\Bridge.React.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\Bridge.React.min.js">
+      <Link>Output\Bridge.NET\Bridge.React.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\CRED.Client.js">
+      <Link>Output\Bridge.NET\CRED.Client.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\CRED.Client.meta.js">
+      <Link>Output\Bridge.NET\CRED.Client.meta.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\index.html">
+      <Link>Output\Bridge.NET\index.html</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\index.min.html">
+      <Link>Output\Bridge.NET\index.min.html</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\Loader.js">
+      <Link>Output\Bridge.NET\Loader.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\productiveRage.immutable.extensions.js">
+      <Link>Output\Bridge.NET\productiveRage.immutable.extensions.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\productiveRage.immutable.extensions.meta.js">
+      <Link>Output\Bridge.NET\productiveRage.immutable.extensions.meta.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\productiveRage.immutable.extensions.meta.min.js">
+      <Link>Output\Bridge.NET\productiveRage.immutable.extensions.meta.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\productiveRage.immutable.extensions.min.js">
+      <Link>Output\Bridge.NET\productiveRage.immutable.extensions.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\ProductiveRage.Immutable.js">
+      <Link>Output\Bridge.NET\ProductiveRage.Immutable.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\ProductiveRage.Immutable.meta.js">
+      <Link>Output\Bridge.NET\ProductiveRage.Immutable.meta.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\ProductiveRage.Immutable.meta.min.js">
+      <Link>Output\Bridge.NET\ProductiveRage.Immutable.meta.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bridge.NET\ProductiveRage.Immutable.min.js">
+      <Link>Output\Bridge.NET\ProductiveRage.Immutable.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bundles\CssBundle.manifest.json">
+      <Link>Output\Bundles\CssBundle.manifest.json</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bundles\CssBundle.min.css">
+      <Link>Output\Bundles\CssBundle.min.css</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bundles\JsBundle.manifest.json">
+      <Link>Output\Bundles\JsBundle.manifest.json</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Bundles\JsBundle.min.js">
+      <Link>Output\Bundles\JsBundle.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\bower.json">
+      <Link>Output\Lib\react\bower.json</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\LICENSE">
+      <Link>Output\Lib\react\LICENSE</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\PATENTS">
+      <Link>Output\Lib\react\PATENTS</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\react-dom-server.js">
+      <Link>Output\Lib\react\react-dom-server.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\react-dom-server.min.js">
+      <Link>Output\Lib\react\react-dom-server.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\react-dom.js">
+      <Link>Output\Lib\react\react-dom.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\react-dom.min.js">
+      <Link>Output\Lib\react\react-dom.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\react-with-addons.js">
+      <Link>Output\Lib\react\react-with-addons.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\react-with-addons.min.js">
+      <Link>Output\Lib\react\react-with-addons.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\react.js">
+      <Link>Output\Lib\react\react.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Lib\react\react.min.js">
+      <Link>Output\Lib\react\react.min.js</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+
+    <None Include="bin\Debug\net46\\wwwroot\Styles\main.css">
+      <Link>Output\Styles\main.css</Link>
+      <AutoGen>True</AutoGen>
+    </None>
+    <!--<Content Remove="$(ResourcesDir)\**\*" />
+    <Content Include="$(ResourcesDir)\**\*" />-->
+
+    <!--<None Include="$(ResourcesDir)\Azure\**\*" />-->
+    <None Include="Components\Azure\**\*.cs" />
+    <Compile Remove="Components\Azure\**\*.cs" />
     <Compile Include="..\CRED.Shared\AppLoaderResource.cs" Link="AppLoaderResource.cs" />
-  
+
   </ItemGroup>
 
 </Project>

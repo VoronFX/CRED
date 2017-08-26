@@ -5,7 +5,44 @@
     <BuildTasksOutDir>$(MSBuildThisFileDirectory)\bin\Release\net46\</BuildTasksOutDir>
     <BuildTasksLatestVersion Condition="Exists('$(BuildTasksOutDir)\VersionCopy\LatestVersion.txt')">$([System.IO.File]::ReadAllText($(BuildTasksOutDir)\VersionCopy\LatestVersion.txt))</BuildTasksLatestVersion>
     <BuildTasksAssemblyPath Condition="'$(BuildTasksAssemblyPath)' == ''">$(BuildTasksOutDir)\VersionCopy\$(BuildTasksLatestVersion)\$(BuildTasksLatestVersion).dll</BuildTasksAssemblyPath>
+
+    <IncrementalBuildCacheDir>$(IntermediateOutputPath)\IncrementalBuildCache\</IncrementalBuildCacheDir>
+    <BuildTasksGeneratedDir>$(BaseIntermediateOutputPath)$(Configuration)\$(RuntimeIdentifier)\$(TargetFramework)\BuildTasksGenerated\</BuildTasksGeneratedDir>
+    
   </PropertyGroup>
+
+  <ItemGroup>
+    <ExistingBuildTasksGeneratedFiles Include="$(BuildTasksGeneratedDir)\**\*.cs" />
+    <Compile Include="@(ExistingBuildTasksGeneratedFiles)" Link="%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+  </ItemGroup>
+  
+  <Target Name="CreateBuildTasksDirs" BeforeTargets="BeforeBuild">
+    
+    <MakeDir Directories = "$(IncrementalBuildCacheDir)" Condition = "!Exists('$(IncrementalBuildCacheDir)')" />
+    <MakeDir Directories = "$(BuildTasksGeneratedDir)" Condition = "!Exists('$(BuildTasksGeneratedDir)')" />
+
+    <ItemGroup>
+      <BuildTasksGeneratedFiles Include="$(BuildTasksGeneratedDir)\**\*.cs" />
+      <Compile Remove="@(BuildTasksGeneratedFiles)"/>
+      <Compile Include="@(BuildTasksGeneratedFiles)" Link="%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+    </ItemGroup>
+    
+  </Target>
+
+  <Target Name="IncludeBuildTasksGeneratedFiles" AfterTargets="BeforeBuild">
+
+    <ItemGroup>
+      <BuildTasksGeneratedFiles Include="$(BuildTasksGeneratedDir)\**\*.cs" />
+      <!--<Compile Remove="@(BuildTasksGeneratedFiles)" Link="%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />
+      <Compile Include="@(BuildTasksGeneratedFiles)" Link="%(RecursiveDir)%(Filename)%(Extension)" AutoGen="True" />-->
+    </ItemGroup>
+
+  </Target>
+  
+  <Target Name="BuildTasksClean" BeforeTargets="Clean">
+    <RemoveDir Directories="$(IncrementalBuildCacheDir)" />
+    <RemoveDir Directories="$(BuildTasksGeneratedDir)" />
+  </Target>
 
   <Target Name="BuildBuildTasks" BeforeTargets="BeforeBuild">
     <MSBuild Projects="$(MSBuildThisFileDirectory)\CRED.BuildTasks.csproj" Targets="Build" Properties="Configuration=Release"/>

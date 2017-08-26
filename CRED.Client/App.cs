@@ -35,7 +35,7 @@ namespace CRED.Client
 		{
 			var splashscreen2 = Document.GetElementsByClassName("splashscreen-container")
 				.First();
-			splashscreen2.ClassList.Add("splashscreen-container-out");
+			splashscreen2.ClassList.Add("splashscreen-container-out"); 
 			await Task.Delay(500).ContinueWith(t2 => splashscreen2.Remove());
 
 			await new Loader(Document.Head
