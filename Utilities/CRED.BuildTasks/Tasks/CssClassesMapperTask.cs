@@ -9,26 +9,8 @@ using Microsoft.Build.Framework;
 
 namespace CRED.BuildTasks
 {
-	public sealed class CssClassesMapper : TaskBase
+	public sealed class CssClassesMapper : ValueMapper
 	{
-		[Required]
-		[ExpandPath]
-		[NonNullArray]
-		[DataMember]
-		public string[] InputFiles { get; set; }
-
-		[Required]
-		[ExpandPath]
-		[EnsureDirectoryCreated]
-		[DataMember]
-		public string OutputFile { get; set; }
-
-		[DataMember]
-		public string Namespace { get; set; }
-
-		[DataMember]
-		public string ClassName { get; set; }
-
 		protected override bool ExecuteWork()
 		{
 			if (string.IsNullOrWhiteSpace(ClassName))
@@ -36,76 +18,34 @@ namespace CRED.BuildTasks
 
 			BuildIncrementally(InputFiles, inputFiles =>
 			{
-				var classes = InputFiles
-					.AsParallel()
-					.AsOrdered()
-					.SelectMany(file =>
-						{
-							var css = File.ReadAllText(file);
-							css = Regex.Replace(css, @"(?is)\{.*?\}", " ");
-							css = Regex.Replace(css, @"(?i)//.*?", " ");
-							css = Regex.Replace(css, @"(?is)/\*.*?\*/", " ");
-							return Regex.Matches(css, @"(?is)\.[A-Z_a-z0-9-]+")
-								.Cast<Match>()
-								.Select(x => new {Class = x.Value.Substring(1), File = file});
-						}
-					)
-					.GroupBy(x => x.Class, x => x.File, (key, files) =>
-						new KeyValuePair<string, IEnumerable<string>>(key, files.Distinct()));
+			var valueItems = InputFiles
+				.AsParallel()
+				.AsOrdered()
+				.SelectMany(file =>
+					{
+						var css = File.ReadAllText(file);
+						css = Regex.Replace(css, @"(?is)\{.*?\}", " ");
+						css = Regex.Replace(css, @"(?i)//.*?", " ");
+						css = Regex.Replace(css, @"(?is)/\*.*?\*/", " ");
+						return Regex.Matches(css, @"(?is)\.[A-Z_a-z0-9-]+")
+							.Cast<Match>()
+							.Select(x => new { Class = x.Value.Substring(1), File = file });
+					}
+				)
+				.GroupBy(x => x.Class, x => x.File, FromClasses);
 
-				File.WriteAllLines(OutputFile, GenerateCssClassesMap(Namespace, ClassName, classes));
-				return new[] { OutputFile };
-			});
+			File.WriteAllLines(OutputFile, GenerateValueMap(Namespace, ClassName, valueItems));
+			return new[] { OutputFile };
+		});
 
 			return true;
 		}
 
-		public static IEnumerable<string> GenerateCssClassesMap(string @namespace, string className, IEnumerable<KeyValuePair<string, IEnumerable<string>>> classes)
-		{
-			var classesConsts = classes
-				.SelectMany(cssClass => new[]
-					{
-						string.Empty,
-						"/// <summary>",
-						"/// "+ cssClass.Key.XmlEscape(),
-						"/// Referenced in next css files:"
-					}
-					.Concat(cssClass.Value.Select(x =>
-						"/// " + x.XmlEscape()
-					))
-					.Concat(new[]{
-
-						"/// </summary>",
-						$"public const string {cssClass.Key.ToPascalCaseIdentifier()} = {cssClass.Key.ToVerbatimLiteral()};"
-					}));
-
-			var mapClass = new[]
-				{
-					string.Empty,
-					$"public static class {className}",
-					"{",
-				}
-				.Concat(classesConsts.Indent())
-				.Concat(new[]
-				{
-					"}"
-				});
-
-			return Generator.Flatten(
-				Generator.GeneratedHeader,
-				new[]
-				{
-					string.Empty,
-					$"namespace {@namespace}",
-					"{",
-				},
-				mapClass.Indent(),
-				new[]
-				{
-					"}"
-				});
-		}
+	public static ValueMapItem FromClasses(string cssClassName, IEnumerable<string> files) =>
+		new ValueMapItem(cssClassName, cssClassName, new[] { cssClassName, "Referenced in next css files:" }
+			.Concat(files.Distinct())
+			.ToArray());
 
 
-	}
+}
 }

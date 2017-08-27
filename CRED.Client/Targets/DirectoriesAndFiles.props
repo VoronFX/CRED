@@ -29,13 +29,11 @@
     <BundleFiles Include="$(BundlesOutDir)\**\*" />
 
     <CssBundleFiles Include="@(StyleFiles)" />
+    <CssBundleFiles Include="$(LibOutDir)\material-design-icons\iconfont\material-icons.css" />
     
     <JsBundleFiles Include="$(BridgeOutDir)\bridge.js" />
     <JsBundleFiles Include="$(BridgeOutDir)\bridge.console.js" />
     <JsBundleFiles Include="$(BridgeOutDir)\bridge.meta.js" />
-    <JsBundleFiles Include="$(BridgeOutDir)\Loader.js" />
-    <!--<JsBundleFiles Include="$(BridgeOutputDir)\App.js" />-->
-
     <JsBundleFiles Include="$(LibOutDir)\react\dist\react.js" />
     <JsBundleFiles Include="$(LibOutDir)\react-dom\dist\react-dom.js" />
     <JsBundleFiles Include="$(BridgeOutDir)\ProductiveRage.Immutable.js" />

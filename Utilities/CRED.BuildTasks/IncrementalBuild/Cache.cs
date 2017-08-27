@@ -110,6 +110,14 @@ namespace CRED.BuildTasks.IncrementalBuild
 					.ToArray();
 			}
 
+			if (!needBuild && cacheLoadSuccess)
+			{
+				needBuild = cache.OutputFiles
+					.AsParallel()
+					.AsOrdered()
+					.Any(x =>x.CheckRealFileChanged());
+			}
+
 			if (needBuild)
 			{
 				cache = new Cache(newInputFilesStamps, new FileStamp[] { },

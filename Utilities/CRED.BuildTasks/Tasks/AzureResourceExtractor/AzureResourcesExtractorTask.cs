@@ -238,14 +238,14 @@ namespace CRED.BuildTasks
 					() =>
 					{
 						File.WriteAllLines(OutputCssClassesMapFile,
-							GenerateCssClassesMap(Namespace, "AzureCssClassesMap",
+							ValueMapper.GenerateValueMap(Namespace, "AzureCssClassesMap",
 								classesPacks
 									.AsParallel()
 									.AsOrdered()
 									.SelectMany(x => x.classes
 										.Select(c => new {Class = c, File = x.resource.TargetPathFull}))
 									.GroupBy(x => x.Class)
-									.Select(x => new KeyValuePair<string, IEnumerable<string>>(x.Key, x.Select(x2 => x2.File)))));
+									.Select(x => FromClasses(x.Key,x.Select(x2 => x2.File)))));
 					},
 					() =>
 					{
@@ -261,8 +261,8 @@ namespace CRED.BuildTasks
 							.Where(x => classesPacks.SelectMany(c => c.classes).All(c => c != x));
 
 						File.WriteAllLines(OutputMissingCssClassesMapFile,
-							GenerateCssClassesMap(Namespace, "AzureCssMissingClassesMap",
-								dummyClasses.Select(x => new KeyValuePair<string, IEnumerable<string>>(x, Enumerable.Empty<string>()))));
+							ValueMapper.GenerateValueMap(Namespace, "AzureCssMissingClassesMap",
+								dummyClasses.Select(x => FromClasses(x,Enumerable.Empty<string>()))));
 
 					}
 				}.Select(Task.Run).ToArray());

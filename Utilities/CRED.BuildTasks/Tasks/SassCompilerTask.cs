@@ -40,11 +40,26 @@ namespace CRED.BuildTasks
 					{
 						var outFile = Path.GetFullPath(Path.Combine(OutputDirectory, Path.GetFileNameWithoutExtension(file) + ".css"));
 
-						var sassCompiler = new LibSass.Compiler.SassCompiler(new SassOptions()
+						var sassCompiler = new LibSass.Compiler.SassCompiler(new SassOptions
 						{
 							IncludeSourceComments = Debug,
 							EmbedSourceMap = Debug,
+							//IsIndentedSyntax = true,
 							InputPath = file
+							//Importers = new CustomImportDelegate[] {  (import, parentImport, options) =>
+							//	{
+							//		//if (Path.GetExtension(import) == ".ssas")
+							//		//	options.IsIndentedSyntax = true;
+									
+							//		Log.LogMessage(MessageImportance.High, LibSass.Compiler.SassCompiler.SassInfo.LibSassVersion + " "+LibSass.Compiler.SassCompiler.SassInfo.SassLanguageVersion);
+							//		Log.LogMessage(MessageImportance.High, import +" ++ "+parentImport+"_"+(options.Data == null));
+							//		return new[] {new SassImport
+							//		{
+							//			Data = File.ReadAllText(Path.Combine(Path.GetDirectoryName(parentImport), import)),
+							//			//Path = import
+							//		}};
+							//	}
+							//}
 						});
 
 						var result = sassCompiler.Compile();

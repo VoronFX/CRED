@@ -12,11 +12,8 @@ using CRED.Client.API;
 using CRED.Client.Components;
 using CRED.Client.Helpers;
 using CRED.Client.Stores;
-using CRED.Shared;
-
 namespace CRED.Client
 {
-	[FileName(nameof(Loader))]
 	public class App
 	{
 		public static void Main()
@@ -33,210 +30,57 @@ namespace CRED.Client
 
 		public static async Task Load()
 		{
-			var splashscreen2 = Document.GetElementsByClassName("splashscreen-container")
-				.First();
-			splashscreen2.ClassList.Add("splashscreen-container-out"); 
-			await Task.Delay(500).ContinueWith(t2 => splashscreen2.Remove());
 
 
-			Document.Body.AppendChild(new HTMLDivElement()
-			{
-				InnerHTML = @"
-   <section class=""section"">
-    <div class=""container"">
-      <h1 class=""title"">
-        Hello World
-      </h1>
-      <p class=""subtitle"">
-        My first website with <strong>Bulma</strong>!
-      </p> <div class=""card"">
-  <div class=""card-image"">
-    <figure class=""image is-4by3"">
-      <img src=""http://bulma.io/images/placeholders/1280x960.png"" alt=""Image"">
-    </figure>
-  </div>
-  <div class=""card-content"">
-    <div class=""media"">
-      <div class=""media-left"">
-        <figure class=""image is-48x48"">
-          <img src=""http://bulma.io/images/placeholders/96x96.png"" alt=""Image"">
-        </figure>
-      </div>
-      <div class=""media-content"">
-        <p class=""title is-4"">John Smith</p>
-        <p class=""subtitle is-6"">@johnsmith</p>
-      </div>
-    </div>
+//			Document.Body.AppendChild(new HTMLDivElement()
+//			{
+//				InnerHTML = @"
+//   <section class=""section"">
+//    <div class=""container"">
+//      <h1 class=""title"">
+//        Hello World
+//      </h1>
+//      <p class=""subtitle"">
+//        My first website with <strong>Bulma</strong>!
+//      </p> <div class=""card"">
+//  <div class=""card-image"">
+//    <figure class=""image is-4by3"">
+//      <img src=""http://bulma.io/images/placeholders/1280x960.png"" alt=""Image"">
+//    </figure>
+//  </div>
+//  <div class=""card-content"">
+//    <div class=""media"">
+//      <div class=""media-left"">
+//        <figure class=""image is-48x48"">
+//          <img src=""http://bulma.io/images/placeholders/96x96.png"" alt=""Image"">
+//        </figure>
+//      </div>
+//      <div class=""media-content"">
+//        <p class=""title is-4"">John Smith</p>
+//        <p class=""subtitle is-6"">@johnsmith</p>
+//      </div>
+//    </div>
 
-    <div class=""content"">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-      <a>#css</a> <a>#responsive</a>
-      <br>
-      <small>11:09 PM - 1 Jan 2016</small>
-    </div>
-  </div>
-</div>
-    </div>
-  </section>
-"
-			});
-
-			await new Loader(Document.Head
-					.GetElementsByTagName(TagNames.Link.ToString())
-					.Cast<HTMLLinkElement>()
-					.Where(x => x.HasAttribute(AppLoaderResource.ResourceTypeAttribute))
-					.Select(x =>
-						new KeyValuePair<string, Action<string>>(x.Href, respText =>
-						{
-							switch ((AppLoaderResource.ResourceType)Enum.Parse(typeof(AppLoaderResource.ResourceType),
-								x.GetAttribute(AppLoaderResource.ResourceTypeAttribute)))
-							{
-								case AppLoaderResource.ResourceType.Script:
-									Window.Eval<object>(respText);
-									//var script = new HTMLScriptElement()
-									//{
-									//	Src = x.Href,
-									//	Type = "text/javascript"
-									//};                     
-									//Document.Head.AppendChild(script);
-									break;
-								case AppLoaderResource.ResourceType.Style:
-									//var style = Document.CreateElement<HTMLStyleElement>(TagNames.Style.ToString());
-									//style.Type = "text/css";
-									//style.AppendChild(Document.CreateTextNode(respText));
-									var style = new HTMLLinkElement()
-									{
-										Rel = "stylesheet",
-										Type = "text/css",
-										Href = x.Href
-									};
-									Document.Head.AppendChild(style);
-									break;
-								case AppLoaderResource.ResourceType.Svg:
-									var svg = Document.CreateElement<HTMLDivElement>(TagNames.Svg.ToString());
-									svg.InnerHTML = respText;
-									Document.Head.AppendChild(svg);
-									break;
-								default:
-									throw new ArgumentOutOfRangeException();
-							}
-						})
-					))
-			{
-				Progress = progress =>
-				{
-						//Document.GetElementsByClassName("splashscreen-progress")
-						//	.First().Style.Width = $"{progress:P}";
-						//Document.GetElementsByClassName("splashscreen-text")
-						//	.First().TextContent = $"Loading... {progress:p}";
-					}
-			}
-				.Load();
-
-			//if (!task.IsCompleted)
-			//	throw task.Exception;
-
-			//var test = 16;
-			//var resNode = Document.CreateElement<HTMLDivElement>(TagNames.Div.ToString());
-			//resNode.Style.Display = Display.None;
-			//resNode.Id = nameof(resNode);
-			//		//new DOMParser().ParseFromString()
-			//		//request.
-
-			//new Loader(new AzureResourceMap(null).Styles
-			//	.GetFilesRecursive()
-			//	.Select(x => string.Join("/", x.GetPath()) + "?v=" + x.Hash)
-			//	.Select(x => new KeyValuePair<string, Action<string>>(x, responseText =>
-			//	{
-			//		var style = Document.CreateElement<HTMLStyleElement>(TagNames.Style.ToString());
-			//		style.SetAttribute("data-url", x);
-			//		style.Type = "text/css";
-			//		style.AppendChild(Document.CreateTextNode(responseText));
-			//		resNode.AppendChild(style);
-			//	})))
-			//{
-			//	Progress = progress =>
-			//	{
-			//		Document.GetElementsByClassName("splashscreen-progress")
-			//		.First().Style.Width = progress + "%";
-			//		Document.GetElementsByClassName("splashscreen-text")
-			//			.First().TextContent = "Loading... " + progress + "%";
-			//	}
-			//}.Load().ContinueWith(task =>
-			//{
-			//	Document.Head.AppendChild(resNode);
-
-
-			//	foreach (string key in Keys(Window.Get(RequireResourceAttribute.ResourcesVariableName)))
-			//	{
-			//		var res = (string)Window.Get(RequireResourceAttribute.ResourcesVariableName)[key];
-			//		if (key.EndsWith(".js"))
-			//			Window.Eval<object>(res);
-			//		else if (key.EndsWith(".css"))
-			//		{
-			//			var style = Document.CreateElement<HTMLStyleElement>(TagNames.Style.ToString());
-			//			style.Type = "text/css";
-			//			style.AppendChild(Document.CreateTextNode(res));
-			//			resNode.AppendChild(style);
-			//		}
-			//		else if (key.EndsWith(".svg"))
-			//		{
-			//			var svg = Document.CreateElement<HTMLDivElement>(TagNames.Svg.ToString());
-			//			svg.InnerHTML = res;
-			//			resNode.AppendChild(svg);
-			//		}
-			//	}
-			//	Document.Head.AppendChild(resNode);
-			//	Window.Set(RequireResourceAttribute.ResourcesVariableName, null);
-
-			// Create a new Button
-			//var button = new HTMLButtonElement
-			//{
-			//	InnerHTML = "Click Me",
-			//	OnClick = (ev) =>
-			//	{
-			//		// When Button is clicked, 
-			//		// the Bridge Console should open.
-			//		Console.WriteLine("Success!");
-			//	}
-			//};
-
-			//// Add the Button to the page
-			//Document.Body.AppendChild(button);
-
-			// To confirm Bridge.NET is working: 
-			// 1. Build this project (Ctrl + Shift + B)
-			// 2. Browse to file /Bridge/www/demo.html
-			// 3. Right-click on file and select "View in Browser" (Ctrl + Shift + W)
-			// 4. File should open in a browser, click the "Submit" button
-			// 5. Success!
-			//var container = Document.GetElementById("main");
-			//container.ClassName = string.Join(
-			//	" ",
-			//	container.ClassName.Split().Where(c => c != "loading")
-			//);
-			//React.Render(
-			//	DOM.Div(new Attributes { ClassName = "welcome" }, "Hi!"),
-			//	container
-			//);
-			//React.React.Render(
-			//	DOM.Div(new Attributes { ClassName = "welcome" }, "Hi!"),
-			//	Document.GetElementById("main")
-			//);
+//    <div class=""content"">
+//      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+//      Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+//      <a>#css</a> <a>#responsive</a>
+//      <br>
+//      <small>11:09 PM - 1 Jan 2016</small>
+//    </div>
+//  </div>
+//</div>
+//    </div>
+//  </section>
+//"
+//			});
 
 			var dispatcher = new AppDispatcher();
 			var store = new AppUIStore(dispatcher, new MessageApi(dispatcher));
+			var container = new HTMLDivElement();
+			Document.Body.InsertBefore(container, Document.Body.FirstChild);
 
-			var container = Document.GetElementById("app-container");
-			//var shadow = Script.Eval<HTMLElement>($"{nameof(container)}.attachShadow({{mode: 'open'}});");
-			////var shadow = Script.Get<HTMLElement>(container, "attachShadow()");
-			////resNode.AppendChild(Document.CreateElement(TagNames.Slot.ToString()));
-			//shadow.AppendChild(resNode);
-			//container = Document.CreateElement(TagNames.Div.ToString());
-			//shadow.AppendChild(container);
-
-			Bridge.React.React.Render(
+			React.Render(
 				new AppContainer(store, dispatcher),
 				container
 			);
@@ -253,9 +97,6 @@ namespace CRED.Client
 				.First();
 			splashscreen.ClassList.Add("splashscreen-container-out");
 			await Task.Delay(500).ContinueWith(t2 => splashscreen.Remove());
-			//})
-			//.GetAwaiter()
-			//.GetResult();
 		}
 	}
 }

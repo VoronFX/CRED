@@ -234,8 +234,14 @@ namespace CsCodeGenerator
 			=> lines.SelectMany(x => x);
 
 		public static string ToPascalCaseIdentifier(this string name)
-			=> Regex.Replace(Regex.Replace("-" + name, "(?si)[^A-Za-z0-9]+", "-"), "(?si)-+([A-Za-z0-9]?)",
+		{
+			var result = Regex.Replace("-" + name, "(?si)[^A-Za-z0-9]+", "-");
+			result = Regex.Replace(result, "(?si)-+([A-Za-z0-9]?)",
 				x => x.Groups[1].Value.ToUpperInvariant());
+			if (!char.IsLetter(result[0]))
+				result = "_" + result;
+			return result;
+		}
 
 		public static string ToVerbatimLiteral(this string input)
 			=> $@"@""{input.Replace("\"", "\"\"")}""";

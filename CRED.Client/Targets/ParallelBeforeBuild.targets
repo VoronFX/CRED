@@ -25,8 +25,8 @@
       <Compile Include="$(AzureResourcesExtractorOutputCssClassesMapFile)"  AutoGen="True"/>
       <Compile Remove="$(AzureResourcesExtractorOutputMissingCssClassesMapFile)"/>
       <Compile Include="$(AzureResourcesExtractorOutputMissingCssClassesMapFile)"  AutoGen="True"/>-->
-      <Compile Remove="$(CssFilesMap)" />
-      <Compile Include="$(CssFilesMap)" AutoGen="True"/>
+      <!--<Compile Remove="$(CssFilesMap)" />
+      <Compile Include="$(CssFilesMap)" AutoGen="True"/>-->
     </ItemGroup>
   </Target>
 

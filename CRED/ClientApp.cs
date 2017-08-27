@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CRED.Client.Pack;
-using CRED.Shared;
 using Dazinator.AspNet.Extensions.FileProviders;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,7 +42,7 @@ namespace CRED
 			{
 				environment.WebRootFileProvider = new CompositeFileProvider(environment.WebRootFileProvider,
 					new RequestPathFileProvider("/" + AppAssemblyName,
-						new EmbeddedFileProvider(typeof(Client.Pack.ClientPack).GetTypeInfo().Assembly)));
+						new EmbeddedFileProvider(typeof(ClientPack).GetTypeInfo().Assembly)));
 			}
 
 		}

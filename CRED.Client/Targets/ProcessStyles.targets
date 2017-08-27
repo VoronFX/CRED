@@ -33,19 +33,26 @@
                                   OutputDirectory="$(StylesOutDir)"
                                   Debug="True" />
 
-    <PropertyGroup>
-      <CssFilesMap>$(BuildTasksGeneratedDir)\CssClassesMap.Generated.cs</CssFilesMap>
-    </PropertyGroup>
+    
     <ItemGroup>
       <CssFiles Include="$(StylesOutDir)\**\*.css" />
+      <CssFiles Include="$(LibOutDir)\material-design-icons\iconfont\material-icons.css" />
     </ItemGroup>
 
     <CRED.BuildTasks.CssClassesMapper RelativeRoot="$(ProjectDir)"
                                       IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\CssClassesMapper.cache.json"
-                                      InputFiles="@(CssBundleFiles)"
-                                      OutputFile="$(CssFilesMap)"
-                                      ClassName="CssClassesMap"
-                                      Namespace="$(RootNamespace)" />
+                                      InputFiles="@(CssFiles)"
+                                      OutputFile="$(BuildTasksGeneratedDir)\StylesMap.Generated.cs"
+                                      ClassName="Styles"
+                                      Namespace="$(RootNamespace).TypedMaps" />
+    
+    <CRED.BuildTasks.IconfontCodepointsMapper RelativeRoot="$(ProjectDir)"
+                                      IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\MaterialDesignIconsMapper.cache.json"
+                                      InputFiles="$(LibDir)\material-design-icons\iconfont\codepoints"
+                                      OutputFile="$(BuildTasksGeneratedDir)\MaterialIconsMap.Generated.cs"
+                                      ClassName="MaterialIcons"
+                                      Namespace="$(RootNamespace).TypedMaps" />
+ 
 
   </Target>
 

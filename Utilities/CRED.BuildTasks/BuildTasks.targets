@@ -52,6 +52,7 @@
   <UsingTask TaskName="CRED.BuildTasks.SassCompiler" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
   <UsingTask TaskName="CRED.BuildTasks.LessCompiler" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
   <UsingTask TaskName="CRED.BuildTasks.CssClassesMapper" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
+  <UsingTask TaskName="CRED.BuildTasks.IconfontCodepointsMapper" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
   <UsingTask TaskName="CRED.BuildTasks.BundlerAndMinifier" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
   <UsingTask TaskName="CRED.BuildTasks.ResourceMapper" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
   <UsingTask TaskName="CRED.BuildTasks.AzureResourcesExtractor" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
