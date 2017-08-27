@@ -9,10 +9,14 @@
     <OutDir Condition="'$(CopyVersionOutDir)' != ''">$(CopyVersionOutDir)</OutDir>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="BundleTransformer.Less" Version="1.9.160" />
     <PackageReference Include="dotless" Version="1.5.2" />
     <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
+    <PackageReference Include="libsassnet" Version="3.3.7" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="1.1.2" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.3.409" />
     <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />

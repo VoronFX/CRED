@@ -8,7 +8,7 @@
     
     <!--<StaticResourcesDir>$(ResourcesDir)\Static</StaticResourcesDir>-->
 
-    <LessDir>$(ResourcesDir)\Less</LessDir>
+    <StylesDir>$(ResourcesDir)\Styles</StylesDir>
     <LibDir>$(ResourcesDir)\Lib</LibDir>
     
     <BridgeOutDir>$(ResourceOutDir)\Bridge.NET</BridgeOutDir>
@@ -24,13 +24,9 @@
     <!--<StaticFiles Include="$(StaticResourcesDir)\**\*" />-->
     <ResourceOutFiles Include="$(ResourceOutDir)\**\*"/>
     
-    <LessFiles Include="$(LessDir)\**\*.less" />
-    <LessFiles Include="$(LibDir)\font-awesome\less\**\*.less" />
-    
     <StyleFiles Include="$(StylesOutDir)\**\*" />
     <BridgeFiles Include="$(BridgeOutDir)\**\*" />
     <BundleFiles Include="$(BundlesOutDir)\**\*" />
-
 
     <CssBundleFiles Include="@(StyleFiles)" />
     

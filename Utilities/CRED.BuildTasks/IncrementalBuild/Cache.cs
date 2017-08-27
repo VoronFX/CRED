@@ -68,9 +68,11 @@ namespace CRED.BuildTasks.IncrementalBuild
 
 			var cacheLoadSuccess = TryLoad(cacheFile, out cache);
 
+			cacheLoadSuccess = cacheLoadSuccess && cache.AssemblyModuleVersionId == assemblyModuleVersionId;
+
 			bool needBuild = !cacheLoadSuccess;
 
-			var inputPathsEqual = !cacheLoadSuccess || input
+			var inputPathsEqual = cacheLoadSuccess && input
 				                      .AsParallel()
 				                      .AsOrdered()
 				                      .SequenceEqual(cache.InputFiles
@@ -79,8 +81,6 @@ namespace CRED.BuildTasks.IncrementalBuild
 					                      .Select(x => x.Path));
 
 			needBuild = needBuild || !inputPathsEqual;
-
-			needBuild = needBuild || cache.AssemblyModuleVersionId != assemblyModuleVersionId;
 
 			needBuild = needBuild || cache.Parameters.Equals(taskParameters.Value);
 

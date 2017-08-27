@@ -3,15 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
-using dotless.Core;
-using dotless.Core.configuration;
-using dotless.Core.Loggers;
-using dotless.Core.Parser;
+using LibSass.Compiler.Options;
 using Microsoft.Build.Framework;
 
 namespace CRED.BuildTasks
 {
-	public sealed class LessCompiler : TaskBase
+	public sealed class SassCompiler : TaskBase
 	{
 		[Required]
 		[ExpandPath]
@@ -34,17 +31,6 @@ namespace CRED.BuildTasks
 		[DataMember]
 		public bool Debug { get; set; }
 
-		private Lazy<LessEngine> LessEngine { get; }
-
-		public LessCompiler()
-		{
-			LessEngine = new Lazy<LessEngine>(() =>
-				new LessEngine(new Parser
-				{
-					Debug = Debug
-				}), LazyThreadSafetyMode.PublicationOnly);
-		}
-
 		protected override bool ExecuteWork()
 		{
 			BuildIncrementally(InputFiles, inputFiles =>
@@ -53,13 +39,35 @@ namespace CRED.BuildTasks
 					.Select(file =>
 					{
 						var outFile = Path.GetFullPath(Path.Combine(OutputDirectory, Path.GetFileNameWithoutExtension(file) + ".css"));
-						LessEngine.Value.CurrentDirectory = Path.GetDirectoryName(file);
-						var css = LessEngine.Value.TransformToCss(File.ReadAllText(file), file);
-						if (!LessEngine.Value.LastTransformationSuccessful)
+
+						var sassCompiler = new LibSass.Compiler.SassCompiler(new SassOptions()
 						{
-							throw LessEngine.Value.LastTransformationError;
-						}
-						File.WriteAllText(outFile, css);
+							IncludeSourceComments = Debug,
+							EmbedSourceMap = Debug,
+							InputPath = file
+						});
+
+						var result = sassCompiler.Compile();
+
+						//var options = new CompilationOptions
+						//{
+						//	SourceMap = Debug,
+						//	SourceComments = Debug,
+						//	InlineSourceMap = Debug,
+						//};
+
+						//var result = LibSassHost.SassCompiler.Compile(File.ReadAllText(file), options);
+
+						//var result = Scss.ConvertFileToCss(file, new ScssOptions
+						//{
+						//	InputFile = file,
+						//	OutputFile = outFile,
+						//	GenerateSourceMap = Debug,
+						//	SourceComments = Debug,
+						//	SourceMapEmbed = Debug
+						//});
+						
+						File.WriteAllText(outFile, result.Output);
 						return outFile;
 
 					}).ToArray();

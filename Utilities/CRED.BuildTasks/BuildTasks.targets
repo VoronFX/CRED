@@ -49,6 +49,7 @@
   </Target>
 
   <UsingTask TaskName="CRED.BuildTasks.ManifestGenerator" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
+  <UsingTask TaskName="CRED.BuildTasks.SassCompiler" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
   <UsingTask TaskName="CRED.BuildTasks.LessCompiler" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
   <UsingTask TaskName="CRED.BuildTasks.CssClassesMapper" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>
   <UsingTask TaskName="CRED.BuildTasks.BundlerAndMinifier" AssemblyFile="$(BuildTasksAssemblyPath)"  Condition="'$(BuildTasksAssemblyPath)' != ''"/>

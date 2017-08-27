@@ -4,11 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Security.Cryptography;
 using CsCodeGenerator;
 using JetBrains.Annotations;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Build.Framework;
 using ResourceMapper.Base;
 

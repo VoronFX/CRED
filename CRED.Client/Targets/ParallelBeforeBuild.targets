@@ -2,12 +2,10 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <!--<Import Project="AzureResourcesExtractor.targets" />-->
-  <Import Project="LessCompiler.targets" />
-  <Import Project="CssClassesMapper.targets" />
+  <Import Project="ProcessStyles.targets" />
 
   <Target Name="LessCompilerAndCssClassesMapper">
-    <CallTarget Targets="LessCompiler"/>
-    <CallTarget Targets="CssClassesMapper"/>
+    <CallTarget Targets="ProcessStyles"/>
   </Target>
 
   <!-- ParallelBeforeBuild -->
