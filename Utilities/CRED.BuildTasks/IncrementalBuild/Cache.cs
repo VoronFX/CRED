@@ -14,7 +14,7 @@ namespace CRED.BuildTasks.IncrementalBuild
 	public struct Cache
 	{
 		[JsonConstructor]
-		public Cache(FileTimestamp[] inputFiles, FileTimestamp[] outputFiles, JObject parameters, Guid assemblyModuleVersionId)
+		public Cache(FileStamp[] inputFiles, FileStamp[] outputFiles, JObject parameters, Guid assemblyModuleVersionId)
 		{
 			InputFiles = inputFiles;
 			OutputFiles = outputFiles;
@@ -22,8 +22,8 @@ namespace CRED.BuildTasks.IncrementalBuild
 			AssemblyModuleVersionId = assemblyModuleVersionId;
 		}
 
-		public FileTimestamp[] InputFiles { get; set; }
-		public FileTimestamp[] OutputFiles { get; set; }
+		public FileStamp[] InputFiles { get; set; }
+		public FileStamp[] OutputFiles { get; set; }
 		public JObject Parameters { get; set; }
 		public Guid AssemblyModuleVersionId { get; set; }
 
@@ -48,7 +48,6 @@ namespace CRED.BuildTasks.IncrementalBuild
 			}
 			catch (JsonReaderException)
 			{
-
 			}
 			return false;
 		}
@@ -58,48 +57,63 @@ namespace CRED.BuildTasks.IncrementalBuild
 			File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented));
 		}
 
-		public static bool CheckNeedBuild(string cacheFile, IEnumerable<string> inputFiles, object parameters, out Cache cache)
+		public static bool CheckNeedBuild(string cacheFile, IEnumerable<string> inputFiles, object parameters,
+			out Cache cache)
 		{
 			var taskParameters = new Lazy<JObject>(() => JObject.FromObject(parameters), LazyThreadSafetyMode.None);
 
-			var input = new Lazy<Lazy<FileTimestamp>[]>(() =>
-					inputFiles
-						.AsParallel()
-						.Where(path => !string.IsNullOrWhiteSpace(path))
-						.Distinct()
-						.Where(File.Exists)
-						.OrderBy(path => path)
-						.Select(path => new Lazy<FileTimestamp>(() => FileTimestamp.FromFile(path), LazyThreadSafetyMode.None))
-						.ToArray(),
-				LazyThreadSafetyMode.None);
+			var input = inputFiles.ToArray();
 
 			var assemblyModuleVersionId = typeof(Cache).GetTypeInfo().Assembly.ManifestModule.ModuleVersionId;
 
-			bool needBuild = !TryLoad(cacheFile, out cache);
+			var cacheLoadSuccess = TryLoad(cacheFile, out cache);
+
+			bool needBuild = !cacheLoadSuccess;
+
+			var inputPathsEqual = !cacheLoadSuccess || input
+				                      .AsParallel()
+				                      .AsOrdered()
+				                      .SequenceEqual(cache.InputFiles
+					                      .AsParallel()
+					                      .AsOrdered()
+					                      .Select(x => x.Path));
+
+			needBuild = needBuild || !inputPathsEqual;
 
 			needBuild = needBuild || cache.AssemblyModuleVersionId != assemblyModuleVersionId;
 
 			needBuild = needBuild || cache.Parameters.Equals(taskParameters.Value);
 
-			needBuild = needBuild || !input.Value
-				            .AsParallel()
-				            .AsOrdered()
-				            .Select(x => x.Value)
-				            .SequenceEqual(cache.InputFiles.AsParallel().AsOrdered());
+			FileStamp[] newInputFilesStamps;
 
-			needBuild = needBuild || cache.InputFiles
-				            .Concat(cache.OutputFiles)
-				            .AsParallel()
-				            .Any(x => x.CheckRealFileChanged());
+			if (inputPathsEqual)
+			{
+				newInputFilesStamps =
+					cache.InputFiles
+						.AsParallel()
+						.AsOrdered()
+						.Select(x =>
+						{
+							var newStamp = x.NewStampIfRealFileChanged();
+							if (newStamp != null)
+								Volatile.Write(ref needBuild, true);
+							return newStamp ?? x;
+						})
+						.ToArray();
+			}
+			else
+			{
+				newInputFilesStamps = input
+					.AsParallel()
+					.AsOrdered()
+					.Select(x => new FileStamp(x))
+					.ToArray();
+			}
 
 			if (needBuild)
 			{
-				cache = new Cache(input.Value
-						.AsParallel()
-						.AsOrdered()
-						.Select(x => x.Value)
-						.ToArray(),
-					new FileTimestamp[] { }, taskParameters.Value, assemblyModuleVersionId);
+				cache = new Cache(newInputFilesStamps, new FileStamp[] { },
+					taskParameters.Value, assemblyModuleVersionId);
 
 				return true;
 			}
@@ -115,7 +129,7 @@ namespace CRED.BuildTasks.IncrementalBuild
 				.Distinct()
 				.Where(File.Exists)
 				.OrderBy(path => path)
-				.Select(FileTimestamp.FromFile)
+				.Select(x => new FileStamp(x))
 				.ToArray();
 
 			OutputFiles
