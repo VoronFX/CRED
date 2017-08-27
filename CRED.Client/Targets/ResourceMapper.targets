@@ -47,7 +47,6 @@
 
   <!-- Process -->
   <Target Name="ResourceMapperProcess">
-    <Message Text="------ ResourceMapper: $(Name) ------" Importance="high" />
     <CRED.BuildTasks.ResourceMapper RelativeRoot="$(ProjectDir)"
                                     IncrementalBuildCacheFile="$(IncrementalBuildCacheFile)"
                                     InputFiles="$(InputFiles)"

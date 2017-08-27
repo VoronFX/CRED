@@ -3,7 +3,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <Target Name="ProcessStyles">
-    <Message Text="------ ProcessStyles started: ------" Importance="high" />
+    <Message Text="------ ProcessStyles started: ------"/>
 
     <ItemGroup>
 
@@ -18,8 +18,6 @@
     </ItemGroup>
 
     <!-- SassCompiler -->
-    <Message Text="------ SassCompiler started: ------" Importance="high" />
-
     <CRED.BuildTasks.SassCompiler RelativeRoot="$(ProjectDir)"
                                   IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\SassCompiler.cache.json"
                                   InputFiles="@(StyleResources)"
@@ -28,16 +26,12 @@
                                   Debug="True" />
 
     <!-- LessCompiler -->
-    <Message Text="------ LessCompiler started: ------" Importance="high" />
-
     <CRED.BuildTasks.LessCompiler RelativeRoot="$(ProjectDir)"
                                   IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\LessCompiler.cache.json"
                                   InputFiles="@(StyleResources)"
                                   EntryFiles="@(LessInputFiles)"
                                   OutputDirectory="$(StylesOutDir)"
                                   Debug="True" />
-
-    <Message Text="------ CssClassesMapper started: ------" Importance="high" />
 
     <PropertyGroup>
       <CssFilesMap>$(BuildTasksGeneratedDir)\CssClassesMap.Generated.cs</CssFilesMap>

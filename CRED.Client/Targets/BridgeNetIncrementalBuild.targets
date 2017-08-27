@@ -35,6 +35,7 @@
     <CRED.BuildTasks.IncrementalBuild.CheckCache RelativeRoot="$(ProjectDir)"
                                                  IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\BridgeNet.cache.json"
                                                  InputFiles="@(Compile);$(MSBuildProjectFullPath)"
+                                                 LogTargetName="BridgeNetIncrementalBuild"
                                                  Parameters="
                                                  @(IntermediateAssembly);
                                                  $(AssemblyName);

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using CRED.BuildTasks.IncrementalBuild;
 using CsCodeGenerator;
+using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -140,9 +141,10 @@ namespace CRED.BuildTasks
 		{
 			if (!Cache.CheckNeedBuild(IncrementalBuildCacheFile, inputFiles, this, out Cache cache))
 			{
-				Log.LogMessage($"Skipping target {GetType().Name} {IncrementalBuildCacheFile}");
+				Log.LogMessage(MessageImportance.High, $"Skipping {GetType().Name} task: {IncrementalBuildCacheFile}");
 				return false;
 			}
+			Log.LogMessage(MessageImportance.High, $"------ Running {GetType().Name} task: {IncrementalBuildCacheFile} ------");
 
 			var outputFiles = build(inputFiles).ToArray();
 

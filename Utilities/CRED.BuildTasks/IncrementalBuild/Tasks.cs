@@ -15,6 +15,9 @@ namespace CRED.BuildTasks.IncrementalBuild
 		[DataMember]
 		public string[] Parameters { get; set; }
 
+		[DataMember]
+		public string LogTargetName { get; set; }
+
 		[Output]
 		[DataMember]
 		public bool NeedBuild { get; set; }
@@ -27,6 +30,14 @@ namespace CRED.BuildTasks.IncrementalBuild
 		{
 			NeedBuild = IncrementalBuild.Cache.CheckNeedBuild(IncrementalBuildCacheFile, InputFiles, new { Parameters }, out Cache cache);
 			Cache = JsonConvert.SerializeObject(cache);
+
+			if (!string.IsNullOrWhiteSpace(LogTargetName))
+			{
+				Log.LogMessage(MessageImportance.High,
+					!NeedBuild
+						? $"Skipping {LogTargetName} target: {IncrementalBuildCacheFile}"
+						: $"------ Running {LogTargetName} target: {IncrementalBuildCacheFile} ------");
+			}
 
 			return true;
 		}

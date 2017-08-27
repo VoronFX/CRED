@@ -48,7 +48,10 @@ namespace CRED.BuildTasks
 						});
 
 						var result = sassCompiler.Compile();
-
+						if (!string.IsNullOrWhiteSpace(result.ErrorJson))
+						{
+							throw new Exception(result.ErrorJson);
+						}
 						//var options = new CompilationOptions
 						//{
 						//	SourceMap = Debug,

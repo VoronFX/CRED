@@ -22,7 +22,7 @@
   
   <!-- Process -->
   <Target Name="BundlerAndMinifierProcess">
-    <Message Text="------ BundlerAndMinifier: $(Name) ------" Importance="high" />
+
     <CRED.BuildTasks.BundlerAndMinifier RelativeRoot="$(ProjectDir)"
                                         IncrementalBuildCacheFile="$(IncrementalBuildCacheDir)\$(Name).BundlerAndMinifier.cache.json"
                                         InputFiles="$(InputFiles)"

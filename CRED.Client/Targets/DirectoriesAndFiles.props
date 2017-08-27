@@ -61,6 +61,8 @@
     <CopyLibFiles Include="$(NodeModulesDir)\react\dist\react.js"/>    
     <CopyLibFiles Include="$(NodeModulesDir)\react-dom\dist\react-dom.js"/>    
     <CopyLibFiles Include="$(NodeModulesDir)\material-design-icons\iconfont\**\*"/>    
+    <CopyLibFiles Include="$(NodeModulesDir)\bulma\**\*.sass"/>    
+    <CopyLibFiles Include="$(NodeModulesDir)\normalize-css\normalize.css"/>    
     
   </ItemGroup>
   
