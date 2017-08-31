@@ -1,32 +1,33 @@
 ﻿<Project>
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.Web" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
     <OutputTypeEx>library</OutputTypeEx>
     <DisableImplicitFrameworkReferences>True</DisableImplicitFrameworkReferences>
-    <DisableFastUpToDateCheck>True</DisableFastUpToDateCheck>
+    <!--<DisableFastUpToDateCheck>True</DisableFastUpToDateCheck>-->
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bridge" Version="16.1.0" />
-    <PackageReference Include="Bridge.Html5" Version="16.1.0" />
+    <PackageReference Include="Bridge" Version="16.2.1" />
+    <PackageReference Include="Bridge.Html5" Version="16.2.1" />
     <PackageReference Include="Bridge.jQuery" Version="2.9.4" />
-    <PackageReference Include="Bridge.React" Version="2.6.2-beta" />
+    <PackageReference Include="Bridge.React" Version="3.0.0" />
     <PackageReference Include="Bridge.SignalR" Version="2.0.2" />
-    <PackageReference Include="ProductiveRage.Immutable" Version="2.6.1-beta" />
+    <PackageReference Include="ProductiveRage.Immutable" Version="2.7.0" />
     <PackageReference Include="ProductiveRage.Immutable.Extensions" Version="2.3.1-beta" />
+    <PackageReference Include="Retyped.semantic-ui" Version="2.2.6448" />
   </ItemGroup>
 
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.Web" />
-  <Import Project="$(SolutionDir)\Utilities\CRED.BuildTasks\BuildTasks.targets" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <!--<Import Project="$(SolutionDir)\Utilities\CRED.BuildTasks\BuildTasks.targets" />-->
   <Import Project="Targets\DirectoriesAndFiles.props" />
 
-  <Import Project="Targets\CleanAndMakeDirectories.targets" />
+  <!--<Import Project="Targets\CleanAndMakeDirectories.targets" />
   <Import Project="Targets\CopyStaticResources.targets" />
   <Import Project="Targets\ParallelBeforeBuild.targets" />
   <Import Project="Targets\BridgeNetIncrementalBuild.targets" />
-  <Import Project="Targets\BundleAndMinifier.targets" />
+  <Import Project="Targets\BundleAndMinifier.targets" />-->
   <!--<Import Project="Targets\ResourceMapper.targets" />-->
 
   <ItemGroup>
@@ -40,5 +41,22 @@
     <Compile Remove="Components\Azure\**\*.cs" />
 
   </ItemGroup>
+  
+  <PropertyGroup>
+    <TypedMapsDir>$(ProjectDir)$(BaseIntermediateOutputPath)TypedMaps</TypedMapsDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(TypedMapsDir)\*.cs" Link="%(Filename)%(Extension)" AutoGen="True" />
+  </ItemGroup>
+
+  <Target Name="GenerateTypedMaps" BeforeTargets="BeforeBuild">
+
+    <Message Importance="high" Text="$(TypedMapsDir)" />
+    <Exec Command="cd ..\CRED2 &amp; node node_modules\webpack\bin\webpack.js --output-path=&quot;$(TypedMapsDir)&quot;" EnvironmentVariables="CSSMAP=true" />
+    <!--<ItemGroup>
+      <Compile Remove="$(TypedMapsDir)\*.cs" Link="%(Filename)%(Extension)" AutoGen="True" />
+      <Compile Include="$(TypedMapsDir)\*.cs" Link="%(Filename)%(Extension)" AutoGen="True" />
+    </ItemGroup>-->
+  </Target>
 
 </Project>

@@ -21,6 +21,10 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ClientApp.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="wwwroot\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -236,7 +240,7 @@ if exist "$(SolutionDir)$(SolutionName)\$(BaseIntermediateOutputPath)" (
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CRED.Client.Bundles\CRED.Client.Pack.csproj" />
+    <None Include="ClientApp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="web.config">

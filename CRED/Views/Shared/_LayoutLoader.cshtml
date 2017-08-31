@@ -7,7 +7,7 @@
 @using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.Extensions.Caching.Memory
-@using ResourceMapper.Base
+@*@using ResourceMapper.Base*@
 @inject IHostingEnvironment HostingEnvironment
 
 <!DOCTYPE html>
@@ -29,17 +29,17 @@
             animation-delay: 0.5s;
         }
     </style>
-    <environment names="Staging,Production">
+    @*<environment names="Staging,Production">
         <link rel="preload" href="@ClientApp.Resources.Bundles.CssBundleMinCss.GetClientAppFileUrl()" asp-append-version="true">
         <script src="@ClientApp.Resources.Bundles.JsBundleMinJs.GetClientAppFileUrl()" asp-append-version="true" defer></script>
-    </environment>
+    </environment>*@
 </head>
 <body>
     <environment names="Development">
-        <div data-hotswap="true" data-manifest-src="@ClientApp.Resources.Bundles.CssBundleManifestJson.GetClientAppFileUrl(true)" data-resource-type="css" data-hmt-resource>
+        @*<div data-hotswap="true" data-manifest-src="@ClientApp.Resources.Bundles.CssBundleManifestJson.GetClientAppFileUrl(true)" data-resource-type="css" data-hmt-resource>
         </div>
         <div data-manifest-src="@ClientApp.Resources.Bundles.JsBundleManifestJson.GetClientAppFileUrl(true)" data-resource-type="js" data-hmt-resource>
-        </div>
+        </div>*@
         @{
             Html.RenderPartial("HotModuleReplacementScript");
         }

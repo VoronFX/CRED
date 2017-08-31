@@ -22,7 +22,7 @@ using Dazinator.AspNet.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging.Console;
-using ResourceMapper.Base;
+//using ResourceMapper.Base;
 using WebMarkupMin.AspNetCore1;
 
 namespace CRED
@@ -122,7 +122,7 @@ namespace CRED
 			//services.AddSingleton<IFileProvider>(physicalProvider);
 			//services.AddSingleton<IFileProvider>(embeddedProvider);
 
-			services.AddClientApp(CurrentEnvironment);
+			//services.AddClientApp(CurrentEnvironment);
 			services.AddSingleton(CurrentEnvironment.WebRootFileProvider);
 		}
 

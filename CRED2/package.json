@@ -1,0 +1,39 @@
+{
+    "name": "cred",
+    "version": "0.0.1",
+    "description": "",
+    "private": true,
+    "keywords": [],
+    "author": "Voronin Igor <voron.exe@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "react": "^15.6.1",
+        "react-dom": "^15.6.1",
+        "material-design-icons-iconfont": "^3.0.3",
+        "bulma": "^0.5.1",
+        "normalize-css": "^2.3.1",
+        "semantic-ui-less": "^2.2.12"
+    },
+    "devDependencies": {
+        "webpack": "^3.5.5",
+        "webpack-hot-middleware": "^2.18.2",
+        "aspnet-webpack": "^2.0.1",
+        "style-loader": "^0.18.2",
+        "css-loader": "^0.28.5",
+        "less-loader": "^4.0.5",
+        "file-loader": "^0.11.2",
+        "url-loader": "^0.5.9",
+        "csv-loader": "^2.1.1",
+        "xml-loader": "^1.2.1",
+        "null-loader": "^0.1.1",
+        "extract-loader": "^1.0.0",
+        "regexp-replace-loader": "^1.0.0",
+        "extract-text-webpack-plugin": "^3.0.0",
+        "less": "^2.7.2",
+        "edge-js": "^8.2.1",
+        "webpack-merge": "^4.1.0" 
+    },
+    "repository": {
+        "origin": "https://github.com/VoronFX/CRED"
+    }
+}

@@ -2,7 +2,7 @@
 using CRED.Client.API;
 using CRED.Client.Helpers;
 using CRED.Client.Stores;
-using CRED.Client.TypedMaps;
+//using CRED.Client.TypedMaps;
 using CRED.Client.ViewModels;
 using ProductiveRage.Immutable;
 
@@ -35,70 +35,72 @@ namespace CRED.Client.Components
 			if (!state.IsDefined)
 				return null;
 
+			return null;
+
 			// A good guideline to follow with stateful components is that the State reference should contain everything required to draw the components and
 			// props should only be used to access a Dispatcher reference to deal with callbacks from those components
-			return DOM.Div(new Attributes
-			{
-				ClassName = Styles.Hero
-			},
-				DOM.Div(new Attributes
-				{
-					ClassName = Styles.HeroHead
-				},
-					DOM.Div(new Attributes
-					{
-						ClassName = Fluent.ClassName(Styles.Navbar)
-					},
-						DOM.Div(new Attributes
-						{
-							ClassName = Styles.NavbarBrand
-						},
-							DOM.A(new AnchorAttributes
-							{
-								ClassName = Fluent.ClassName(Styles.NavbarItem, Styles.IsSize5, Styles.IsUnselectable),
-								Href = "/"
-							},
-								nameof(CRED)
-							),
-							DOM.Div(new Attributes
-							{
-								ClassName = Styles.NavbarBurger
-							},
-								DOM.Span(new Attributes()),
-								DOM.Span(new Attributes()),
-								DOM.Span(new Attributes())
-								)
-						),
-						DOM.Div(new Attributes
-						{
-							ClassName = Fluent.ClassName(Styles.NavbarMenu)
-						},
-							DOM.Div(new Attributes
-							{
-								ClassName = Styles.NavbarStart
-							},
-								DOM.A(new AnchorAttributes
-								{
-									ClassName = Fluent.ClassName(Styles.NavbarItem, Styles.IsSize6, Styles.IsUnselectable),
-									Href = "/"
-								},
-									"CRED"
-								)
-							),
-							DOM.Div(new Attributes
-							{
-								ClassName = Styles.NavbarEnd
-							},
-								new AvatarMenu()
-							)
-						)
-					)
-				),
-				DOM.Div(new Attributes
-				{
-					ClassName = Styles.HeroBody
-				}
-				));
+			//return DOM.Div(new Attributes
+			//{
+			//	ClassName = Styles.Hero
+			//},
+			//	DOM.Div(new Attributes
+			//	{
+			//		ClassName = Styles.HeroHead
+			//	},
+			//		DOM.Div(new Attributes
+			//		{
+			//			ClassName = Fluent.ClassName(Styles.Navbar)
+			//		},
+			//			DOM.Div(new Attributes
+			//			{
+			//				ClassName = Styles.NavbarBrand
+			//			},
+			//				DOM.A(new AnchorAttributes
+			//				{
+			//					ClassName = Fluent.ClassName(Styles.NavbarItem, Styles.IsSize5, Styles.IsUnselectable),
+			//					Href = "/"
+			//				},
+			//					nameof(CRED)
+			//				),
+			//				DOM.Div(new Attributes
+			//				{
+			//					ClassName = Styles.NavbarBurger
+			//				},
+			//					DOM.Span(new Attributes()),
+			//					DOM.Span(new Attributes()),
+			//					DOM.Span(new Attributes())
+			//					)
+			//			),
+			//			DOM.Div(new Attributes
+			//			{
+			//				ClassName = Fluent.ClassName(Styles.NavbarMenu)
+			//			},
+			//				DOM.Div(new Attributes
+			//				{
+			//					ClassName = Styles.NavbarStart
+			//				},
+			//					DOM.A(new AnchorAttributes
+			//					{
+			//						ClassName = Fluent.ClassName(Styles.NavbarItem, Styles.IsSize6, Styles.IsUnselectable),
+			//						Href = "/"
+			//					},
+			//						"CRED"
+			//					)
+			//				),
+			//				DOM.Div(new Attributes
+			//				{
+			//					ClassName = Styles.NavbarEnd
+			//				},
+			//					new AvatarMenu()
+			//				)
+			//			)
+			//		)
+			//	),
+			//	DOM.Div(new Attributes
+			//	{
+			//		ClassName = Styles.HeroBody
+			//	}
+			//	));
 
 			//return DOM.Div(null,
 			//	new MessageEditor(
