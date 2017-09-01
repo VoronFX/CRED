@@ -14,7 +14,8 @@
     // Set to true to disable Reflection metadata generation.
     // Default is false.
     "reflection": {
-        "disabled": false
+        "disabled": false,
+        "target": "Inline"
     },
 
     "console": {
@@ -29,11 +30,11 @@
     // Generate TypeScript Definition (.d.ts) files.
     // Default is false.
     "html": {
-        "disabled": true
+        //"disabled": true
     },
     "generateTypeScript": false,
     "outputFormatting": "Formatted",
-    "combineScripts": true,
+    "combineScripts": false,
 
     // Delete everything from the output folder
     // Default is false

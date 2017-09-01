@@ -28,14 +28,10 @@ namespace CRED.Client
 						Console.WriteLine(exception);
 					}
 			});
-			dynamic a = new string();
-
 		}
 
 		public static async Task Load()
 		{
-
-
 			//			Document.Body.AppendChild(new HTMLDivElement()
 			//			{
 			//				InnerHTML = @"
@@ -79,15 +75,15 @@ namespace CRED.Client
 			//"
 			//			});
 
-			//var dispatcher = new AppDispatcher();
-			//var store = new AppUIStore(dispatcher, new MessageApi(dispatcher));
-			//var container = new HTMLDivElement();
-			//Document.Body.InsertBefore(container, Document.Body.FirstChild);
+			var dispatcher = new AppDispatcher();
+			var store = new AppUIStore(dispatcher, new MessageApi(dispatcher));
+			var container = new HTMLDivElement();
+			Document.Body.InsertBefore(container, Document.Body.FirstChild);
 
-			//React.Render(
-			//	new AppContainer(store, dispatcher),
-			//	container
-			//);
+			React.Render(
+				new AppContainer(store, dispatcher),
+				container
+			);
 
 			// After the Dispatcher and the Store and the Container Component are all associated with each other, the Store needs to be told that
 			// it's time to set its initial state, so that the Component can receive an OnChange event and draw itself accordingly. In a more
@@ -97,7 +93,7 @@ namespace CRED.Client
 
 			// Turning of spashscreen
 			//Window.Eval<object>("window.loadComplete();");
-			Console.WriteLine("YAY");
+			//Console.WriteLine("YAY");
 			//var splashscreen = Document.GetElementsByClassName("splashscreen-container")
 			//	.First();
 			//splashscreen.ClassList.Add("splashscreen-container-out");

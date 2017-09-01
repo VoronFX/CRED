@@ -1,0 +1,1 @@
+﻿require("Bridge.NET/CRED.Client.js");

@@ -1,10 +1,15 @@
-﻿using Bridge.React;
+﻿using Bridge.Html5;
+using Bridge.React;
+using Bridge.Utils;
 using CRED.Client.API;
 using CRED.Client.Helpers;
 using CRED.Client.Stores;
 //using CRED.Client.TypedMaps;
 using CRED.Client.ViewModels;
 using ProductiveRage.Immutable;
+using Retyped;
+using Retyped.jquery;
+using JQueryStatic = Retyped.semantic_ui.JQueryStatic;
 
 namespace CRED.Client.Components
 {
@@ -15,6 +20,7 @@ namespace CRED.Client.Components
 		protected override void ComponentDidMount()
 		{
 			props.Store.Change += StoreChanged;
+			(Bridge.jQuery2.jQuery.Select(reff) as Retyped.semantic_ui.JQuery).accordion();
 		}
 		protected override void ComponentWillUnmount()
 		{
@@ -28,14 +34,58 @@ namespace CRED.Client.Components
 			));
 		}
 
+		private HTMLElement reff;
+
 		public override ReactElement Render()
 		{
+			//Bridge.React.
+			//new Retyped.jquery.JQueryStatic().Self().se;		
 			// If state has no valueyet, then the Store has not been initialised and its OnChange event has not been called - in this case, we are not ready to
 			// render anything and so should return null here
-			if (!state.IsDefined)
-				return null;
+			//if (!state.IsDefined)
+			//	return null;
+			//return null;
 
-			return null;
+
+
+			return DOM.Div(new Attributes()
+				{
+				Id = "haha",
+				Ref = element => reff = element,
+				 ClassName = "ui styled accordion",
+				//OnClick = eve =>{
+				//	System.Console.WriteLine(( (Bridge.jQuery2.jQuery)(object) this.reff).Width());
+				//},
+
+				DangerouslySetInnerHTML = new RawHtml() { Html = 
+				
+//<div class=""ui styled accordion"">
+@"
+  <div class=""title"">
+    <i class=""dropdown icon""></i>
+    What is a dog?
+  </div>
+  <div class=""content"">
+    <p class=""transition hidden"">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+  </div>
+  <div class=""title"">
+    <i class=""dropdown icon""></i>
+    What kinds of dogs are there?
+  </div>
+  <div class=""content"">
+    <p class=""transition hidden"">There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+  </div>
+  <div class=""title"">
+    <i class=""dropdown icon""></i>
+    How do you acquire a dog?
+  </div>
+  <div class=""content"">
+    <p class=""transition hidden"">Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
+    <p class=""transition hidden"">A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
+  </div>
+"
+//</div>
+			}});
 
 			// A good guideline to follow with stateful components is that the State reference should contain everything required to draw the components and
 			// props should only be used to access a Dispatcher reference to deal with callbacks from those components

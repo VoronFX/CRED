@@ -48,11 +48,15 @@
   <ItemGroup>
     <Compile Include="$(TypedMapsDir)\*.cs" Link="%(Filename)%(Extension)" AutoGen="True" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="C:\Users\Voron\Source\Repos\CRED\CRED.Client\obj\TypedMaps\CssClassesMap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\TypedMaps\" />
+  </ItemGroup>
 
   <Target Name="GenerateTypedMaps" BeforeTargets="BeforeBuild">
-
-    <Message Importance="high" Text="$(TypedMapsDir)" />
-    <Exec Command="cd ..\CRED2 &amp; node node_modules\webpack\bin\webpack.js --output-path=&quot;$(TypedMapsDir)&quot;" EnvironmentVariables="CSSMAP=true" />
+    <Exec Command="cd ..\CRED2 &amp; node node_modules\webpack\bin\webpack.js --output-path=&quot;$(TypedMapsDir)&quot;" EnvironmentVariables="CSSMAP=true" Condition="!Exists('$(TypedMapsDir)\CssClassesMap.Generated.cs')" />
     <!--<ItemGroup>
       <Compile Remove="$(TypedMapsDir)\*.cs" Link="%(Filename)%(Extension)" AutoGen="True" />
       <Compile Include="$(TypedMapsDir)\*.cs" Link="%(Filename)%(Extension)" AutoGen="True" />

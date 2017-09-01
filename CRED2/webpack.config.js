@@ -1,6 +1,7 @@
-﻿const path = require("path");
-const webpack = require("webpack");
+﻿const CleanWebpackPlugin = require("clean-webpack-plugin"); //installed via npm
 //const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const path = require("path");
+const webpack = require("webpack");
 const merge = require("webpack-merge");
 const wwwroot = "wwwroot";
 
@@ -8,26 +9,74 @@ const common = {
     resolve: {
         // For modules referenced with no filename extension, Webpack will consider these extensions
         extensions: [".js", ".ts"],
-        modules: [path.resolve(__dirname, wwwroot), "node_modules"],
+        modules: [
+            path.resolve(__dirname, wwwroot),
+            path.join("..", "..", "CRED.Client", "bin", "Debug", "net46", "wwwroot"),
+            "node_modules"
+        ],
         alias: {
-            '../../theme.config$': path.join(__dirname, wwwroot, "semantic", "theme.config.less")
+            "../../theme.config$": path.join(__dirname, wwwroot, "semantic", "theme.config.less"),
+            jquery$: "jquery/src/jquery",
+            react$: "react/react",
+            "react-dom$": "react-dom/index"
         }
     },
     output: {
         // ... and emit the built result in this location
         path: path.join(__dirname, wwwroot, "build"),
         publicPath: "/build/",
-        filename: "[name]"
+        filename: "[name]",
+        chunkFilename: "[name].[id].[query].[chunkhash].js"
     },
     plugins: [
         // Put webpack plugins here if needed, or leave it as an empty array if not
         //new ExtractTextPlugin("styles.css"),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify("production")
-            }
-        })
+        new CleanWebpackPlugin(["wwwroot/build"]),
+        //new webpack.DefinePlugin({
+        //    'process.env': {
+        //        'NODE_ENV': JSON.stringify("production")
+        //    }
+        //})
     ],
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                loader: "regexp-replace-loader",
+                options: {
+                    match: {
+                        pattern: /([\(\s;,>{\[:!])System(?![\$\w\s\d])/,
+                        flags: "g"
+                    },
+                    replaceWith: `$1window.System`
+                }
+            },
+            {
+                test: require.resolve("react"),
+                use: [{
+                    loader: "expose-loader",
+                    options: "React"
+                }]
+            },
+            {
+                test: require.resolve("react-dom"),
+                use: [{
+                    loader: "expose-loader",
+                    options: "ReactDOM"
+                }]
+            },
+            {
+                test: require.resolve("jquery"),
+                use: [{
+                    loader: "expose-loader",
+                    options: "jQuery"
+                }, {
+                    loader: "expose-loader",
+                    options: "$"
+                }]
+            }
+        ]
+    },
     resolveLoader: {
         modules: [
             "node_modules",
@@ -37,10 +86,10 @@ const common = {
 }
 
 const dev = {
-    entry: [
+    entry: {
         // The loader will follow all chains of reference from this entry point...
-        "main.js"
-    ],
+        "main.bundle.js": "main.js"
+    },
     module: {
         loaders: [
             // This example only configures Webpack to load .ts files. You can also drop in loaders
@@ -56,10 +105,10 @@ const dev = {
                 ]
             },
             {
-                test: /\.less/,
+                test: /\.less$/,
                 use: [
                     "style-loader",
-                    "css-loader" ,
+                    "css-loader",
                     "less-loader"
                 ]
             },
@@ -87,24 +136,30 @@ const dev = {
                     "xml-loader"
                 ]
             },
-            {
-                test: /CRED\.Client\.js$/,
-                loader: "regexp-replace-loader",
-                options: {
-                    match: {
-                        pattern: "globals\\.System\\s=\\s\\{\\};"
-                    },
-                    replaceWith: "$& System = globals.System; "
-                }
-            }
+            //{
+            //    test: /\.js$/,
+            //    use: ["source-map-loader"],
+            //    enforce: "pre"
+            //}
         ]
 
     },
-
+    //devtool: "eval-source-map",
+    plugins: [
+        //new webpack.SourceMapDevToolPlugin({
+        //    exclude: /CRED\.Client/
+        //}),
+        //new webpack.HotModuleReplacementPlugin(),
+        //new webpack.NamedModulesPlugin(),
+        new webpack.BannerPlugin({
+            banner: "name:[name], query:[query], file:[file], hash:[hash], chunkhash:[chunkhash],  filebase:[filebase]",
+            entryOnly: false
+        })
+    ]
 };
 
 const cssmap = {
-    entry: [ "main.less" ],
+    entry: ["main.less"],
     module: {
         rules: [
             {
@@ -113,7 +168,7 @@ const cssmap = {
                     {
                         loader: "file-loader",
                         options: {
-                            name: "CssClassesMap.cs"
+                            name: "CssClassesMap.Generated.cs"
                         }
                     },
                     {
@@ -137,9 +192,10 @@ const cssmap = {
     }
 }
 
+const mergset = process.env.CSSMAP ? cssmap : dev;
 
-if (process.env.CSSMAP) {
-    module.exports = merge(common, cssmap);
-} else {
-    module.exports = merge(common, dev); 
-}
+const merged = merge(common, mergset);
+
+//console.log(merged);
+
+module.exports = merged;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace CRED2
 {
@@ -42,13 +44,13 @@ namespace CRED2
 	        {
 		        app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
 		        {
-			        HotModuleReplacement = true
+			        HotModuleReplacement = true,
 		        });
 	        }
 
 	        app.UseStaticFiles(new StaticFileOptions
 	        {
-		        FileProvider = env.WebRootFileProvider,
+		        FileProvider = new CompositeFileProvider(new PhysicalFileProvider(Path.GetFullPath("node_modules/")), env.WebRootFileProvider),
 		        OnPrepareResponse = context =>
 		        {
 			        // Cache static file for 1 year
