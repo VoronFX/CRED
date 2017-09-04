@@ -1,4 +1,5 @@
 ﻿const CleanWebpackPlugin = require("clean-webpack-plugin"); //installed via npm
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 //const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
@@ -36,7 +37,10 @@ const common = {
         //    'process.env': {
         //        'NODE_ENV': JSON.stringify("production")
         //    }
-        //})
+        //}),
+        new BundleAnalyzerPlugin({
+            openAnalyzer: false
+        })
     ],
     module: {
         rules: [
@@ -53,27 +57,33 @@ const common = {
             },
             {
                 test: require.resolve("react"),
-                use: [{
-                    loader: "expose-loader",
-                    options: "React"
-                }]
+                use: [
+                    {
+                        loader: "expose-loader",
+                        options: "React"
+                    }
+                ]
             },
             {
                 test: require.resolve("react-dom"),
-                use: [{
-                    loader: "expose-loader",
-                    options: "ReactDOM"
-                }]
+                use: [
+                    {
+                        loader: "expose-loader",
+                        options: "ReactDOM"
+                    }
+                ]
             },
             {
                 test: require.resolve("jquery"),
-                use: [{
-                    loader: "expose-loader",
-                    options: "jQuery"
-                }, {
-                    loader: "expose-loader",
-                    options: "$"
-                }]
+                use: [
+                    {
+                        loader: "expose-loader",
+                        options: "jQuery"
+                    }, {
+                        loader: "expose-loader",
+                        options: "$"
+                    }
+                ]
             }
         ]
     },
@@ -83,7 +93,7 @@ const common = {
             path.resolve(__dirname, "BuildScripts")
         ]
     }
-}
+};
 
 const dev = {
     entry: {
@@ -190,7 +200,7 @@ const cssmap = {
             }
         ]
     }
-}
+};
 
 const mergset = process.env.CSSMAP ? cssmap : dev;
 
