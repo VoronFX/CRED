@@ -1,0 +1,6 @@
+[submodule "octokit.net"]
+	path = octokit.net
+	url = https://github.com/octokit/octokit.net.git
+[submodule "PSO2ENPatchCSV"]
+	path = PSO2ENPatchCSV
+	url = https://github.com/Arks-Layer/PSO2ENPatchCSV.git

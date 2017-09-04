@@ -7,16 +7,20 @@ namespace CRED.Client.Components
 {
 	public class MessageEditor : PureComponent<MessageEditor.Props>
 	{
-		public MessageEditor(Optional<NonBlankTrimmedString> className, MessageEditState message, Action<MessageEditState> onChange, Action onSave)
-			: base(new Props(className, message, onChange, onSave)) { }
+		public MessageEditor(Optional<NonBlankTrimmedString> className, MessageEditState message,
+			Action<MessageEditState> onChange, Action onSave)
+			: base(new Props(className, message, onChange, onSave))
+		{
+		}
 
 		public override ReactElement Render()
 		{
-			var formIsInvalid = props.Message.Title.ValidationError.IsDefined || props.Message.Content.ValidationError.IsDefined;
-			var isSaveDisabled = formIsInvalid || props.Message.IsSaveInProgress;
-			return DOM.FieldSet(new FieldSetAttributes { ClassName = props.ClassName.IsDefined ? props.ClassName.Value : null },
+			bool formIsInvalid =
+				props.Message.Title.ValidationError.IsDefined || props.Message.Content.ValidationError.IsDefined;
+			bool isSaveDisabled = formIsInvalid || props.Message.IsSaveInProgress;
+			return DOM.FieldSet(new FieldSetAttributes {ClassName = props.ClassName.IsDefined ? props.ClassName.Value : null},
 				DOM.Legend(null, props.Message.Caption.Value),
-				DOM.Span(new Attributes { ClassName = "label" }, "Label"),
+				DOM.Span(new Attributes {ClassName = "label"}, "Label"),
 				new ValidatedTextInput(
 					className: new NonBlankTrimmedString("title"),
 					disabled: props.Message.IsSaveInProgress,
@@ -24,7 +28,7 @@ namespace CRED.Client.Components
 					validationMessage: props.Message.Title.ValidationError,
 					onChange: newTitle => props.OnChange(props.Message.With(_ => _.Title, new TextEditState(newTitle)))
 				),
-				DOM.Span(new Attributes { ClassName = "label" }, "Content"),
+				DOM.Span(new Attributes {ClassName = "label"}, "Content"),
 				new ValidatedTextInput(
 					className: new NonBlankTrimmedString("content"),
 					disabled: props.Message.IsSaveInProgress,
@@ -33,7 +37,7 @@ namespace CRED.Client.Components
 					onChange: newContent => props.OnChange(props.Message.With(_ => _.Content, new TextEditState(newContent)))
 				),
 				DOM.Button(
-					new ButtonAttributes { Disabled = isSaveDisabled, OnClick = e => props.OnSave() },
+					new ButtonAttributes {Disabled = isSaveDisabled, OnClick = e => props.OnSave()},
 					"Save"
 				)
 			);
@@ -41,13 +45,15 @@ namespace CRED.Client.Components
 
 		public class Props : IAmImmutable
 		{
-			public Props(Optional<NonBlankTrimmedString> className, MessageEditState message, Action<MessageEditState> onChange, Action onSave)
+			public Props(Optional<NonBlankTrimmedString> className, MessageEditState message, Action<MessageEditState> onChange,
+				Action onSave)
 			{
 				this.CtorSet(_ => _.ClassName, className);
 				this.CtorSet(_ => _.Message, message);
 				this.CtorSet(_ => _.OnChange, onChange);
 				this.CtorSet(_ => _.OnSave, onSave);
 			}
+
 			public Optional<NonBlankTrimmedString> ClassName { get; }
 			public MessageEditState Message { get; }
 			public Action<MessageEditState> OnChange { get; }

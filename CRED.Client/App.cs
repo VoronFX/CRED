@@ -13,6 +13,7 @@ using CRED.Client.Components;
 using CRED.Client.Helpers;
 using CRED.Client.Stores;
 using CRED.TypedMaps;
+using Octokit;
 
 namespace CRED.Client
 {
