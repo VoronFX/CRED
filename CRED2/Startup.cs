@@ -6,12 +6,14 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CRED.Data;
 using CRED.Models;
+using CRED2.GitRepository;
 using LibGit2Sharp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,18 +41,26 @@ namespace CRED2
 		{
 			services.AddMvc();
 
-			services.AddDbContext<CREDContext>(options =>
+			var efConfigureOptions = new Action<DbContextOptionsBuilder>(options =>
 			{
-				var efOptions = options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 				if (Env.IsDevelopment())
-					efOptions.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+					options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
 
 				// Register the entity sets needed by OpenIddict.
 				// Note: use the generic overload if you need
-				// to replace the default OpenIddict entities.
-				//options.UseOpenIddict();
+				// to replace the defaul1t OpenIddict entities.
+				//efOptions.UseOpenIddict();
+
 			});
+
+			var efOptionsBuilder = new DbContextOptionsBuilder<CREDContext>();
+			efConfigureOptions(efOptionsBuilder);
+			var efOptions = efOptionsBuilder.Options;
+
+			services.AddDbContext<CREDContext>(efConfigureOptions);
+			services.AddTransient<Func<CREDContext>>(provider => () => new CREDContext(efOptions));
+			//services.AddTransient<IDesignTimeDbContextFactory<CREDContext>>(provider => new CREDContext(efOptions));
 
 			// Register the Identity services.
 			services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -102,11 +112,11 @@ namespace CRED2
 			//	}
 			//});
 
-			services.Add(ServiceDescriptor.Singleton(typeof(GitRepositoryService), typeof(GitRepositoryService)));
+			services.Add(ServiceDescriptor.Singleton(typeof(Service), typeof(Service)));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, CREDContext dbcontext, GitRepositoryService gitRepositoryService)
+		public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, CREDContext dbcontext, Service gitRepositoryService)
 		{
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();

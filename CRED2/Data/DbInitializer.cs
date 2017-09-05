@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using CRED2.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRED.Data
@@ -23,7 +24,6 @@ namespace CRED.Data
             //    Password = "LetM@In!",
             //    Currency = 321.45M
             //};
-
             //context.TestData.Add(testData);
             context.SaveChanges();
         }

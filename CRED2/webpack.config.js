@@ -46,14 +46,7 @@ const common = {
         rules: [
             {
                 test: /\.js$/,
-                loader: "regexp-replace-loader",
-                options: {
-                    match: {
-                        pattern: /([\(\s;,>{\[:!])System(?![\$\w\s\d])/,
-                        flags: "g"
-                    },
-                    replaceWith: `$1window.System`
-                }
+                parser: { system: false }
             },
             {
                 test: require.resolve("react"),

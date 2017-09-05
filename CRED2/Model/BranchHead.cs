@@ -9,11 +9,9 @@ namespace CRED2.Model
     {
 		public string Name { get; set; }
 
-		public HistoryItem Head { get; set; }
+		public Commit Head { get; set; }
 
 		public bool GitBranch { get; set; }
-
-		public string GitLastCommitRef { get; set; }
 
 		public string GitRemoteUrl { get; set; }
 

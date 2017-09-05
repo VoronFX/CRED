@@ -18,14 +18,14 @@ namespace CRED2.GitRepository
 {
 	internal static class GitRepositoryServiceExtensionMethods
 	{
-		public static IEnumerable<Commit> SelfAndDirectParents(this Commit start)
-		{
-			while (start != null)
-			{
-				yield return start;
-				start = start.Parents.FirstOrDefault();
-			}
-		}
+		//public static IEnumerable<Commit> SelfAndDirectParents(this Commit start)
+		//{
+		//	while (start != null)
+		//	{
+		//		yield return start;
+		//		start = start.Parents.FirstOrDefault();
+		//	}
+		//}
 
 		public static IEnumerable<TreeEntry> Flatten(this Tree tree)
 			=> tree.SelectMany(x =>
@@ -185,14 +185,14 @@ namespace CRED2.GitRepository
 			return null;
 		}
 
-		private static ImmutableHashSet<TreeFile> ExtractContentTree(Commit commit)
-		{
-			return commit.Tree.Flatten().AsParallel().Where(x => x.TargetType == TreeEntryTargetType.Blob &&
-																 x.Mode == Mode.NonExecutableFile &&
-																 string.Equals(Path.GetExtension(x.Name), ".csv",
-																	 StringComparison.OrdinalIgnoreCase))
-				.Select(x => new TreeFile(x)).ToImmutableHashSet();
-		}
+		//private static ImmutableHashSet<TreeFile> ExtractContentTree(Commit commit)
+		//{
+		//	return commit.Tree.Flatten().AsParallel().Where(x => x.TargetType == TreeEntryTargetType.Blob &&
+		//														 x.Mode == Mode.NonExecutableFile &&
+		//														 string.Equals(Path.GetExtension(x.Name), ".csv",
+		//															 StringComparison.OrdinalIgnoreCase))
+		//		.Select(x => new TreeFile(x)).ToImmutableHashSet();
+		//}
 
 		private IEnumerable<TResult> JoinChanges<TItem, TKey, TResult>(IEnumerable<TItem> left, IEnumerable<TItem> right,
 			Func<TItem, TKey> keySelector, Func<TKey, TItem, TItem, TResult> resultSelector)
@@ -205,99 +205,99 @@ namespace CRED2.GitRepository
 
 		private async Task UpdateBranch(BranchHead branchHead, CREDContext dbContext)
 		{
-			Repository.Network.Fetch(branchHead.Name,
-			Repository.Network.Remotes[branchHead.Name].FetchRefSpecs.Select(x => x.Specification), new FetchOptions
-			{
-				OnProgress = OnProgress
-			}, "RefUpdate");
+			//Repository.Network.Fetch(branchHead.Name,
+			//Repository.Network.Remotes[branchHead.Name].FetchRefSpecs.Select(x => x.Specification), new FetchOptions
+			//{
+			//	OnProgress = OnProgress
+			//}, "RefUpdate");
 
-			var branchOnlyCommits = Repository.Branches[branchHead.Name + "/" + branchHead.Name].Tip
-				.SelfAndDirectParents()
-				.TakeWhile(commit => commit.Sha != branchHead.GitRemoteRef)
-				.ToArray();
+			//var branchOnlyCommits = Repository.Branches[branchHead.Name + "/" + branchHead.Name].Tip
+			//	.SelfAndDirectParents()
+			//	.TakeWhile(commit => commit.Sha != branchHead.GitRemoteRef)
+			//	.ToArray();
 
-			if (branchOnlyCommits.Last().Parents.All(x => x.Sha != branchHead.GitRemoteRef))
-			{
-				Logger.LogWarning($"Non Fast Forward update of {branchHead.Name} branch.");
-			}
+			//if (branchOnlyCommits.Last().Parents.All(x => x.Sha != branchHead.GitRemoteRef))
+			//{
+			//	Logger.LogWarning($"Non Fast Forward update of {branchHead.Name} branch.");
+			//}
 
-			var lastCommit = Repository.Commits.FirstOrDefault(x => x.Sha == branchHead.GitRemoteRef);
+			//var lastCommit = Repository.Commits.FirstOrDefault(x => x.Sha == branchHead.GitRemoteRef);
 
-			var lastContent = ExtractContentTree(lastCommit);
+			//var lastContent = ExtractContentTree(lastCommit);
 
-			foreach (var nextCommit in branchOnlyCommits)
-			{
-				var nextContent = ExtractContentTree(nextCommit);
+			//foreach (var nextCommit in branchOnlyCommits)
+			//{
+			//	var nextContent = ExtractContentTree(nextCommit);
 
-				var changes = JoinChanges(lastContent, nextContent, x => x.ParsedPath,
-					(path, xFile, yFile) =>
-					{
-						if (xFile == null)
-							return yFile.Items.Value.Select(item => (path, item.Key, item.Value));
-						if (yFile == null)
-							return xFile.Items.Value.Select(item => (path, item.Key, (string)null));
-						return JoinChanges(xFile.Items.Value, yFile.Items.Value,
-							item => item.Key,
-							(key, xItem, yItem) => (path, key, yItem.Value));
-					})
-					.SelectMany(x => x)
-					.Select(x => new Change()
-					{
-						Key = new Key
-						{
-							Path = x.Item1,
-							KeyParts = x.Item2
-						},
-						Author = nextCommit.Author.Email,
-						Timestamp = nextCommit.Author.When.UtcDateTime,
-						Value = x.Item3
-					})
-					.ToArray();
+			//	var changes = JoinChanges(lastContent, nextContent, x => x.ParsedPath,
+			//		(path, xFile, yFile) =>
+			//		{
+			//			if (xFile == null)
+			//				return yFile.Items.Value.Select(item => (path, item.Key, item.Value));
+			//			if (yFile == null)
+			//				return xFile.Items.Value.Select(item => (path, item.Key, (string)null));
+			//			return JoinChanges(xFile.Items.Value, yFile.Items.Value,
+			//				item => item.Key,
+			//				(key, xItem, yItem) => (path, key, yItem.Value));
+			//		})
+			//		.SelectMany(x => x)
+			//		.Select(x => new Change()
+			//		{
+			//			Key = new Key
+			//			{
+			//				Path = x.Item1,
+			//				KeyParts = x.Item2
+			//			},
+			//			Author = nextCommit.Author.Email,
+			//			Timestamp = nextCommit.Author.When.UtcDateTime,
+			//			Value = x.Item3
+			//		})
+			//		.ToArray();
 
-				// Reuse existing keys in database
-				var existingKeys = (await dbContext.Keys
-						.Where(key => changes.Any(x => Key.PathKeyPartsComparer.Equals(x.Key, key)))
-						.ToArrayAsync())
-					.ToImmutableHashSet();
+			//	// Reuse existing keys in database
+			//	var existingKeys = (await dbContext.Keys
+			//			.Where(key => changes.Any(x => Key.PathKeyPartsComparer.Equals(x.Key, key)))
+			//			.ToArrayAsync())
+			//		.ToImmutableHashSet();
 
-				Parallel.ForEach(changes, change =>
-					change.Key = existingKeys.FirstOrDefault(x => Key.PathKeyPartsComparer.Equals(x, change.Key)) ?? change.Key
-				);
+			//	Parallel.ForEach(changes, change =>
+			//		change.Key = existingKeys.FirstOrDefault(x => Key.PathKeyPartsComparer.Equals(x, change.Key)) ?? change.Key
+			//	);
 
-				// Reuse existing changes in database
-				var existingChanges = (await dbContext.Changes.Include(x => x.Key)
-						.Where(change => changes.Contains(change, Change.ChangeComparer))
-						.ToArrayAsync())
-					.ToImmutableHashSet();
+			//	// Reuse existing changes in database
+			//	var existingChanges = (await dbContext.Changes.Include(x => x.Key)
+			//			.Where(change => changes.Contains(change, Change.ChangeComparer))
+			//			.ToArrayAsync())
+			//		.ToImmutableHashSet();
 
-				Parallel.For(0, changes.Length, i =>
-					changes[i] = existingChanges.FirstOrDefault(x => Change.ChangeComparer.Equals(x, changes[i])) ?? changes[i]
-				);
+			//	Parallel.For(0, changes.Length, i =>
+			//		changes[i] = existingChanges.FirstOrDefault(x => Change.ChangeComparer.Equals(x, changes[i])) ?? changes[i]
+			//	);
 
-				var historyItems = existingChanges
-					.OrderByDescending(x => x.Timestamp)
-					.Select(x => new HistoryItem
-					{
-						Change = x,
-						GitCommitHash = nextCommit.Sha,
-						Timestamp = nextCommit.Committer.When.UtcDateTime,
-						Comitter = nextCommit.Committer.Email,
-					})
-				.ToImmutableArray();
+			//	var historyItems = existingChanges
+			//		.OrderByDescending(x => x.Timestamp)
+			//		.Select(x => new HistoryItem
+			//		{
+			//			Change = x,
+			//			GitCommitHash = nextCommit.Sha,
+			//			Timestamp = nextCommit.Committer.When.UtcDateTime,
+			//			Comitter = nextCommit.Committer.Email,
+			//		})
+			//	.ToImmutableArray();
 
-				var prevHistoryItem = branchHead.Head;
-				foreach (var historyItem in historyItems)
-				{
-					historyItem.Parent = prevHistoryItem;
-					prevHistoryItem = historyItem;
-				}
+			//	var prevHistoryItem = branchHead.Head;
+			//	foreach (var historyItem in historyItems)
+			//	{
+			//		historyItem.Parent = prevHistoryItem;
+			//		prevHistoryItem = historyItem;
+			//	}
 
-				branchHead.Head = prevHistoryItem;
-				branchHead.GitLastCommitRef = prevHistoryItem.GitCommitHash;
+			//	branchHead.Head = prevHistoryItem;
+			//	branchHead.GitLastCommitRef = prevHistoryItem.GitCommitHash;
 
-				dbContext.Update(branchHead);
-				dbContext.AddRange(historyItems);
-			}
+			//	dbContext.Update(branchHead);
+			//	dbContext.AddRange(historyItems);
+			//}
 		}
 
 		private async Task Init()
@@ -326,12 +326,12 @@ namespace CRED2.GitRepository
 			}
 		}
 
-		public GitRepositoryService(ILoggerFactory loggerFactory, IHostingEnvironment environment,
+		public Service(ILoggerFactory loggerFactory, IHostingEnvironment environment,
 			IServiceProvider serviceProvider, Func<CREDContext> dbContextFactory)
 		{
 			ServiceProvider = serviceProvider;
 			DbContextFactory = dbContextFactory;
-			Logger = loggerFactory.CreateLogger(typeof(GitRepositoryService));
+			Logger = loggerFactory.CreateLogger(typeof(Service));
 
 			Dispatcher.InvokeAsync(() =>
 			{
@@ -348,36 +348,36 @@ namespace CRED2.GitRepository
 			Dispatcher.InvokeAsync(() => Task.Run(Init));
 
 
-			Repository = new Repository("C:\\Users\\Voron\\Source\\Repos\\test\\test2");
-			var offBranchCommits = Repository.Branches.First().Commits
-				.Aggregate(Enumerable.Empty<Commit>(), (ids, commit) => ids.Concat(commit.Parents.Skip(1))).ToList();
-			var branchOnlycommits = Repository.Commits.QueryBy(new CommitFilter()
-			{
-				SortBy = CommitSortStrategies.Topological | CommitSortStrategies.Time | CommitSortStrategies.Reverse,
-				IncludeReachableFrom = Repository.Branches.First().Tip,
-				ExcludeReachableFrom = offBranchCommits
-			});
-
-			var branchOnlycommits2 = Repository.Branches.First().Tip.DirectParents();
-
-			//var start = Repository.Branches.First().Tip;
-			//while (start != null)
+			//Repository = new Repository("C:\\Users\\Voron\\Source\\Repos\\test\\test2");
+			//var offBranchCommits = Repository.Branches.First().Commits
+			//	.Aggregate(Enumerable.Empty<Commit>(), (ids, commit) => ids.Concat(commit.Parents.Skip(1))).ToList();
+			//var branchOnlycommits = Repository.Commits.QueryBy(new CommitFilter()
 			//{
-			//	branchOnlycommits2.Add(start);
-			//	start = start.Parents.FirstOrDefault();
-			//}
+			//	SortBy = CommitSortStrategies.Topological | CommitSortStrategies.Time | CommitSortStrategies.Reverse,
+			//	IncludeReachableFrom = Repository.Branches.First().Tip,
+			//	ExcludeReachableFrom = offBranchCommits
+			//});
+
+			//var branchOnlycommits2 = Repository.Branches.First().Tip.DirectParents();
+
+			////var start = Repository.Branches.First().Tip;
+			////while (start != null)
+			////{
+			////	branchOnlycommits2.Add(start);
+			////	start = start.Parents.FirstOrDefault();
+			////}
 
 
-			UpdateBranch(new CRED2.Model.BranchHead()
-			{
-				Name = "test",
-				//GitRemoteUrl = "https://github.com/antonpup/Aurora.git",
-				GitRemoteUrl = "https://github.com/libgit2/libgit2sharp.git",
-				GitRemoteRef = "refs/heads/master",
-				GitBranch = true,
-			}).Wait();
+			//UpdateBranch(new CRED2.Model.BranchHead()
+			//{
+			//	Name = "test",
+			//	//GitRemoteUrl = "https://github.com/antonpup/Aurora.git",
+			//	GitRemoteUrl = "https://github.com/libgit2/libgit2sharp.git",
+			//	GitRemoteRef = "refs/heads/master",
+			//	GitBranch = true,
+			//}).Wait();
 
-			var r = Repository.ListRemoteReferences("https://github.com/antonpup/Aurora.git");
+			//var r = Repository.ListRemoteReferences("https://github.com/antonpup/Aurora.git");
 			//using (var dbContext = ServiceProvider.GetService<CREDContext>())
 			//{
 			//	var repState = dbContext.StateStore.Find(nameof(GitRepositoryService));
