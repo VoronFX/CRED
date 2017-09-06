@@ -7,8 +7,6 @@ namespace CRED2.Model
 	{
 		public string CommitHash { get; set; }
 
-		public Commit Commit { get; set; }
-
 		public long KeyId { get; set; }
 
 		public Key Key { get; set; }

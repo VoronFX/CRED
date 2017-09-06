@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace CRED2.Model
 {
-    public sealed class BranchHead
+    public sealed class Branch
     {
 		public string Name { get; set; }
 
-		public Commit Head { get; set; }
+		public string CommitHash { get; set; }
 
 		public bool GitBranch { get; set; }
 
