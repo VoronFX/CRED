@@ -9,7 +9,13 @@ namespace CRED2.Model
     {
 		public string Name { get; set; }
 
-		public string CommitHash { get; set; }
+		public long CommitId { get; set; }
+
+		public DateTime LastUpdated { get; set; }
+
+		public bool Broken { get; set; }
+
+		public string Message { get; set; }
 
 		public bool GitBranch { get; set; }
 
@@ -17,5 +23,10 @@ namespace CRED2.Model
 
 		public string GitRemoteRef { get; set; }
 
+		public string GitUsername { get; set; }
+
+		public string GitPassword { get; set; }
+
     }
+
 }

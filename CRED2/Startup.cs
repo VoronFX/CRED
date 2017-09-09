@@ -40,6 +40,7 @@ namespace CRED2
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc();
+			services.AddMemoryCache();
 
 			var efConfigureOptions = new Action<DbContextOptionsBuilder>(options =>
 			{
@@ -112,15 +113,12 @@ namespace CRED2
 			//	}
 			//});
 
-			services.Add(ServiceDescriptor.Singleton(typeof(Service), typeof(Service)));
+			services.Add(ServiceDescriptor.Singleton(typeof(GitBridge), typeof(GitBridge)));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, CREDContext dbcontext, Service gitRepositoryService)
+		public void Configure(IApplicationBuilder app, CREDContext dbcontext, GitBridge gitRepositoryGitBridge)
 		{
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-			loggerFactory.AddDebug();
-
 			if (Env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();

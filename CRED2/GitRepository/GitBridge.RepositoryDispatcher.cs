@@ -7,7 +7,7 @@ namespace CRED2.GitRepository
 {
 
 
-	public sealed partial class Service
+	public sealed partial class GitBridge
 	{
 		private sealed class RepositoryDispatcher : IDisposable
 		{
@@ -16,19 +16,29 @@ namespace CRED2.GitRepository
 				Task.Run(DispatcherLoop);
 			}
 
-			private ConcurrentQueue<Task> RepoTasks { get; } = new ConcurrentQueue<Task>();
+			private ConcurrentQueue<Func<Task>> RepoTasks { get; } = new ConcurrentQueue<Func<Task>>();
 
 			private volatile TaskCompletionSource<bool> dispatcherSleep;
 
 			private CancellationTokenSource DispatcherStop { get; }
 				= new CancellationTokenSource();
 
+			public Task InvokeAsync(Func<Task> action)
+			{
+				TaskCompletionSource<bool> awaiter
+					= new TaskCompletionSource<bool>();
+				RepoTasks.Enqueue(async () =>
+				{
+					await action();
+					awaiter.SetResult(true);
+				});
+				dispatcherSleep?.TrySetResult(true);
+				return awaiter.Task;
+			}
+
 			public Task InvokeAsync(Action action)
 			{
-				var task = new Task(action);
-				RepoTasks.Enqueue(task);
-				dispatcherSleep?.TrySetResult(true);
-				return task;
+				return InvokeAsync(() => Task.Run(action));
 			}
 
 			private async Task DispatcherLoop()
@@ -49,7 +59,7 @@ namespace CRED2.GitRepository
 							dispatcherSleep = null;
 						}
 					}
-					await Task.Run(() => nextTask);
+					await nextTask();
 				}
 			}
 
