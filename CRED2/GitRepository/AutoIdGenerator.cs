@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using CRED2.Model;
@@ -8,15 +10,14 @@ namespace CRED2.GitRepository
 {
 	public sealed class AutoIdGenerator
 	{
-		public LiteRepository Repository { get; }
+		private LiteRepository Repository { get; }
 
-		private Dictionary<string, long> LastAutoIds { get; }
+		private ConcurrentDictionary<string, long> LastAutoIds { get; }
+		= new ConcurrentDictionary<string, long>();
 
 		public AutoIdGenerator(LiteRepository repository)
 		{
 			Repository = repository;
-			LastAutoIds = Repository.Fetch<AutoIdStat>()
-				.ToDictionary(x => x.CollectionName, x => x.LastAutoId);
 		}
 
 		public long GenerateNewId<T>()
@@ -26,28 +27,13 @@ namespace CRED2.GitRepository
 
 		public long GenerateNewId(string collectionName)
 		{
-			if (!LastAutoIds.TryGetValue(collectionName, out var lastId))
-				lastId = 1;
-			lastId++;
-			LastAutoIds[collectionName] = lastId;
-			return lastId;
-		}
-
-		public void AddToTransaction(TransactionManager transactionManager)
-		{
-			var existingStats = Repository.Fetch<AutoIdStat>().ToImmutableArray();
-			transactionManager.AddRollbackRestore(existingStats);
-			transactionManager.AddRollbackRemove<AutoIdStat>(
-				LastAutoIds.Where(x => !existingStats.Any(x2 => x2.CollectionName == x.Key)).Select(x => (BsonValue)x.Key));
-		}
-
-		public void SaveStats()
-		{
-			Repository.Upsert(LastAutoIds.Select(x => new AutoIdStat
+			return LastAutoIds.AddOrUpdate(collectionName, key =>
 			{
-				CollectionName = x.Key,
-				LastAutoId = x.Value
-			}));
+				var fromDb = Repository.Database.GetCollection(collectionName).Max();
+				if (!fromDb.IsInt64)
+					throw new NotSupportedException("Only Int64 ids are supported in AutoIdGenerator");
+				return fromDb + 1;
+			}, (key, value) => value + 1);
 		}
 	}
 }

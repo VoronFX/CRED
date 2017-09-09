@@ -142,7 +142,7 @@ namespace CRED2.GitRepository
 				.Aggregate(DateTime.MaxValue, (time, pair) => pair.Value > time ? pair.Value : time);
 
 			await Task.Delay((nextCheckTime - DateTime.UtcNow).Duration());
-			Dispatcher.InvokeAsync(AutoUpdate);
+			var dummy = Dispatcher.InvokeAsync(AutoUpdate);
 		}
 
 		public async Task SetupBranch(string name, LibGit2Sharp.Branch newConfig)
@@ -155,50 +155,47 @@ namespace CRED2.GitRepository
 
 		public async Task UpdateBranch(string name)
 		{
-			using (var db = HistoryRepositoryFactory())
+			var branch = HistoryDb.SingleById<Branch>(name);
+			Repository.Network.Fetch(branch.Name,
+			Repository.Network.Remotes[branch.Name].FetchRefSpecs.Select(x => x.Specification),
+			new FetchOptions
 			{
-				var branch = db.SingleById<Branch>(name);
-				Repository.Network.Fetch(branch.Name,
-				Repository.Network.Remotes[branch.Name].FetchRefSpecs.Select(x => x.Specification),
-				new FetchOptions
+				OnProgress = OnProgress,
+				CredentialsProvider = (url, usernameFromUrl, types)
+				=> new UsernamePasswordCredentials
 				{
-					OnProgress = OnProgress,
-					CredentialsProvider = (url, usernameFromUrl, types)
-					=> new UsernamePasswordCredentials
-					{
-						Username = branch.GitUsername,
-						Password = branch.GitPassword
-					}
-				});
-
-				var commit = await db.GetCommit(branch.CommitId);
-				if (Repository.Branches[branch.Name].Tip.Sha != commit.Hash)
-				{
-					Logger.LogInformation(
-						"Updating branch {BranchName} from {LastSyncedCommitHash} to {NewCommitHash}", branch.Name,
-						commit.Hash, Repository.Branches[branch.Name].Tip.Sha);
-
-					if (Repository.Branches[branch.Name].Commits.All(x => x.Sha != commit.Hash))
-						Logger.LogWarning("Non fast-forward update of branch {BranchName}", branch.Name);
-
-					try
-					{
-						var newCommit = await EnsureChangesCalculated(Repository.Branches[branch.Name].Tip);
-						branch.CommitId = newCommit.Id;
-						BranchNextUpdate[branch.Name] = DateTime.UtcNow + TimeSpan.FromMinutes(1);
-						Logger.LogInformation("Update of branch {BranchName} complete", branch.Name);
-					}
-					catch (Exception e)
-					{
-						Logger.LogError(e, "Update of branch {BranchName} failed", branch.Name);
-						branch.Broken = true;
-					}
-					db.Update(branch);
+					Username = branch.GitUsername,
+					Password = branch.GitPassword
 				}
-				else
+			});
+
+			var commit = await HistoryDb.GetCommit(branch.CommitId);
+			if (Repository.Branches[branch.Name].Tip.Sha != commit.Hash)
+			{
+				Logger.LogInformation(
+					"Updating branch {BranchName} from {LastSyncedCommitHash} to {NewCommitHash}", branch.Name,
+					commit.Hash, Repository.Branches[branch.Name].Tip.Sha);
+
+				if (Repository.Branches[branch.Name].Commits.All(x => x.Sha != commit.Hash))
+					Logger.LogWarning("Non fast-forward update of branch {BranchName}", branch.Name);
+
+				try
 				{
-					Logger.LogInformation("Branch {BranchName} is up to date", branch.Name);
+					var newCommit = await EnsureChangesCalculated(Repository.Branches[branch.Name].Tip);
+					branch.CommitId = newCommit.Id;
+					BranchNextUpdate[branch.Name] = DateTime.UtcNow + TimeSpan.FromMinutes(1);
+					Logger.LogInformation("Update of branch {BranchName} complete", branch.Name);
 				}
+				catch (Exception e)
+				{
+					Logger.LogError(e, "Update of branch {BranchName} failed", branch.Name);
+					branch.Broken = true;
+				}
+				HistoryDb.Update(branch);
+			}
+			else
+			{
+				Logger.LogInformation("Branch {BranchName} is up to date", branch.Name);
 			}
 		}
 

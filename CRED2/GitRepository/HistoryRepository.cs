@@ -18,7 +18,6 @@ namespace CRED2.GitRepository
 		private string ChangesHistoryCacheKey(string commitHash) => $"{commitHash}ChangesHistory";
 		private string ChangesCacheKey(string commitHash) => $"{commitHash}Changes";
 
-		private readonly Lazy<AutoIdGenerator> autoIdGenerator;
 		private bool disposed;
 		private IMemoryCache MemoryCache { get; }
 
@@ -26,11 +25,11 @@ namespace CRED2.GitRepository
 		{
 			MemoryCache = memoryCache;
 			TransactionManager = new TransactionManager(this);
-			autoIdGenerator = new Lazy<AutoIdGenerator>(() => new AutoIdGenerator(this));
+			AutoIdGenerator = new AutoIdGenerator(this);
 		}
 
 		public TransactionManager TransactionManager { get; }
-		public AutoIdGenerator AutoIdGenerator => autoIdGenerator.Value;
+		public AutoIdGenerator AutoIdGenerator { get; }
 
 		public Task<Commit> GetCommit(long id)
 		{
