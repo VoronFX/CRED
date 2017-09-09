@@ -113,11 +113,12 @@ namespace CRED2
 			//	}
 			//});
 
-			services.Add(ServiceDescriptor.Singleton(typeof(GitBridge), typeof(GitBridge)));
+			services.Add(ServiceDescriptor.Singleton(typeof(HistoryRepository), typeof(HistoryRepository)));
+			services.Add(ServiceDescriptor.Singleton(typeof(GitBridgeService), typeof(GitBridgeService)));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, CREDContext dbcontext, GitBridge gitRepositoryGitBridge)
+		public void Configure(IApplicationBuilder app, CREDContext dbcontext, GitBridgeService gitBridgeService)
 		{
 			if (Env.IsDevelopment())
 			{

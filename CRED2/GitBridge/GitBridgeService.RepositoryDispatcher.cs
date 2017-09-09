@@ -7,7 +7,7 @@ namespace CRED2.GitRepository
 {
 
 
-	public sealed partial class GitBridge
+	public sealed partial class GitBridgeService
 	{
 		private sealed class RepositoryDispatcher : IDisposable
 		{
@@ -25,6 +25,7 @@ namespace CRED2.GitRepository
 
 			public Task InvokeAsync(Func<Task> action)
 			{
+				//TODO: CancellationSupport
 				TaskCompletionSource<bool> awaiter
 					= new TaskCompletionSource<bool>();
 				RepoTasks.Enqueue(async () =>
