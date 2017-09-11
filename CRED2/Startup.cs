@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CRED.Data;
 using CRED.Models;
-using CRED2.GitRepository;
+
+using CRED2.GitBridge;
+using CRED2.Model.DTOs;
+using CRED2.Services;
 using LibGit2Sharp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,191 +23,214 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag;
 using NSwag.SwaggerGeneration.WebApi.Processors.Security;
 
 namespace CRED2
 {
-	public class Startup
-	{
-		public Startup(IConfiguration configuration, IHostingEnvironment env)
-		{
-			Configuration = configuration;
-			Env = env;
-		}
+    public class Startup
+    {
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        {
+            Configuration = configuration;
+            Env = env;
+        }
 
-		public IConfiguration Configuration { get; }
-		public IHostingEnvironment Env { get; }
+        public IConfiguration Configuration { get; }
+        public IHostingEnvironment Env { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddMvc();
-			services.AddMemoryCache();
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services
+                .AddMvc()
+                .AddJsonOptions(options =>
+            {
+                var settings = options.SerializerSettings;
+                settings.TypeNameHandling = TypeNameHandling.Auto;
+                settings.SerializationBinder = new KnownTypesBinder
+                {
+                    KnownTypes = TaskRequestService.DiscoverRunnerTypes(Assembly.GetExecutingAssembly())
+                        .SelectMany(TaskRequestService.DiscoverImplementedRunnerInterfaces)
+                        .Select(x => TaskRequestService.RunnerInterfaceRequestDataType(x.GetTypeInfo()))
+                        .ToArray()
+                };
+            });
+            services.AddMemoryCache();
 
-			var efConfigureOptions = new Action<DbContextOptionsBuilder>(options =>
-			{
-				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-				if (Env.IsDevelopment())
-					options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+            var efConfigureOptions = new Action<DbContextOptionsBuilder>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                if (Env.IsDevelopment())
+                    options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
 
-				// Register the entity sets needed by OpenIddict.
-				// Note: use the generic overload if you need
-				// to replace the defaul1t OpenIddict entities.
-				//efOptions.UseOpenIddict();
+                // Register the entity sets needed by OpenIddict.
+                // Note: use the generic overload if you need
+                // to replace the defaul1t OpenIddict entities.
+                //efOptions.UseOpenIddict();
 
-			});
+            });
 
-			var efOptionsBuilder = new DbContextOptionsBuilder<CREDContext>();
-			efConfigureOptions(efOptionsBuilder);
-			var efOptions = efOptionsBuilder.Options;
+            var efOptionsBuilder = new DbContextOptionsBuilder<CREDContext>();
+            efConfigureOptions(efOptionsBuilder);
+            var efOptions = efOptionsBuilder.Options;
 
-			services.AddDbContext<CREDContext>(efConfigureOptions);
-			services.AddTransient<Func<CREDContext>>(provider => () => new CREDContext(efOptions));
-			//services.AddTransient<IDesignTimeDbContextFactory<CREDContext>>(provider => new CREDContext(efOptions));
+            services.AddDbContext<CREDContext>(efConfigureOptions);
+            services.AddTransient<Func<CREDContext>>(provider => () => new CREDContext(efOptions));
+            //services.AddTransient<IDesignTimeDbContextFactory<CREDContext>>(provider => new CREDContext(efOptions));
 
-			// Register the Identity services.
-			services.AddIdentity<ApplicationUser, IdentityRole>()
-				.AddEntityFrameworkStores<CREDContext>()
-				.AddDefaultTokenProviders();
+            // Register the Identity services.
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<CREDContext>()
+                .AddDefaultTokenProviders();
 
-			// Configure Identity to use the same JWT claims as OpenIddict instead
-			// of the legacy WS-Federation claims it uses by default (ClaimTypes),
-			// which saves you from doing the mapping in your authorization controller.
-			//services.Configure<IdentityOptions>(options =>
-			//{
-			//	options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
-			//	options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
-			//	//options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
-			//});
+            // Configure Identity to use the same JWT claims as OpenIddict instead
+            // of the legacy WS-Federation claims it uses by default (ClaimTypes),
+            // which saves you from doing the mapping in your authorization controller.
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //	options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+            //	options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+            //	//options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            //});
 
-			// Register the OpenIddict services.
-			//services.AddOpenIddict(options =>
-			//{
-			//	// Register the Entity Framework stores.
-			//	options.AddEntityFrameworkCoreStores<CREDContext>();
+            // Register the OpenIddict services.
+            //services.AddOpenIddict(options =>
+            //{
+            //	// Register the Entity Framework stores.
+            //	options.AddEntityFrameworkCoreStores<CREDContext>();
 
-			//	// Register the ASP.NET Core MVC binder used by OpenIddict.
-			//	// Note: if you don't call this method, you won't be able to
-			//	// bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-			//	options.AddMvcBinders();
+            //	// Register the ASP.NET Core MVC binder used by OpenIddict.
+            //	// Note: if you don't call this method, you won't be able to
+            //	// bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+            //	options.AddMvcBinders();
 
-			//	// Enable the authorization, logout, token and userinfo endpoints.
-			//	options.EnableAuthorizationEndpoint("/connect/authorize")
-			//		   .EnableLogoutEndpoint("/connect/logout")
-			//		   .EnableTokenEndpoint("/connect/token")
-			//		   .EnableUserinfoEndpoint("/api/userinfo");
+            //	// Enable the authorization, logout, token and userinfo endpoints.
+            //	options.EnableAuthorizationEndpoint("/connect/authorize")
+            //		   .EnableLogoutEndpoint("/connect/logout")
+            //		   .EnableTokenEndpoint("/connect/token")
+            //		   .EnableUserinfoEndpoint("/api/userinfo");
 
-			//	// Note: the Mvc.Client sample only uses the authorization code flow but you can enable
-			//	// the other flows if you need to support implicit, password or client credentials.
-			//	options.AllowPasswordFlow();
+            //	// Note: the Mvc.Client sample only uses the authorization code flow but you can enable
+            //	// the other flows if you need to support implicit, password or client credentials.
+            //	options.AllowPasswordFlow();
 
-			//	// When request caching is enabled, authorization and logout requests
-			//	// are stored in the distributed cache by OpenIddict and the user agent
-			//	// is redirected to the same page with a single parameter (request_id).
-			//	// This allows flowing large OpenID Connect requests even when using
-			//	// an external authentication provider like Google, Facebook or Twitter.
-			//	// options.EnableRequestCaching();
+            //	// When request caching is enabled, authorization and logout requests
+            //	// are stored in the distributed cache by OpenIddict and the user agent
+            //	// is redirected to the same page with a single parameter (request_id).
+            //	// This allows flowing large OpenID Connect requests even when using
+            //	// an external authentication provider like Google, Facebook or Twitter.
+            //	// options.EnableRequestCaching();
 
-			//	// During development, you can disable the HTTPS requirement.
-			//	//if (CurrentEnvironment.IsDevelopment())
-			//	{
-			//		options.DisableHttpsRequirement();
-			//	}
-			//});
+            //	// During development, you can disable the HTTPS requirement.
+            //	//if (CurrentEnvironment.IsDevelopment())
+            //	{
+            //		options.DisableHttpsRequirement();
+            //	}
+            //});
+            //CreateBranchRunner: ITaskRequestRunner<CreateBranchRequest>
+            foreach (var runnerType in TaskRequestService.DiscoverRunnerTypes(Assembly.GetExecutingAssembly()))
+            {
+                foreach (var runnerInt in TaskRequestService.DiscoverImplementedRunnerInterfaces(runnerType))
+                {
+                    services.Add(ServiceDescriptor.Transient(runnerInt, runnerType));
+                }
+            }
+            services.Add(ServiceDescriptor.Singleton(typeof(TaskRequestService), typeof(TaskRequestService)));
+            services.Add(ServiceDescriptor.Singleton(typeof(TaskRequestService), typeof(TaskRequestService)));
+            services.Add(ServiceDescriptor.Singleton(typeof(HistoryRepository), typeof(HistoryRepository)));
+            services.Add(ServiceDescriptor.Singleton(typeof(GitBridgeService), typeof(GitBridgeService)));
+        }
 
-			services.Add(ServiceDescriptor.Singleton(typeof(HistoryRepository), typeof(HistoryRepository)));
-			services.Add(ServiceDescriptor.Singleton(typeof(GitBridgeService), typeof(GitBridgeService)));
-		}
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, CREDContext dbcontext, GitBridgeService gitBridgeService)
+        {
+            if (Env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, CREDContext dbcontext, GitBridgeService gitBridgeService)
-		{
-			if (Env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				app.UseBrowserLink();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Error");
-			}
+            if (Env.IsDevelopment())
+            {
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true,
+                });
+            }
 
-			if (Env.IsDevelopment())
-			{
-				app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-				{
-					HotModuleReplacement = true,
-				});
-			}
+            // Add a middleware used to validate access
+            // tokens and protect the API endpoints.
+            //app.UseOAuthValidation();
 
-			// Add a middleware used to validate access
-			// tokens and protect the API endpoints.
-			//app.UseOAuthValidation();
+            // Alternatively, you can also use the introspection middleware.
+            // Using it is recommended if your resource server is in a
+            // different application/separated from the authorization server.
+            //
+            // app.UseOAuthIntrospection(options =>
+            // {
+            //     options.AutomaticAuthenticate = true;
+            //     options.AutomaticChallenge = true;
+            //     options.Authority = "http://localhost:58795/";
+            //     options.Audiences.Add("resource_server");
+            //     options.ClientId = "resource_server";
+            //     options.ClientSecret = "875sqd4s5d748z78z7ds1ff8zz8814ff88ed8ea4z4zzd";
+            // });
 
-			// Alternatively, you can also use the introspection middleware.
-			// Using it is recommended if your resource server is in a
-			// different application/separated from the authorization server.
-			//
-			// app.UseOAuthIntrospection(options =>
-			// {
-			//     options.AutomaticAuthenticate = true;
-			//     options.AutomaticChallenge = true;
-			//     options.Authority = "http://localhost:58795/";
-			//     options.Audiences.Add("resource_server");
-			//     options.ClientId = "resource_server";
-			//     options.ClientSecret = "875sqd4s5d748z78z7ds1ff8zz8814ff88ed8ea4z4zzd";
-			// });
+            //app.UseOpenIddict();
 
-			//app.UseOpenIddict();
+            //app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings()
+            //{
+            //	OperationProcessors =
+            //	{
+            //		new OperationSecurityScopeProcessor("apikey")
+            //	},
+            //	DocumentProcessors =
+            //	{
+            //		new SecurityDefinitionAppender("apikey", new SwaggerSecurityScheme
+            //		{
+            //			Type = SwaggerSecuritySchemeType.ApiKey,
+            //			Name = "Authorization",
+            //			In = SwaggerSecurityApiKeyLocation.Header
+            //		})
+            //	},
+            //	DefaultPropertyNameHandling = PropertyNameHandling.CamelCase
+            //});
 
-			//app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings()
-			//{
-			//	OperationProcessors =
-			//	{
-			//		new OperationSecurityScopeProcessor("apikey")
-			//	},
-			//	DocumentProcessors =
-			//	{
-			//		new SecurityDefinitionAppender("apikey", new SwaggerSecurityScheme
-			//		{
-			//			Type = SwaggerSecuritySchemeType.ApiKey,
-			//			Name = "Authorization",
-			//			In = SwaggerSecurityApiKeyLocation.Header
-			//		})
-			//	},
-			//	DefaultPropertyNameHandling = PropertyNameHandling.CamelCase
-			//});
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new CompositeFileProvider(new PhysicalFileProvider(Path.GetFullPath("node_modules/")), Env.WebRootFileProvider),
+                OnPrepareResponse = context =>
+                {
+                    // Cache static file for 1 year
+                    if (!string.IsNullOrEmpty(context.Context.Request.Query["v"]))
+                    {
+                        context.Context.Response.Headers.Add("cache-control", new[] { "public,max-age=31536000" });
+                        context.Context.Response.Headers.Add("Expires",
+                            new[] { DateTime.UtcNow.AddYears(1).ToString("R") }); // Format RFC1123
+                    }
+                },
+            });
 
-			app.UseStaticFiles(new StaticFileOptions
-			{
-				FileProvider = new CompositeFileProvider(new PhysicalFileProvider(Path.GetFullPath("node_modules/")), Env.WebRootFileProvider),
-				OnPrepareResponse = context =>
-				{
-					// Cache static file for 1 year
-					if (!string.IsNullOrEmpty(context.Context.Request.Query["v"]))
-					{
-						context.Context.Response.Headers.Add("cache-control", new[] { "public,max-age=31536000" });
-						context.Context.Response.Headers.Add("Expires",
-							new[] { DateTime.UtcNow.AddYears(1).ToString("R") }); // Format RFC1123
-					}
-				},
-			});
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action=Index}/{id?}");
+            });
 
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-					name: "default",
-					template: "{controller}/{action=Index}/{id?}");
-			});
+            // if you want to use automated deployments, keep the following line remarked out
+            // if (CurrentEnvironment.IsDevelopment())
+            {
+                DbInitializer.Initialize(dbcontext);
+            }
 
-			// if you want to use automated deployments, keep the following line remarked out
-			// if (CurrentEnvironment.IsDevelopment())
-			{
-				DbInitializer.Initialize(dbcontext);
-			}
-
-		}
-	}
+        }
+    }
 }

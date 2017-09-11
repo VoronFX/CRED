@@ -7,6 +7,10 @@ namespace CRED2.Model
 {
     public sealed class Branch
     {
+		public long Id { get; set; }
+
+		public long RawVersion { get; set; }
+
 		public string Name { get; set; }
 
 		public long CommitId { get; set; }
@@ -16,6 +20,8 @@ namespace CRED2.Model
 		public bool Broken { get; set; }
 
 		public string Message { get; set; }
+
+		public bool AllowNonFastForwardUpdate { get; set; }
 
 		public bool GitBranch { get; set; }
 

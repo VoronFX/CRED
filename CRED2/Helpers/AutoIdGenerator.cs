@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using CRED2.Model;
 using LiteDB;
 
-namespace CRED2.GitRepository
+namespace CRED2.GitBridge
 {
 	public sealed class AutoIdGenerator
 	{

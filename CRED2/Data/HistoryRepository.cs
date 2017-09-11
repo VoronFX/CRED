@@ -8,7 +8,7 @@ using LiteDB;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
-namespace CRED2.GitRepository
+namespace CRED2.GitBridge
 {
     public sealed class HistoryRepository : LiteRepository, IDisposable
     {
