@@ -1,31 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CRED2.Model
+﻿namespace CRED2.Model
 {
-    public sealed class ServerTask
+    public enum ServerTaskState
     {
-		public byte[] Id { get; set; }
+        Created,
 
-		public string Initiator { get; set; }
+        Queued,
 
-		public ServerTaskState State { get; set; }
+        Running,
 
-		public string Data { get; set; }
+        ConcurencyHit,
 
+        Done,
+
+        Aborted,
+
+        Error,
+
+        AwaitingData,
     }
 
-	public enum ServerTaskState
-	{
-		Created,
-		Queued,
-		Running,
-		ConcurencyHit,
-		Done,
-		Aborted,
-		Error,
-		AwaitingData,
-	}
+    public sealed class ServerTask
+    {
+        public string Data { get; set; }
+
+        public byte[] Id { get; set; }
+
+        public string Initiator { get; set; }
+
+        public ServerTaskState State { get; set; }
+    }
 }

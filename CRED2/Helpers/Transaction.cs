@@ -2,122 +2,128 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+
 using CRED2.Model;
+
 using LiteDB;
 
-namespace CRED2.GitBridge
+namespace CRED2.Helpers
 {
-	public sealed class Transaction : IDisposable
-	{
-		private LiteRepository Repository { get; }
-		private bool disposed;
-		private TransactionState TransactionState { get; }
+    public sealed class Transaction : IDisposable
+    {
+        private bool disposed;
 
-		public Transaction(LiteRepository repository) : this(repository, new TransactionState())
-		{
-		}
+        public Transaction(LiteRepository repository)
+            : this(repository, new TransactionState())
+        {
+        }
 
-		public Transaction(LiteRepository repository, TransactionState transactionState)
-		{
-			Repository = repository;
-			TransactionState = transactionState;
-			Repository.Insert(transactionState);
-		}
+        public Transaction(LiteRepository repository, TransactionState transactionState)
+        {
+            this.Repository = repository;
+            this.TransactionState = transactionState;
+            this.Repository.Insert(transactionState);
+        }
 
-		public void AddRollbackRestore<T>(T document, string collectionName)
-		{
-			AddRollbackRestore<T>(new[] { document }, collectionName);
-		}
+        public event EventHandler<ImmutableArray<TransactionRollbackItem>> BeforeRollback;
 
-		public void AddRollbackRestore<T>(T document)
-		{
-			AddRollbackRestore<T>(new[] { document });
-		}
+        private LiteRepository Repository { get; }
 
-		public void AddRollbackRestore<T>(IEnumerable<T> documents)
-		{
-			AddRollbackRestore(documents, typeof(T).Name);
-		}
+        private TransactionState TransactionState { get; }
 
-		public void AddRollbackRestore<T>(IEnumerable<T> documents, string collectionName)
-		{
-			Repository.Insert(documents.Select(x => new TransactionRollbackItem
-			{
-				CollectionName = collectionName,
-				UpsertDocument = Repository.Database.Mapper.ToDocument(typeof(T), x),
-				TransactionId = TransactionState.Id
-			}));
-		}
+        public static void EnsureTransactionsCompleted(LiteRepository repository)
+        {
+            foreach (var state in repository.Fetch<TransactionState>())
+            {
+                new Transaction(repository, state).Dispose();
+            }
+        }
 
-		public void AddRollbackRemove<T>(BsonValue documentId)
-		{
-			AddRollbackRemove<T>(new[] { documentId });
-		}
+        public void AddRollbackRemove<T>(BsonValue documentId)
+        {
+            this.AddRollbackRemove<T>(new[] { documentId });
+        }
 
-		public void AddRollbackRemove(BsonValue documentId, string collectionName)
-		{
-			AddRollbackRemove(new[] { documentId }, collectionName);
-		}
+        public void AddRollbackRemove(BsonValue documentId, string collectionName)
+        {
+            this.AddRollbackRemove(new[] { documentId }, collectionName);
+        }
 
-		public void AddRollbackRemove<T>(IEnumerable<BsonValue> documentIds)
-		{
-			AddRollbackRemove(documentIds, typeof(T).Name);
-		}
+        public void AddRollbackRemove<T>(IEnumerable<BsonValue> documentIds)
+        {
+            this.AddRollbackRemove(documentIds, typeof(T).Name);
+        }
 
-		public void AddRollbackRemove(IEnumerable<BsonValue> documentIds, string collectionName)
-		{
-			Repository.Insert(documentIds.Select(x => new TransactionRollbackItem
-			{
-				CollectionName = collectionName,
-				RemoveDocumentId = x,
-				TransactionId = TransactionState.Id
-			}));
-		}
+        public void AddRollbackRemove(IEnumerable<BsonValue> documentIds, string collectionName)
+        {
+            this.Repository.Insert(
+                documentIds.Select(
+                    x => new TransactionRollbackItem
+                             {
+                                 CollectionName = collectionName,
+                                 RemoveDocumentId = x,
+                                 TransactionId = this.TransactionState.Id
+                             }));
+        }
 
-		public event EventHandler<ImmutableArray<TransactionRollbackItem>> BeforeRollback;
+        public void AddRollbackRestore<T>(T document, string collectionName)
+        {
+            this.AddRollbackRestore<T>(new[] { document }, collectionName);
+        }
 
-		public static void EnsureTransactionsCompleted(LiteRepository repository)
-		{
-			foreach (var state in repository.Fetch<TransactionState>())
-			{
-				new Transaction(repository, state).Dispose();
-			}
-		}
+        public void AddRollbackRestore<T>(T document)
+        {
+            this.AddRollbackRestore<T>(new[] { document });
+        }
 
-		public void Commit()
-		{
-			if (TransactionState.Complete)
-				throw new Exception("Transaction already completed");
-			TransactionState.Complete = true;
-			Repository.Update(TransactionState);
-		}
+        public void AddRollbackRestore<T>(IEnumerable<T> documents)
+        {
+            this.AddRollbackRestore(documents, typeof(T).Name);
+        }
 
-		public void Rollback()
-		{
-			if (TransactionState.Complete)
-				throw new Exception("Transaction already completed");
-			var rollbackItems = Repository
-				.Fetch<TransactionRollbackItem>(x => x.TransactionId == TransactionState.Id)
-				.ToImmutableArray();
-			BeforeRollback?.Invoke(this, rollbackItems);
-			foreach (var rollbackItem in rollbackItems)
-			{
-				if (rollbackItem.UpsertDocument != null)
-					Repository.Upsert(rollbackItem.UpsertDocument, rollbackItem.CollectionName);
-				else
-					Repository.Database.GetCollection(rollbackItem.CollectionName).Delete(rollbackItem.RemoveDocumentId);
-			}
-		}
+        public void AddRollbackRestore<T>(IEnumerable<T> documents, string collectionName)
+        {
+            this.Repository.Insert(
+                documents.Select(
+                    x => new TransactionRollbackItem
+                             {
+                                 CollectionName = collectionName,
+                                 UpsertDocument =
+                                     this.Repository.Database.Mapper.ToDocument(typeof(T), x),
+                                 TransactionId = this.TransactionState.Id
+                             }));
+        }
 
-		public void Dispose()
-		{
-			if (disposed)
-				return;
-			disposed = true;
-			if (!TransactionState.Complete)
-				Rollback();
-			Repository.Delete<TransactionRollbackItem>(x => x.TransactionId == TransactionState.Id);
-			Repository.Delete<TransactionState>(TransactionState.Id);
-		}
-	}
+        public void Commit()
+        {
+            if (this.TransactionState.Complete) throw new Exception("Transaction already completed");
+            this.TransactionState.Complete = true;
+            this.Repository.Update(this.TransactionState);
+        }
+
+        public void Dispose()
+        {
+            if (this.disposed) return;
+            this.disposed = true;
+            if (!this.TransactionState.Complete) this.Rollback();
+            this.Repository.Delete<TransactionRollbackItem>(x => x.TransactionId == this.TransactionState.Id);
+            this.Repository.Delete<TransactionState>(this.TransactionState.Id);
+        }
+
+        public void Rollback()
+        {
+            if (this.TransactionState.Complete) throw new Exception("Transaction already completed");
+            var rollbackItems = this.Repository
+                .Fetch<TransactionRollbackItem>(x => x.TransactionId == this.TransactionState.Id).ToImmutableArray();
+            this.BeforeRollback?.Invoke(this, rollbackItems);
+            foreach (var rollbackItem in rollbackItems)
+            {
+                if (rollbackItem.UpsertDocument != null)
+                    this.Repository.Upsert(rollbackItem.UpsertDocument, rollbackItem.CollectionName);
+                else
+                    this.Repository.Database.GetCollection(rollbackItem.CollectionName)
+                        .Delete(rollbackItem.RemoveDocumentId);
+            }
+        }
+    }
 }

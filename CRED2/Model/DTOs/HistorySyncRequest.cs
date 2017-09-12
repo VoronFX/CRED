@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 
 namespace CRED2.Model.DTOs
@@ -14,6 +13,5 @@ namespace CRED2.Model.DTOs
         public long LastCommitId { get; set; }
 
         public long LastKeyId { get; set; }
-
     }
 }

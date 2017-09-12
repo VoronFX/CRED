@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using CRED2.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CRED.Data
 {
@@ -12,19 +10,19 @@ namespace CRED.Data
             context.Database.Migrate();
 
             // Look for any test data.
-            //if (context.TestData.Any())
-            //{
-            //    return;   // DB has been seeded
-            //}
+            // if (context.TestData.Any())
+            // {
+            // return;   // DB has been seeded
+            // }
 
-            //var testData = new TestData
-            //{
-            //    Username = "JaneDoe",
-            //    EmailAddress = "jane.doe@example.com",
-            //    Password = "LetM@In!",
-            //    Currency = 321.45M
-            //};
-            //context.TestData.Add(testData);
+            // var testData = new TestData
+            // {
+            // Username = "JaneDoe",
+            // EmailAddress = "jane.doe@example.com",
+            // Password = "LetM@In!",
+            // Currency = 321.45M
+            // };
+            // context.TestData.Add(testData);
             context.SaveChanges();
         }
     }

@@ -3,64 +3,68 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-namespace CRED2.GitBridge
+namespace CRED2.Helpers
 {
     public sealed class Dispatcher : IDisposable
     {
         public Dispatcher()
         {
-            CancellationTokenSource = new CancellationTokenSource();
-            ExclusivityBlock = new ActionBlock<Func<Task>>(func => func(), 
-                new ExecutionDataflowBlockOptions { CancellationToken = CancellationTokenSource.Token });
+            this.CancellationTokenSource = new CancellationTokenSource();
+            this.ExclusivityBlock = new ActionBlock<Func<Task>>(
+                func => func(),
+                new ExecutionDataflowBlockOptions { CancellationToken = this.CancellationTokenSource.Token });
         }
 
         private CancellationTokenSource CancellationTokenSource { get; }
+
         private ActionBlock<Func<Task>> ExclusivityBlock { get; }
+
+        public void Dispose()
+        {
+            this.ExclusivityBlock.Complete();
+            this.CancellationTokenSource.Dispose();
+        }
 
         public void Post(Func<Task> value)
         {
-            PostWithCompletion(value);
+            this.PostWithCompletion(value);
         }
 
         public Task<T> PostWithCompletion<T>(Func<Task<T>> value)
         {
             var tcs = new TaskCompletionSource<T>();
-            ExclusivityBlock.Post(async () =>
-            {
-                try
-                {
-                    tcs.TrySetResult(await value());
-                }
-                catch (Exception ex)
-                {
-                    tcs.TrySetException(ex);
-                }
-            });
+            this.ExclusivityBlock.Post(
+                async () =>
+                    {
+                        try
+                        {
+                            tcs.TrySetResult(await value());
+                        }
+                        catch (Exception ex)
+                        {
+                            tcs.TrySetException(ex);
+                        }
+                    });
             return tcs.Task;
         }
 
         public Task PostWithCompletion(Func<Task> value)
         {
             var tcs = new TaskCompletionSource<object>();
-            ExclusivityBlock.Post(async () =>
-            {
-                try
-                {
-                    await value();
-                    tcs.TrySetResult(null);
-                }
-                catch (Exception ex)
-                {
-                    tcs.TrySetException(ex);
-                }
-            });
+            this.ExclusivityBlock.Post(
+                async () =>
+                    {
+                        try
+                        {
+                            await value();
+                            tcs.TrySetResult(null);
+                        }
+                        catch (Exception ex)
+                        {
+                            tcs.TrySetException(ex);
+                        }
+                    });
             return tcs.Task;
-        }
-
-        public void Dispose()
-        {
-            ExclusivityBlock.Complete();
-            CancellationTokenSource.Dispose();
         }
     }
 }

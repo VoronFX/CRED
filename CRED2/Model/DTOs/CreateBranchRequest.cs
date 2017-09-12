@@ -4,8 +4,8 @@ namespace CRED2.Model.DTOs
 {
     public sealed class CreateBranchRequest
     {
-        //[Required]
-        //public Branch Branch { get; set; }        
+        // [Required]
+        // public Branch Branch { get; set; }        
         public string NN { get; set; }
     }
 

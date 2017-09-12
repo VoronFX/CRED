@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CRED2.GitBridge;
-using CRED2.Model;
-using CRED2.Model.DTOs;
-using LiteDB;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
 
-namespace CRED2
+namespace CRED2.Helpers
 {
     public class ValidateModelAttribute : ActionFilterAttribute
     {
