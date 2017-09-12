@@ -25,7 +25,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeSerwiceWorkerTest", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRED2", "CRED2\CRED2.csproj", "{837F311E-3D4E-4F23-9EDA-C148AD1130E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRED.BuildTasks2", "Utilities\CRED.BuildTasks2\CRED.BuildTasks2.csproj", "{0A33DD4C-9649-49E8-8152-E67172708FDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRED.BuildTasks2", "Utilities\CRED.BuildTasks2\CRED.BuildTasks2.csproj", "{0A33DD4C-9649-49E8-8152-E67172708FDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteDbTest", "LiteDbTest\LiteDbTest.csproj", "{A815171B-3A66-4E57-AC56-C8061E8B4BF1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -98,6 +100,12 @@ Global
 		{0A33DD4C-9649-49E8-8152-E67172708FDF}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
 		{0A33DD4C-9649-49E8-8152-E67172708FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A33DD4C-9649-49E8-8152-E67172708FDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A815171B-3A66-4E57-AC56-C8061E8B4BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A815171B-3A66-4E57-AC56-C8061E8B4BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A815171B-3A66-4E57-AC56-C8061E8B4BF1}.PublishRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{A815171B-3A66-4E57-AC56-C8061E8B4BF1}.PublishRelease|Any CPU.Build.0 = Release|Any CPU
+		{A815171B-3A66-4E57-AC56-C8061E8B4BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A815171B-3A66-4E57-AC56-C8061E8B4BF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
+using CRED2.GitBridge;
 using CRED2.Model;
 using LibGit2Sharp;
 using LiteDB;
@@ -16,7 +16,7 @@ using Branch = CRED2.Model.Branch;
 using Commit = CRED2.Model.Commit;
 using GitCommit = LibGit2Sharp.Commit;
 
-namespace CRED2.GitBridge
+namespace CRED2.Services
 {
     internal static class CsvKeyValueProvider
     {
@@ -234,11 +234,10 @@ namespace CRED2.GitBridge
             }
         }
 
-        public async Task MergeBranch(IEnumerable<Change> changes, LibGit2Sharp.Branch branch)
+        public Task MergeBranch(IEnumerable<Change> changes, LibGit2Sharp.Branch branch)
         {
+            throw new NotImplementedException();
             //branch.Tip
-
-
         }
 
         private Task<ImmutableHashSet<Tuple<string, string, string>>> ExtractStrings(GitCommit gitCommit)

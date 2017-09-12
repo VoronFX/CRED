@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 public class Startup
 {
-	public async Task<object> Invoke(object input)
+	public Task<object> Invoke(object input)
 	{
 		dynamic inputData = input;
 
@@ -22,8 +22,8 @@ public class Startup
 			.Select(x => x.Value.Substring(1)))
 			.Select(x => new ValueMapItem(x, x, null));
 
-		return string.Join(Environment.NewLine, 
-			GenerateValueMap((string)((IDictionary<string, object>)inputData)["namespace"], inputData.className, classes));
+		return Task.FromResult(string.Join(Environment.NewLine, 
+			GenerateValueMap((string)((IDictionary<string, object>)inputData)["namespace"], inputData.className, classes)));
 	}
 
 	internal static ValueMapItem FromClasses(string cssClassName, IEnumerable<string> files)

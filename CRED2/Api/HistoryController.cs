@@ -37,9 +37,11 @@ namespace CRED2
                     .Except(branches
                         .Select(x => x.Id))
                     .ToArray(),
+
                 ChangedBranches = branches
                     .Where(x => request.BranchVersions.All(x2 => x2.Key != x.Id && x2.Value != x.RawVersion))
                     .ToArray(),
+
                 Commits = await commits,
                 Changes = await changes,
                 Keys = await keys,

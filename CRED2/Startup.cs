@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AspNet.Security.OpenIdConnect.Primitives;
 using CRED.Data;
 using CRED.Models;
 
@@ -69,7 +70,7 @@ namespace CRED2
                 // Register the entity sets needed by OpenIddict.
                 // Note: use the generic overload if you need
                 // to replace the defaul1t OpenIddict entities.
-                //efOptions.UseOpenIddict();
+                options.UseOpenIddict();
 
             });
 
@@ -86,51 +87,58 @@ namespace CRED2
                 .AddEntityFrameworkStores<CREDContext>()
                 .AddDefaultTokenProviders();
 
+            // Register the OAuth2 validation handler.
+            services.AddAuthentication()
+                .AddOAuthValidation();
+
             // Configure Identity to use the same JWT claims as OpenIddict instead
             // of the legacy WS-Federation claims it uses by default (ClaimTypes),
             // which saves you from doing the mapping in your authorization controller.
-            //services.Configure<IdentityOptions>(options =>
-            //{
-            //	options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
-            //	options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
-            //	//options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
-            //});
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
 
             // Register the OpenIddict services.
-            //services.AddOpenIddict(options =>
-            //{
-            //	// Register the Entity Framework stores.
-            //	options.AddEntityFrameworkCoreStores<CREDContext>();
+            // Note: use the generic overload if you need
+            // to replace the default OpenIddict entities.
+            services.AddOpenIddict(options =>
+            {
+                // Register the Entity Framework stores.
+                options.AddEntityFrameworkCoreStores<CREDContext>();
 
-            //	// Register the ASP.NET Core MVC binder used by OpenIddict.
-            //	// Note: if you don't call this method, you won't be able to
-            //	// bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-            //	options.AddMvcBinders();
+                // Register the ASP.NET Core MVC binder used by OpenIddict.
+                // Note: if you don't call this method, you won't be able to
+                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+                options.AddMvcBinders();
 
-            //	// Enable the authorization, logout, token and userinfo endpoints.
-            //	options.EnableAuthorizationEndpoint("/connect/authorize")
-            //		   .EnableLogoutEndpoint("/connect/logout")
-            //		   .EnableTokenEndpoint("/connect/token")
-            //		   .EnableUserinfoEndpoint("/api/userinfo");
 
-            //	// Note: the Mvc.Client sample only uses the authorization code flow but you can enable
-            //	// the other flows if you need to support implicit, password or client credentials.
-            //	options.AllowPasswordFlow();
+                // Enable the authorization, logout, token and userinfo endpoints.
+                options.EnableAuthorizationEndpoint("/connect/authorize")
+                       .EnableLogoutEndpoint("/connect/logout")
+                       .EnableTokenEndpoint("/connect/token")
+                       .EnableUserinfoEndpoint("/api/userinfo");
 
-            //	// When request caching is enabled, authorization and logout requests
-            //	// are stored in the distributed cache by OpenIddict and the user agent
-            //	// is redirected to the same page with a single parameter (request_id).
-            //	// This allows flowing large OpenID Connect requests even when using
-            //	// an external authentication provider like Google, Facebook or Twitter.
-            //	// options.EnableRequestCaching();
+                // Allow client applications to use the grant_type=password flow.
+                options.AllowPasswordFlow();
+                options.AllowAuthorizationCodeFlow();
 
-            //	// During development, you can disable the HTTPS requirement.
-            //	//if (CurrentEnvironment.IsDevelopment())
-            //	{
-            //		options.DisableHttpsRequirement();
-            //	}
-            //});
-            //CreateBranchRunner: ITaskRequestRunner<CreateBranchRequest>
+                // When request caching is enabled, authorization and logout requests
+                // are stored in the distributed cache by OpenIddict and the user agent
+                // is redirected to the same page with a single parameter (request_id).
+                // This allows flowing large OpenID Connect requests even when using
+                // an external authentication provider like Google, Facebook or Twitter.
+                options.EnableRequestCaching();
+
+                // During development, you can disable the HTTPS requirement.
+                if (Env.IsDevelopment())
+                {
+                    options.DisableHttpsRequirement();
+                }
+            });
+
             foreach (var runnerType in TaskRequestService.DiscoverRunnerTypes(Assembly.GetExecutingAssembly()))
             {
                 foreach (var runnerInt in TaskRequestService.DiscoverImplementedRunnerInterfaces(runnerType))
@@ -156,6 +164,8 @@ namespace CRED2
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            app.UseAuthentication();
 
             if (Env.IsDevelopment())
             {
